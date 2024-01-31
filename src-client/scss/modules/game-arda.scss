@@ -1,0 +1,379 @@
+.arda-hand-wrapper {
+    position: fixed;
+    right: 5px;
+    opacity: 1;
+    z-index: 400;
+
+    &:hover { opacity: 1; }
+
+    &.arda-hand-wrapper-characters {
+        top: 50px;
+    }
+
+    &.arda-hand-wrapper-minor {
+        top: 150px;
+    }
+
+    &.arda-hand-wrapper-stage {
+        top: 250px;
+    }
+
+    .act {
+        color: #F0C648;
+    }
+}
+
+.arda-hand-container {
+    text-align: right;
+    margin-bottom: 5px;
+    display: inline-block;
+
+    &.arda-hand-container-trade 
+    {
+        right: 5px;
+        bottom: 97px;
+        position: fixed;
+    }
+
+    i {
+        cursor: pointer;
+        color: #fff;
+        padding: 5px;
+        min-width: 20px;
+        text-align: center;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            color: #F0C648;
+            scale: 1.1;
+        }
+    }
+}
+
+.arda-card-hands {
+    position: fixed;
+    right: 5px;
+    z-index: 400;
+    padding: 5px;
+    min-width: 60px;
+    max-width: 360px;
+    min-height: 84px;
+    overflow-y: auto;
+    max-height: 200px;
+    
+    .arda-hand-card-actions {
+        display: block;
+    }
+
+    .arda-actions {
+        display: none;
+    }
+
+    .card-hands-sizer { text-align: left; }
+
+    &:hover {
+        .arda-inline {
+            margin-right: 60px;
+        }
+
+        .card-hand {
+            margin-right: 0px !important;
+        }
+
+        .arda-actions {
+            display: inline-block
+        }
+    }
+
+    .arda-inline {
+        display: inline-block;
+        margin-right: 0px;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    &.arda-card-hand-mps {
+        .arda-inline {
+            margin-right: 60px;
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    } 
+
+    &.arda-card-hand-stage,
+    &.arda-card-hand-minor,
+    &.arda-card-hand-charackters
+    {
+        opacity: 0.3;
+
+        .arda-actions,
+        .arda-hand-card-actions,
+        .arda-card-hands-sizer{ display: none; }
+        .arda-hand-card-actions > .arda-inline { 
+            margin-right: 0;
+        }
+
+        .card-hand {
+            margin-right: -30px;
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+        
+       
+        &:hover {
+            opacity: 1;
+
+            .arda-actions,
+            .arda-hand-card-actions { display: inline-block;}
+            .arda-card-hands-sizer{ display: block; }
+            .arda-hand-card-actions > .arda-inline { margin-right: 60px;}
+        }
+    }
+}
+
+
+div#arda_characters_hand {
+    top: 50px;
+}
+
+div#arda_stage_hand {
+    top: 250px;
+}
+
+div#arda_minors_hand {
+    top: 150px;
+}
+
+body.arda-draft .arda-card-hand-minor {
+    width: 50%;
+    max-width: 50%;
+    max-height: 400px;
+    opacity: 1;
+}
+
+div#arda_mps_hand {
+    bottom: 10px;
+    
+}
+
+.arda-card-hand-mps {
+    max-width: 34%;
+}
+
+.arda-card-hands-sizer {
+    color: #fff;
+    font-size: 10px;
+    padding: 5px 10px;
+    text-align: right;
+    margin-left: 0;
+    display: block;
+
+    strong {
+        color: #F0C648;
+    }
+}
+
+.arda-card-recycle {
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.arda-hand-card-actions-fl {
+    float: left;
+
+    &::after {
+        clear: both;
+    }
+}
+
+.arda-card-hands .arda-card-hand,
+.arda-card-hands .card-hand {
+    display: inline-block;
+    position: relative;
+    width: 60px;
+    min-height: 60px;
+}
+
+.arda-hand-card-actions .arda-pile-action img,
+.arda-actions img {
+    border: 1px solid #000;
+    width: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.arda-actions img {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+}
+
+.arda-hand-card-actions {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 60px;
+    margin-right: 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.arda-actions img:nth-child(1) {
+    bottom: 10px;
+}
+
+.arda-actions img:nth-child(2) {
+    top: 10px;
+}
+
+.arda-pile-action:hover img,
+.arda-actions img:hover {
+    background-color: #F0C648;
+}
+
+.arda-pile-action:first-child {
+    margin-right: 5px;
+}
+
+.arda-card-draw {
+    display: block;
+    height: 40px;
+    width: 60px;
+    cursor: pointer;
+    margin-top: 4px;
+    background: url("/media/assets/images/icons/icon-draw.png") 0 -0 no-repeat;
+
+    &:hover {
+        background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
+    }
+}
+
+#view_card_list_container .view-charackters .hideOnOffer,
+#view_card_list_container .view-charackters .view-card-list-actions .hand,
+#view_card_list_container .view-charackters .view-card-list-actions .sideboard,
+#view_card_list_container .view-charackters .view-card-list-actions .playdeck-shuffle,
+#view_card_list_container .view-mps .hideOnOffer,
+#view_card_list_container .view-mps .view-card-list-actions .hand,
+#view_card_list_container .view-mps .view-card-list-actions .sideboard,
+#view_card_list_container .view-mps .view-card-list-actions .playdeck-shuffle,
+#view_card_list_container .view-minor .hideOnOffer,
+#view_card_list_container .view-minor .view-card-list-actions .hand,
+#view_card_list_container .view-minor .view-card-list-actions .sideboard,
+#view_card_list_container .view-minor .view-card-list-actions .playdeck-shuffle {
+    display: none;
+}
+
+.arda-setup-container {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    display: block !important;
+    width: 300px;
+    padding: 10px;
+
+    h2 {
+        text-align: center;
+        font-size: 1.1em;
+        color: #fff;
+        color: #F0C648;
+    }
+
+    p {
+        color: #fff;
+        padding: 10px;
+    }
+}
+
+.arda-setup-container .arda-hand-container,
+.arda-setup-container .arda-hand-container i,
+.arda-setup-container a {
+    text-align: center;
+    color: #ff0;
+}
+
+#playercard_hand.card-hands {
+    max-width: 60%;
+}
+
+@media only screen and (max-width: 1299px) {
+
+    .area-player {
+        margin-bottom: 200px;
+    }
+
+}
+
+@media only screen and (min-width: 1300px) and (max-width: 1550px) {
+    #playercard_hand.card-hands {
+        max-width: 70%;
+    }
+}
+
+@media only screen and (min-width: 1551px) {
+    #playercard_hand.card-hands {
+        max-width: 76%;
+    }
+}
+
+.game-arda .table .row {
+    padding-right: 100px;
+}
+
+
+@media screen and (max-width: 500px) {body {
+
+    .arda-hand-wrapper { display: none;}
+    .arda-card-hands {
+        position: relative !important;
+        right: auto;
+        z-index: 400;
+        padding: 5px;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        min-height: 84px;
+        max-height: 200px;
+        overflow-y: auto;
+        top: auto !important;
+        opacity: 1 !important;
+        margin-bottom: 20px;
+        margin-right: 0 !important;
+    }
+
+    #playercard_hand.card-hands {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .arda-inline {
+        margin-right: 60px;
+    }
+
+    .card-hand {
+        margin-right: 0px !important;
+    }
+
+    .arda-actions,
+    .arda-hand-card-actions { display: inline-block !important}
+    .arda-card-hands-sizer{ display: block !important; }
+    .arda-hand-card-actions > .arda-inline { margin-right: 60px !important;}
+}}
+
+body.force-mobile-helper
+{
+    &.on-drag-event-generic .mobile-action-area
+    {
+        display: block;
+    }
+    
+    .location-icon-image {
+        visibility: visible !important;
+    }
+}

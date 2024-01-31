@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Sit down and await permission</title>
+    <meta name="theme-color" content="#000000"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/dist-client/css/waitingroom.css" />
+
+    <script src="/media/assets/js/jquery.min.js"></script>
+    <script src="/dist-client/js/httpsonly.js"></script>
+    
+    <link rel="icon" type="image/png" href="/media/assets/favicon.png">
+    <base target="_self">
+</head>
+
+<body>
+    <div class="blue-box auth-box" id="awaiting" data-room="{room}" data-id="{id}">
+        <div class="box-content">
+            <h1>Get Ready</h1>
+            <p>Waiting for the game's host to accept request to join the game.</p>
+            <div class="progress-auto">
+                <div class="progress-value"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/dist-client/js/game/libraries.js?version=1"></script>
+    <script src="/dist-client/js/question/question.js"></script>
+    <script src="/dist-client/js/lobby.js"></script>
+    <script src="/dist-client/js/onready.js"></script>
+</body>
+
+</html>

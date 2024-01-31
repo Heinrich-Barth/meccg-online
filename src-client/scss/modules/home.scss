@@ -1,0 +1,209 @@
+@import "../base.scss";
+@import "forms.scss";
+
+body
+{
+    background-image: url("/media/assets/backgrounds/hill.webp"); 
+    color: $color-white;
+    text-align: center;
+    padding: 2em;
+
+}
+
+body, p
+{
+  font-weight: 300;
+  font-size: 16px;
+  font-stretch: 100%;
+}
+
+.content {
+
+    color: $color-white;
+    padding: 2em;
+    z-index: 2;
+    position: relative;
+
+    
+    h1 {
+        text-align: center;
+      }
+      
+    input { 
+        width: 60%;
+        display: inline-block;
+    }
+
+    button {
+        width: 35%;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .join-game 
+    {
+        padding: 2em;
+        margin-top: 0.5em;
+        align-items: flex-start;
+
+        .room-image { cursor: pointer; }
+        .room-image-edit {
+            color: $color-orange;
+            padding: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 3em;
+            transform: translate(50%, 50%);
+            visibility: hidden;
+            background-color: #000;
+        }
+
+        .room-image-wrapper:hover .room-image-edit {
+            visibility: visible;
+        }
+    }
+}
+
+
+@import "./room-image-wrapper.scss";
+@import "./game-list.scss";
+
+.game-list-counter
+{
+    height: 5px;
+    background-color: rgba(255,165,0,0.8);
+    width: 1%;
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    &.line-countdown-10s
+    {
+        animation: gamelist-line-to-refresh 10s infinite forwards;
+    }
+
+    &.line-countdown-60s
+    {
+        animation: gamelist-line-to-refresh 60s infinite forwards;
+    }
+}
+
+.release-notes {
+
+    width: 90%;
+    margin: 20px auto 0 auto;
+
+    td,
+    th {
+        text-align: left;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    tr th {
+        border-bottom: 2px solid #fff;
+    }
+
+    tr td {
+        border-bottom: 1px dotted #fff;
+    }
+    tr:last-of-type td {
+        border-bottom: 0;
+    }
+
+    tr td:first-of-type { padding-right: 10px; }
+}
+
+@keyframes gamelist-line-to-refresh {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+
+@media (max-width: $md-max) 
+{
+    input,
+    button {
+        width: 100% !important;
+        margin-bottom: 2em;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .content {
+        padding-top: 6em;
+    }
+}
+@media (max-width: 800px) 
+{
+    .content {
+        padding-top: 6em;
+    }
+
+}
+
+footer {
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.choose-room-dialog {
+
+    max-width: 90%;
+    background-color: #000;
+    color: #fff;
+
+    div {
+        display: inline-block;
+        padding: 10px;
+        
+        position: relative;
+        height: 130px;
+        width: 130px;
+        border-radius: 5%;
+        overflow: hidden;
+        border: 2px solid #000;
+        
+        img {
+            position: absolute;
+            left: -10px;
+            top: 4px;
+            width: 150px;
+            scale: 1.4;
+            cursor: pointer;
+        }
+    }
+}
+
+.time-restart-information {
+    font-size: 1.3em;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.8);
+    color: red;
+    display: inline-block;
+
+    &.time-restart-information-yellow { color: $color-orange; }
+    
+    i {
+        margin-right: 1em;
+    }
+}
+
+.game-list-history table
+{
+    display: inline-block;
+    width: 600px;
+
+}
+
+td.game-log-time {
+    width: 300px;
+} 
+
+td.game-log-name {
+    width: 300px;
+}

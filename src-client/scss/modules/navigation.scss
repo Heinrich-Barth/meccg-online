@@ -1,0 +1,34 @@
+@import "../variables.scss";
+
+.navigation-full-width {
+
+    .navigation {
+
+        ul { 
+            text-align: center;
+            li {
+                display: inline-block;
+                text-align: center;
+            }
+        }
+        a,
+        a:active,
+        a:visited {
+            color: $color-white;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1em;
+            display: inline-block;
+        }
+
+        a.navigation-active,
+        a:hover {
+            color: #F0C648;
+        }
+    }
+
+    .content .inner-content
+    {
+        padding-top: 1em;
+    }
+}

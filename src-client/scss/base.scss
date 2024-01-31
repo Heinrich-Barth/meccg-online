@@ -1,0 +1,95 @@
+@import "variables.scss";
+
+html
+{
+    height: 100%;
+    width: 100%;
+}
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    cursor: default;
+
+    background-color: $color-black;
+    font-family: serif, sans-serif;
+    font-size: 1em;
+    user-select: none;
+    line-height: 1.5em;
+    box-sizing:border-box;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+body
+{
+    min-height: 100%;
+    background-image: url("/media/assets/backgrounds/nature.webp");
+    background-attachment: fixed;
+    background-size: cover;
+    letter-spacing: 0.025em;
+}
+
+.background-shade-overlay {
+    background-color: rgba(30, 23, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+*, *:before, *:after 
+{
+    box-sizing: inherit;
+}
+
+.bgblue,
+.blue-box {
+    
+    background: linear-gradient(90deg, rgba(35, 35, 35, 0.7) 0%, rgba(35, 35, 35, 0.3) 100%);    
+    border-radius: 5px;
+    transition: background-color 0.4s ease-in-out;
+    &:hover { background-color: rgba(35, 35, 35, 0.9); }
+}
+
+h1, h2 { 
+    color: $color-orange;
+    font-weight: 300;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 2em; 
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5em; 
+    margin-bottom: 10px; 
+}
+
+a {
+    color: $color-orange;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul, ol {
+    list-style-type: none;
+    margin: 0 0 1em 0;
+    padding: 0;
+
+    li {
+        text-align: left;
+        margin: 0.5em 0 0 0;
+    }
+}
+
+.hidden { display: none !important;}
+.center { text-align: center;}

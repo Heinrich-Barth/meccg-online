@@ -1,0 +1,29 @@
+.wrapper-topleft {
+    position: absolute;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    z-index: 200;
+    padding: 5px;
+    color: white;
+    overflow: hidden;
+    text-align: center;
+}
+
+.help-wrapper
+{
+    top: 66px;
+}
+
+.lobby-wrapper {
+    top: 105px;
+}
+
+.visitor-wrapper {
+    top: 137px;
+}
+
+.wrapper-topleft[data-allow="true"],
+.wrapper-topleft:hover i {
+    color: #F0C648;
+}

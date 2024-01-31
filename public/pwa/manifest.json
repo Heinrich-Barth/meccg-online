@@ -1,0 +1,25 @@
+{
+    "name": "Sit Down and Play MECCG (PWA)",
+    "short_name": "SitPlayMeccgPWA",
+    "description": "Play MECCG",
+    "start_url": "/pwa",
+    "scope": "/",
+    "id": "/play",
+    "display": "standalone",
+    "background_color": "#000",
+    "theme_color": "#000",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "/pwa/icon-192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/pwa/icon-512.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ]
+  }

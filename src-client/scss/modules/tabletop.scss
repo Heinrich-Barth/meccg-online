@@ -1,0 +1,1033 @@
+@import "../base.scss";
+
+body {
+    line-height: 1em;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: auto;
+    box-sizing: content-box;
+}
+
+a {
+    color: #F0C648;
+    text-decoration: none;
+
+    &:hover {
+        color: #ff0;
+    }
+}
+
+@import "tabletop_cardbar.scss";
+
+.taskbar {
+
+    display: inline-block;
+    margin-bottom: 5px;
+
+    .task_overlay {
+        display: none;
+    }
+
+    &.turn-opponent .task_overlay {
+        position: absolute;
+        left: 45px;
+        top: 0;
+        bottom: 0;
+        right: 0px;
+        display: block;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+    }
+
+    a {
+        margin: 5px;
+        width: 20px;
+        height: 20px;
+
+        &:first-of-type {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+.is-admin .taskbar.turn-opponent .task_overlay {
+    display: none;
+}
+
+@import "tabletop_icons.scss";
+
+
+.player_selector {
+
+    i {
+        margin-right: 5px;
+        padding-left: 17px;
+        font-style: normal;
+    }
+
+    .player-handcard-count {
+        background: url("/media/assets/images/icons/icon-hand-small.png") 0 0px no-repeat;
+    }
+
+    .player-playdeck-count {
+        background: url("/media/assets/images/icons/icon-playdeck-small.png") 0 0px no-repeat;
+    }
+
+    .cur {
+        .player-handcard-count {
+            background: url("/media/assets/images/icons/icon-hand-small-hover.png") 0 0px no-repeat;
+        }
+
+        .player-playdeck-count {
+            background: url("/media/assets/images/icons/icon-playdeck-small-hover.png") 0 0px no-repeat;
+        }
+    }
+}
+
+.location-icon-image {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    z-index: 100;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 4px;
+    opacity: 0.6;
+    width: 16px;
+    height: 16px;
+    visibility: hidden;
+
+    &:hover {
+        opacity: 1;
+        color: #fff;
+        background-color: #F0C648;
+    }
+}
+
+.company:hover {
+    .location-icon-image {
+        visibility: visible;
+    }
+}
+
+.location-icon {
+    top: 6px;
+}
+
+.location-underdeep {
+    top: 30px;
+    right: 43px;
+}
+
+.location-reveal {
+    bottom: 10px;
+}
+
+.table {
+    position: relative;
+    height: 100%;
+
+    .area-player {
+        position: relative;
+        min-height: 30%;
+
+        &.table-padding-bottom {
+            padding-bottom: 170px;
+        }
+    }
+
+    .area-opponent {
+        margin-bottom: 20px;
+        position: relative;
+        min-height: 20%;
+
+        .ui-draggable-dragging {
+            transform: rotate(180deg);
+        }
+
+        .hiddenToOpponent,
+        .company-characters-add {
+            display: none !important;
+        }
+
+        .tableCell {
+            vertical-align: bottom;
+        }
+    }
+
+    .row {
+        margin: 0 0 0 50px;
+        height: 100%;
+
+        div.card {
+            display: inline-block;
+            max-width: 72px;
+
+            &.state_tapped {
+                max-width: 100px;
+            }
+        }
+    }
+
+    .area {
+        display: block;
+
+        &.area-player .row {
+            grid-template-columns: 230px 75px auto;
+            grid-template-rows: repeat(1, minmax(300px, auto));
+        }
+
+        &.area-opponent .row {
+            grid-template-columns: 230px auto;
+            grid-template-rows: repeat(1, minmax(100px, auto));
+        }
+
+        .row {
+            display: grid;
+            grid-column-gap: 10px;
+        }
+
+        .companies {
+            display: block;
+        }
+    }
+
+    .companies {
+        position: relative;
+        text-align: center;
+    }
+
+    .tableCell {
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: top;
+    }
+}
+
+img.card-icon {
+    background: url("/data/backside") 0 0 no-repeat;
+    background-size: contain;
+    border-radius: 5%;
+}
+
+.clear {
+    float: none;
+    clear: both;
+}
+
+.company-host,
+.company {
+    padding-right: 20px;
+    min-height: 100px;
+    min-width: 60px !important;
+}
+
+body.table-companies-breakline .companies {
+    white-space: normal;
+}
+
+.card-bar {
+    position: fixed;
+    z-index: 100;
+    bottom: 5px;
+
+    a {
+        text-align: center;
+        color: white;
+
+        &:hover {
+            color: #F0C648;
+        }
+    }
+}
+
+
+.hand span,
+.card-bar a span {
+    padding: 1px;
+    background: green;
+    border-radius: 5px;
+    margin-top: 8px;
+    display: inline-block;
+    margin-left: 15px;
+    text-align: right;
+    font-size: 11px;
+}
+
+.state_ready img {
+    transform: rotate(0);
+    transition: all .2s ease-in;
+}
+
+.state_tapped img,
+.state_tapped_fixed img,
+.tapped {
+    transform: rotate(-90deg);
+    transition: all .2s ease-in;
+}
+
+.rot180,
+.state_wounded img,
+.wounded {
+    transform: rotate(-180deg);
+    transition: all .2s ease-in;
+}
+
+.rot270,
+.state_rot270 img {
+    transform: rotate(-270deg);
+    transition: all .2s ease-in;
+}
+
+.card-hands {
+    position: fixed;
+    left: 55px;
+    bottom: 5px;
+    z-index: 400;
+    padding: 5px;
+    max-width: 90%;
+    min-width: 290px;
+    min-height: 84px;
+
+    .card-generic,
+    .card-hand {
+        display: inline-block;
+        position: relative;
+    }
+
+    .card-facedown img {
+        transform: rotate(180deg);
+    }
+
+    .card-draw {
+        width: 100%;
+    }
+
+    .hand-card-sizer {
+        padding: 5px 10px;
+        text-align: center;
+        color: #ebe9df;
+        font-size: 10px;
+    }
+
+    .card-hand {
+        cursor: move;
+        
+        .draw {
+            position: absolute;
+            left: 9px;
+            top: 13px;
+            color: #F0C648;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        &:hover {
+
+            .draw {
+                color: #ff0;
+            }
+
+            img {
+                opacity: 0.8;
+            }
+        }
+
+        &.card-draw:hover img {
+            opacity: 0.6;
+        }
+    }
+
+    .card-hand,
+    .card-dice
+    {
+        transition: scale 0.2s ease-in-out;
+
+        &:hover {
+            scale: 1.1;
+        }
+    }
+}
+
+.transition-grow-shrink {
+    transition: width 0.1s, margin 0.4s;
+}
+
+.arda-inline .card-hand img {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        scale: 1.1;
+    }
+}
+
+.on-drag-event-generic #playercard_hand {
+    z-index: 0;
+    opacity: 0.7;
+}
+
+
+@import "tabletop_cardlistcontainer.scss";
+
+
+#playercard_hand_container {
+    display: inline-block;
+    margin-left: 60px;
+    min-height: 83px;
+    margin-right: 5px;
+
+    a.discardpile,
+    a.discardpile:hover {
+        background-size: contain !important;
+        background-position-x: 0px;
+        background-position-y: 0px;
+    }
+
+    a.discardpile {
+        position: absolute;
+        bottom: 5px;
+        width: 20px;
+        margin: 0;
+        height: 20px;
+        left: 25%;
+        visibility: hidden
+    }
+
+    &:hover {
+        a.discardpile {
+            visibility: visible;
+        }
+    }
+}
+
+@import "tabletop_stage.scss";
+
+.companies {
+    white-space: nowrap;
+    flex: 1 79%;
+
+    .emptyContainer {
+        width: 300px;
+        height: 100px;
+        border: 2px dashed transparent;
+    }
+
+    .sites {
+
+        .site-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .site-onguard {
+            margin-left: -30px;
+        }
+    }
+
+    .company {
+        margin-right: 20px;
+        border-radius: 20px;
+        position: relative;
+        transition: all 0.2s ease-in;
+        white-space: nowrap;
+
+        @media only screen and (min-width: 1500px) {
+            margin-right: 40px;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.15);
+            scale: 1.05;
+        }
+
+        .company-character:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+
+            .character-mark-toggle,
+            .character-card-dice {
+                visibility: visible;
+            }
+        }
+
+        .character-mark-toggle,
+        .character-card-dice {
+            position: absolute;
+            bottom: 10%;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            visibility: hidden;
+            text-align: center;
+            display: inline-block;
+            max-height: 30px;
+
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+        }
+
+        .character-mark-toggle {
+            transition: all 0.2s ease-in;
+            right: 10%;
+
+            &:hover {
+                color: #F0C648;
+            }
+        }
+
+        .card-highlight-mark {
+
+            img {
+                box-shadow: 0px 0px 10px 2px #F0C648;
+            }
+
+            .character-mark-toggle {
+                visibility: visible;
+                color: #F0C648;
+                transform: rotate(24deg);
+            }
+        }
+
+        .character-card-dice {
+            left: 10%;
+            background-size: contain;
+        }
+
+        .company-site-list {
+            min-height: 80px;
+            padding: 5px;
+        }
+
+        .company-site-list-border {
+            position: absolute;
+            bottom: -3px;
+            left: 0px;
+            height: 3px;
+            width: 0px;
+            background: #F0C648;
+            display: none;
+        }
+
+        &.company-mark-current {
+            .company-site-list-border {
+                display: inline-block;
+                animation: company-moving-line 5s 10 forwards;
+            }
+        }
+
+        .company-characters-add {
+            margin-left: 0;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 96px;
+        }
+
+        @media only screen and (min-width: 1500px) {
+            .company-characters {
+                .character-is-company-host:not(:first-child)
+                {
+                        margin-right: 40px;
+                }
+            }
+        }
+
+        .company-character-influenced 
+        {
+            .company-character:not(:first-child)
+            {
+                margin-left: 20px;
+            }
+        }
+
+    }
+}
+
+@keyframes company-moving-line {
+    from {
+        width: 0%;
+        opacity: 1;
+    }
+
+    to {
+        width: 100%;
+        opacity: 0.6;
+    }
+}
+
+
+@import "tabletop-dragging.scss";
+@import "tabletop_zoomlevels.scss";
+
+.company-character-reosurces,
+.company-character-reosurces .card,
+.company-character-host {
+    position: relative;
+    text-align: left;
+}
+
+.site-regions .card,
+.site-onguard .card {
+    display: inline-block;
+    margin-left: -50px;
+}
+
+.site-regions .card:nth-child(1),
+.site-onguard .card:nth-child(1) {
+    margin-left: 0px;
+}
+
+.area-opponent .site-onguard .card.card-is-mine {
+    transform: rotate(180deg);
+}
+
+.area-player .site-onguard .card.card-is-mine {
+    transform: rotate(0deg);
+}
+
+.card-highlight-mark img,
+div.card img:hover {
+    box-shadow: 0px 0px 10px 2px #F0C648;
+}
+
+.playercard-hand-content {
+    position: relative;
+
+    .hand-card-actions {
+        position: absolute;
+    }
+}
+
+.card-dice {
+    background: url("/media/assets/images/icons/icon-dices.png") 0 -0 no-repeat;
+    width: 60px;
+    height: 30px;
+
+    &:hover {
+        background: url("/media/assets/images/icons/icon-dices-hover.png") 0 0 no-repeat;
+    }
+}
+
+
+
+div#opponent_table .company {
+    transform: rotate(180deg);
+}
+
+.hand-card-actions {
+    width: 60px;
+    position: fixed;
+    bottom: 13px;
+    height: 80px;
+    overflow: hidden;
+}
+
+#draw_card {
+    display: block;
+    height: 40px;
+    margin-top: 4px;
+    background: url("/media/assets/images/icons/icon-draw.png") 0 -0 no-repeat;
+
+    &:hover {
+        background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
+    }
+}
+
+.hosts_nothing {
+    display: none !important;
+}
+
+#lidles-eye {
+    z-index: 601;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+
+    img {
+        position: fixed;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        width: 300px;
+        left: 50%;
+        animation: eyepulse 1s linear infinite;
+    }
+
+    &.fade-out {
+        transition: opacity 0.3s ease-out;
+        opacity: 0;
+    }
+}
+
+@keyframes eyepulse {
+    0% {
+        width: 300px;
+    }
+
+    50% {
+        width: 350px;
+    }
+
+    100% {
+        width: 300px;
+    }
+}
+
+#card_counter div.pos-rel {
+    position: relative;
+
+    &:hover .hidden {
+        display: block;
+    }
+}
+
+.card-hands-sizer {
+    display: inline;
+    margin-left: 10px;
+
+    i {
+        color: #F0C648;
+        font-weight: bold;
+        padding: 0 5px;
+
+        &:hover {
+            cursor: pointer;
+            color: #fff;
+        }
+    }
+
+    .card-hands-sizer-size {
+        font-weight: bold;
+    }
+}
+
+
+body.on-show-map-window .location-icon {
+    display: none;
+}
+
+.smallCaps {
+    font-variant-caps: small-caps;
+}
+
+@media only screen and (max-width: 1299px) {
+
+    .area-player::after {
+        content: '';
+        display: block;
+        min-height: 250px;
+    }
+
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: black grey;
+}
+
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: black;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 5px;
+    border: 3px solid darkgrey;
+}
+
+@import "tabletop_cardinfobox.scss";
+/* playercard_hand */
+
+div#table-dark {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(30, 23, 0, 0.4), rgba(30, 23, 0, 0.6));
+    z-index: 0;
+}
+
+@import "tabletop_mobile.scss";
+
+.site-regions,
+.card img.card-icon {
+    transition: all 0.2s ease-in;
+}
+
+.card:hover .card-icon {
+    scale: 1.05;
+}
+
+.site-regions {
+    &:hover {
+        scale: 1.05;
+    }
+
+    .card:hover .card-icon {
+        scale: none;
+    }
+}
+
+div.card[data-token]:after {
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    padding: 5px;
+    font-size: 0.8em;
+    background: #F0C648;
+    border-radius: 50%;
+    line-height: 1em;
+    content: "10+";
+}
+
+div.card[data-token="1"]:after {
+    content: "1";
+}
+
+div.card[data-token="2"]:after {
+    content: "2";
+}
+
+div.card[data-token="3"]:after {
+    content: "3";
+}
+
+div.card[data-token="4"]:after {
+    content: "4";
+}
+
+div.card[data-token="5"]:after {
+    content: "5";
+}
+
+div.card[data-token="6"]:after {
+    content: "6";
+}
+
+div.card[data-token="7"]:after {
+    content: "7";
+}
+
+div.card[data-token="8"]:after {
+    content: "8";
+}
+
+div.card[data-token="9"]:after {
+    content: "9";
+}
+
+div.card[data-token="10"]:after {
+    content: "10";
+}
+
+@import "./tabletop_changeavatar.scss";
+
+.dialog-notes,
+.change-seating {
+    background-color: #000;
+    color:#ebe9df;
+    max-width: 90%;
+    max-height: 90%;
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    h3 {
+        color: $color-orange;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    ul {
+
+        list-style-type: none;
+        display: block;
+
+        li {
+            min-height: 50px;
+            position: relative;
+
+            &:first-of-type a:first-of-type {
+                visibility: hidden;
+            }
+
+            &:last-of-type a:last-of-type {
+                visibility: hidden;
+            }
+        }
+    }
+
+    .avatar-box {
+        height: 50px;
+        width: 50px;
+        left: 0;
+        top: 0;
+        position: absolute;
+        display: block;
+        overflow: hidden;
+        border-radius: 50%;
+
+        img {
+            position: absolute;
+            width: 100%;
+            top: 7px;
+            scale: 1.6;
+        }
+    }
+
+    .avatar-text-box {
+        position: relative;
+        padding-top: 15px;
+        margin-left: 60px;
+        font-size: 1.5em;
+        display: grid;
+        grid-template-columns: 1.5fr 0.5fr 0.5fr;
+
+        a {
+            margin: 0 1em;
+        }
+    }
+
+    .button-actions {
+        text-align: center;
+    }
+
+    button {
+        border: 0;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        height: 3.5em;
+        line-height: 3.5em;
+        outline: 0;
+        padding: 0 2em 0 2em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        background-color: #a8cea4;
+        margin: 0 10px;
+
+        &:hover {
+            background-color: #8ad681;
+        }
+
+        &.buttonCancel {
+            background-color: #c32222;
+
+            &:hover {
+                background-color: #dc2600;
+            }
+        }
+    }
+}
+
+.dialog-notes {
+    cursor: pointer;
+    padding: 2em;
+    font-family: monospace;
+    font-size: 1.3em;
+    line-height: 1.2em;
+    max-width: 80%;
+    max-height: 80%;
+    h2, h3 { margin-top: 2em;}
+}
+
+/* opensource spinner from https://github.com/loadingio/css-spinner/ */
+.lds-ellipsis 
+{
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    bottom: 20px;
+    left: 10px;
+
+    div {
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        border: 1px solid #000;
+        background: #F0C648;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+        &:nth-child(1) 
+        {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+        
+        &:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+        
+        &:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+        
+        &:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+    }
+    
+    
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(24px, 0);
+    }
+}
+
+@import "playerselector.scss";
+@import "tabletop_lobby.scss";
+@import "tabletop_discard.scss";
+@import "tabletop_map.scss";
+@import "tabletop_introtip.scss";
+@import "tabletop_dics.scss";
+@import "tabletop_chat.scss";
+@import "tabletop_watch.scss";

@@ -1,0 +1,123 @@
+.game-watch-only {
+
+    .card-bar-play,
+    .help-wrapper,
+    .game-watch-only #playercard-hand-content,
+    .taskbar-score,
+    .area-player,
+    .chattext,
+    .arda-hand-wrapper,
+    .arda-card-hands,
+    .companies .company .character-card-dice,
+    .companies .company .character-mark-toggle,
+    .company-characters-add,
+    .icons a.victory,
+    .icons a.hand,
+    .game-watch-only #playercard_hand {
+        display: none !important;
+    }
+
+    .taskbar.turn-opponent .task_overlay {
+        left: 0;
+    }
+
+    .area-opponent {
+        max-height: 90%;
+        display: block;
+    }
+
+    .staging-area {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .staging-area .staging-area-resources,
+    .staging-area .staging-area-hazard {
+        display: inline-block;
+    }
+
+    .visitor-hand-view {
+        text-align: center;
+        border-bottom: 2px solid black;
+        margin-bottom: 100px;
+    }
+
+    .staging-area,
+    .companies,
+    .visitor-hand-view,
+    .table .row,
+    .area-opponent,
+    .scoring-sheet.final-score.final-score-watch .button {
+        display: block !important;
+    }
+
+    .scoring-sheet-ingame.scoring-arda {
+        bottom: 0 !important;
+    }
+
+    .game-watch-only div#opponent_table .company,
+    .staging-area-opponent.rot180 {
+        transform: rotate(0deg);
+    }
+
+    .game-watch-only div#opponent_table .company {
+        vertical-align: top;
+    }
+
+    .companies.hidden {
+        display: block !important;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .companies:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chatbox-wrapper {
+        bottom: 5px;
+        top: auto;
+    }
+
+    .company-host,
+    .company {
+        height: auto !important;
+    }
+
+    .chatbox {
+        height: 20px;
+    }
+
+    .card-bar.card-bar-shared {
+        height: 190px;
+    }
+
+    .staging-area .fr {
+        float: left;
+    }
+
+    .visitor-hand-view .card-hand {
+        display: inline-block;
+        margin-right: 1px;
+    }
+
+    .visitor-hand-view::before {
+        content: 'Hand Cards';
+        display: block;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+        color: #ff0;
+        text-transform: uppercase;
+        font-size: 0.7em;
+        padding: 5px 2px;
+        z-index: 901;
+    }
+
+    .companies {
+        white-space: normal !important;
+    }
+
+    .table .row {
+        margin: 0 50px;
+    }
+}

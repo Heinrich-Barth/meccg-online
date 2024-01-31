@@ -1,0 +1,79 @@
+
+/* COMPANY AREA */
+.staging-area {
+    position: relative;
+    min-width: 100px;
+
+    .staging-area-drop {
+        display: none;
+        position: absolute;
+        left: 0px;
+        right: 0;
+        top: 0;
+        height: 200px;
+    }
+
+    &.staging-area-opponent {
+        padding: 20px 0 0 0;
+        text-align: right;
+    }
+
+    &.staging-area-player .mark-red img 
+    {
+        border: 2px solid #e36666;
+        animation: glowRed linear 1s 2 forwards;
+    }
+
+    .staging-area:last-of-type { padding-right: 10px; }
+
+    .card {
+        display: inline-block;
+        margin-left: 2px;
+
+        img.card-icon {
+            width: auto;
+        }
+    }
+}
+
+.table .staging-area-factions .mark-red img 
+{
+    border: 0px;
+}
+
+.table-stage-stacking {
+    
+    padding-left: 10px;
+
+    .staging-area {
+        min-width: 100px;
+    }
+  
+    .staging-area-area {
+        max-width: 95px;
+        display: inline-block;
+        vertical-align: top;
+
+        margin-right: 10px;
+
+        div.card {
+            float: left;
+            margin-top: -75px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+        }
+
+        &::after {
+            clear: both;
+        }
+    }
+}
+
+.table-companies-left {
+    .companies {
+        text-align: left;
+    }
+}

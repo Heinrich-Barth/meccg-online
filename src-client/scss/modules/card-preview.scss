@@ -1,0 +1,42 @@
+.preview-container div
+{
+    position: fixed;
+    z-index: 1001;
+    height: 100%;
+    max-height: 60%;
+    max-width: 45%;
+}
+
+.large-preview .preview-container div {
+    max-height: 90%;
+}
+
+.large-preview .preview-container img {
+    
+    max-width:100%;
+    max-height:100%;
+    
+    height: auto;
+    width: auto;
+    
+    border-radius: 5%;
+}
+
+.preview-container img {
+    height: 100%;
+    width: auto;
+    border-radius: 5%;
+}
+
+.preview-left { left: 10px; }
+.preview-bottom { bottom: 10px; }
+.preview-top { top: 10px; }
+.preview-right { right: 10px; }
+
+.mapwindow .preview-container div
+{
+    max-height: 70%;
+    max-width: 50%;
+}
+
+.on-drag-event-generic .preview-container { display: none; }
