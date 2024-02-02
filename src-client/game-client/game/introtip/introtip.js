@@ -59,10 +59,17 @@ setTimeout(() => {
         const divContent = document.createElement("div");
         divContent.setAttribute("class", "blue-box tip-content");
         
-        divContent.innerHTML = `<h2><i class="fa fa-info-circle" aria-hidden="true"></i> How to play</h2>
-                            <p>Simply <span class="text-white">drag &amp; drop</span> cards as you would intuitively do.</p>
-                            <p>Depending on your card, different targets/options will be made available visually.</p>
-                            <p class="text-center"><button id="close_tip" type="button">Close tip</button></p>
+        divContent.innerHTML = `<h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;How to play</h2>
+                            <p>Simply <span class="text-white">drag &amp; drop</span> cards as you would intuitively do. Depending on your card, different targets/options will be made available visually.</p>
+
+                            <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Customize Background etc.</h2>
+                            <p>You will find many ways to customise your experience.<br>Access the <span class="text-white"><i class="fa fa-sliders"></i> <b>game settings</b></span> and checkout the various options.</p>
+
+                            <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Resume a saved game</h2>
+                            <p>Once all players are at the table, access the <span class="text-white"><i class="fa fa-sliders"></i> <b>game settings</b></span> (upper left corner) and 
+                            click on <span class="text-white"><i class="fa fa-folder-open"></i> <b>Restore a saved game</b></span>. he players at the table need to match the number of players of your saved game.</p>
+                            
+                            <p class="text-center"><br><button id="close_tip" type="button">Close tip</button></p>
                         </div>
                     </div>`;
         
