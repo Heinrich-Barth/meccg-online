@@ -827,6 +827,13 @@ const GameBuilder = {
                 } }));
             }
         });
+
+        MeccgApi.addListener("/game/deck/discard/playdeck", (isMe, data) => 
+        {
+            if (isMe && data?.success)
+                document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "shuffle" }));
+        });
+        
     },
 
 

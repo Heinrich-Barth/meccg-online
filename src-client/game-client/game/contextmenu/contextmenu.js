@@ -772,6 +772,18 @@ const ContextMenu = {
             );
         },
 
+        shuffleDiscardpileIntoPlaydeck : function()
+        {
+            new Question().onOk(function()
+            {
+                MeccgApi.send("/game/deck/discard/playdeck", {  });
+            }).show(
+                "Do you want to reshuffle pile into the playdeck?", 
+                "All discarded cards will be reshuffled into the playdeck.", 
+                "Reshuffle"
+            );
+        },
+
         queryCardNumer : function(sTitle, sText, fnSuccessCallback)
         {
             const dialog = document.createElement("dialog");
@@ -867,12 +879,13 @@ const ContextMenu = {
         this.addItem("reval_cards_number_self", "Look at your top X cards", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.reveal5CardsToSelf, "");
         this.addItem("playdeck_shuffle", "Shuffle deck (or RIGHT CLICK)", "fa-random", "context-menu-item-generic", TaskBarCards.ShufflePlaydeck, "");
         this.addItem("playdeck_shuffle_x_cards", "Shuffle top X cards of your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleXCardsPlaydeck, "");
+        this.addItem("discardpile_shuffle_into_playdeck", "Shuffle discard pile into your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleDiscardpileIntoPlaydeck, "");
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "glow_action", "flipcard", "token_add", "token_remove"];
         this.data.types["location"] = ["ready", "tap", "arrive", "add_ressource", "add_character", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
         this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "playdeck_shuffle_x_cards", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "view_deck_notes", "playdeck_shuffle"];
-        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_cards_reveal"];
+        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_cards_reveal", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
 
         this.data.offsets["playdeck_actions"] = -100;

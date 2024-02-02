@@ -64,6 +64,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/deck/reveal/accept", this.onDeckRevealAccept.bind(this));
         this.getMeccgApi().addListener("/game/deck/reveal/perform", this.onDeckRevealPerform.bind(this));
         this.getMeccgApi().addListener("/game/deck/reveal/self", this.onDeckRevealSelfPerform.bind(this));
+        this.getMeccgApi().addListener("/game/deck/discard/playdeck", this.onReshuffleDiscardIntoPlaydeck.bind(this));
 
         this.getMeccgApi().addListener("/game/company/create", this.onGameCompanyCreate.bind(this));
         this.getMeccgApi().addListener("/game/company/arrive", this.onGameCompanyArrives.bind(this));
@@ -90,7 +91,6 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/character/join/company", this.onCharacterJoinCompany.bind(this));
         this.getMeccgApi().addListener("/game/character/list", this.onGetCharacters.bind(this));
         
-
         this.getMeccgApi().addListener("/game/discardopenly", this.onDiscardOpenly.bind(this));
 
         this.getMeccgApi().addListener("/game/watch/hand", this.onWatchUpdateHand.bind(this));
@@ -396,6 +396,15 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, "marks " + data.code, false);
         else
             this.publishChat(userid, "unmarks " + data.code, false);
+    }
+
+    onReshuffleDiscardIntoPlaydeck(userid:string, socket:any = null, _obj:any = null)
+    {
+        const res = this.getPlayboardManager().ShuffleDiscardpileIntoPlaydeck(userid);
+        if (res)
+            this.publishChat(userid, "reshuffled their discard pile into their playdeck");
+
+        this.replyToPlayer("/game/deck/discard/playdeck", socket, { success: res });
     }
 
     onCardDraw(userid:string, _socket:any = null, _obj:any = null)

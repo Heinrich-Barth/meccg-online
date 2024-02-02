@@ -76,6 +76,17 @@ export default class DeckDefault extends DeckCommons {
     {
         return this.#discardPile;
     }
+
+    shuffleDiscardpileIntoPlaydeck()
+    {
+        if (this.#discardPile.length > 0 && this.moveList(this.#discardPile, this.#playdeck))
+        {
+            this.shuffleAny(this.#playdeck);
+            return true;
+        }
+        else
+            return false;
+    }
     
     shufflePlaydeckTop(count:number)
     {
