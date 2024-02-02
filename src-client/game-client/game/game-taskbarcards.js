@@ -262,10 +262,20 @@ class TaskBarCards
             return false;
         };
         
-        document.querySelector(".card-bar .discardpile").onclick = TaskBarCards.onCLickDiscardPile;
-        document.querySelector(".card-bar .playdeck").onclick = TaskBarCards.onClickPlaydeck;
         
-        document.querySelector(".card-bar .playdeck").oncontextmenu = TaskBarCards.ShufflePlaydeck;
+        const pDiscard = document.querySelector(".card-bar .discardpile");
+        if (pDiscard !== null)
+        {
+            pDiscard.onclick = TaskBarCards.onCLickDiscardPile;
+            pDiscard.oncontextmenu = TaskBarCards.onRightClickDiscardPile;
+        }
+
+        const pPlaydeck = document.querySelector(".card-bar .playdeck");
+        if (pPlaydeck !== null)
+        {
+            pPlaydeck.onclick = TaskBarCards.onClickPlaydeck;
+            pPlaydeck.oncontextmenu = TaskBarCards.onRightClickPlaydeck;
+        }
 
         for (let elem of document.querySelectorAll(".taskbar .taskbar-turn"))
             elem.onclick = TaskBarCards.OnTurnClick;
@@ -284,17 +294,25 @@ class TaskBarCards
 
     static onClickPlaydeck(e)
     {
+        TaskBarCards.Show("playdeck", true);
+        return false;
+    }
+
+    static onRightClickPlaydeck(e)
+    {
         ContextMenu.contextActions.onContextPlayDeckActions(e);
         return false;
     }
 
     static onCLickDiscardPile(e)
     {
-        if (ContextMenu.contextActions.onContextDiscardPileActions === undefined)
-            TaskBarCards.Show("discard");
-        else
-            ContextMenu.contextActions.onContextDiscardPileActions(e);
+        TaskBarCards.Show("discard");
+        return false;
+    }
 
+    static onRightClickDiscardPile(e)
+    {
+        ContextMenu.contextActions.onContextDiscardPileActions(e);
         return false;
     }
 
