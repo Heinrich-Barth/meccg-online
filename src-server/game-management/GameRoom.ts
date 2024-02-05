@@ -272,7 +272,11 @@ export class GameRoom
     removePlayer(userid:string)
     {
         if (typeof userid === "string" && this.#players[userid] !== undefined)
+        {
+            const name = this.#players[userid].getName();
+            Logger.info(name + " removed from game.");
             delete this.#players[userid];
+        }
     }
 
     getPlayer(userid:string)
