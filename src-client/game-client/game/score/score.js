@@ -1273,6 +1273,7 @@ const SCORING = {
         if (elem === null)
             return;
 
+        document.body.classList.add("final-score-page");
         elem.classList.add("final-score");
         DomUtils.remove(document.getElementById("view-score-sheet-card-list"));
 

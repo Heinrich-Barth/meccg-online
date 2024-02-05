@@ -472,3 +472,14 @@
         &:hover { color:  #F0C648; }
     }
 }
+
+.final-score-page {
+    .chatbox,
+    .scoring-sheet-ingame,
+    .arda-card-hands,
+    .arda-hand-wrapper,
+    .preview-container,
+    .card-hands {
+        visibility: hidden;
+    }
+}
