@@ -28,6 +28,11 @@ class GamePreferences extends Preferences {
         return g_sLobbyToken !== "";
     }
 
+    #toggleDCSites(isActive)
+    {
+        sessionStorage.setItem("map_dc_sites", isActive ? "true" : "false");
+    }
+
     #dices()
     {
         document.body.dispatchEvent(new CustomEvent("meccg-dice-chooser"));
@@ -370,7 +375,7 @@ class GamePreferences extends Preferences {
     addConfiguration()
     {        
         this.addConfigToggle("viewpile_open", "I can see my own card piles (reavling to opponent...)", true);
-        this.addConfigToggle("images_errata_dc", "Use CoE Errata", this.getUseDCByDefault());
+        this.addConfigToggle("images_errata_dc", "Use DC Errata", this.getUseDCByDefault());
         this.addConfigToggle("draw_to_handsize", "Draw to hand size if hand is empy", true);
         
         this.addConfigAction("bg_default", "Change background", false, "fa-picture-o", () => document.body.dispatchEvent(new CustomEvent("meccg-background-chooser")));
