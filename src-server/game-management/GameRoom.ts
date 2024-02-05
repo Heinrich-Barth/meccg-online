@@ -261,7 +261,7 @@ export class GameRoom
     removePlayer(userid:string)
     {
         if (typeof userid === "string" && this.#players[userid] !== undefined)
-            return this.#players[userid];
+            delete this.#players[userid];
     }
 
     getPlayer(userid:string)
@@ -397,7 +397,7 @@ export class GameRoom
 
         try
         {
-            if (this.#fnEndGame !== null && this.#fnEndGame !== undefined)
+            if (typeof this.#fnEndGame === "function")
                 this.#fnEndGame(this.#name);
         }
         catch(err)
