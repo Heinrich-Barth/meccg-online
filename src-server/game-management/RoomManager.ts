@@ -473,11 +473,7 @@ export default class RoomManager {
      */
     checkGameContinuence(room:string) /* wait one minute to check if a room only has one player */
     {
-        const pRoom = this.getRoom(room);
-        if (pRoom !== null && pRoom.isActive())
-            Logger.info("Game " + room + " has active players. No need to check continuation.");
-        else
-            setTimeout(() => this.#checkGameContinuence(room), 2000 * 60);
+        setTimeout(() => this.#checkGameContinuence(room), 2000 * 60);
     }
 
     #checkGameContinuence(room:string)
