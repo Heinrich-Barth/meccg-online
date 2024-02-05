@@ -62,6 +62,7 @@ body {
     &.on-drag-event-hazard .area-opponent .company-character-host,
     &.on-drag-event-hazard .area-opponent .site-regions,
     &.on-drag-event-generic .area-opponent .site-target,
+    &.on-drag-event-generic .playercard-hand-content.ui-droppable-active,
     &.on-drag-event-generic .area-player .ui-droppable-active,
     &.on-drag-event-generic .card-bar .ui-droppable-active {
         background-color: rgba(0, 0, 0, 0.2) !important;

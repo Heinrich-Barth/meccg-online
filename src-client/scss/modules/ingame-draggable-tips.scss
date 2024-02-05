@@ -84,9 +84,10 @@ body.on-drag-event-generic .area-player .company:hover {
 body.on-drag-event-generic .card-bar .on-drag-over,
 body.on-drag-event-generic .area .on-drag-over,
 .company-character .ui-droppable-active.on-drag-over,
+body.on-drag-event-generic .playercard-hand-content.on-drag-over,
 #player_companies .company-characters-add.on-drag-over
 {
-    background-color: rgba(101, 152, 81, 0.3) !important
+    background-color: rgba(101, 152, 81, 0.5) !important
 }
 
 body.on-drag-event-generic .card-bar .on-drag-over img,
