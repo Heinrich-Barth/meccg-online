@@ -1,5 +1,7 @@
 class PlayerSelectorAction {
 
+    #includeAllOption = false;
+
     showError(message)
     {
         document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": message }));
@@ -28,6 +30,13 @@ class PlayerSelectorAction {
         return "Please choose one player to show cards";
     }
 
+    includeAllOption(b)
+    {
+        this.#includeAllOption = b === true;
+        return this;
+    }
+
+    
     onChoosePlayer()
     {
         const pPlayersCurrent = MeccgPlayers.getPlayers();
@@ -62,37 +71,54 @@ class PlayerSelectorAction {
         _element.innerText = this.labelChoosePlayerToTradeWith();
         _temp.appendChild(_element);
 
-        let ul = document.createElement("ul");
-        _temp.appendChild(ul);
+        const playerList = this.#createPlayerList(pPlayersCurrent);
+        const _otherPlayerId = playerList.otherPlayerId;
+
+        _temp.appendChild(playerList.html);
 
         _element = document.createElement("button");
         _element.innerText = "Cancal";
         _element.onclick = this.removeOverlay.bind(this);
         _temp.appendChild(_element);
 
-        let _otherPlayerId = "";
+        if (sizeCurrent === 2 && _otherPlayerId !== "")        
+            this.onTriggerTrading(null, _otherPlayerId);
+        else
+            document.body.appendChild(div);
+    }
 
+    #createPlayerLink(id, label)
+    {
+        const _li = document.createElement("li");
+        const _a = document.createElement("a");
+        _a.setAttribute("src", "#");
+        _a.setAttribute("data-player", id);
+        _a.innerText = label;
+        _a.onclick = this.onTriggerTrading.bind(this);
+        _li.appendChild(_a);
+        return _li;
+    }
+
+    #createPlayerList(pPlayersCurrent)
+    {
+        const ul = document.createElement("ul");
+        let _otherPlayerId = "";
         for (let key of Object.keys(pPlayersCurrent))
         {
             if (MeccgPlayers.isChallenger(key))
                 continue;
 
             _otherPlayerId = key;
-
-            const _li = document.createElement("li");
-            const _a = document.createElement("a");
-            _a.setAttribute("src", "#");
-            _a.setAttribute("data-player", key);
-            _a.innerText = pPlayersCurrent[key];
-            _a.onclick = this.onTriggerTrading.bind(this);
-            _li.appendChild(_a);
-            ul.appendChild(_li);
+            ul.appendChild(this.#createPlayerLink(key,pPlayersCurrent[key]));
         }
 
-        if (sizeCurrent === 2 && _otherPlayerId !== "")        
-            this.onTriggerTrading(null, _otherPlayerId);
-        else
-            document.body.appendChild(div);
+        if (this.#includeAllOption)
+            ul.appendChild(this.#createPlayerLink("", "All opponents"));
+
+        return {
+            html: ul,
+            otherPlayerId: _otherPlayerId
+        };
     }
 
     removeOverlay()
@@ -108,6 +134,68 @@ class PlayerSelectorAction {
     getMyId()
     {
         return MeccgPlayers.getChallengerId();
+    }
+
+}
+
+class PlayerSelectorActionCallback extends PlayerSelectorAction
+{
+    #title = "Choose player";
+    #text = "Please choose one player to show cards";
+
+    #callback = () => false;
+
+    setCallback(fn)
+    {
+        if (fn)
+            this.#callback = fn;
+        
+        return this;
+    }
+
+    choosePlayer(title = "", text = "")
+    {
+        if (title !== "")
+            this.#title = title;
+        if (text !== "")
+            this.#text = text;
+
+        super.onChoosePlayer();
+    }
+
+    labelErrorTooFewPlayers()
+    {
+        return "Another player is needed.";
+    }
+
+    labelChooseTradingPartner()
+    {
+        return this.#title;
+    }
+
+    labelChoosePlayerToTradeWith()
+    {
+        return this.#text;
+    }
+
+    onTriggerTrading(e, otherPlayerId)
+    {
+        this.removeOverlay();
+        
+        if (typeof this.#callback !== "function")
+            return false;
+
+        if (typeof otherPlayerId === "string")
+        {
+            this.#callback(this.getMyId(), otherPlayerId);
+        }
+        else
+        {
+            const id = e.target.getAttribute("data-player");
+            this.#callback(this.getMyId(), id);
+        }
+
+        return false;
     }
 
 }

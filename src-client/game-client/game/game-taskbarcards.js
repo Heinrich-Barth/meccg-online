@@ -346,7 +346,18 @@ class TaskBarCards
             case "discard":
             case "playdeck":
             case "hand":
-                MeccgApi.send("/game/view-cards/reveal-pile", type);
+
+                new PlayerSelectorActionCallback()
+                    .includeAllOption(true)
+                    .setCallback((_myid, other) => {
+                        const data = {
+                            type: type,
+                            opponentid: other
+                        }
+                        MeccgApi.send("/game/view-cards/reveal-pile", data);
+                    })
+                    .onChoosePlayer();
+
                 break;
 
             default:
@@ -391,8 +402,11 @@ class TaskBarCards
 
     onShowOnOffer(bIsMe, jData) 
     {
-        let bICanSee = !GamePreferences.offerBlindly();
-        let elem = this.#onShowList(jData, bIsMe ? "Offer to show cards from " : "Opponents card from ", bICanSee);
+        if (!bIsMe && jData.playerid !== "" && jData.playerid !== MeccgPlayers.getChallengerId())
+            return false;
+
+        const bICanSee = !GamePreferences.offerBlindly();
+        const elem = this.#onShowList(jData, bIsMe ? "Offer to show cards from " : "Opponents card from ", bICanSee);
         if (elem === null)
             return false;
 
@@ -538,7 +552,7 @@ class TaskBarCards
 
         const type = jData.type;
         const  vsList = type === "sideboard" || jData.sorted === true ? this.#sortCardList(jData.list) : jData.list;
-
+        console.log(jData)
         const pHtml = ViewCardListContainer.createListHtml(vsList, bICanSeeIt);
         const elem = ViewCardListContainer.insertHtml(pHtml, type, sTitle + ViewCardListContainer.requestTitle(type).toUpperCase());
         

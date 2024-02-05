@@ -1,9 +1,5 @@
 
-/**
- * Card Image Files
- * 
- * @param {json} jsonCardList 
- */
+
 class PlayerSelector
 { 
     constructor()

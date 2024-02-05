@@ -1330,7 +1330,20 @@ export default class GameStandard extends GamePlayers
 
     viewReveal(userid:string, _socket:any, obj:any)
     {
-        this.publishToPlayers("/game/view-cards/reveal/list", userid, {type: obj, list: this.#getList(userid, obj) });
+        let type = "";
+        let opponentid = "";
+
+        if (typeof obj === "string")
+        {
+            type = obj;
+        }
+        else
+        {
+            type = obj.type;
+            opponentid = obj.opponentid;
+        }
+
+        this.publishToPlayers("/game/view-cards/reveal/list", userid, {type: type, playerid: opponentid, list: this.#getList(userid, type) });
         this.publishChat(userid, " offers to show cards in " + obj, false);
     }
 
