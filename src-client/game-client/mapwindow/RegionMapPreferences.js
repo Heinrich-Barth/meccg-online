@@ -155,11 +155,6 @@ class RegionMapPreferences extends Preferences {
         this.updateCookie("Others", isActive);
     }
 
-    isTrue(key)
-    {
-        return this.data[key] !== false;
-    }
-
     getSettingsName()
     {
         return "Map settings";
@@ -215,7 +210,7 @@ class RegionMapPreferences extends Preferences {
 
     showDreamcards()
     {
-        return this.isTrue(this.dreamcards);
+        return this.isTrue("dreamcards");
     }
 
     showSiteSet(sSet)

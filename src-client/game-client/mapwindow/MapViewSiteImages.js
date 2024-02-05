@@ -338,7 +338,7 @@
     getSiteImages(j, showAlignment, region, site)
     {
         this.verifyTempArray();
-        const showDC = showAlignment.dreamcards;
+        const showDC = showAlignment.dreamcards === true;
 
         if (typeof j.hero !== "undefined" && showAlignment.hero && (showDC || !j.hero.dreamcard))
             this.createEntry(j.hero, true, region, site);
