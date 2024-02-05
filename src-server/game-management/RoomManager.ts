@@ -387,8 +387,15 @@ export default class RoomManager {
     
     #sendConnectivity(userid:string, room:string, connected:boolean)
     {
-        if (this.#rooms[room] !== undefined)
-            this.#rooms[room].publish("/game/player/indicator", "", { userid: userid, connected : connected });
+        const pRoom = this.getRoom(room);
+        if (pRoom)
+        {
+            const player = pRoom.getPlayer(userid);
+            if (player)
+                Logger.info("Player " + player.getName() + " disconnected and has 2mins to reconnect");
+
+            pRoom.publish("/game/player/indicator", "", { userid: userid, connected : connected });
+        }
     }
 
     onReconnected(userid:string, room:string)
@@ -727,14 +734,12 @@ export default class RoomManager {
      */
     #kickPlayer(pRoom:GameRoom, userid:string) 
     {
-        let pPlayer = pRoom.getPlayer(userid);
+        const pPlayer = pRoom.getPlayer(userid);
         if (pPlayer === undefined || pPlayer === null)
             return false;
 
-        Logger.info(pPlayer.getName() + " removed from game.");
-
         pPlayer.disconnect();
-
+        
         pRoom.removePlayer(userid);
         pRoom.getGame().removePlayer(userid);
         return true;
