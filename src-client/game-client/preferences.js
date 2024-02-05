@@ -32,6 +32,11 @@ class PreferencesStorable {
         if (localKey !== "")
             sessionStorage.setItem(localKey, JSON.stringify(this.data));
     }
+
+    isTrue(key)
+    {
+        return this.data[key] !== false;
+    }
 }
 
 class Preferences extends PreferencesStorable {
