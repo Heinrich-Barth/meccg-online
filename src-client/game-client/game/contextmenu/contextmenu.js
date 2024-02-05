@@ -877,7 +877,7 @@ const ContextMenu = {
         
         this.addItem("reval_cards_number", "Reveal X cards to your opponent (I will not see them)", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.reveal5CardsToOpponent, "");
         this.addItem("reval_cards_number_self", "Look at your top X cards", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.reveal5CardsToSelf, "");
-        this.addItem("playdeck_shuffle", "Shuffle deck (or RIGHT CLICK)", "fa-random", "context-menu-item-generic", TaskBarCards.ShufflePlaydeck, "");
+        this.addItem("playdeck_shuffle", "Shuffle deck", "fa-random", "context-menu-item-generic", TaskBarCards.ShufflePlaydeck, "");
         this.addItem("playdeck_shuffle_x_cards", "Shuffle top X cards of your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleXCardsPlaydeck, "");
         this.addItem("discardpile_shuffle_into_playdeck", "Shuffle discard pile into your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleDiscardpileIntoPlaydeck, "");
 
