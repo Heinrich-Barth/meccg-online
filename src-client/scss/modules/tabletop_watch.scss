@@ -2,7 +2,7 @@
 
     .card-bar-play,
     .help-wrapper,
-    .game-watch-only #playercard-hand-content,
+    #playercard-hand-content,
     .taskbar-score,
     .area-player,
     .chattext,
@@ -13,7 +13,7 @@
     .company-characters-add,
     .icons a.victory,
     .icons a.hand,
-    .game-watch-only #playercard_hand {
+    #playercard_hand {
         display: none !important;
     }
 
@@ -55,12 +55,12 @@
         bottom: 0 !important;
     }
 
-    .game-watch-only div#opponent_table .company,
+    div#opponent_table .company,
     .staging-area-opponent.rot180 {
         transform: rotate(0deg);
     }
 
-    .game-watch-only div#opponent_table .company {
+    div#opponent_table .company {
         vertical-align: top;
     }
 
