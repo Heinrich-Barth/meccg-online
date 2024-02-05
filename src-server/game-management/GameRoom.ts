@@ -229,9 +229,20 @@ export class GameRoom
         return list;
     }
 
+    isActive()
+    {
+        for (let id in this.#players)
+        {
+            if (this.#players[id].isConnected())
+                return true;
+        }
+
+        return false;
+    }
+
     isEmpty()
     {
-        return this.getPlayerCount() === 0;
+        return this.getPlayerCount() === 0 || !this.isActive();
     }
 
     updateDice(userid:string, dice:string)
