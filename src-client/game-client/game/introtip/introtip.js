@@ -63,21 +63,32 @@ setTimeout(() => {
                             <p>Simply <span class="text-white">drag &amp; drop</span> cards as you would intuitively do. Depending on your card, different targets/options will be made available visually.</p>
 
                             <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Customize Background etc.</h2>
-                            <p>You will find many ways to customise your experience.<br>Access the <span class="text-white"><i class="fa fa-sliders"></i> <b>game settings</b></span> and checkout the various options.</p>
+                            <p>You will find many ways to customise your experience.<br>Access the <span class="text-white cursor-pointer" data-event="settings"><i class="fa fa-sliders"></i> <b>game settings</b></span> and checkout the various options.</p>
 
                             <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Resume a saved game</h2>
-                            <p>Once all players are at the table, access the <span class="text-white"><i class="fa fa-sliders"></i> <b>game settings</b></span> (upper left corner) and 
-                            click on <span class="text-white"><i class="fa fa-folder-open"></i> <b>Restore a saved game</b></span>. he players at the table need to match the number of players of your saved game.</p>
+                            <p>Once all players are at the table, access the <span class="text-white cursor-pointer" data-event="settings"><i class="fa fa-sliders"></i> <b>game settings</b></span> (upper left corner) and 
+                            click on <span class="text-white cursor-pointer" data-event="settings"><i class="fa fa-folder-open"></i> <b>Restore a saved game</b></span>. he players at the table need to match the number of players of your saved game.</p>
                             
                             <p class="text-center"><br><button id="close_tip" type="button">Close tip</button></p>
                         </div>
                     </div>`;
+
+        divContent.querySelectorAll("span").forEach(span => {
+            if (span.hasAttribute("data-event"))
+            {
+                span.onclick = () => {
+                    document.getElementById("preferences-wrapper")?.classList.remove("hide");
+                    document.getElementById("close_tip").click();
+                }
+            }
+        });W
         
         div.appendChild(divOverlay);
         div.appendChild(divContent);
         document.body.appendChild(div);
         document.getElementById("close_tip").onclick = () => DomUtils.remove(document.getElementById("intro-tooltip"));
         document.getElementById("tip-opverlay").onclick = () => document.getElementById("close_tip").click();
+
     }
 
     if (getConnectionCount() === 0 && document.body.getAttribute("data-is-watcher") !== "true")
