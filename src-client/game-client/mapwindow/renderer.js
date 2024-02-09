@@ -43,13 +43,19 @@ const MapInstanceRenderer = {
     },
 
     getStartCode: function () {
-        let query = window.location.search;
-        let pos = typeof query === "undefined" ? -1 : query.indexOf("=");
+        const query = window.location.search;
+        const pos = typeof query === "undefined" ? -1 : query.indexOf("=");
 
         if (pos !== -1)
             return decodeURI(query.substring(pos + 1));
         else
             return "";
+    },
+
+    getIsShownOnly : function()
+    {
+        const query = window.location.search;
+        return typeof query !== "undefined" && query.indexOf("only=true") !== -1;
     },
 
     onInitEditor: function (data) {
@@ -63,17 +69,22 @@ const MapInstanceRenderer = {
     },
 
     onInitDefault: function (data, tapped, listPreferredCodes) {
-        const sCode = MapInstanceRenderer.getStartCode();
+        
+        const ignoreSelection = MapInstanceRenderer.getIsShownOnly();
+        const sCode = ignoreSelection ? "" : MapInstanceRenderer.getStartCode();
+        
         MapInstanceRenderer._isMovementSelection = sCode !== "";
 
         new MapViewRegionsFilterable().createInstance(data.map);
-        new MapViewSiteImages(data, tapped, listPreferredCodes).createInstance();
+        new MapViewSiteImages(data, tapped, listPreferredCodes).createInstance(!ignoreSelection);
 
         const pMap = new MapViewRegions(data);
         pMap.createInstance(sCode);
         pMap.preselectRegionSite(sCode);
 
-        if (sCode === "")
+        if (ignoreSelection)
+            new MapViewChooseStartingHeavenIgnoreSelection().createInstance();
+        else if (sCode === "")
             new MapViewChooseStartingHeaven().createInstance();
         else
             new MapViewMovement(data).createInstance(sCode);

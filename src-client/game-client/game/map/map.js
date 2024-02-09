@@ -206,6 +206,15 @@ const MapWindow = {
         }
     },
 
+    showMapOnly : function(messageId)
+    {
+        if (!this.assertValidMessage(messageId))
+            return;
+
+        if (document.getElementById("map-window").classList.contains("hide"))
+            this.showIframe("/map/regions?only=true");
+    },    
+
     notifyUsers : function(isStartingSite, company)
     {
         MeccgApi.send("/game/company/location/choose", {
@@ -218,7 +227,10 @@ const MapWindow = {
     /** Custom event to show the map iframe.  */
     onShowMapMessageEvent : function(e)
     {
-        this.showMap(e.detail.company, e.detail.code, e.detail.id, e.detail.regionmap, e.detail.revealed);
+        if (e.detail.showOnly)
+            this.showMapOnly(e.detail.id);
+        else
+           this.showMap(e.detail.company, e.detail.code, e.detail.id, e.detail.regionmap, e.detail.revealed);
     },
 };
 

@@ -89,14 +89,14 @@
         return "/data/backside-region";
     }
 
-    createInstance()
+    createInstance(showPreferredSites = true)
     {
         document.body.addEventListener("meccg-map-show-images", this.onShowImages.bind(this), false);
         document.body.addEventListener("meccg-map-search", this.onSearch.bind(this), false);
 
         document.body.classList.add("mapwindow");
 
-        if (this._preferredSites !== null)
+        if (showPreferredSites && this._preferredSites !== null)
             setTimeout(this.injectPreferredSites.bind(this), 500);
     }
 

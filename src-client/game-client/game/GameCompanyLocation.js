@@ -349,7 +349,26 @@ class GameCompanyLocation
                 else
                     this.CardPreview.init(list[i]);
             }
+
+            if (elem.classList.contains("site-regions"))
+            {
+                if (!elem.classList.contains("cursor-pointer"))
+                    elem.classList.add("cursor-pointer")
+
+                elem.onclick = GameCompanyLocation.OnRegionClick;
+            }
         });
+    }
+
+    static OnRegionClick(e)
+    {
+        const data = {
+            showOnly : true,
+            id : CreateHandCardsDraggableUtils.requireMessageId(),
+            regionmap : true
+        };
+
+        document.body.dispatchEvent(new CustomEvent("meccg-map-show", { "detail":  data }));
     }
 
     /**
