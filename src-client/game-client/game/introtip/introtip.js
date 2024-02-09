@@ -81,14 +81,13 @@ setTimeout(() => {
                     document.getElementById("close_tip").click();
                 }
             }
-        });W
+        });
         
         div.appendChild(divOverlay);
         div.appendChild(divContent);
         document.body.appendChild(div);
         document.getElementById("close_tip").onclick = () => DomUtils.remove(document.getElementById("intro-tooltip"));
         document.getElementById("tip-opverlay").onclick = () => document.getElementById("close_tip").click();
-
     }
 
     if (getConnectionCount() === 0 && document.body.getAttribute("data-is-watcher") !== "true")
