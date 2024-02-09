@@ -712,6 +712,7 @@ const GameBuilder = {
         MeccgApi.addListener("/game/set-turn", (_bIsMe, jData) => document.getElementById("game_turns").innerHTML = jData.turn);
 
         MeccgApi.addListener("/game/set-phase", GameBuilder.onSetPhase.doSet);
+        MeccgApi.addListener("/game/start", GameBuilder.onSetPhase.doSetGameStart);        
 
         MeccgApi.addListener("/game/company/arrive", function(_bIsMe, jData)
         {
@@ -887,6 +888,11 @@ const GameBuilder = {
                 default:
                     return false;
             }
+        },
+
+        doSetGameStart : function()
+        {
+            TurnStats.ResetStat();
         },
 
         doSet : function(bIsMe, jData)

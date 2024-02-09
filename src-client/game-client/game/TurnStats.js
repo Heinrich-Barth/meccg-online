@@ -343,7 +343,11 @@ class TurnStats {
         sessionStorage.removeItem("meccg_turn_stats");
     }
 
-
+    static ResetStat()
+    {
+        if (sessionStorage.getItem("meccg_turn_stats"))
+            sessionStorage.removeItem("meccg_turn_stats");
+    }
 }
 
 

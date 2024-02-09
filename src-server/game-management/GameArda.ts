@@ -316,6 +316,7 @@ export default class GameArda extends GameStandard
         this.#drawOpeningHand(8);
 
         this.publishToPlayers("/game/arda/hand/show", userid, {});
+        this.publishToPlayers("/game/start", userid, {});
         this.onCheckDraft(userid, socket);
     }
 

@@ -507,10 +507,15 @@ let Arda = {
 
             DomUtils.remove(e.target);
 
-            Arda.showIfExitent("arda-card-draw-" + target);
-            Arda.showIfExitent("arda-view-playdeck-" + target);
-            Arda.showIfExitent("arda-view-discard-" + target);
-            Arda.showIfExitent(next);
+            if (typeof target === "string" && target !== "")
+            {
+                Arda.showIfExitent("arda-card-draw-" + target);
+                Arda.showIfExitent("arda-view-playdeck-" + target);
+                Arda.showIfExitent("arda-view-discard-" + target);
+            }
+
+            if (typeof next === "string" && next !== "")
+                Arda.showIfExitent(next);
 
             MeccgApi.send("/game/arda/recycle", { type: target });
         }).show("Do you want to reshuffle all cards into the playdeck?", "All cards will be reshuffled into the playdeck and a new hand will be drawn.", "Reshuffle everything");
