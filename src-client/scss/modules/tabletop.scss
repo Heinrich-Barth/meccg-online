@@ -144,11 +144,8 @@ a {
     .area-opponent {
         margin-bottom: 20px;
         position: relative;
-        min-height: 20%;
-
-        .ui-draggable-dragging {
-            transform: rotate(180deg);
-        }
+        min-height: 45%;
+        padding-top: 20px;
 
         .hiddenToOpponent,
         .company-characters-add {
@@ -584,14 +581,6 @@ body.table-companies-breakline .companies {
     margin-left: 0px;
 }
 
-.area-opponent .site-onguard .card.card-is-mine {
-    transform: rotate(180deg);
-}
-
-.area-player .site-onguard .card.card-is-mine {
-    transform: rotate(0deg);
-}
-
 .card-highlight-mark img,
 div.card img:hover {
     box-shadow: 0px 0px 10px 2px #F0C648;
@@ -615,12 +604,6 @@ div.card img:hover {
     }
 }
 
-
-
-div#opponent_table .company {
-    transform: rotate(180deg);
-}
-
 .hand-card-actions {
     width: 60px;
     position: fixed;
@@ -628,6 +611,65 @@ div#opponent_table .company {
     height: 80px;
     overflow: hidden;
 }
+body[data-is-watcher='false']
+{
+    .area-opponent .company {
+        flex-direction: column-reverse;
+        rotate: 0deg;
+
+        .company-character {
+            display: inline-flex;
+            flex-direction: column-reverse;
+        }
+
+        .company-characters {
+            align-items: end;
+            display: inline-flex;
+        }
+
+        .company-character-influenced {
+            display: inline-flex;
+        }
+        .sites {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+
+            .site-regions {
+                padding: 0 5px;
+            }
+        }
+
+        .card:not(.card-is-mine) {
+            &.state_ready img,
+            img {
+                transform: rotate(180deg);
+            }
+
+            .context-cursor {
+                cursor: default !important;
+            }
+
+            &.state_tapped_fixed img, 
+            &.state_tapped img {
+                transform: rotate(90deg);
+            }
+
+            &.state_rot270 img {
+                transform: rotate(-90deg);
+            }
+            &.rot180 img, 
+            &.state_wounded img, 
+            &.wounded img { 
+                transform: rotate(0deg);
+            }
+
+            
+        }
+        
+    }
+}
+
 
 #draw_card {
     display: block;

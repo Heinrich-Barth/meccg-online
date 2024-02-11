@@ -63,13 +63,6 @@ body.on-drag-event-generic.on-drag-event-resource div#staging-area-player:before
     left: 54px;
 }
 
-body.on-drag-event-hazard .area-opponent .company-character-host:before,
-body.on-drag-event-hazard .area-opponent .site-regions:before,
-body.on-drag-event-generic .area-opponent .site-target:before
-{
-    transform: rotate(180deg);
-}
-
 body.on-drag-event-generic .area-player .company,
 body.on-drag-event-generic .area-player .company:hover {
     scale: 1;
