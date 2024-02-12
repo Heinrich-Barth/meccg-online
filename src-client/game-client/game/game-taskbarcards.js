@@ -552,7 +552,6 @@ class TaskBarCards
 
         const type = jData.type;
         const  vsList = type === "sideboard" || jData.sorted === true ? this.#sortCardList(jData.list) : jData.list;
-        console.log(jData)
         const pHtml = ViewCardListContainer.createListHtml(vsList, bICanSeeIt);
         const elem = ViewCardListContainer.insertHtml(pHtml, type, sTitle + ViewCardListContainer.requestTitle(type).toUpperCase());
         
