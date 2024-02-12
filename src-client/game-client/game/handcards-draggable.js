@@ -1175,16 +1175,15 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
                     elem.removeAttribute("style");
                 return false;
             }
-            
+
             bar.insertBefore(pMove, pScore);
             pScore.classList.add("hidden")
+
+            const pHandDiv = document.getElementById("playercard_hand");
+            if (pHandDiv !== null)
+                jQuery(pHandDiv).draggable({ snap: true, snapMode: "outer", handle: "#move-hand-icon", cursor: "move" });
         }
 
-        const pHandDiv = document.getElementById("playercard_hand");
-        if (pHandDiv !== null)
-        {
-            jQuery(pHandDiv).draggable({ snap: true, snapMode: "outer", handle: "#move-hand-icon", cursor: "move" });
-        }    
     }
 
     HandCardsDraggable.setupCardPreviewElements();
