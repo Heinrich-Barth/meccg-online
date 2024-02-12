@@ -363,14 +363,7 @@ body.table-companies-breakline .companies {
     }
 }
 
-.on-drag-event-generic #playercard_hand {
-    z-index: 0;
-    opacity: 0.7;
-}
-
-
 @import "tabletop_cardlistcontainer.scss";
-
 
 #playercard_hand_container {
     display: inline-block;
