@@ -7,6 +7,9 @@ body {
         .card-hands {
             z-index: 100;
         }
+        .taskbar {
+            display: none;
+        }
     }
 
     &.on-drag-event-resource .area-player {
@@ -70,6 +73,11 @@ body {
         border-radius: 5px !important;
         z-index: 900;
     }    
+
+    &.on-drag-event-generic .playercard-hand-content
+    {
+        z-index: 901;
+    }
     
     &.on-drag-event-site .area-player .company-character-host .card img,
     &.on-drag-event-resource .area-player .company-character-host .card img,
