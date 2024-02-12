@@ -445,7 +445,7 @@ export default class GameArda extends GameStandard
         if (_list !== null && _list.length > 0)
         {
             this.publishChat(userid, " views " + type + " cards in " + pile);
-            this.replyToPlayer("/game/arda/view", socket, {type: type, pile:pile, list: this.getCardList(_list) });
+            this.replyToPlayer("/game/arda/view", socket, {type: type, pile:pile, sorted:true, list: this.getCardList(_list) });
         }
     }
   
