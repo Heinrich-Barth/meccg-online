@@ -8,7 +8,11 @@ const populateField = function(jDeck, sId, bClear)
     if (jDeck === undefined)
         return;
 
-    let sVal = document.getElementById(sId).value;
+    const elem = document.getElementById(sId);
+    if (elem === null)
+        return;
+
+    let sVal = elem.value;
     for(let k in jDeck) 
     {
         if (typeof jDeck[k] === "number")
