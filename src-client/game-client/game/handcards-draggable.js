@@ -1179,11 +1179,10 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             bar.insertBefore(pMove, pScore);
             pScore.classList.add("hidden")
 
-            const pHandDiv = document.getElementById("playercard_hand");
+            const pHandDiv = document.getElementById("playercard_hand").querySelector(".icons");
             if (pHandDiv !== null)
                 jQuery(pHandDiv).draggable({ snap: true, snapMode: "outer", handle: "#move-hand-icon", cursor: "move" });
         }
-
     }
 
     HandCardsDraggable.setupCardPreviewElements();
