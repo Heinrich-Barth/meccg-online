@@ -6,6 +6,12 @@ This project allows you to play MECCG or other Collectible Card Games.
 
 *MECCG* assets are not included in this repository. Please respect the copyright and trademak. 
 
+> [!TIP]
+> This repository is not actively developed anymore. Please check out the new typscript version (another of my repositories)
+> I, the project's maintainer very strongly believe that no financial harm is done to any trademark, since this game has been out of print for over two decades and actively published Lord of the Rings card games are successfully being produced and sold. 
+> What is more, many (if not even the vast majority) of the MECCG players also play such contemporary card games.
+> However, this website will be taken down willingly if requested by the rights holders. Yet, please consider that this is a 100% non-commercial and non-profit project made by fans so that MECCG community can continue to enjoy this very special game.
+
 ## Online Community
 
 Make sure to check out the meccg discord server. Other useful links are 
