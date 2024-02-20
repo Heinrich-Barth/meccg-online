@@ -5,7 +5,7 @@
     width: 150px;
     height: 25px;
     font-size: 0.65em;
-    color: #ebe9df;
+    color: var(--color-light-grey);
     display: block;
     padding: 0.65em 0.75em;
     outline: none;
@@ -33,7 +33,7 @@
     }
 
     b {
-        color: #F0C648;
+        color: var(--color-orange);
     }
 }
 
@@ -67,7 +67,7 @@
 
     h2 {
         text-align: center;
-        color: #F0C648;
+        color: var(--color-orange);
     }
 
     .button {
@@ -145,7 +145,7 @@
 
 
     .border-top a {
-        border-top: 1px solid #F0C648;
+        border-top: 1px solid var(--color-orange);
     }
 
     a:hover {
@@ -216,15 +216,15 @@
 
 @keyframes glowYellow {
     0% {
-        box-shadow: 0 0 10px -10px #F0C648;
+        box-shadow: 0 0 10px -10px var(--color-orange);
     }
 
     50% {
-        box-shadow: 0 0 10px 10px #F0C648;
+        box-shadow: 0 0 10px 10px var(--color-orange);
     }
 
     99% {
-        box-shadow: 0 0 10px -10px #F0C648;
+        box-shadow: 0 0 10px -10px var(--color-orange);
     }
 
     100% {

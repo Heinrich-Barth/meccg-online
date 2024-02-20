@@ -47,7 +47,7 @@
 
     .container-title-bar {
         padding-bottom: 10px;
-        color: #ff0;
+        color: var(--color-yellow);
         font-size: 12px;
         cursor: default;
 
@@ -57,7 +57,7 @@
             visibility: hidden;
 
             &:hover{
-                color: #F0C648;
+                color: var(--color-orange);
             }
         }
     }
@@ -105,7 +105,7 @@
         position: absolute;
         right: 0;
         top: 0;
-        background-color: #ff0;
+        background-color: var(--color-yellow);
         color: #000;
         border-radius: 4px;
         padding: 0.3em;
@@ -259,7 +259,7 @@
         padding: 20px;
         text-align: center;
 
-        p { color: #ebe9df; }
+        p { color: var(--color-light-grey); }
         .card-hand { 
             display: inline-block; padding: 10px;
             img {

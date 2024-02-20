@@ -21,7 +21,7 @@ h2 {
 }
 
 .content {
-    color: $color-white;
+    color: var(--color-white);
     background: linear-gradient(179deg, transparent, rgb(0, 0, 0) 80%);
     border-top: 0;
     padding: 0;
@@ -45,7 +45,7 @@ h2 {
 
     .arda-text {
         display: block;
-        color: $color-orange;
+        color: var(--color-orange);
 
         input {
             width: auto;
@@ -56,7 +56,7 @@ h2 {
             padding: 0 2em 0 0.4em;
             cursor: pointer;
             user-select: none;
-            color: $color-white;
+            color: var(--color-white);
         }
 
         .label-newline {
@@ -83,7 +83,7 @@ h2 {
 
     details[open] {
         summary {
-            color: $color-orange;
+            color: var(--color-orange);
         }
     }
 }
@@ -100,7 +100,7 @@ h2 {
 
     a {
         color: #FFF;
-        background-color: $color-orange;
+        background-color: var(--color-orange);
         border-radius: 50%;
         display: inline-block;
         text-align: center;
@@ -139,7 +139,7 @@ h2 {
     transition: all 0.2s ease-in-out;
 
     &:hover {
-        color: $color-yellow;
+        color: var(--color-yellow);
         background: rgba(0, 0, 0, 1);
         scale: 1.1;
         z-index: 50
@@ -166,7 +166,7 @@ h2 {
         cursor: pointer;
 
         &:hover {
-            color: $color-yellow;
+            color: var(--color-yellow);
         }
     }
 
@@ -217,7 +217,7 @@ h2 {
 .converter h2,
 h3 {
     font-size: 1em;
-    color: $color-orange;
+    color: var(--color-orange);
     margin-bottom: 0;
 }
 
@@ -227,7 +227,7 @@ h3 {
         margin: 2em auto;
         background: transparent;
         color: #fff;
-        border-bottom: 1px solid $color-orange;
+        border-bottom: 1px solid var(--color-orange);
     }
 
     .content {
@@ -436,7 +436,7 @@ a.link-replace-invalid-code {
     padding: 0 5px;
 
     &:hover {
-        color: #ff0;
+        color: var(--color-yellow);
     }
 }
 

@@ -3,7 +3,7 @@
 
 body
 { 
-    background-color: $color-black;
+    background-color: var(--color-black);
     background-image: url("/media/assets/backgrounds/splash.webp");
 }
 
@@ -33,6 +33,6 @@ body
         top: 50%;
         transform: translateY(-50%) translateX(25%);
         min-width: 50%;
-        color: $color-white;
+        color: var(--color-white);
     }
 }

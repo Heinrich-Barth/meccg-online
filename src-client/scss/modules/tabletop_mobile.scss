@@ -224,14 +224,14 @@ body {
         color: #fff;
 
         &:hover {
-            color: #F0C648;
+            color: var(--color-orange);
         }
     }
 
     &.taskbar-pin-pin
     {
         .taskbar-pin {
-            color: #F0C648;
+            color: var(--color-orange);
         }
     
         #playercard_hand {
@@ -264,7 +264,7 @@ body.force-mobile-helper
     border: 2px dotted #000 !important;
     border-radius: 5px !important;
     font-size: 3em;
-    color: #F0C648;
+    color: var(--color-orange);
     text-align: center;
     padding: 5px;
     width: 50px;

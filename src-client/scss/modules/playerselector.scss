@@ -13,7 +13,7 @@
     top: 0px;
     left: 0px;
     min-width: 100px;
-    color: #ebe9df;
+    color: var(--color-light-grey);
     z-index: 400;
 
     .player-view {
@@ -27,10 +27,10 @@
     a {
         display: inline-block;
         min-width: 10px;
-        color: #ebe9df;
+        color: var(--color-light-grey);
 
         &.cur {
-            color: #F0C648;
+            color: var(--color-orange);
 
             &.player-view {
                 display: inline-block;

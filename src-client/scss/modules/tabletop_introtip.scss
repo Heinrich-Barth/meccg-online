@@ -27,7 +27,7 @@
 
     .tip-content h2,
     .tip-content h3 {
-        color: #F0C648;
+        color: var(--color-orange);
         text-transform: uppercase;
         padding-top: 1em;
 
@@ -39,7 +39,7 @@
     }
 
     .text-white {
-        color: #ff0;
+        color: var(--color-yellow);
     }
 
     .tip-content h2,

@@ -17,7 +17,7 @@ button {
     outline: 0;
     padding: 0 2em 0 2em;
     text-decoration: none;
-    background-color: $color-white;
+    background-color: var(--color-white);
     width: 100%;
     color: #39454b;
 }
@@ -26,7 +26,7 @@ button {
 button {
     cursor: pointer;
     text-align: center;
-    color: $color-white;
+    color: var(--color-white);
     background-color: #98c593;
     overflow: hidden;
 

@@ -3,7 +3,7 @@
 {
     padding: 2em;
     margin-top: 0.5em;
-    color: #ebe9df;
+    color: var(--color-light-grey);
 
     .game_list-grid {
         display: grid;
@@ -27,7 +27,7 @@
         text-align: left;
         h3 { 
             margin-top: 0; 
-            span { color: #ebe9df; font-size: 0.7em;}
+            span { color: var(--color-light-grey); font-size: 0.7em;}
         }
 
         .audio { font-size: 0.7em; }
@@ -46,11 +46,11 @@
     a { 
         display: block; 
         text-transform: uppercase;
-        color: $color-yellow;
+        color: var(--color-yellow);
 
         &:hover
         {
-            color: $color-orange;
+            color: var(--color-orange);
         }
     }
 

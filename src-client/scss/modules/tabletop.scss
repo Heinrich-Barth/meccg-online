@@ -12,11 +12,11 @@ body {
 }
 
 a {
-    color: #F0C648;
+    color: var(--color-orange);
     text-decoration: none;
 
     &:hover {
-        color: #ff0;
+        color: var(--color-yellow);
     }
 }
 
@@ -111,7 +111,7 @@ a {
     &:hover {
         opacity: 1;
         color: #fff;
-        background-color: #F0C648;
+        background-color: var(--color-orange);
     }
 }
 
@@ -241,10 +241,10 @@ body.table-companies-breakline .companies {
 
     a {
         text-align: center;
-        color: white;
+        color: var(--color-light-grey);
 
         &:hover {
-            color: #F0C648;
+            color: var(--color-orange);
         }
     }
 }
@@ -253,7 +253,6 @@ body.table-companies-breakline .companies {
 .hand span,
 .card-bar a span {
     padding: 1px;
-    background: green;
     border-radius: 5px;
     margin-top: 8px;
     display: inline-block;
@@ -314,7 +313,7 @@ body.table-companies-breakline .companies {
     .hand-card-sizer {
         padding: 5px 10px;
         text-align: center;
-        color: #ebe9df;
+        color: var(--color-light-grey);
         font-size: 10px;
     }
 
@@ -325,7 +324,7 @@ body.table-companies-breakline .companies {
             position: absolute;
             left: 9px;
             top: 13px;
-            color: #F0C648;
+            color: var(--color-orange);
             text-transform: uppercase;
             font-size: 12px;
         }
@@ -333,7 +332,7 @@ body.table-companies-breakline .companies {
         &:hover {
 
             .draw {
-                color: #ff0;
+                color: var(--color-yellow);
             }
 
             img {
@@ -472,19 +471,19 @@ body.table-companies-breakline .companies {
             right: 10%;
 
             &:hover {
-                color: #F0C648;
+                color: var(--color-orange);
             }
         }
 
         .card-highlight-mark {
 
             img {
-                box-shadow: 0px 0px 10px 2px #F0C648;
+                box-shadow: 0px 0px 10px 2px var(--color-orange);
             }
 
             .character-mark-toggle {
                 visibility: visible;
-                color: #F0C648;
+                color: var(--color-orange);
                 transform: rotate(24deg);
             }
         }
@@ -505,7 +504,7 @@ body.table-companies-breakline .companies {
             left: 0px;
             height: 3px;
             width: 0px;
-            background: #F0C648;
+            background: var(--color-orange);
             display: none;
         }
 
@@ -582,7 +581,7 @@ body.table-companies-breakline .companies {
 
 .card-highlight-mark img,
 div.card img:hover {
-    box-shadow: 0px 0px 10px 2px #F0C648;
+    box-shadow: 0px 0px 10px 2px var(--color-orange);
 }
 
 .playercard-hand-content {
@@ -736,7 +735,7 @@ body[data-is-watcher='false']
     margin-left: 10px;
 
     i {
-        color: #F0C648;
+        color: var(--color-orange);
         font-weight: bold;
         padding: 0 5px;
 
@@ -830,7 +829,7 @@ div.card[data-token]:after {
     top: 10%;
     padding: 5px;
     font-size: 0.8em;
-    background: #F0C648;
+    background: var(--color-orange);
     border-radius: 50%;
     line-height: 1em;
     content: "10+";
@@ -881,7 +880,7 @@ div.card[data-token="10"]:after {
 .dialog-notes,
 .change-seating {
     background-color: #000;
-    color:#ebe9df;
+    color:var(--color-light-grey);
     max-width: 90%;
     max-height: 90%;
 
@@ -890,7 +889,7 @@ div.card[data-token="10"]:after {
     }
 
     h3 {
-        color: $color-orange;
+        color: var(--color-orange);
         font-size: 2em;
         text-align: center;
     }
@@ -1006,7 +1005,7 @@ div.card[data-token="10"]:after {
         height: 13px;
         border-radius: 50%;
         border: 1px solid #000;
-        background: #F0C648;
+        background: var(--color-orange);
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
         &:nth-child(1) 
@@ -1083,3 +1082,4 @@ div.card[data-token="10"]:after {
     translate: var(--jumble-translate-x) var(--jumble-translate-y);
     rotate: var(--jumble-rotate);
 }
+

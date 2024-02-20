@@ -14,7 +14,7 @@
         a,
         a:active,
         a:visited {
-            color: $color-white;
+            color: var(--color-white);
             text-transform: uppercase;
             text-decoration: none;
             padding: 1em;
@@ -23,7 +23,7 @@
 
         a.navigation-active,
         a:hover {
-            color: #F0C648;
+            color: var(--color-orange);
         }
     }
 

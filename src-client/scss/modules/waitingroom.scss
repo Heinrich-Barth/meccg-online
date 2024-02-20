@@ -1,8 +1,8 @@
 @import "../base.scss";
 
 body {
-  background-color: $color-black;
-  color: $color-white;
+  background-color: var(--color-black);
+  color: var(--color-white);
   background-image: url("/media/assets/backgrounds/hill.webp");
 
   &.lantern {

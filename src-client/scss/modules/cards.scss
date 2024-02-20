@@ -4,12 +4,12 @@
 
 body {
     background-image: url("/media/assets/backgrounds/deckbuilding.webp");
-    color: $color-white;
+    color: var(--color-white);
 
     h4 {
         display: inline;
-        color: $color-yellow;
-        border-bottom: 1px solid $color-yellow;
+        color: var(--color-yellow);
+        border-bottom: 1px solid var(--color-yellow);
         text-transform: uppercase;
         font-size: 0.8em;
     }
@@ -157,9 +157,9 @@ body {
             vertical-align: top;
             border-radius: 5px;
 
-            background-color: $color-white;
-            border: 1px solid $color-white;
-            color: $color-black;
+            background-color: var(--color-white);
+            border: 1px solid var(--color-white);
+            color: var(--color-black);
 
             font-size: 0.6em;
 
@@ -167,9 +167,9 @@ body {
 
         li.current a,
         a:hover {
-            color: $color-white;
+            color: var(--color-white);
             background-color: rgba(255, 165, 0, 0.35);
-            border: 1px solid $color-orange;
+            border: 1px solid var(--color-orange);
         }
     }
 
@@ -185,13 +185,13 @@ body {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    color: $color-orange;
+    color: var(--color-orange);
     padding: 10px;
     font-size: 2em;
     z-index: 10;
 
     &:hover {
-        color: $color-white;
+        color: var(--color-white);
         cursor: pointer;
     }
 }
@@ -224,7 +224,7 @@ body {
     font-size: 0.8em;
     line-height: 1em;
     z-index: 100;
-    color: $color-white;
+    color: var(--color-white);
 
     span {
         width: 20px;
@@ -265,7 +265,7 @@ body {
         }
 
         a:hover {
-            color: $color-white;
+            color: var(--color-white);
         }
 
         h2 {
@@ -280,13 +280,13 @@ body {
 
         label {
             padding-top: 10px;
-            border-bottom: 1px dotted $color-orange;
+            border-bottom: 1px dotted var(--color-orange);
             display: block;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 0.9em;
             margin: 1em 0;
-            color: $color-orange;
+            color: var(--color-orange);
 
             &:hover {
                 color: #fff;
@@ -397,7 +397,7 @@ body {
                 color: #fff;
                 position: absolute;
                 border-radius: 10px;
-                background: #F0C648;
+                background: var(--color-orange);
                 padding: 5px;
                 font-weight: bold;
                 font-size: 15px;
@@ -419,10 +419,10 @@ body {
                     font-size: 2em;
                     text-align: center;
                     padding: 13px 5px;
-                    color: $color-white;
+                    color: var(--color-white);
 
                     &:hover {
-                        color: $color-orange;
+                        color: var(--color-orange);
                     }
                 }
             }

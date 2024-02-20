@@ -4,7 +4,7 @@
     height: 20px;
     padding: 5px;
     position: absolute;
-    color: white;
+    color: var(--color-light-grey);
     overflow: hidden;
 }
 
@@ -53,7 +53,7 @@
     top: 20%;
     text-align: center;
 }
-#dices-panel-content p { color: #fff; }
+#dices-panel-content p { color: var(--color-white); }
 
 #dices-panel-content img
 {
@@ -86,12 +86,12 @@
 
 .config-panel .preference-section-pad {
     margin-top: 20px;
-    color:#F0C648;
+    color:var(--color-orange);
     text-transform: uppercase;
 }
 
 .config-wrapper .icons { width: 20px; padding: 0; text-align:center;}
-.config-wrapper .icons:hover {color:#F0C648;}
+.config-wrapper .icons:hover {color:var(--color-orange);}
 
 .config-wrapper:hover .icon {
     background: url(/media/assets/images/icons/icon-prefs-hover.png) 0 0 no-repeat;
@@ -105,7 +105,7 @@
     margin-top: 10px;
 }
 .config-wrapper label { margin: 0; cursor: pointer;}
-.config-wrapper .preference:hover { color:#F0C648; }
+.config-wrapper .preference:hover { color:var(--color-orange); }
 
 .config-panel .switch {
 position: relative;
@@ -149,7 +149,7 @@ display: none;
     border-radius: 5px;
 }
 
-.restore-panel h2 { color: #F0C648; text-align: center;}
+.restore-panel h2 { color: var(--color-orange); text-align: center;}
 
 .restore-panel td.center { text-align: center; }
 .restore-panel td.entry { width: 200px;  }

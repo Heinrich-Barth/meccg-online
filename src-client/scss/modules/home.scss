@@ -4,7 +4,7 @@
 body
 {
     background-image: url("/media/assets/backgrounds/hill.webp"); 
-    color: $color-white;
+    color: var(--color-white);
     text-align: center;
     padding: 2em;
 
@@ -19,7 +19,7 @@ body, p
 
 .content {
 
-    color: $color-white;
+    color: var(--color-white);
     padding: 2em;
     z-index: 2;
     position: relative;
@@ -48,7 +48,7 @@ body, p
 
         .room-image { cursor: pointer; }
         .room-image-edit {
-            color: $color-orange;
+            color: var(--color-orange);
             padding: 10px;
             border-radius: 50%;
             position: absolute;
@@ -186,7 +186,7 @@ footer {
     color: red;
     display: inline-block;
 
-    &.time-restart-information-yellow { color: $color-orange; }
+    &.time-restart-information-yellow { color: var(--color-orange); }
     
     i {
         margin-right: 1em;

@@ -24,7 +24,7 @@
 
     .view-score-container h2 {
         text-align: center;
-        color: #F0C648;
+        color: var(--color-orange);
     }
 
     select.req {
@@ -36,7 +36,7 @@
         width: 200px;
         float: left;
         text-align: left;
-        color: #ebe9df;
+        color: var(--color-light-grey);
         line-height: 1.5em;
     }
     .score_label 
@@ -153,11 +153,11 @@
             .return-to-lobby a{
                 display: block !important;
                 text-transform: uppercase;
-                color: #ff0;
+                color: var(--color-yellow);
                 font-size: 0.8em;
 
                 &:hover {
-                    color: #F0C648;
+                    color: var(--color-orange);
                 }
             }
 
@@ -393,8 +393,8 @@
         &::before { content: '\00BB' }
 
         &:hover {
-            border-color: #F0C648;
-            color: #F0C648;
+            border-color: var(--color-orange);
+            color: var(--color-orange);
             opacity: 1;
         }
     }
@@ -403,7 +403,7 @@
     &.scoring-arda { bottom: 135px; }
     &.scoring-single { display: none; }
 
-    color: #ebe9df;
+    color: var(--color-light-grey);
     text-align: center;
     a { 
         display: none;
@@ -452,11 +452,6 @@
         }
     }
 
-    td:nth-child(even)
-    {
-        background: #4f4f4f;
-    }
-
     td {
         text-align: center;
 
@@ -491,7 +486,7 @@
         cursor: pointer;
         text-align: center; 
 
-        &:hover { color:  #F0C648; }
+        &:hover { color:  var(--color-orange); }
     }
 }
 

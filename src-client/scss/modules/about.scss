@@ -6,7 +6,7 @@ body {
 }
 
 .content {
-    color: $color-white;
+    color: var(--color-white);
     background: linear-gradient(179deg, transparent, rgb(0, 0, 0) 80%);
     border-top: 0;
     padding: 0;
@@ -47,14 +47,14 @@ h2 {
 
     th {
         text-align: left;
-        color: $color-yellow;
+        color: var(--color-yellow);
         text-transform: uppercase;
     }
 
     td { padding-left: 10px; }
 
     table {
-        border-bottom: 1px solid $color-orange;
+        border-bottom: 1px solid var(--color-orange);
         &:last-of-type {
             border-bottom: 0;
         }

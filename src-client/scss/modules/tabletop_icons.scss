@@ -36,7 +36,7 @@
         cursor: grabbing;
 
         &:hover {
-            color: #F0C648;
+            color: var(--color-orange);
         }
     }
     .taskbar-score

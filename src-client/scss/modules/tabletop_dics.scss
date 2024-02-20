@@ -11,7 +11,7 @@
 { 
     position:  relative;
     text-align: center; 
-    color: white; 
+    color: var(--color-light-grey); 
     padding: 5px; 
     font-size: 0.9em; 
     margin-bottom: 10px; 
@@ -20,8 +20,8 @@
     animation-fill-mode: forwards;
 
     span {
-        &.who  { color: #F0C648; }
-        &.big { font-size: 2em; color: #F0C648; padding: 0 10px; } 
+        &.who  { color: var(--color-orange); }
+        &.big { font-size: 2em; color: var(--color-orange); padding: 0 10px; } 
         &.dice-info { font-style: italic; }
     }
     
@@ -34,7 +34,7 @@
     {   
         animation: dice-line 5s linear forwards;
         height: 2px;
-        background: white;
+        background: var(--color-light-grey);
         width: 1%;
         position: absolute;
         left: 0;
