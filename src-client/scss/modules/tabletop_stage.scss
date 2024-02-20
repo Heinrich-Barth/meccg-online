@@ -56,6 +56,8 @@
 
         margin-right: 10px;
 
+        &:empty { display: none; }
+
         div.card {
             float: left;
             margin-top: -75px;
