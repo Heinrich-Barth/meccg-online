@@ -787,12 +787,14 @@ const GameBuilder = {
             document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "endgame" }));
             
             MeccgApi.clearLocalStorage();
+            JumbleCards.update(2);
         });
 
         MeccgApi.addListener("/game/score/final-only", function(_bIsMe, jData)
         {
             GameBuilder.Scoring.showFinalScore(jData.stats, true);
             document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "endgame" }));
+            JumbleCards.update(2);
         });
         
         MeccgApi.addListener("/game/rejoin/immediately", (_bIsMe, jData) => GameBuilder.restoreBoard(jData));
