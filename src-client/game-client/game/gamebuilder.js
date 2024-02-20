@@ -137,7 +137,7 @@ const GameBuilder = {
         if (container === null)
             return pElement;
 
-        container.appendChild(pElement);    
+        container.prepend(pElement);    
         const currentHandSize = container.getElementsByClassName("card-hand").length;
         const allowed = this.getCurrentHandSizeCount();
 
