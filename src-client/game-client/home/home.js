@@ -230,15 +230,15 @@ const onAddFooterTime = function(data)
     const footer = requireFooter();
     footer.innerText = "";
 
-    const gameCount = data.games;
     const text = document.createDocumentFragment();
     text.appendChild(document.createTextNode(data.startup));
-    
+    /*
+    const gameCount = data.games;
     if (gameCount === 1)
         text.appendChild(document.createTextNode(", 1 game so far."));
     else if (gameCount > 1)
         text.appendChild(document.createTextNode(", " + gameCount + " games so far."));
-
+    */
     footer.appendChild(text);
     return data;
 }
