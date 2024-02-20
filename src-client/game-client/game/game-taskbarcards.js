@@ -566,14 +566,6 @@ class TaskBarCards
         return elem;
     }
 
-    #getSortedCardList(type, list)
-    {
-        if (type === "sideboard" || type === "playdeck")
-            return this.#sortCardList(list);
-        else
-            return list;
-    }
-
     static OnClickCardIconOffered(e) 
     {
         TaskBarCards.#OnClickCardIcon(true, e.target);
