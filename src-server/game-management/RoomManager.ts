@@ -237,6 +237,7 @@ export default class RoomManager {
         let jRoom:any;
         let isValidRoom;
         let pGame;
+        const lNow = Date.now();
         for (room in this.#rooms) 
         {
             pRoom = this.#rooms[room];
@@ -252,6 +253,7 @@ export default class RoomManager {
                 visitors: pRoom.canJoinVisitor(),
                 jitsi: pRoom.useJitsi(),
                 accessible: pRoom.canJoinPlayer(),
+                duration: lNow - pRoom.getCreated(),
                 players : [],
                 avatars: pRoom.getPlayerAvatarsList()
             }

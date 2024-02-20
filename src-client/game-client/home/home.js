@@ -56,7 +56,7 @@ const toNumberString = function(nValue)
 
 const getGameTypeDuration = function(lTime)
 {
-    const pDate = new Date(Date.now() - lTime);
+    const pDate = new Date(lTime);
 
     let lMins = ((pDate.getHours()-1) * 60 +  pDate.getMinutes());
     if (lMins > 0)
@@ -98,7 +98,7 @@ const addGameType = function(value, isArda, context, labelGameType)
     const _players = value.players;
     const _context = context;
 
-    const since = getGameTypeDuration(value.time);
+    const since = value.duration ? getGameTypeDuration(duration) : getGameTypeDuration(Date.now() - value.time);
     
     const _tr = document.createElement("div");
     _tr.setAttribute("class", "room-image-wrapper blue-box");
