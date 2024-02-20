@@ -250,7 +250,7 @@ const GameBuilder = {
         if (lMins < 10)
             sVal += "0";
         
-        document.getElementById("game_time").innerHTML = sVal + lMins;
+        document.getElementById("game_time").innerText = sVal + lMins;
     },
 
     alreadyInHand: function(uuid)
