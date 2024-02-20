@@ -592,13 +592,31 @@ div.card img:hover {
     }
 }
 
+.staging-opponent-dice,
 .card-dice {
-    background: url("/media/assets/images/icons/icon-dices.png") 0 -0 no-repeat;
-    width: 60px;
     height: 30px;
+    padding-bottom: 8px;
+    
+    img {
+        width: 30px;
+    }
+}
 
-    &:hover {
-        background: url("/media/assets/images/icons/icon-dices-hover.png") 0 0 no-repeat;
+.staging-opponent-dice{
+    position: relative;
+    &:hover:before 
+    {
+        content: "Last dice roll";
+        color: var(--color-yellow);
+        background-color: #000;
+        border-radius: 5px;
+        position: absolute;
+        top: -23px;
+        right: 0;
+        text-align: left;
+        rotate: 180deg;
+        padding: 3px;
+        font-size: 0.8em;
     }
 }
 

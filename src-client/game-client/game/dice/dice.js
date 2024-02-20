@@ -153,6 +153,42 @@ class DiceContainer {
         setTimeout(() => DiceContainer.removeResult(nId), DiceContainer._timeout); 
     }
 
+    updateDiceUser(isMe, first, second, dice)
+    {
+        const container = isMe ? document.getElementById("roll_dice_icons") : this.#requireOpponentDices();
+        if (container === null)
+            return;
+
+        const asset = this.getDiceAsset(dice);
+        DomUtils.removeAllChildNodes(container);
+
+        const imgDice1 = document.createElement("img");
+        imgDice1.setAttribute("src", DiceContainer.getImage(asset, first))
+
+        const imgDice2 = document.createElement("img");
+        imgDice2.setAttribute("src", DiceContainer.getImage(asset, second))
+
+        container.append(imgDice1, imgDice2);
+    }
+
+    #requireOpponentDices()
+    {
+        const cont = document.getElementById("staging-opponent-dice");
+        if (cont !== null)
+            return cont;
+
+        const area = document.getElementById("opponent_table");
+        const stage = area.querySelector(".staging-area-opponent")
+        if (stage === null)
+            return document.createElement("div");
+
+        const elem = document.createElement("div");
+        elem.setAttribute("id", "staging-opponent-dice");
+        elem.setAttribute("class", "staging-opponent-dice");
+        stage.prepend(elem);
+        return elem;
+    }
+
     getPosition(uuid)
     {
         const elem = document.getElementById("ingamecard_" + uuid);
@@ -173,6 +209,7 @@ class DiceContainer {
 
         const name = instance.requirePlayerName(detail.isme, detail.user, detail.code);
         instance.show(name, detail.first, detail.second, detail.total, detail.dice, detail.uuid);
+        instance.updateDiceUser(detail.isme, detail.first, detail.second, detail.dice);
     }
 
     static OnPlayers(e)
