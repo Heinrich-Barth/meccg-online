@@ -1026,6 +1026,27 @@ const HandCardsDraggable = {
 
         for (let id of list)
             this.setupCardPreviewElement(id);
+    },
+
+    insertToogleHandCards: function()
+    {
+        const elem = document.getElementById("playercard-hand-content");
+        if (elem === null)
+            return;
+
+        const div = document.createElement("div");
+        div.setAttribute("class", "ingame-icon-openclose ingame-icon-openclose-hand");
+        div.onclick = this.onToogleHandCards;
+        elem.append(div);
+    },
+
+    onToogleHandCards: function()
+    {
+        const elem = document.getElementById("playercard-hand-content");
+        if (elem.classList.contains("playercard-hand-content-small"))
+            elem.classList.remove("playercard-hand-content-small");
+        else
+            elem.classList.add("playercard-hand-content-small");
     }
 };
 
@@ -1195,6 +1216,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             }
         }
     }
+
+    HandCardsDraggable.insertToogleHandCards();
 
     HandCardsDraggable.setupCardPreviewElements();
     return HandCardsDraggable;

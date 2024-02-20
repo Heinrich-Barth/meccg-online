@@ -977,7 +977,7 @@ const SCORING_INGAME =
             const th1 = document.createElement("th");
             
             const div_close = document.createElement("div");
-            div_close.setAttribute("class", "scoring-sheet-ingame-icon-openclose");
+            div_close.setAttribute("class", "ingame-icon-openclose scoring-sheet-ingame-icon-openclose");
             div_close.onclick = SCORING_INGAME.toggleSize.bind(SCORING_INGAME);
             th1.appendChild(div_close);
             

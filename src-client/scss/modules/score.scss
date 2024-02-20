@@ -359,6 +359,32 @@
     }
 }
 
+.ingame-icon-openclose {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 2px 5px 4px 6px;
+
+    &.ingame-icon-openclose-hand {
+        right: -10px;
+        bottom: 40px;
+        opacity: 0.4;
+    }
+
+    &::before { content: '\00AB' }
+
+    &:hover {
+        border-color: var(--color-orange);
+        color: var(--color-orange);
+        opacity: 1;
+    }
+}
+
+.playercard-hand-content-small .ingame-icon-openclose::before { content: '\00BB' }
+
 .scoring-sheet-ingame {
     position: fixed;
     right: 0;
@@ -378,23 +404,14 @@
 
     .scoring-sheet-ingame-icon-openclose
     {
-        position: absolute;
-        border-radius: 50%;
-        cursor: pointer;
-        background: #000;
-        border: 2px solid #fff;
-        padding: 2px 5px 4px 6px;
         left: -15px;
         top: 0;
-        z-index: 2;
         opacity: 0.5;
         z-index: 2;
 
         &::before { content: '\00BB' }
 
         &:hover {
-            border-color: var(--color-orange);
-            color: var(--color-orange);
             opacity: 1;
         }
     }
