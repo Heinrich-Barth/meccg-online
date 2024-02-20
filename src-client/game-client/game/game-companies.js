@@ -356,8 +356,6 @@ class JumbleCards
         if (val === -1)
             val = JumbleCards.#num;
 
-        console.log("static updateCompanyCard(card, val = -1, isSites = false)", val, isSites);
-
         if (val < 1)
         {
             JumbleCards.#removeOptions(card);
