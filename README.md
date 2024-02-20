@@ -381,6 +381,7 @@ The following third-party libraries. Be aware of their respective licenses.
 * jQuery UI Touch Punch (MIT License)
 * leafletjs 1.7.1 (BSD 2-Clause "Simplified" License)
 * Font Awesome Free, see https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+* Open Sans, see https://fonts.google.com/specimen/Open+Sans/about (Open Font License)
 
 ### Icons and Backgrounds
 
