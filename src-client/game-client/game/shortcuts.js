@@ -131,7 +131,7 @@ const ShotcutManager =
         if (elem !== null)
         {
             const icons = elem.querySelector(".icons");
-            if (icons !== null)
+            if (icons !== null && !icons.hasAttribute("id"))
                 icons.setAttribute("id", "progression-phase-box");
         }
     }
