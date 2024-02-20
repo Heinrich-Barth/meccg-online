@@ -28,11 +28,6 @@ class GamePreferences extends Preferences {
         return g_sLobbyToken !== "";
     }
 
-    #toggleDCSites(isActive)
-    {
-        sessionStorage.setItem("map_dc_sites", isActive ? "true" : "false");
-    }
-
     #dices()
     {
         document.body.dispatchEvent(new CustomEvent("meccg-dice-chooser"));
@@ -41,6 +36,26 @@ class GamePreferences extends Preferences {
     #chat(isActive)
     {
         document.body.dispatchEvent(new CustomEvent("meccg-chat-view", { "detail": isActive }));
+    }
+
+    #getJumbleCardsVal()
+    {
+        const candidate = sessionStorage.getItem("cards_jumble");
+        const val = candidate ?? "";
+        if (val !== "")
+            return parseInt(val);
+        else
+            return 0;
+    }
+
+    #jumbleCards(val)
+    {
+        const num = val ? parseInt(val) : 0;
+        if (num >= 0)
+        {
+            sessionStorage.setItem("cards_jumble", num);
+            JumbleCards.update(num);
+        }
     }
 
     #zoomChange(val)
@@ -312,6 +327,7 @@ class GamePreferences extends Preferences {
         this.createEntry0("toggle_zoom");
         if (!bWatcher)
         {
+            this.createEntry0("slider_scramble");
             this.createEntry0("toggle_company_break");
             this.#toggleStackStage(true);
             this.createEntry0("toggle_stack_stage");
@@ -412,6 +428,9 @@ class GamePreferences extends Preferences {
         this.addConfigAction("share_watch", "Copy link to watch this game to clipboard", false, "fa-share-alt", this.#copyShareWatch.bind(this));
         this.addConfigToggle("toggle_touch_help", "Use mobile touch support", false, this.#toggleTouchHelper.bind(this));
         this.addConfigAction("change_avatar", "Change your avatar icon", false, "fa-magic", this.#changeAvatar.bind(this));
+
+        this.addConfigSlider("slider_scramble", "Jumble company cards", 2, this.#getJumbleCardsVal(), "fa-search-plus slider-short", this.#jumbleCards.bind(this));
+
         this.#toggleCardPreview();
         this.#backgroundDarkness(true);
     }

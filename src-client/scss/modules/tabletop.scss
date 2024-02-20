@@ -1066,3 +1066,14 @@ div.card[data-token="10"]:after {
 @import "tabletop_dics.scss";
 @import "tabletop_chat.scss";
 @import "tabletop_watch.scss";
+
+:root {
+    --jumble-translate-x: 0px;
+    --jumble-translate-y: 0px;
+    --jumble-rotate: 0deg;
+}
+
+.card-jumbled {
+    translate: var(--jumble-translate-x) var(--jumble-translate-y);
+    rotate: var(--jumble-rotate);
+}

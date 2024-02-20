@@ -265,7 +265,157 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
 
     pDiv.appendChild(pImage);
     return pDiv;
- }
+}
+
+class JumbleCards 
+{
+    static #num = 0;
+
+    static update(val = 0)
+    {   
+        if (JumbleCards.#num === val)
+            return;
+
+        JumbleCards.#num = val;
+        JumbleCards.#updateCompanies(val);
+    }
+
+    static #updateCompanies(val)
+    {
+        const list = document.getElementsByClassName("company");
+        for (let elem of list)
+            JumbleCards.updateCompany(elem, val);
+    }
+
+    static updateCompany(company, val)
+    {
+        if (val === -1)
+            val = JumbleCards.#num;
+
+        JumbleCards.#updateCompanySites(company, val);
+        JumbleCards.#updateCompanyChars(company, val);
+    }
+
+    static #updateCompanySites(company, val)
+    {
+        const list = company.querySelectorAll(".company-site-list div.card");
+        for (let elem of list)
+            JumbleCards.updateCompanyCard(elem, val, true);
+    }
+
+    static #updateCompanyChars(company, val)
+    {
+        const cards = company.querySelectorAll(".company-characters div.card");
+        for (let card of cards)
+            JumbleCards.updateCompanyCard(card, val, false);
+    }
+
+    static #calcRandom(max)
+    {
+        if (max < 1)
+            return 0;
+
+        return JumbleCards.#calcVal(max * 2) - max;
+    }
+
+    static #calcVal(roof)
+    {
+        return Math.floor(Math.random() * (roof+1))
+    }
+
+    static #calcRotation(conservative = true, isSites = false)
+    {
+        const max = JumbleCards.#getMaxRoration(conservative, isSites);
+        return JumbleCards.#calcRandom(max);
+    }
+
+    static #calcTranslate(conservative = true, isSites = false)
+    {
+        const max = JumbleCards.#getMaxTranslate(conservative, isSites);
+        return JumbleCards.#calcRandom(max);
+    }
+
+    static #getMaxRoration(conservative, isSites)
+    {
+        if (isSites)
+            return conservative ? 1 : 3;
+        else
+            return conservative ? 1 : 4;
+    }
+
+    static #getMaxTranslate(conservative, isSites)
+    {
+        if (isSites)
+            return conservative ? 5 : 10;
+        else
+            return conservative ? 5 : 15;
+    }
+
+    static updateCompanyCard(card, val = -1, isSites = false)
+    {
+        if (val === -1)
+            val = JumbleCards.#num;
+
+        console.log("static updateCompanyCard(card, val = -1, isSites = false)", val, isSites);
+
+        if (val < 1)
+        {
+            JumbleCards.#removeOptions(card);
+            return;
+        }
+        
+        const conservative = val === 1;
+        
+        if (JumbleCards.#updateProperty(conservative))
+            card.style.setProperty("--jumble-translate-x", JumbleCards.#calcTranslate(conservative, isSites) + "px");
+        else
+            card.style.setProperty("--jumble-translate-x", "0px");
+
+        if (JumbleCards.#updateProperty(conservative))
+            card.style.setProperty("--jumble-translate-y", JumbleCards.#calcTranslate(conservative, isSites) + "px");
+        else
+            card.style.setProperty("--jumble-translate-y", "0px");
+
+        if (JumbleCards.#updateRotation(conservative))
+            card.style.setProperty("--jumble-rotate", JumbleCards.#calcRotation(conservative, isSites) + "deg");
+        else
+            card.style.setProperty("--jumble-rotate", "0deg");
+        
+        card.classList.add("card-jumbled");
+    }
+
+    static #updateProperty(conservative)
+    {
+        const val = JumbleCards.#calcVal(10);
+        return conservative ? val >= 5 : val > 3;
+    }
+
+
+    static #updateRotation(conservative)
+    {
+        const val = JumbleCards.#calcVal(20);
+        return conservative ? val > 15 : val > 10;
+    }
+
+    static #removeOptions(card)
+    {
+        if (card.classList.contains("card-jumbled"))
+            card.classList.remove("card-jumbled");
+    }
+
+    static init()
+    {
+        const val = sessionStorage.getItem("cards_jumble");
+        if (typeof val !== "string" || val === "")
+            return;
+
+        const num = parseInt(val);
+        if (!isNaN(num))
+            JumbleCards.#num = num;
+    }
+}
+
+JumbleCards.init()
 
 const GameCompanies = {
 
@@ -532,6 +682,8 @@ const GameCompanies = {
         elemContainer.classList.remove("hiddenVisibility");
 
         this.highlightNewCardsAtTable(elemContainer, pCheckForCardsPlayed);
+
+        JumbleCards.updateCompany(elemContainer)
         return true;
     },
 
