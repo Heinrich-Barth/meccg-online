@@ -370,12 +370,34 @@
     {
         .scoring-sheet-ingame-collapse { display: none;}
 
-        th.scoring-sheet-ingame-icon-openclose::before { content: '\00AB' }
+        .scoring-sheet-ingame-icon-openclose::before { content: '\00AB' }
+        .link-change { display: none !important; }
     }
 
     .score-word { display: none; }
 
-    th.scoring-sheet-ingame-icon-openclose::before { content: '\00BB' }
+    .scoring-sheet-ingame-icon-openclose
+    {
+        position: absolute;
+        border-radius: 50%;
+        cursor: pointer;
+        background: #000;
+        border: 2px solid #fff;
+        padding: 2px 5px 4px 6px;
+        left: -15px;
+        top: 0;
+        z-index: 2;
+        opacity: 0.5;
+
+        &::before { content: '\00BB' }
+
+        &:hover {
+            border-color: #F0C648;
+            color: #F0C648;
+            opacity: 1;
+        }
+    }
+    
 
     &.scoring-arda { bottom: 135px; }
     &.scoring-single { display: none; }
@@ -391,7 +413,6 @@
 
     &:hover {
         background: #000;
-        font-size: 1.5em;
 
         .link-change { 
             display: inline-block; 

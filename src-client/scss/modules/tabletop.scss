@@ -27,13 +27,19 @@ a {
     display: inline-block;
     margin-bottom: 5px;
 
+    .taskbar-icons {
+        position: absolute;
+        width: 280px;
+        top: -35px;
+    }
+
     .task_overlay {
         display: none;
     }
 
     &.turn-opponent .task_overlay {
         position: absolute;
-        left: 45px;
+        left: 35px;
         top: 0;
         bottom: 0;
         right: 0px;
