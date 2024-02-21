@@ -601,46 +601,60 @@ const SCORING_INGAME =
 
     calculateTotals : function(score)
     {
-        let total = 0;
+        let sum = 0;
+        let catcount = 0;
+        let highestValue = 0;
+
+        const total = {
+            category: "",
+            count: 0
+        };
 
         for (let id in score)
         {
             const val = SCORING.ignoreCategory(id) ? 0 : score[id];
-            if (val > 0)
-                total += parseInt(val);
+            if (val < 1)
+                continue;
+
+            const num = parseInt(val);
+
+            catcount++;
+            sum += num;
+
+            if (highestValue < num)
+            {
+                highestValue = num;
+                total.category = id;
+                total.count = num;
+            }
         }
 
+        const others = sum - highestValue;
+        if (catcount < 2 || highestValue <= others)
+        {
+            total.category = "";
+            return total;
+        }
+
+        /**
+         * at this point, we know that there is one category that has more points than the total of the rest combined. 
+         * therefore, that particular category has to be reduced accordingly.
+         */
+        total.count = others;
         return total;
     },
 
     calculateHalves : function(score)
     {
-        let result = {};
+        const result = {};
         const total = this.calculateTotals(score);
-        const nAllowed = Math.floor(total / 2);
-
-        if (nAllowed < 1)
+        for (let id in score)
         {
-            for (let id in score)
-            {
-                result[id] = {
-                    value: score[id],
-                    usable: score[id],
-                    double: false
-                } 
-            }
-        }
-        else
-        {
-            for (let id in score)
-            {
-                const allowComplete = score[id] < nAllowed || SCORING.ignoreCategory(id);
-                result[id] = {
-                    value: score[id],
-                    usable: allowComplete ? score[id] : nAllowed,
-                    double: false
-                } 
-            }
+            result[id] = {
+                value: score[id],
+                usable: total.category === id ? total.count : score[id],
+                double: false
+            } 
         }
 
         return result;
