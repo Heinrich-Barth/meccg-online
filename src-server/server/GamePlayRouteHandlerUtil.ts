@@ -2,7 +2,9 @@ import { Express, NextFunction, Request, Response } from "express";
 import Logger from "../Logger";
 import * as ClearCookies from "./ClearCookies";
 import * as UTILS from "../meccg-utils";
+import * as fs from "fs";
 import { Caching, ServerInstance } from "../Server";
+import readAndCreateUniqueVersion from "./ReadFileUniqueVersion";
 
 
 export default class GamePlayRouteHandlerUtil
@@ -12,6 +14,11 @@ export default class GamePlayRouteHandlerUtil
     clearCookies(req:Request, res:Response, next:NextFunction|null = null)
     {
         ClearCookies.clearCookies(req, res);
+    }
+
+    static readFile(file:string)
+    {
+        return readAndCreateUniqueVersion(file);
     }
 
     clearSocialMediaCookies(res:Response)

@@ -1,5 +1,4 @@
 import Logger from "../Logger";
-import * as fs from "fs";
 import * as UTILS from "../meccg-utils";
 import * as EventManager from "../EventManager";
 import * as Authentication from "../authentication";
@@ -21,6 +20,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
     #pageLogin:string;
     #pageLobby:string;
     #pageWatch:string;
+
     constructor(sContext:string, sPageLogin:string, sLobbyPage:string)
     {
         super();
@@ -28,27 +28,10 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         this.#contextPlay = sContext + "/";
         this.#contextRoot = sContext;
 
-        this.#pageHome = GamePlayRouteHandler.readFile(join(getRootFolder(), "/pages/home.html"));
-        this.#pageLogin = GamePlayRouteHandler.readFile(join(getRootFolder(), "/pages/" + sPageLogin));
-        this.#pageLobby = GamePlayRouteHandler.readFile(join(getRootFolder(), "/pages/" + sLobbyPage));
-        this.#pageWatch = GamePlayRouteHandler.readFile(join(getRootFolder(), "/pages/login-watch.html"));
-    }
-
-    static readFile(file:string)
-    {
-        try
-        {
-            const data = fs.readFileSync(file, 'utf8');
-            if (typeof data === "string")
-                return data;
-        }
-        catch (err)
-        {
-            Logger.error(err);
-        }
-
-        Logger.warn("Could not read file " + file);
-        return "";
+        this.#pageHome = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/home.html"));
+        this.#pageLogin = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/" + sPageLogin));
+        this.#pageLobby = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/" + sLobbyPage));
+        this.#pageWatch = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/login-watch.html"));
     }
 
     static maxRooms = 5;

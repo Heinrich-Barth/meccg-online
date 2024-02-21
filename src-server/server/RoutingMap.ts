@@ -5,6 +5,7 @@ import * as Authentication from "../authentication";
 import express, { Request, Response } from "express";
 import { Caching, ServerInstance } from "../Server";
 import { getRootFolder } from "../Configuration";
+import GamePlayRouteHandlerUtil from "./GamePlayRouteHandlerUtil";
 
 const onGetTappedSites = function(req:Request, res:Response)
 {
@@ -26,8 +27,6 @@ const getTappedSites = function(cookies:any)
     return { };
 };
 
-
-
 class MapCookiePreferences extends CookiePreferences
 {
     sanatizeValue(val:any)
@@ -35,6 +34,9 @@ class MapCookiePreferences extends CookiePreferences
         return val === true;
     }
 }
+
+const g_sPageMapRegions = GamePlayRouteHandlerUtil.readFile(getRootFolder() + "/pages/map-regions.html");
+const g_sPageMapUnderdeeps = GamePlayRouteHandlerUtil.readFile(getRootFolder() + "/pages/map-underdeeps.html");
 
 const pCookiePreferences = new MapCookiePreferences();
 pCookiePreferences.addPreference("hero", true);
@@ -48,6 +50,21 @@ pCookiePreferences.addPreference("fallenlord", true);
 pCookiePreferences.addPreference("dragon", false);
 pCookiePreferences.addPreference("dreamcards", true);
 
+const sendHtmlPage = function(res:Response, html:string)
+{
+    Caching.expires.withResultType(res, "text/html");
+    res.status(200).send(html);
+}
+
+const sendHtmlRegions = function(_req:Request, res:Response)
+{
+    sendHtmlPage(res, g_sPageMapRegions);
+}
+
+const sendHtmlUnderdeeps = function(_req:Request, res:Response)
+{
+    sendHtmlPage(res, g_sPageMapUnderdeeps);
+}
 
 export default function InitRoutingMap()
 {
@@ -60,8 +77,8 @@ export default function InitRoutingMap()
     /**
      * Show Map Pages
      */
-    ServerInstance.getServerInstance().use("/map/underdeeps", express.static(getRootFolder() + "/pages/map-underdeeps.html"));
-    ServerInstance.getServerInstance().use("/map/regions", express.static(getRootFolder() + "/pages/map-regions.html"));
+    ServerInstance.getServerInstance().get("/map/underdeeps", sendHtmlUnderdeeps);
+    ServerInstance.getServerInstance().get("/map/regions", sendHtmlRegions);
     ServerInstance.getServerInstance().use("/map/regions/edit", express.static(getRootFolder() + "/pages/map-regions-marking.html"));
     
     /**

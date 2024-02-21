@@ -7,6 +7,7 @@ import { createServer } from "http";
 const cookieParser = require('cookie-parser');
 import AuthenticationManagement from "./game-management/authentication";
 import RoomManager from "./game-management/RoomManager";
+import readAndCreateUniqueVersion from "./server/ReadFileUniqueVersion";
 
 const cspAllowRemoteImages = function (sPath: string = ""): boolean {
     return sPath.startsWith("/play") ||
@@ -199,7 +200,7 @@ export class ServerInstance {
         });
 
         ServerInstance.#http = createServer(ServerInstance.#instance);
-        ServerInstance.#roomManager = new RoomManager(ServerInstance.getSocketIo, fs.readFileSync(ROOT_DIRECTORY + "/pages/game.html", 'utf8'));
+        ServerInstance.#roomManager = new RoomManager(ServerInstance.getSocketIo, readAndCreateUniqueVersion(ROOT_DIRECTORY + "/pages/game.html"));
         AuthenticationManagement.setUserManager(ServerInstance.#roomManager);
     }
 
