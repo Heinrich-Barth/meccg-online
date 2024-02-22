@@ -18,7 +18,7 @@ export default class PlayerDices {
     #dices:DiceChoice = { };
     #stats:DiceStatsPerUser = { };
 
-    static #diceList = ["black", "black-grey", "gold", "gold-light", "grey", "minion", "red", "redblack", "redwhite", "rune-alatar", "rune-gandalf", "rune-palando", "rune-radagast", "rune-saruman", "zblack-marc"];
+    static #diceList = ["black", "black-grey", "gold", "gold-light", "green", "grey", "marble", "minion", "red", "redblack", "redwhite", "rune-alatar", "rune-gandalf", "rune-palando", "rune-radagast", "rune-saruman", "zblack-marc"];
 
     /**
      * Random number [1-nMax]
