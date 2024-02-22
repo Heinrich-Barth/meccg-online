@@ -152,7 +152,7 @@ const onKeyUp = function(ev)
         case "Enter":
             const elem = document.getElementById("movement_accept");
             if (elem !== null)
-                document.getElementById("movement_accept").dispatchEvent(new Event('click'));
+                elem.dispatchEvent(new Event('click'));
             else
                 MapInstanceRendererUd.cancel();
             break;
