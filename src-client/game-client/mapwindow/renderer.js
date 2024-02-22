@@ -68,6 +68,37 @@ const MapInstanceRenderer = {
         pMap.createInstance();
     },
 
+    updateSelectOnClick : function()
+    {
+        const elem = document.getElementById("accept_on_selection_select");
+        if (elem === null)
+            return;
+
+        elem.checked = sessionStorage.getItem("map_autoclose") === "true";
+        elem.parentElement.setAttribute("title", "Accept movement automatically whenever you choose a target site");
+        elem.onchange = (e) => 
+        {
+            if (e.target.checked === false)
+            {
+                if (sessionStorage.getItem("map_autoclose"))
+                    sessionStorage.removeItem("map_autoclose");
+            }
+            else
+                sessionStorage.setItem("map_autoclose", "true");
+        }
+    },
+
+    autoCloseOnSelection:function()
+    {
+        const elem = document.getElementById("accept_on_selection_select");
+        return elem !== null && elem.checked === true;
+    },
+
+    removeAutoCloseCheckbox:function()
+    {
+        document.body.classList.add("remove-site-autoclose");
+    },
+
     onInitDefault: function (data, tapped, listPreferredCodes) {
         
         const ignoreSelection = MapInstanceRenderer.getIsShownOnly();
@@ -83,11 +114,20 @@ const MapInstanceRenderer = {
         pMap.preselectRegionSite(sCode);
 
         if (ignoreSelection)
+        {
+            this.removeAutoCloseCheckbox();
             new MapViewChooseStartingHeavenIgnoreSelection().createInstance();
+        }
         else if (sCode === "")
+        {
+            this.removeAutoCloseCheckbox();
             new MapViewChooseStartingHeaven().createInstance();
+        }
         else
+        {
+            this.updateSelectOnClick();
             new MapViewMovement(data).createInstance(sCode);
+        }
 
         g_isInit = true;
     },

@@ -239,3 +239,25 @@ img.map-region-icon {
     position: fixed;
     color: white;
 }
+
+.accept_on_selection {
+
+    font-size: 1em;
+    padding-top: 5px;
+    color: var(--color-light-grey);
+
+    label {
+        cursor: pointer;
+    }
+    
+    input {
+        width: auto;
+        display: inline-block;
+        padding-right: 10px;
+    }
+}
+
+body.remove-site-autoclose .accept_on_selection
+{
+    display: none;
+}

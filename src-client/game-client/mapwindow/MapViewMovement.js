@@ -263,7 +263,22 @@ class MapViewMovement extends MapViewMovementSelection {
         if (!isSite)
             this.addRegionLocation(code);
         else
+        {
             this.setTargetSite(code);
+            if (!this.autoSubmitOnSelection())
+                return;
+
+            setTimeout(() => {
+                const elem = document.getElementById("movement_accept");
+                if (elem !== null)
+                    elem.dispatchEvent(new Event('click'));
+            }, 10);
+        }
+    }
+
+    autoSubmitOnSelection()
+    {
+        return sessionStorage.getItem("map_autoclose") === "true";
     }
 
     /**
