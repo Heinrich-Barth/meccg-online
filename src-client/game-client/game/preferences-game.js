@@ -28,6 +28,18 @@ class GamePreferences extends Preferences {
         return g_sLobbyToken !== "";
     }
 
+    #togglePhases(isActive)
+    {
+        const elem = document.getElementById("progression-phase-box");
+        if (elem === null)
+            return;
+
+        if (isActive)
+            elem.classList.add("taskbar-icons-reduced");
+        else if (elem.classList.contains("taskbar-icons-reduced"))
+            elem.classList.remove("taskbar-icons-reduced");
+    }
+
     #dices()
     {
         document.body.dispatchEvent(new CustomEvent("meccg-dice-chooser"));
@@ -323,6 +335,9 @@ class GamePreferences extends Preferences {
         this.createEntry0("bg_shawod");
         this.createEntry0("game_sfx");
 
+        if (!bWatcher)
+            this.createEntry0("toggle_phasese");
+
         this.createSection("Look & Feel");
         this.createEntry0("toggle_zoom");
         if (!bWatcher)
@@ -397,6 +412,8 @@ class GamePreferences extends Preferences {
         this.addConfigAction("bg_default", "Change background", false, "fa-picture-o", () => document.body.dispatchEvent(new CustomEvent("meccg-background-chooser")));
         this.addConfigAction("game_dices", "Change dices", false, "fa-cube", this.#dices.bind(this));        
         this.addConfigSlider("game_sfx", "Sound volume", 100, 20, "fa-volume-up", this.#volumeChange.bind(this));
+        
+        this.addConfigToggle("toggle_phasese", "Reduce phase bar to checkered flag only", false, this.#togglePhases.bind(this));
         this.addConfigSlider("toggle_zoom", "Zoom Level", 2, 1, "fa-search-plus slider-short", this.#zoomChange.bind(this));
         this.addConfigToggle("bg_shawod", "Reduce background brightness", true, this.#backgroundDarkness);
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);

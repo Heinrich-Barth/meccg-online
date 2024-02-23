@@ -31,6 +31,12 @@ a {
         position: absolute;
         width: 280px;
         top: -35px;
+
+        &.taskbar-icons-reduced
+        {
+            width: 120px;
+            a.icon:not(.eot):not(.act) { display: none; }
+        }
     }
 
     .task_overlay {
