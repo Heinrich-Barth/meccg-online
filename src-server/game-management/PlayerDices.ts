@@ -1,3 +1,7 @@
+import { getRootFolder } from "../Configuration";
+import Logger from "../Logger";
+import * as fs from "fs";
+
 interface DiceChoice {
     [key:string]:string
 }
@@ -10,6 +14,38 @@ interface DiceStatsPerUser {
     [key:string]:DiceStats
 }
 
+const getDiceNames = function():string[]
+{
+    const folder = getRootFolder() + "/public/media/personalisation/dice";
+    try
+    {
+        if (!fs.existsSync(folder))
+        {
+            Logger.info("No custom dices available at ./public/media/personalisation/dice");
+            return [];
+        }
+        
+        const list:string[] = [];
+        const files = fs.readdirSync(folder);
+        if (files)
+            files.forEach(file => list.push(file));
+
+        if (files.length === 0)
+            Logger.info("No custom dices available");
+        else
+            Logger.info(files.length + " custom dice(s) avilable");
+        
+        return list;
+    }
+    catch(err)
+    {
+        Logger.warn("Could not read file list of directory " + folder);
+        Logger.error(err);
+    }
+
+    return [];
+}
+
 /**
  * Manage players dice types and dice rolls
  */
@@ -18,7 +54,7 @@ export default class PlayerDices {
     #dices:DiceChoice = { };
     #stats:DiceStatsPerUser = { };
 
-    static #diceList = ["black", "black-grey", "gold", "gold-light", "green", "grey", "marble", "minion", "red", "redblack", "redwhite", "rune-alatar", "rune-gandalf", "rune-palando", "rune-radagast", "rune-saruman", "zblack-marc"];
+    static #diceList = getDiceNames();
 
     /**
      * Random number [1-nMax]
