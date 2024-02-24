@@ -117,6 +117,7 @@ let Arda = {
         
         this._ready = true;
         MeccgApi.send("/game/arda/checkdraft", {});
+        MeccgApi.send("/game/arda/sites", {});
     },
 
     isSinglePlayer()

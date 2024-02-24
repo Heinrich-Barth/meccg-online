@@ -46,6 +46,16 @@ export default class DeckDefault extends DeckCommons {
         }
     }
 
+    GetDeckSiteCodes():string[]
+    {
+        const list = []
+
+        for (let key of this.#sites)
+            list.push(key);
+
+        return list;
+    }
+
     /**
      * Link lists
      * 

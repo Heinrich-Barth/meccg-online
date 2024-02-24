@@ -186,6 +186,28 @@ export default class GameArda extends GameStandard
         this.publishChat(userid, "completed a card trade.");
     }
 
+    #onSendArdaSites(_userid:string, socket:any, obj:any)
+    {
+        const pAdminDeck = this.getDeckManager().getAdminDeck();
+        if (pAdminDeck === null)
+            return;
+
+        const list = pAdminDeck.GetDeckSiteCodes();
+        if (list.length === 0)
+            return;
+
+        const res = [];
+        for (let _uuid  of list)
+        {
+            const _card = this.getDeckManager().getFullPlayerCard(_uuid);
+            if (_card !== null && _card.code !== "")
+                res.push(_card.code);
+        }
+    
+        if (list.length > 0)
+            this.replyToPlayer("/game/card/sites", socket, { cards:res});
+    }
+
     onTradePerformMoveToDeck(traderIds:string[], obj:any)
     {
         const pAdminDeck = this.getDeckManager().getAdminDeck();
@@ -618,6 +640,7 @@ export default class GameArda extends GameStandard
         this.getMeccgApi().addListener("/game/arda/trade/offer", this.onTradeOffer.bind(this));
         this.getMeccgApi().addListener("/game/arda/trade/accept", this.onTradeAccept.bind(this));
         this.getMeccgApi().addListener("/game/arda/trade/perform", this.onTradePerform.bind(this));
+        this.getMeccgApi().addListener("/game/arda/sites", this.#onSendArdaSites.bind(this));
     }
 }
 
