@@ -768,9 +768,8 @@ const HandCardsDraggable = {
         const sAllow = pCardContainer === null || !pCardContainer.hasAttribute("draggable") ? "false" : pCardContainer.getAttribute("draggable");
         if (sAllow !== "true")
             return;
-        
-        jQuery(pCardContainer).draggable(
-        {
+
+        const config = {
             cursor: 'move',
             revert: true,
             opacity: 0.5,
@@ -784,8 +783,25 @@ const HandCardsDraggable = {
             stop: function() 
             {
                 CreateHandCardsDraggableUtils.clearTargets(this.getAttribute("data-card-type"));
+                if (this.hasAttribute("style"))
+                    this.removeAttribute("style");
             }
-        });
+        }
+
+        if (pCardContainer.getAttribute("data-card-type") === "character" && pCardContainer.getAttribute("data-location") !== "hand")
+        {
+            const thisid = pCardContainer.getAttribute("id");
+            const uuid = pCardContainer.getAttribute("data-uuid");
+            
+            pCardContainer = pCardContainer.parentElement;
+            pCardContainer.setAttribute("data-location", "inplay");
+            pCardContainer.setAttribute("data-card-type", "character");
+            pCardContainer.setAttribute("data-uuid", uuid);
+            
+            config.handle = "#" + thisid;
+        }
+        
+        jQuery(pCardContainer).draggable(config);
     },
     
     /**
