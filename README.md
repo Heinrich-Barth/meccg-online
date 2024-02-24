@@ -129,6 +129,10 @@ A username will be rejected if it contains HTML breaking characters `<` or `>` a
 
 It is assumed that the app runs locally at ``localhost:8080``. Screenshots may not represent the current state of the screen design, so please be aware of possible changes.
 
+> [!NOTE]
+> The screenshots shown below are very likely to not represent the actual ui anymore. The general concepts, however, have not changed and those images suffice.
+
+
 ### Home / Lobby
 
 You start in the lobby. Here, you will find a list of active games, release notes and you will be able to start your own game.
