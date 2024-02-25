@@ -15,7 +15,9 @@ This project allows you to play MECCG or other Collectible Card Games.
 
 ## Online Community
 
-Make sure to check out the meccg discord server. Other useful links are 
+Make sure to check out the meccg related resoures
+
+* https://discord.com/invite/EFqBJmT
 * https://councilofelrond.org 
 * https://meccg.com
 
