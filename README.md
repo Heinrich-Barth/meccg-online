@@ -17,6 +17,7 @@ This project allows you to play MECCG or other Collectible Card Games.
 
 Make sure to check out the meccg related resoures
 
+* https://meccg.herokuapp.com (community instance of this project)
 * https://discord.com/invite/EFqBJmT
 * https://councilofelrond.org 
 * https://meccg.com
