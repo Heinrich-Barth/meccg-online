@@ -115,7 +115,7 @@
         z-index: 301;
         position: relative;
         padding: 5px 0;
-        background-color: #000;
+        background-color: var(--color-dark-grey);
 
         ul {
             list-style: none;
@@ -132,26 +132,37 @@
 
 
     a {
+        position: relative;
         display: block;
-        margin: 0 5px;
-        padding: 5px;
+        padding: 2px 10px;
+        font-size: 0.9em;
+        color: var(--color-light-grey);
+        transition: all 0.1s ease-in-out;
 
         i {
             display: inline-block;
             width: 21px;
         }
+
+        &:hover {
+            background-color: var(--color-orange);
+            color: var(--color-black);
+        }
     }
 
+    .context-menu__items-shortcuts a { 
+        padding-right: 20px;
+    }
 
+    .menuitem-shortcut {
+        position: absolute;
+        right: 10px;
+    }
 
     .border-top a {
         border-top: 1px solid var(--color-orange);
     }
 
-    a:hover {
-        background: rgba(255, 165, 0, 0.2);
-        color: white;
-    }
 }
 
 .context-cursor {

@@ -9,6 +9,11 @@ const ContextMenu = {
         if (y < 10)
             y = 10;
 
+        if (x > window.innerWidth - 200)
+            x -= 200;
+        if (y > window.innerHeight - 200)
+            y -= 200;
+
         pMenuElement.style.left = x + "px";
         pMenuElement.style.top = y + "px";
     },
@@ -18,7 +23,7 @@ const ContextMenu = {
         let pLink = document.createElement("a");
 
         if (item.icon === "")
-            pLink.innerHTML = item.label;
+            pLink.innerText = item.label;
         else
             pLink.innerHTML = `<i class="fa ${item.icon}"></i> ${item.label}`;
 
@@ -28,6 +33,14 @@ const ContextMenu = {
             pLink.setAttribute("title", "Tipp: " + item.tipp);
 
         pLink.onclick = ContextMenu.callbacks.generic;
+        
+        if (item.shortcut !== "")
+        {
+            const span = document.createElement("span");
+            span.setAttribute("class", "menuitem-shortcut");
+            span.innerText = item.shortcut;
+            pLink.append(span);
+        }
 
         let li = document.createElement("li");
         li.setAttribute("class", item.classes);
@@ -54,6 +67,9 @@ const ContextMenu = {
         let hasElements = false;
         let bAddDivider = false;
         const vsItems = ContextMenu.data.types[nType];
+        if (ContextMenu.hasShortcuts(nType))
+            pContainer.classList.add("context-menu__items-shortcuts")
+
         for (let key of vsItems)
         {
             if (key === "_divider")
@@ -73,6 +89,18 @@ const ContextMenu = {
         pMenu.appendChild(pContainer);
 
         return hasElements;
+    },
+
+    hasShortcuts(nType)
+    {
+        const vsItems = ContextMenu.data.types[nType];
+        for (let key of vsItems)
+        {
+            if (key !== "_divider" && ContextMenu.data.items[key].shortcut !== "")
+                return true;
+        }
+
+        return false;
     },
 
     show : function(e, sUuid, sCode, companyId, nType)
@@ -828,7 +856,7 @@ const ContextMenu = {
         }
     },
     
-    addItem : function(sAction, sLabel, sIcon, sClasses, callback, tipp)
+    addItem : function(sAction, sLabel, sIcon, sClasses, callback, cut = "", tipp = "")
     {
         if (typeof callback === "undefined")
             callback = ContextMenu.callbacks.empty;
@@ -838,34 +866,35 @@ const ContextMenu = {
             icon : sIcon,
             label: sLabel,
             classes: sClasses,
-            tipp: tipp === undefined || tipp === null ? "" : tipp,
+            tipp: typeof tipp !== "string" ? "" : tipp,
+            shortcut: typeof cut === "string" ? cut : "",
             callback : callback
         }
     },
     
     createContextMenus : function()
     {
-        this.addItem("ready", "Ready card", "fa-heart", "context-menu-item-rotate context-menu-item-generic context-menu-item-location", ContextMenu.callbacks.rotate, "ALT+Doubleclick to untap");
-        this.addItem("tap", "Tap card (90°)", "fa-arrow-circle-right", "context-menu-item-rotate context-menu-item-generic context-menu-item-location", ContextMenu.callbacks.rotate, "Doubleclick to tap");
+        this.addItem("ready", "Ready card", "fa-heart", "context-menu-item-rotate context-menu-item-generic context-menu-item-location", ContextMenu.callbacks.rotate);
+        this.addItem("tap", "Tap card (90°)", "fa-arrow-circle-right", "context-menu-item-rotate context-menu-item-generic context-menu-item-location", ContextMenu.callbacks.rotate);
         this.addItem("tap_91", "Forced tap card (90°)", "fa-lock", "context-menu-item-rotate context-menu-item-generic", ContextMenu.callbacks.rotate);
         this.addItem("wound", "Wound card (180°)", "fa-arrow-circle-down", "context-menu-item-rotate context-menu-item-generic", ContextMenu.callbacks.rotate);
         this.addItem("rot270", "Rotate 270°", "fa-arrow-circle-left", "context-menu-item-rotate context-menu-item-generic", ContextMenu.callbacks.rotate);
-        this.addItem("glow_action", "Highlight card (5s)", "fa-bell-slash", "context-menu-item-glow context-menu-item-generic border-top", ContextMenu.callbacks.glow, "CTRL+Doubleclick to untap");
-        this.addItem("flipcard", "Flip Card (or press 'f')", "fa-eye-slash", "context-menu-item-flipcard context-menu-item-generic", ContextMenu.callbacks.flip);
-        this.addItem("token_add", "Add token (or press '+')", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAdd);
-        this.addItem("token_remove", "Remove token (or press '-')", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemove);
-        this.addItem("arrive", "Company arrives at destination", "fa-street-view", "context-menu-item-arrive", ContextMenu.callbacks.arrive, "Doubleclick on opponents target site to indicate NO MORE HAZARDS");
-        this.addItem("add_ressource", "Add this site as a ressource", "fa-clipboard", "context-menu-item-arrive", ContextMenu.callbacks.addRessource, "Adds this site as RESSOURCE to your hand and will be played facedown.");
-        this.addItem("add_character", "Add this site as a character", "fa-user", "context-menu-item-arrive", ContextMenu.callbacks.addCharacter, "Adds this site as CHARACTER to your hand.");
-        this.addItem("movement_return", "Return to site of origin", "fa-ban", "context-menu-item-arrive", ContextMenu.callbacks.returnToSiteOfOrigin, "Remove target site.");
+        this.addItem("glow_action", "Highlight card (5s)", "fa-bell-slash", "context-menu-item-glow context-menu-item-generic", ContextMenu.callbacks.glow);
+        this.addItem("flipcard", "Flip Card", "fa-eye-slash", "context-menu-item-flipcard context-menu-item-generic", ContextMenu.callbacks.flip, "f");
+        this.addItem("token_add", "Add token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAdd, "+");
+        this.addItem("token_remove", "Remove token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemove, "-");
+        this.addItem("arrive", "Company arrives at destination", "fa-street-view", "context-menu-item-arrive", ContextMenu.callbacks.arrive);
+        this.addItem("add_ressource", "Add this site as a ressource", "fa-clipboard", "context-menu-item-arrive", ContextMenu.callbacks.addRessource, "", "Adds this site as RESSOURCE to your hand and will be played facedown.");
+        this.addItem("add_character", "Add this site as a character", "fa-user", "context-menu-item-arrive", ContextMenu.callbacks.addCharacter, "", "Adds this site as CHARACTER to your hand.");
+        this.addItem("movement_return", "Return to site of origin", "fa-ban", "context-menu-item-arrive", ContextMenu.callbacks.returnToSiteOfOrigin, "", "Remove target site.");
 
         this.addItem("view_deck_cards", "Look at my playdeck as it is", "fa-stack-exchange", "context-menu-item-generic", () => TaskBarCards.Show("playdeck", false), "");
         this.addItem("view_deck_cards_ordered", "Look at my playdeck and group cards", "fa-eye", "context-menu-item-generic", () => TaskBarCards.Show("playdeck", true), "");
-        this.addItem("view_deck_cards_reveal", "Reveak playdeck to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("playdeck"), "");
+        this.addItem("view_deck_cards_reveal", "Reveal playdeck to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("playdeck"), "");
 
         this.addItem("view_discardpile_cards", "Look at my discard pile as it is", "fa-stack-exchange", "context-menu-item-generic", () => TaskBarCards.Show("discard", false), "");
         this.addItem("view_discardpile_ordered", "Look at my discard pile and group cards", "fa-eye", "context-menu-item-generic", () => TaskBarCards.Show("discard", true), "");
-        this.addItem("view_discardpile_cards_reveal", "Reveak discard pile to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("discard"), "");
+        this.addItem("view_discardpile_cards_reveal", "Reveal discard pile to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("discard"), "");
 
         
         this.addItem("move_company_left", "Move company one position to the left", "fa-arrow-left", "context-menu-item-generic", ContextMenu.callbacks.companyMoveLeft.bind(ContextMenu.callbacks));
@@ -881,11 +910,11 @@ const ContextMenu = {
         this.addItem("playdeck_shuffle_x_cards", "Shuffle top X cards of your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleXCardsPlaydeck, "");
         this.addItem("discardpile_shuffle_into_playdeck", "Shuffle discard pile into your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleDiscardpileIntoPlaydeck, "");
 
-        this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "glow_action", "flipcard", "token_add", "token_remove"];
-        this.data.types["location"] = ["ready", "tap", "arrive", "add_ressource", "add_character", "movement_return"];
+        this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove"];
+        this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
-        this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "playdeck_shuffle_x_cards", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "view_deck_notes", "playdeck_shuffle"];
-        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_cards_reveal", "discardpile_shuffle_into_playdeck"];
+        this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
+        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
 
         this.data.offsets["playdeck_actions"] = -100;
