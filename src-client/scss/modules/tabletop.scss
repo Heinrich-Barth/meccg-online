@@ -546,7 +546,7 @@ body.table-companies-breakline .companies {
 
         @media only screen and (min-width: 1500px) {
             .company-characters {
-                .character-is-company-host:not(:first-child)
+                .character-is-company-host:not(:last-child)
                 {
                         margin-right: 40px;
                 }
@@ -555,7 +555,7 @@ body.table-companies-breakline .companies {
 
         .company-character-influenced 
         {
-            .company-character:not(:first-child)
+            .company-character:not(:last-child)
             {
                 margin-left: 20px;
             }
