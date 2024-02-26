@@ -110,16 +110,19 @@ a {
     border-radius: 5px;
     padding: 4px;
     opacity: 0.6;
-    width: 16px;
-    height: 16px;
+    font-size: 0.8em !important;
     visibility: hidden;
+
+    i { padding-right: 2px;}
 
     &:hover {
         opacity: 1;
-        color: #fff;
+        color: #000;
         background-color: var(--color-orange);
     }
 }
+
+body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; overflow: hidden; font-size: 1em;}
 
 .company:hover {
     .location-icon-image {
@@ -132,7 +135,7 @@ a {
 }
 
 .location-underdeep {
-    top: 30px;
+    top: 34px;
     right: 43px;
 }
 
@@ -548,7 +551,7 @@ body.table-companies-breakline .companies {
             .company-characters {
                 .character-is-company-host:not(:last-child)
                 {
-                        margin-right: 40px;
+                    margin-right: 20px;
                 }
             }
         }
@@ -557,7 +560,7 @@ body.table-companies-breakline .companies {
         {
             .company-character:not(:last-child)
             {
-                margin-left: 20px;
+                margin-right: 20px;
             }
         }
 

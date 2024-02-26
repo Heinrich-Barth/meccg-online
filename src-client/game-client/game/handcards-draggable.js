@@ -494,8 +494,12 @@ const HandCardsDraggable = {
                 e.stopPropagation();
                 e.preventDefault();
 
-                const _companyUuid = e.target.getAttribute("data-company-uuid");
-                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(e.target, "company-site-list"));
+                let me = e.target;
+                if (!me.hasAttribute("data-company-uuid"))
+                    me = me.parentElement;
+
+                const _companyUuid = me.getAttribute("data-company-uuid");
+                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"));
                 
                 let sCode = "";
                 let isSiteRevealed = true;
@@ -518,8 +522,12 @@ const HandCardsDraggable = {
                 e.stopPropagation();
                 e.preventDefault();
 
-                const _companyUuid = e.target.getAttribute("data-company-uuid");
-                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(e.target, "company-site-list"))
+                let me = e.target;
+                if (!me.hasAttribute("data-company-uuid"))
+                    me = me.parentElement;
+
+                const _companyUuid = me.getAttribute("data-company-uuid");
+                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"))
                 let sCode = "";
                 let isSiteRevealed = true;
 
@@ -534,13 +542,17 @@ const HandCardsDraggable = {
             }
         });
 
-        ArrayList(jCompany).find(".location-reveal").each( function(_elem) 
+        ArrayList(jCompany).find(".location-reveal").each(function(_elem) 
         {
             _elem.setAttribute("data-company-uuid", companyUuid);
             _elem.onclick = (e) => 
             {
-                const _companyUuid = e.target.getAttribute("data-company-uuid");
-                HandCardsDraggable.onLocationRevealClick(e.target, _companyUuid);
+                let me = e.target;
+                if (!me.hasAttribute("data-company-uuid"))
+                    me = me.parentElement;
+
+                const _companyUuid = me.getAttribute("data-company-uuid");
+                HandCardsDraggable.onLocationRevealClick(me, _companyUuid);
                 HandCardsDraggable.triggerMovementHazardClick();
 
                 e.stopPropagation();

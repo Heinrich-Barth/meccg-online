@@ -7,9 +7,9 @@ const createCompanyHtml = function(companyId, id)
     div.setAttribute("data-company-id", companyId);
     div.innerHTML = `
         <div class="company-site-list pos-rel">
-            <div class="location-icon-image fa fa-code-fork location-underdeep location-select-ud hiddenToOpponent" title="Organise underdeep movement"></div>
-            <div class="location-icon-image fa fa-map-signs location-icon location-select hiddenToOpponent" title="Organise region movement"></div>
-            <div class="location-icon-image fa fa-eye location-reveal hide hiddenToOpponent" title="Reveal movement / mark as current company in movement hazard phase"></div>
+            <div class="location-icon-image location-underdeep location-select-ud hiddenToOpponent" title="Organise underdeep movement"><i class="fa fa-code-fork "></i>Deeps</div>
+            <div class="location-icon-image location-icon location-select hiddenToOpponent" title="Organise region movement"><i class="fa fa-map-signs"></i>Sites</div>
+            <div class="location-icon-image location-reveal hide hiddenToOpponent" title="Reveal movement / mark as current company in movement hazard phase"><i class="fa fa-eye"></i>Reveal</div>
             <div class="sites">
                 <div class="site-container site-current"></div>
                 <div class="site-container site-regions"></div>
