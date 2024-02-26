@@ -184,7 +184,11 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
          * Forward to login page for deck selection and display name
          */
         if (!this.validateCookies(req)) 
+        {
+            /** avoid redirect. We know the user cannot join this room. Hence, remove any room-related cookie */
+            this.clearRoomCookies(req, res);
             res.redirect(this.#contextPlay + req.room + "/login");
+        }
         else
             super.onValidateGameCookies(req, res, next);
     }
