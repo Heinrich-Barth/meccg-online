@@ -462,6 +462,72 @@ const HandCardsDraggable = {
         else
             document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Please organize movement first." }));
     },
+
+    onCompanyMovementSelectClick: function(e)
+    {
+        console.log("onCompanyMovementSelectClick");
+        e.stopPropagation();
+        e.preventDefault();
+
+        let me = e.target;
+        if (!me.hasAttribute("data-company-uuid"))
+            me = me.parentElement;
+
+        const _companyUuid = me.getAttribute("data-company-uuid");
+        const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"));
+        
+        let sCode = "";
+        let isSiteRevealed = true;
+
+        if (siteData !== null)
+        {
+            isSiteRevealed = siteData.revealed;
+            sCode = siteData.code;
+        }
+
+        HandCardsDraggable.onLocationSelectClick(sCode, isSiteRevealed, _companyUuid, true);
+        return false;
+    },
+
+    onCompanySelectMoveementUDClick:function(e)
+    {
+        console.log("onCompanySelectMoveementUDClick");
+        e.stopPropagation();
+        e.preventDefault();
+
+        let me = e.target;
+        if (!me.hasAttribute("data-company-uuid"))
+            me = me.parentElement;
+
+        const _companyUuid = me.getAttribute("data-company-uuid");
+        const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"))
+        let sCode = "";
+        let isSiteRevealed = true;
+
+        if (siteData !== null)
+        {
+            isSiteRevealed = siteData.revealed;
+            sCode = siteData.code;
+        }
+
+        HandCardsDraggable.onLocationSelectClick(sCode, isSiteRevealed, _companyUuid, false);
+        return false;
+    },
+
+    onCompanySelectMovementRelvealClick:function(e)
+    {
+        console.log("onCompanySelectMovementRelvealClick");
+        let me = e.target;
+        if (!me.hasAttribute("data-company-uuid"))
+            me = me.parentElement;
+
+        const _companyUuid = me.getAttribute("data-company-uuid");
+        HandCardsDraggable.onLocationRevealClick(me, _companyUuid);
+        HandCardsDraggable.triggerMovementHazardClick();
+
+        e.stopPropagation();
+        return false;
+    },
     
     /**
      * Init Company events (add host character)
@@ -489,76 +555,19 @@ const HandCardsDraggable = {
         ArrayList(jCompany).find(".location-select").each(function (_elem) 
         {
             _elem.setAttribute("data-company-uuid", companyUuid);
-            _elem.onclick = (e) => 
-            {
-                e.stopPropagation();
-                e.preventDefault();
-
-                let me = e.target;
-                if (!me.hasAttribute("data-company-uuid"))
-                    me = me.parentElement;
-
-                const _companyUuid = me.getAttribute("data-company-uuid");
-                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"));
-                
-                let sCode = "";
-                let isSiteRevealed = true;
-
-                if (siteData !== null)
-                {
-                    isSiteRevealed = siteData.revealed;
-                    sCode = siteData.code;
-                }
-                HandCardsDraggable.onLocationSelectClick(sCode, isSiteRevealed, _companyUuid, true);
-                return false;
-            }
+            _elem.onclick = HandCardsDraggable.onCompanyMovementSelectClick;
         });
         
         ArrayList(jCompany).find(".location-select-ud").each(function (_elem) 
         {
             _elem.setAttribute("data-company-uuid", companyUuid);
-            _elem.onclick = (e) => 
-            {
-                e.stopPropagation();
-                e.preventDefault();
-
-                let me = e.target;
-                if (!me.hasAttribute("data-company-uuid"))
-                    me = me.parentElement;
-
-                const _companyUuid = me.getAttribute("data-company-uuid");
-                const siteData = HandCardsDraggable.getStartingLocation(DomUtils.closestByClass(me, "company-site-list"))
-                let sCode = "";
-                let isSiteRevealed = true;
-
-                if (siteData !== null)
-                {
-                    isSiteRevealed = siteData.revealed;
-                    sCode = siteData.code;
-                }
-
-                HandCardsDraggable.onLocationSelectClick(sCode, isSiteRevealed, _companyUuid, false);
-                return false;
-            }
+            _elem.onclick = HandCardsDraggable.onCompanySelectMoveementUDClick;
         });
 
         ArrayList(jCompany).find(".location-reveal").each(function(_elem) 
         {
             _elem.setAttribute("data-company-uuid", companyUuid);
-            _elem.onclick = (e) => 
-            {
-                let me = e.target;
-                if (!me.hasAttribute("data-company-uuid"))
-                    me = me.parentElement;
-
-                const _companyUuid = me.getAttribute("data-company-uuid");
-                HandCardsDraggable.onLocationRevealClick(me, _companyUuid);
-                HandCardsDraggable.triggerMovementHazardClick();
-
-                e.stopPropagation();
-                return false;
-            };
-
+            _elem.onclick = HandCardsDraggable.onCompanySelectMovementRelvealClick;
         });
     },
 
