@@ -58,7 +58,6 @@
     min-width: 60px;
     max-width: 360px;
     min-height: 84px;
-    overflow-y: auto;
     max-height: 200px;
     
     .arda-hand-card-actions {
@@ -150,9 +149,8 @@ div#arda_minors_hand {
 }
 
 body.arda-draft .arda-card-hand-minor {
-    width: 50%;
-    max-width: 50%;
-    max-height: 400px;
+    max-width: 70%;
+    max-height: 100%;
     opacity: 1;
 }
 
@@ -340,7 +338,6 @@ div#arda_mps_hand {
         max-width: 100% !important;
         min-height: 84px;
         max-height: 200px;
-        overflow-y: auto;
         top: auto !important;
         opacity: 1 !important;
         margin-bottom: 20px;

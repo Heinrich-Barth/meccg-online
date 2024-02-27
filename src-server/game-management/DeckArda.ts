@@ -596,6 +596,10 @@ export default class DeckArda extends DeckDefault {
             res.from(uuid, deck.#discardPileCharacters) ||
             res.from(uuid, deck.#playdeckCharacters) ||
             res.from(uuid, deck.#playdeckMP) ||
+            res.from(uuid, deck.#handCardsCharacters) ||
+            res.from(uuid, deck.#handCardsMP) ||
+            res.from(uuid, deck.#handMinorItems) ||
+            res.from(uuid, deck.#handStage) ||
             res.from(uuid, deck.#discardPileMP) ||
             res.from(uuid, deck.#playdeckStage) ||
             res.from(uuid, deck.#discardPileStage);

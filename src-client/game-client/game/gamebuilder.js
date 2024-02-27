@@ -665,6 +665,9 @@ const GameBuilder = {
             const _uuid = jData;
             if (_uuid !== "" && (bIsMe || GameBuilder.isVisitor()))
                 DomUtils.removeAllChildNodes(document.getElementById("card_icon_nr_" + _uuid));
+         
+            if (document.body.getAttribute("data-game-arda") === "true")
+                DomUtils.removeNode(document.getElementById("arda-hand-card-" + _uuid));
         });
 
         MeccgApi.addListener("/game/time", (_bIsMe, jData) => GameBuilder.onGameTime(jData));

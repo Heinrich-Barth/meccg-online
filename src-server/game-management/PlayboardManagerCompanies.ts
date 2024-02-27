@@ -300,7 +300,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
             return false;
         }
 
-        pDeck.pop().fromHand(uuid);
+        pDeck.pop().fromAnywhere(uuid);
 
         this.#companies[companyId].characters.push({
             uuid: uuid, 
@@ -596,7 +596,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         const companyId = this.obtainUniqueCompanyId();
         if (source === "hand")
         {
-            pDeck.pop().fromHand(uuid);
+            pDeck.pop().fromAnywhere(uuid);
         }
         else
         {

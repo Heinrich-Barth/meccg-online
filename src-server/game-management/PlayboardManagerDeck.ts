@@ -603,7 +603,7 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
             return null;
         else
         {
-            pDeck.pop().fromHand(_uuid);
+            pDeck.pop().fromAnywhere(_uuid);
             return card;
         }
     }
