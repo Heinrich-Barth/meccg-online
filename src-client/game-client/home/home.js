@@ -183,7 +183,7 @@ const addGameTypes = function(container, data)
     {
         if (!game.single && !game.arda)
         {
-            container.appendChild(addGameType(game, false, "play", "Standard | DC"));
+            container.appendChild(addGameType(game, false, "play", "Standard or DC"));
             SampleRoomApp.addRoomTaken(game.room);
         }
     }
