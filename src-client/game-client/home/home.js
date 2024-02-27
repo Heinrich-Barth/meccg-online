@@ -56,9 +56,9 @@ const toNumberString = function(nValue)
 
 const getGameTypeDuration = function(lTime)
 {
-    const pDate = new Date(lTime);
-
-    let lMins = ((pDate.getHours()-1) * 60 +  pDate.getMinutes());
+    lTime = lTime / 1000;
+    
+    const lMins = Math.round(lTime / 60);
     if (lMins > 0)
         lMins += "min";
     else
