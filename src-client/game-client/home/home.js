@@ -60,11 +60,9 @@ const getGameTypeDuration = function(lTime)
     
     const lMins = Math.round(lTime / 60);
     if (lMins > 0)
-        lMins += "min";
+        return lMins + "min";
     else
-        lMins = "now";
-
-    return "" + lMins 
+        return "now";
 }
 
 const createAvatarList = function(list)
