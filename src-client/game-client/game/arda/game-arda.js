@@ -12,7 +12,17 @@ let Arda = {
     {
         const div = document.createElement("div");
         div.setAttribute("class", "card-hand transition-grow-shrink");
+        div.setAttribute("draggable", "true");
         div.setAttribute("id", "arda-hand-card-" + _uuid);
+        div.setAttribute("data-location", "hand");
+        div.setAttribute("data-uuid", _uuid);
+        div.setAttribute("data-card-code", GameCompanies.CardList.getSafeCode(_code));
+
+        if (type === "charackters")
+            div.setAttribute("data-card-type", "character");
+        else 
+            div.setAttribute("data-card-type", "resource");
+
         div.innerHTML = `<img crossorigin="anonymous" decoding="async" src="${_img}" data-id="${_code}" class="card-icon">`;
 
         const divHover = document.createElement("div");
@@ -41,6 +51,8 @@ let Arda = {
         divHover.appendChild(aHand);
         
         div.appendChild(divHover);
+
+        HandCardsDraggable.initDraggableCard(div);
         return div;
     },
 
