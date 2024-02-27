@@ -5,6 +5,12 @@
     margin-top: 0.5em;
     color: var(--color-light-grey);
 
+    h2:not(:first-of-type) {
+        margin-top: 2em;
+    }
+
+    a.inline { display: inline-block; }
+
     .game_list-grid {
         display: grid;
         grid-template-columns: 47% 47%;
