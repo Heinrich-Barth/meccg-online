@@ -465,7 +465,6 @@ const HandCardsDraggable = {
 
     onCompanyMovementSelectClick: function(e)
     {
-        console.log("onCompanyMovementSelectClick");
         e.stopPropagation();
         e.preventDefault();
 
@@ -491,7 +490,6 @@ const HandCardsDraggable = {
 
     onCompanySelectMoveementUDClick:function(e)
     {
-        console.log("onCompanySelectMoveementUDClick");
         e.stopPropagation();
         e.preventDefault();
 
@@ -516,7 +514,6 @@ const HandCardsDraggable = {
 
     onCompanySelectMovementRelvealClick:function(e)
     {
-        console.log("onCompanySelectMovementRelvealClick");
         let me = e.target;
         if (!me.hasAttribute("data-company-uuid"))
             me = me.parentElement;
