@@ -116,6 +116,11 @@ const GameBuilder = {
 
     initAdditionals : function()
     {
+        const div_card_count = document.createElement("div");
+        div_card_count.setAttribute("id", "draw_card_count");
+        div_card_count.setAttribute("class", "card-hand-count")
+        document.getElementById("draw_card").parentElement.append(div_card_count);
+        
         if (GameBuilder._isVisitor === true || g_sRoom === undefined || g_sRoom === "")
             return;
 
@@ -656,11 +661,12 @@ const GameBuilder = {
             if (bIsMe)
             {
                 const div = document.getElementById("card_counter");
-                div.querySelector("a.discardpile span").innerHTML = playload.discard;
-                div.querySelector("a.sideboard span").innerHTML = playload.sideboard;
-                div.querySelector("a.playdeck span").innerHTML = playload.playdeck;
-                div.querySelector("a.victory span").innerHTML = playload.victory;
-                div.querySelector("a.hand span").innerHTML = playload.hand;
+                div.querySelector("a.discardpile span").innerText = playload.discard;
+                div.querySelector("a.sideboard span").innerText = playload.sideboard;
+                div.querySelector("a.playdeck span").innerText = playload.playdeck;
+                div.querySelector("a.victory span").innerText = playload.victory;
+                div.querySelector("a.hand span").innerText = playload.hand;
+                document.getElementById("draw_card_count").innerText = playload.hand;
             }
             
             GameBuilder.CompanyManager.updateHandSize(playload.player, playload.hand, playload.playdeck);

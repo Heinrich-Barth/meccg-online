@@ -325,6 +325,22 @@ body.table-companies-breakline .companies {
         width: 100%;
     }
 
+    .card-hand-count {
+        position: absolute;
+        left: 1px;
+        top: 14px;
+        font-size: 0.8em;
+        background: var(--color-dark-grey);
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    &:hover {
+        .card-hand-count {
+            background: var(--color-orange);            
+        }    
+    }
+
     .hand-card-sizer {
         padding: 5px 10px;
         text-align: center;
