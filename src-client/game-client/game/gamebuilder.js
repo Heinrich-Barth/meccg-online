@@ -300,9 +300,26 @@ const GameBuilder = {
         const elemImage = elem?.querySelector("img");
         if (elemImage)
         {
-            elem.setAttribute("title", "Drag card to play it or \nRIGHT CLICK to toggle playing it face down");
-            elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);
+            elem.setAttribute("title", "Drag card to play it or \nRIGHT CLICK to toggle playing it face down\nDOUBLECLICK to play card without dragging it.");
+            elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);           
+            elemImage.ondblclick = this.onHandCardDoubleClick.bind(this);
         }
+    },
+
+    onHandCardDoubleClick : function(e)
+    {
+        const div = e.target.parentElement;
+        const uuid = div.hasAttribute("data-uuid") ? div.getAttribute("data-uuid") : "";
+        if (uuid === "")
+            return;
+
+        const isChar = div.getAttribute("data-card-type") === "character";
+
+        CreateHandCardsDraggableUtils.removeDraggableDomElement(div);
+        if (isChar)
+            HandCardsDraggable.onCreateNewCompany(uuid, "hand");
+        else
+            HandCardsDraggable.onAddGenericCardToStagingArea(uuid, true);
     },
 
     onHandCardContextClick : function(e)
