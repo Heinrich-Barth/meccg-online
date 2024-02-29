@@ -1292,8 +1292,6 @@ function createAvatarList(list)
             if (!data.exists)
                 btn.innerText = btn.innerText.toLowerCase().replace("join the table", "Create your game");
         }
-        //else 
-        //    insertSocialMedia(false);
     })
     .catch(console.error);
 
