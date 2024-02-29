@@ -282,6 +282,21 @@ body.table-companies-breakline .companies {
     transition: all .2s ease-in;
 }
 
+.state_tapped_fixed::before 
+{
+    position: absolute;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\f023";
+    left: -12%;
+    top: 19%;
+    display: inline-block;
+    color: var(--color-black);
+    z-index: 2;
+}
+
 .rot180,
 .state_wounded img,
 .wounded {
