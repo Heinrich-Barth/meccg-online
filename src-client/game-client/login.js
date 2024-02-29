@@ -431,10 +431,14 @@ const createLabelDiv = function(title, color, count)
 const processLabelFilters = function(div)
 {
     const h3 = document.createElement("h3");
-    h3.innerText = "Filter/Limit deck list";
+    h3.innerText = "Deck Selection";
+
+    const p = document.createElement("p");
+    p.innerText = "Choose a deck or click here to load/import a deck.";
+    p.onclick = () => document.getElementById("deck-text-fields")?.setAttribute("open", "");
 
     div.setAttribute("id", "deck-list-filter");
-    div.prepend(h3);
+    div.prepend(h3, p);
     div.querySelectorAll("span").forEach(_span => _span.onclick = onClickFilterSpan)
 }
 
@@ -534,12 +538,8 @@ const onLoadDecks = function(data)
     if (divParent === null)
         return;
 
-    const divHtml = document.createElement("h2");
-    divHtml.innerText = "Choose your deck";
-    divParent.prepend(divHtml);
-
     const divButton = document.createElement("button");
-    divButton.innerText = " Load a deck";
+    divButton.innerText = " Load a deck from disk";
     divButton.setAttribute("class", "fa fa-folder load-deck-file");
     divButton.setAttribute("type", "button");
     divButton.onclick = () => document.getElementById("load_deck_file").click();
@@ -829,7 +829,7 @@ const onPerformLogin = function()
         name: sName,
         dce: isCheckedInput("toggle_allow_dce"),
         share: getSocialMediaAction(),
-        jitsi: isCheckedInput("toggle_jitsi"),
+        jitsi: false,
         deck: jDeck
     }
 
