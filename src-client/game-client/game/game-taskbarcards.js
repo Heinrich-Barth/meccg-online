@@ -306,7 +306,7 @@ class TaskBarCards
 
     static onCLickDiscardPile(e)
     {
-        TaskBarCards.Show("discard");
+        TaskBarCards.Show("discard", true);
         return false;
     }
 
