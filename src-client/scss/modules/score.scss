@@ -399,6 +399,11 @@
 
         .scoring-sheet-ingame-icon-openclose::before { content: '\00AB' }
         .link-change { display: none !important; }
+
+        &:hover {
+            .scoring-sheet-ingame-collapse { display: table-cell; } 
+        }
+        
     }
 
     .score-word { display: none; }
