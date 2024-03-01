@@ -682,8 +682,12 @@ div.card img:hover {
 }
 body[data-is-watcher='false']
 {
+    &.table-companies-breakline .area-opponent .company {
+        height: auto;
+    }
     .area-opponent .company {
         flex-direction: column-reverse;
+        height: 100%;
         rotate: 0deg;
 
         .company-character {
