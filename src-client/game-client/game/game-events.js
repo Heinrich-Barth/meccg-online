@@ -34,11 +34,41 @@ class GameEvents
 
     onProgressToPhase(e)
     {
+        /** 
+         * it might happen that there is a div.card element without an img inside. 
+         * this distorts the UI and is an artefact. Therefore, remove it.
+         */
+        this.removeEmptyCardDivs();
+
+        /**
+         * Following are organisation phase specific events
+         */
         if (e.detail !== "organisation")
             return;
             
         this.autoFlip();
         this.markNonPermanentEvents();
+    }
+
+    removeEmptyCardDivs()
+    {
+        const table = document.body.querySelector(".table")
+        if (table === undefined || table === null)
+            return;
+
+        const list = table.querySelectorAll("div.card");
+        if (list.length === 0)
+            return;
+
+        const remove = [];
+        for (let div of list)
+        {
+            if (div.hasAttribute("data-card-code") && div.querySelector("img") === null)
+                remove.push(div);
+        }
+
+        for (let elem of remove)
+            DomUtils.removeNode(elem);
     }
 
     markNonPermanentEvents()
