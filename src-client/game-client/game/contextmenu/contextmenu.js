@@ -94,9 +94,12 @@ const ContextMenu = {
     hasShortcuts(nType)
     {
         const vsItems = ContextMenu.data.types[nType];
+        if (vsItems === undefined)
+            return;
+        
         for (let key of vsItems)
         {
-            if (key !== "_divider" && ContextMenu.data.items[key].shortcut !== "")
+            if (key !== "_divider" && ContextMenu.data.items[key] && ContextMenu.data.items[key].shortcut !== "")
                 return true;
         }
 
@@ -567,7 +570,10 @@ const ContextMenu = {
         {
             const text = sessionStorage.getItem("deck-notes");
             if (typeof text !== "string" || text === "")
+            {
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Deck notes are not available for your deck." }));
                 return;
+            }
 
             const dialog = document.createElement("dialog");
             dialog.setAttribute("id", "dialog-notes");
