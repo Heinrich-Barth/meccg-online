@@ -26,3 +26,27 @@
         opacity: 0.75;
     }
 }
+
+.tapped-sites-list {
+    position: fixed;
+    z-index: 400;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    background-color: #000;
+    color: var(--color-light-grey);
+    padding: 2em;
+    width: max-content;
+    height: fit-content;
+    top: 50%;
+    left: 50%;
+
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+
+    img { max-width: 180px; height: auto !important}
+
+    h1 {
+        color: var(--color-orange);
+    }
+}

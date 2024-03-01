@@ -680,6 +680,68 @@ const ContextMenu = {
             ContextMenu.callbacks._doFlip(uuid, code);  
         },
 
+        viewTappedSites : function()
+        {
+            fetch("/data/list/sites-tapped")
+            .then((response) => 
+            {
+                if (response.status === 200)
+                    return response.json()
+                else
+                    return Promise.resolve({});
+            })
+            .then((json) =>  { 
+                const keys = Object.keys(json);
+                if (keys.length === 0)
+                    document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "No tapped sites so far." }));
+                else
+                {
+                    keys.sort();
+                    return Promise.resolve(keys);
+                }
+                    
+            })
+            .then((codes) => {
+
+                const dialog = document.createElement("div");
+                dialog.setAttribute("id", "tapped-sites-list");
+                dialog.setAttribute("class", "tapped-sites-list cursor-pointer");
+
+                const h1 = document.createElement("h1");
+                h1.classList.add("center");
+                h1.innerText = "Your Tapped Sites";
+
+                const p = document.createElement("p");
+                p.classList.add("center");
+                p.innerText = "Click anywhere to close the window.";
+
+                dialog.append(h1, p);
+
+                for (let code of codes)
+                {
+                    const img = document.createElement("img");
+                    img.setAttribute("src", g_Game.CardList.getImage(code));
+                    img.setAttribute("class", "card-icon");
+                    img.setAttribute("decoding", "async");
+
+                    img.onclick = () => DomUtils.removeNode(document.getElementById("tapped-sites-list"));
+                    
+                    dialog.appendChild(img);
+                }
+
+                g_Game.CardPreview.initGeneric(dialog);
+                dialog.onclick = () => DomUtils.removeNode(document.getElementById("tapped-sites-list"));
+                dialog.setAttribute("title", "Click to close");
+
+                document.body.appendChild(dialog);
+            })
+            .catch((err) => 
+            {
+                console.error(err);
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Cannot show tapped sites." }));
+            });
+        },
+
         _doFlip : function(uuid, code)
         {
             MeccgApi.send("/game/card/state/reveal", {uuid : uuid, code: code });   
@@ -899,6 +961,7 @@ const ContextMenu = {
         this.addItem("view_deck_cards_reveal", "Reveal playdeck to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("playdeck"), "");
 
         this.addItem("view_discardpile_cards", "Look at my discard pile as it is", "fa-stack-exchange", "context-menu-item-generic", () => TaskBarCards.Show("discard", false), "");
+        this.addItem("view_discardpile_sites", "Show my tapped sites", "fa-map-signs", "context-menu-item-generic", ContextMenu.callbacks.viewTappedSites, "");
         this.addItem("view_discardpile_ordered", "Look at my discard pile and group cards", "fa-eye", "context-menu-item-generic", () => TaskBarCards.Show("discard", true), "");
         this.addItem("view_discardpile_cards_reveal", "Reveal discard pile to opponent", "fa-eye", "context-menu-item-generic", () => TaskBarCards.OnRevealToOpponent("discard"), "");
 
@@ -920,7 +983,7 @@ const ContextMenu = {
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
         this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
-        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
+        this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_sites", "_divider", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
 
         this.data.offsets["playdeck_actions"] = -100;
