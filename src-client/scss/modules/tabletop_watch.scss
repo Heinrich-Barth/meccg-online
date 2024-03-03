@@ -121,3 +121,9 @@
         margin: 0 50px;
     }
 }
+
+body[data-is-singleplayer="true"] {
+    .area-opponent {
+        min-height: 20% !important;
+    }
+}
