@@ -1,4 +1,5 @@
 import Logger from "../Logger";
+import getRandomHazardDeck from "./RandomHazardDeck";
 import { DeckValidate, DeckValidateArda, DeckValidateSection, ICard } from "./Types";
 
 /**
@@ -248,6 +249,12 @@ export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:any):D
     return jDeck;
 };
 
+const assignRandomHazardDeck = function(pCardRepository:any):DeckValidateSection
+{
+    const data = getRandomHazardDeck();
+    return extractHazards(data, pCardRepository);
+}
+
 /**
  * Validate a singleplayer deck
  * 
@@ -255,7 +262,7 @@ export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:any):D
  * @param {Object} pCardRepository 
  * @returns Deck or NULL
  */
-export function validateSingleplayer(jDeck:DeckValidateArda|null, pCardRepository:any):DeckValidateArda|null
+export function validateSingleplayer(jDeck:DeckValidateArda|null, randomHazards:boolean, pCardRepository:any):DeckValidateArda|null
 {
     jDeck = jDeck === null ? null : validateDeck(jDeck, pCardRepository);
     if (jDeck !== null)
@@ -265,7 +272,17 @@ export function validateSingleplayer(jDeck:DeckValidateArda|null, pCardRepositor
         jDeck.chars_mind7 = { };
         jDeck.chars_others = { }
         jDeck.mps = extractHazards(jDeck.playdeck, pCardRepository);
+
+        if (randomHazards)
+        {
+            const originalHazards = jDeck.mps;
+
+            jDeck.mps = assignRandomHazardDeck(pCardRepository);
+            if (Object.keys(jDeck.mps).length === 0)
+                jDeck.mps = originalHazards;
+        }
     }
+
 
     return jDeck;
 };

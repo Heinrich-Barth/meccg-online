@@ -96,9 +96,9 @@ class CardDataProvider extends CardRepository {
         return ValidateDeckArda(jDeck, this);
     }
 
-    validateDeckSingleplayer(jDeck:DeckValidateArda|null)
+    validateDeckSingleplayer(jDeck:DeckValidateArda|null, randomHazards:boolean = false)
     {
-        return ValidateDeckSingleplayer(jDeck, this);
+        return ValidateDeckSingleplayer(jDeck, randomHazards, this);
     }
 
     getImageList()

@@ -4,9 +4,9 @@ import GamePlayRouteHandler from "./GamePlayRouteHandler";
 
 export default class GamePlayRouteHandlerSingle extends GamePlayRouteHandler
 {
-    validateDeck(jDeck:DeckValidateArda)
+    validateDeck(jDeck:DeckValidateArda, randomHazards:boolean = false)
     {
-        return CardDataProvider.validateDeckSingleplayer(jDeck);
+        return CardDataProvider.validateDeckSingleplayer(jDeck, randomHazards);
     }
 
     isSinglePlayer()

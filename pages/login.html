@@ -18,7 +18,8 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="MECCG - Join this game">
-    <meta property="og:description" content="Join this MECCG game. Either use your own deck or choose from a wide variety of preselected decks.">
+    <meta property="og:description"
+        content="Join this MECCG game. Either use your own deck or choose from a wide variety of preselected decks.">
     <meta property="og:image" content="/pwa/icon-512.png">
 
     <base target="_self">
@@ -47,17 +48,18 @@
                             <input type="radio" id="toggle_isarda" value="arda" name="gameType"><label
                                 for="toggle_isarda"><strong>Arda</strong></label><span class="label-after"></span>
                             <input type="radio" checked="checked" id="toggle_isstandard" value="standard"
-                                name="gameType"><label
-                                for="toggle_isstandard"><strong>Standard</strong></label><span
+                                name="gameType"><label for="toggle_isstandard"><strong>Standard</strong></label><span
                                 class="label-after"></span>
-                            <input type="radio" id="toggle_issingleplayer" value="singleplayer"
-                                name="gameType"><label
+                            <input type="radio" id="toggle_issingleplayer" value="singleplayer" name="gameType"><label
                                 for="toggle_issingleplayer"><strong>Singleplayer / Solitary Mode</strong></label>
+                            <input type="radio" id="toggle_issingleplayer_random" value="singleplayer_ranadom"
+                                name="gameType"><label for="toggle_issingleplayer_random"><strong>Solitary Mode (random hazard deck)</strong></label>
                             <span class="label-newline"></span>
-                            <input type="checkbox" id="toggle_allow_dce" value="true" checked name="dce_errata"><label for="toggle_allow_dce">Use <strong>DC errata</strong></label>
+                            <input type="checkbox" id="toggle_allow_dce" value="true" checked name="dce_errata"><label
+                                for="toggle_allow_dce">Use <strong>DC errata</strong></label>
                             <span class="label-newline"></span>
-                            <input type="checkbox" id="toggle_use_spanish" value="yes"
-                                name="cards_spanish"><label for="toggle_use_spanish">Use Spanish instead of English
+                            <input type="checkbox" id="toggle_use_spanish" value="yes" name="cards_spanish"><label
+                                for="toggle_use_spanish">Use Spanish instead of English
                                 cards
                                 (if available)</label>
                         </p>
@@ -75,7 +77,8 @@
     </div>
 
     <details id="deck-text-fields" class="deck-fields">
-        <summary>Click here to edit selected deck or to import your own deck from <a href="https://cardnum.net" target="_blank">Cardnum</a> or other</summary>
+        <summary>Click here to edit selected deck or to import your own deck from <a href="https://cardnum.net"
+                target="_blank">Cardnum</a> or other</summary>
         <div class="fields">&nbsp;</div>
     </details>
 

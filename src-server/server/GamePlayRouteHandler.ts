@@ -213,7 +213,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         this.createExpireResponse(res, "text/html").send(this.#pageLogin.replace("{DISPLAYNAME}", sUser)).status(200);
     }
 
-    validateDeck(jDeck:DeckValidate)
+    validateDeck(jDeck:DeckValidate, randomHazards:boolean = false)
     {
         /**
          * Validate Deck first
@@ -333,6 +333,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
             const useDCE = jData.dce === true;
             const useJitsi = jData.jitsi === true;
             const shareMessage = typeof jData.share === "string" ? jData.share : "";
+            const randomHazardDeck = this.isSinglePlayer() && jData.randomHazards === true;
 
             /**
              * assert the username is alphanumeric only
@@ -343,7 +344,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
             /**
              * Validate Deck first
              */
-            const jDeck = this.validateDeck(jData.deck);
+            const jDeck = this.validateDeck(jData.deck, randomHazardDeck);
             if (jDeck === null)
                 throw new Error("Invalid Deck");
 

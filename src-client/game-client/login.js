@@ -829,6 +829,7 @@ const onPerformLogin = function()
         name: sName,
         dce: isCheckedInput("toggle_allow_dce"),
         share: getSocialMediaAction(),
+        randomHazards: getGameTypeValue() === "singleplayer_ranadom",
         jitsi: false,
         deck: jDeck
     }
@@ -881,28 +882,29 @@ const getRoomName = function()
         return sUrl.substring(nPos+1);
 }
 
-const getGameType = function()
+const getGameTypeValue = function()
 {
     const gameTypes = document.getElementsByName("gameType");
     if (gameTypes === null || gameTypes === undefined)
-        return "standard";
+        return "";
 
-    let radio_value = "";
     for(let gameType of gameTypes)
     {
         if(gameType.checked)
-        {
-            radio_value = gameType.value;
-            break;
-        }
+            return gameType.value;
     }
+};
 
+const getGameType = function()
+{
+    const radio_value = getGameTypeValue();
     if (radio_value === "arda" || radio_value === "singleplayer")
         return radio_value;
+    else if (radio_value === "singleplayer_ranadom")
+        return "singleplayer";
     else
         return "standard"
 };
-
 
 const onProcessDeckCheckResult = function(codes)
 {
