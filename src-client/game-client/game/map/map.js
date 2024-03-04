@@ -31,13 +31,22 @@ const MapWindow = {
 
         if (jData.type === "set" && typeof sCompany !== "undefined" && sCompany !== "")
         {
-            MeccgApi.send("/game/company/location/set-location", {
-                companyUuid: sCompany,
-                start: jData.start, 
-                regions: jData.regions, 
-                destination: jData.target,
-                revealStart : isRevealed
-            });
+            if (sCompany !== "_temp")
+            {
+                MeccgApi.send("/game/company/location/set-location", {
+                    companyUuid: sCompany,
+                    start: jData.start, 
+                    regions: jData.regions, 
+                    destination: jData.target,
+                    revealStart : isRevealed
+                });
+            }
+            else
+            {
+                const code = jData.start;
+                if (typeof code === "string" && code !== "")
+                     MeccgApi.send("/game/card/import", {code : code, type: "character" });
+            }
         }
     },
 
@@ -217,6 +226,9 @@ const MapWindow = {
 
     notifyUsers : function(isStartingSite, company)
     {
+        if (company === "_temp")
+            return;
+
         MeccgApi.send("/game/company/location/choose", {
             company: company,
             homesite: isStartingSite,

@@ -819,6 +819,19 @@ const ContextMenu = {
                 MeccgApi.send("/game/card/import", {code : code, type: "resource" });
         },
 
+        addSiteCharacter : function()
+        {
+            const data = {
+                company : "_temp",
+                code : "",
+                revealed : true,
+                id : CreateHandCardsDraggableUtils.requireMessageId(),
+                regionmap : true
+            };
+    
+            document.body.dispatchEvent(new CustomEvent("meccg-map-show", { "detail":  data }));
+        },
+
         addCharacter: function(pMenu)
         {
             let code = ContextMenu.getAttribute(pMenu, "data-card-code");
@@ -979,10 +992,12 @@ const ContextMenu = {
         this.addItem("playdeck_shuffle_x_cards", "Shuffle top X cards of your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleXCardsPlaydeck, "");
         this.addItem("discardpile_shuffle_into_playdeck", "Shuffle discard pile into your playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleDiscardpileIntoPlaydeck, "");
 
+        this.addItem("playdeck_choose_site", "Add a site as a character", "fa-map-signs", "context-menu-item-generic", ContextMenu.callbacks.addSiteCharacter, "", "Adds this site as CHARACTER to your hand.");
+
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
-        this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
+        this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "playdeck_choose_site", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
         this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_sites", "_divider", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
 
