@@ -246,16 +246,11 @@ const GameBuilder = {
         let lDiff = (new Date().getTime() - GameBuilder._timeStarted) + GameBuilder._gameStarted;
         let pDate = new Date(lDiff);
         
-        let lHours = pDate.getHours();
-        let lMins = pDate.getMinutes();
-        
-        let sVal = lHours < 10 ? "0" : "";
-        sVal += lHours + ":";
-        
-        if (lMins < 10)
-            sVal += "0";
-        
-        document.getElementById("game_time").innerText = sVal + lMins;
+        const lMins = pDate.getHours() * 60 + pDate.getMinutes();
+        if (lMins === 1)
+            document.getElementById("game_time").innerText = "1min";
+        else
+            document.getElementById("game_time").innerText = lMins + "mins";
     },
 
     alreadyInHand: function(uuid)

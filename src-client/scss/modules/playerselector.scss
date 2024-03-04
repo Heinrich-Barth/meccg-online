@@ -10,8 +10,8 @@
 
 .player-selector-box {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 1px;
+    left: 33px;
     min-width: 100px;
     color: var(--color-light-grey);
     z-index: 400;
@@ -23,6 +23,15 @@
 
     .player-hazard,
     .player-active { display: none; padding-left: 5px; }
+
+    .player-handcard-count,
+    .player-playdeck-count {
+        font-size: 0.8em;
+    }
+
+    .player_group_additionals {
+        font-size: 0.8em;
+    }
 
     a {
         display: inline-block;

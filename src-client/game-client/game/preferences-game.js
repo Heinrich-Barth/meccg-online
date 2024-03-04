@@ -159,6 +159,19 @@ class GamePreferences extends Preferences {
         MeccgApi.send("/game/score/doublemisc", { misc: isActive === true });
     }
 
+    #toggleCompanyHoverBackground(isActive)
+    {
+        if (isActive)
+            sessionStorage.getItem("toggle_white", "yes");
+        else if (sessionStorage.getItem("toggle_white", "yes"))
+            sessionStorage.removeItem("toggle_white");
+
+        if (isActive && !document.body.classList.contains("company-accessibility"))
+            document.body.classList.add("company-accessibility");
+        else if (!isActive && document.body.classList.contains("company-accessibility"))
+            document.body.classList.remove("company-accessibility");
+    }
+
     #toggleSpanishCards(isActive)
     {
         sessionStorage.setItem("cards_es", isActive ? "yes" : "no");
@@ -352,6 +365,7 @@ class GamePreferences extends Preferences {
             this.createEntry0("use_padding_bottom");
         }
         
+        this.createEntry0("toggle_company_help");
         this.createEntry0("toggle_fullscreen");
 
         this.createSection("Accessibility / Language");
@@ -418,6 +432,7 @@ class GamePreferences extends Preferences {
         this.addConfigToggle("bg_shawod", "Reduce background brightness", true, this.#backgroundDarkness);
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
         this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen);
+        this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
         this.addConfigToggle("show_chat", "Show game log window", true, this.#chat);
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));
 
@@ -450,6 +465,7 @@ class GamePreferences extends Preferences {
 
         this.#toggleCardPreview();
         this.#backgroundDarkness(true);
+        this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
     }
 
     #toggleCardPreview()
