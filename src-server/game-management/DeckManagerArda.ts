@@ -1,15 +1,16 @@
 import DeckManager from "./DeckManager";
 import HandManagerArda from "./HandManagerArda";
-import DeckArda from "./DeckArda";
+import DeckArda, { DeckSingleplayer } from "./DeckArda";
 import HandManager from "./HandManager";
 import { PlaydeckStandard } from "../plugins/Types";
 import DeckDefault from "./DeckDefault";
 
-export default class DeckManagerArda extends DeckManager {
+export default class DeckManagerArda extends DeckManager 
+{
 
     #adminUserId = "";
     #poolGame:{ [uuid:string] : number} = { };
-    
+
     getAdminDeck():DeckArda|null
     {
         return super.getPlayerDeck(this.#adminUserId) as DeckArda;
@@ -63,7 +64,8 @@ export default class DeckManagerArda extends DeckManager {
             this.#adminUserId = playerId;
 
             /** all players share the same minor item hand */
-            this.drawMinorItems(playerId, 4);
+            if (!this.isSinglePlayer())
+                this.drawMinorItems(playerId, 4);
 
             pDeck.shuffleCommons();
         }
@@ -120,3 +122,15 @@ export default class DeckManagerArda extends DeckManager {
     }
 }
 
+export class DeckManagerSinglePlayer extends DeckManagerArda 
+{
+    newDeckInstance(playerId:string)
+    {
+        return new DeckSingleplayer(playerId);
+    }
+
+    isSinglePlayer()
+    {
+        return true;
+    }
+}

@@ -4,7 +4,7 @@ import * as UTILS from "../meccg-utils";
 import Player from "./Player";
 import Visitor from "./Visitor";
 import PlayboardManager from "./PlayboardManager";
-import PlayboardManagerArda from "./PlayboardManagerArda";
+import PlayboardManagerArda, { PlayboardManagerSingleplayer } from "./PlayboardManagerArda";
 import Chat from "./Chat";
 import GameAPI from "./GameAPI";
 
@@ -59,7 +59,7 @@ export class GameRoom
         const chat = new Chat(api, "/game/chat/message", room, -1);
         if (isArda || isSinglePlayer)
         {
-            pPlayboardManager = new PlayboardManagerArda();
+            pPlayboardManager = isSinglePlayer ? new PlayboardManagerSingleplayer() : new PlayboardManagerArda();
             gameInstance = new GameArda(api, chat, pPlayboardManager);
         }
         else

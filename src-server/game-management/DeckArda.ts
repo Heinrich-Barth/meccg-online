@@ -161,7 +161,7 @@ export default class DeckArda extends DeckDefault {
 
         let nSize = 0;
 
-        this.#copyIdsOpeningHand(super.getHandCards(), _cardMap);
+        this.copyIdsOpeningHand(super.getHandCards(), _cardMap);
 
         /** minor items will be drawn to hand on startup */
         nSize = this.add(jsonDeck["minors"], this.#handMinorItems, _cardMap);
@@ -477,7 +477,7 @@ export default class DeckArda extends DeckDefault {
         return this.#playdeckMP;
     }
 
-    #copyIdsOpeningHand(list:string[], _cardMap:TDeckCardMap)
+    copyIdsOpeningHand(list:string[], _cardMap:TDeckCardMap)
     {
         const listChars = [];
         for (let uuid of list)
@@ -654,3 +654,10 @@ export default class DeckArda extends DeckDefault {
     
 }
 
+export class DeckSingleplayer extends DeckArda
+{
+    copyIdsOpeningHand(list:string[], _cardMap:TDeckCardMap)
+    {
+        /** ignore this */
+    }
+}

@@ -1,6 +1,6 @@
 
 import PlayboardManager from "./PlayboardManager";
-import DeckManagerArda from "./DeckManagerArda";
+import DeckManagerArda, { DeckManagerSinglePlayer } from "./DeckManagerArda";
 
 export default class PlayboardManagerArda extends PlayboardManager
 {
@@ -10,3 +10,10 @@ export default class PlayboardManagerArda extends PlayboardManager
     }
 }
 
+export class PlayboardManagerSingleplayer extends PlayboardManager
+{
+    constructor()
+    {
+        super(new DeckManagerSinglePlayer())
+    }
+}
