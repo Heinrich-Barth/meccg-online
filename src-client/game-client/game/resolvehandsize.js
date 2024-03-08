@@ -168,6 +168,11 @@ class ResolveHandSizeContainer
         return idSizerValue;
     }
 
+    static #getCount()
+    {
+        return document.body.getAttribute("data-is-singleplayer") === "true" ? 5 : 8;
+    }
+
     static createHandContainer()
     {
         const handContent = document.getElementById("playercard-hand-content");
@@ -175,7 +180,7 @@ class ResolveHandSizeContainer
             return;
 
         const _handSizer = handContent.querySelector(".hand-card-sizer");
-        const _sizerId = ResolveHandSizeContainer.create(_handSizer, "Always ask to resolve to", 8, "cards.");
+        const _sizerId = ResolveHandSizeContainer.create(_handSizer, "Always ask to resolve to", ResolveHandSizeContainer.#getCount(), "cards.");
         if (_sizerId !== "")
             ResolveHandSizeFirst.create("playercard_hand_container", _sizerId, "cards");
     }
