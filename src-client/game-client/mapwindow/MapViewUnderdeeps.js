@@ -253,7 +253,10 @@ class MapViewUnderdeeps extends MapView {
     alignmentMatch(code, limits)
     {
         const align = this.alignments[code];
-        return align === undefined || limits[align.toLowerCase()];
+        if (align === "Dual")
+            return limits["hero"] === true || limits["minion"] === true;
+        else
+            return align === undefined || limits[align.toLowerCase()];
     }
 
     populateSites(startingCode)
