@@ -253,11 +253,52 @@ class MapViewUnderdeeps extends MapView {
     alignmentMatch(code, limits)
     {
         const align = this.alignments[code];
-        if (align === "Dual")
-            return limits["hero"] === true || limits["minion"] === true;
-        else
-            return align === undefined || limits[align.toLowerCase()];
+        return align === undefined || this.#alignmentMatches(align.toLowerCase(), limits);
     }
+
+    #isAlignmentTrue(val, limits)
+    {
+        return limits[val] === true;
+    }
+
+    #alignmentMatches(align, limits)
+    {
+        switch(align)
+        {
+            case "dual":
+                return this.#isAlignmentTrue("hero", limits) || this.#isAlignmentTrue("minion", limits);
+
+            case "hero":
+            case "minion":
+            case "fallenwizard":
+            case "balrog":
+            case "elf":
+            case "dwarf":
+            case "lord":
+            case "fallenlord":
+            case "dragon":
+                return this.#isAlignmentTrue(align, limits);
+
+            case "dwarflord":
+                return this.#isAlignmentTrue("dwarf", limits);
+
+            case "elflord":
+                return this.#isAlignmentTrue("elf", limits);
+
+            case "atanilord":
+            case "grey":
+            case "warlord":
+                return this.#isAlignmentTrue("lord", limits);
+
+            case "dragonlord":
+                return this.#isAlignmentTrue("dragon", limits);
+
+            default:
+                break;
+        }
+
+        return true;
+    }    
 
     populateSites(startingCode)
     {
