@@ -1114,7 +1114,10 @@ const saveDeckNotesToSession = function()
 const getDeckNotes = function()
 {
     const elem = document.getElementById("notes");
-    return elem === null ? "" : elem.value.trim();
+    if (elem === null || typeof elem.value === "undefined")
+        return "";
+    else
+        return elem.value.trim();
 }
 
 const randomNumber = function(max)
