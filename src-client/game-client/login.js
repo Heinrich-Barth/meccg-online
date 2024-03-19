@@ -467,7 +467,7 @@ const createChallengeDeckCard = function(deck, key, meta, labelColor)
     divDeck.setAttribute("data-deck-name", key);
     divDeck.setAttribute("data-deck-group", deck.name.toLowerCase());
     divDeck.setAttribute("id", _deckid);
-    divDeck.oncontextmenu = onDownloadDeck;
+    divDeck.oncontextmenu = (e) => onDownloadDeck(e, _deckid, key);
 
     const img = meta?.avatar !== "" ? `<img src="${meta.avatar}">`: '<img src="/data/backside" class="avatar-backside">';
     divDeck.innerHTML = `
@@ -586,6 +586,7 @@ const onDownloadDeck0 = function(name, data)
 {
     try
     {
+        console.log("DOWNLOAD DECK ", name);
         const type = "text/plain";
         const a = document.createElement('a');
         a.href = window.URL.createObjectURL(new Blob([data], {"type": type}));
@@ -599,19 +600,18 @@ const onDownloadDeck0 = function(name, data)
     }
 }
 
-const onDownloadDeck = function(e)
+const onDownloadDeck = function(e, deckid, name)
 {
     e.preventDefault();
     
-    const deckid = e.target.getAttribute("data-deck-id");
-    const filename = e.target.getAttribute("data-deck-name") + ".meccg";
+    const filename = name + ".meccg";
 
     fetch("/data/decks/" + deckid)
-    .then(response => response.text())
+    .then(response => response.json())
     .then(deckdata => 
     {
         g_pDeckMap[deckid] = deckdata;
-        onDownloadDeck0(filename,  deckdata);
+        onDownloadDeck0(filename,  deckdata.deck);
     })
     .catch(err =>
     {
