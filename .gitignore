@@ -17,7 +17,7 @@ data-local/not-found.json
 
 logs/
 public/cards
-
+public/favicons
 dist-server/
 dist-client/
 
