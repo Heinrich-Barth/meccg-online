@@ -50,6 +50,11 @@ const Caching = {
             next();
         },
 
+        cache6hrsOnly: function (_req: Request, res: Response, next: NextFunction) {
+            res.header("Cache-Control", "public, max-age=21600");
+            next();
+        },
+
         htmlCallback: function (_req: Request, res: Response, next: NextFunction) {
             res.header("Cache-Control", "public, max-age=0");
             res.header('Content-Type', "text/html");
