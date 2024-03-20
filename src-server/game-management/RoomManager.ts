@@ -942,6 +942,7 @@ export default class RoomManager {
         const useDCE = pRoom.useDCE() ? "true" : "false";
 
         return this.#gamePageHtml.replace("{TPL_DISPLAYNAME}", username)
+            .replace("/media/assets/favicon.png", "/data/favicon/" + room)
             .replace("{TPL_BACKGROUND}", this.#getRandomBackground())
             .replace("{TPL_TIME}", "" + lTimeJoined)
             .replace("{TPL_ROOM}", room)

@@ -24,6 +24,7 @@ import InitNavigation from "./plugins/Navigation";
 import InitRouting from "./server/module";
 import { getRootFolder } from "./Configuration";
 import CreateRobotsTxt from "./robotstxt";
+import InitFaviconRoutes from "./plugins/Favicons";
 
 ServerInstance.setup();
 setupEvents();
@@ -102,6 +103,7 @@ ServerInstance.getServerInstance().get("/data/spectators/:room", Caching.expires
  * Load a list of available challenge decks to start right away
  */
 InitDecklistRoutes();
+InitFaviconRoutes();
 
 /**
   * Check if the deck is valid.

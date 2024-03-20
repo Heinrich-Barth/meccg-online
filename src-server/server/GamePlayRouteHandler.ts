@@ -210,7 +210,12 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         const sUser = req.cookies.username === undefined ? "" : this.sanatiseCookieValue(req.cookies.username);
 
         this.clearCookies(req, res);
-        this.createExpireResponse(res, "text/html").send(this.#pageLogin.replace("{DISPLAYNAME}", sUser)).status(200);
+        this.createExpireResponse(res, "text/html").status(200).send(
+            this.#pageLogin
+                .replace("{DISPLAYNAME}", sUser)
+                .replace("/media/assets/favicon.png", "/data/favicon/" + req.params.room)
+                .replace("/pwa/icon-512.png", "/data/favicon/" + req.params.room)
+        );
     }
 
     validateDeck(jDeck:DeckValidate, randomHazards:boolean = false)
