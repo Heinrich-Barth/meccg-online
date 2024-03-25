@@ -285,6 +285,11 @@ export default class RoomManager {
         return true;
     }
 
+    getGameCountOnly()
+    {
+        return this.#roomCountAll.length;
+    }
+
     getGameCount()
     {
         if (this.#roomCountAll.length === 0)

@@ -65,8 +65,18 @@ const onHealth = function(_req:Request, res:Response)
     res.send(JSON.stringify(data, null, 3));
 };
 
+const onGamesCount = function(_req:Request, res:Response) 
+{
+    res.header('Content-Type', 'application/json');
+    res.header("Cache-Control", "no-store");
+    res.json({
+        games: ServerInstance.getRoomManager().getGameCountOnly()
+    })
+}
+
 export default function InitRoutingHealth()
 {
     getServerInstance().get("/health", Authentication.isSignedInPlay, onHealthSmall);
     getServerInstance().get("/health/full", Authentication.isSignedInPlay, onHealth);
+    getServerInstance().get("/api/games/count", onGamesCount);
 };
