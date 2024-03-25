@@ -287,7 +287,7 @@ export default class RoomManager {
 
     getGameCountOnly()
     {
-        return this.#roomCountAll.length;
+        return Object.keys(this.#rooms).length;
     }
 
     getGameCount()
