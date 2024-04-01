@@ -342,8 +342,41 @@ class TaskBarCards
     {
         switch (type) 
         {
-            case "sideboard":
             case "discard":
+            {
+                new Question("fa-sign-out")
+                .onOk(() => {
+
+                    TaskBarCards.ShuffleDiscardPile();
+
+                    new PlayerSelectorActionCallback()
+                    .includeAllOption(true)
+                    .setCallback((_myid, other) => {
+                        const data = {
+                            type: type,
+                            opponentid: other
+                        }
+                        MeccgApi.send("/game/view-cards/reveal-pile", data);
+                    })
+                    .onChoosePlayer();
+                })
+                .onCancel(() => {
+                    
+                    new PlayerSelectorActionCallback()
+                    .includeAllOption(true)
+                    .setCallback((_myid, other) => {
+                        const data = {
+                            type: type,
+                            opponentid: other
+                        }
+                        MeccgApi.send("/game/view-cards/reveal-pile", data);
+                    })
+                    .onChoosePlayer();
+                })
+                .show("Shuffle discardpile first?", "Do you want to shuffle your discard pile before revealing it?", "Yes, shuffle first", "No");
+                break;
+            }
+            case "sideboard":
             case "playdeck":
             case "hand":
 

@@ -1,6 +1,8 @@
 
 class Question {
 
+    #callbackCancel = null;
+
     constructor(icon)
     {
         this.callbackOk = null;
@@ -33,7 +35,7 @@ class Question {
         return this;
     }
 
-    insertTemplate(title, message, labelOk)
+    insertTemplate(title, message, labelOk, sLabelCancel = "Cancel")
     {
         const div = document.createElement("div");
         div.setAttribute("class", "hidden");
@@ -49,7 +51,7 @@ class Question {
                               </div>
                               <div class="question-answers">
                                 <input type="button" name="deck" id="q_ok" class="w100" value="${labelOk}" />
-                                <input type="button" name="deck" id="q_cancel" class="w100 cancel ${cancelCss}" value="Cancel" />
+                                <input type="button" name="deck" id="q_cancel" class="w100 cancel ${cancelCss}" value="${sLabelCancel}" />
                               </div>`;
 
         if (this.css !== "")
@@ -85,15 +87,15 @@ class Question {
         this._addCancel = false;
     }
 
-    show(sTitle, sInfo, sLabelOk)
+    show(sTitle, sInfo, sLabelOk, sLabelCancel = "Cancel")
     {
         if (this.isVisible())
             this.close();
 
-        this.insertTemplate(sTitle, sInfo, sLabelOk);
+        this.insertTemplate(sTitle, sInfo, sLabelOk, sLabelCancel);
     
         document.getElementById("question_box").onclick = this.close.bind(this);
-        document.getElementById("q_cancel").onclick = this.close.bind(this);
+        document.getElementById("q_cancel").onclick = this.onClickCancel.bind(this);
         document.getElementById("q_ok").onclick = this.onClickOk.bind(this);
         
         const jBox = document.getElementById("question_box");
@@ -107,6 +109,20 @@ class Question {
 
         if (this.callbackOk !== null)
             this.callbackOk();
+    }
+
+    onClickCancel()
+    {
+        this.close();
+
+        if (this.#callbackCancel != null)
+            this.#callbackCancel();
+    }
+
+    onCancel(callback)
+    {
+        this.#callbackCancel = callback;
+        return this;
     }
 
     onOk(callback)
