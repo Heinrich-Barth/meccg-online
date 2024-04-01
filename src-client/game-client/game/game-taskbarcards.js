@@ -621,6 +621,17 @@ class TaskBarCards
             jContainer.classList.remove("offer");
     }
 
+    static ShuffleDiscardPile(e)
+    {
+        MeccgApi.send("/game/view-cards/shuffle", { target: "discardpile" });
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Discardpile shuffled." }));
+
+        if (e !== undefined && typeof e.stopPropagation !== "undefined")
+            e.stopPropagation();
+
+        return false
+    }
+
     static ShufflePlaydeck(e) 
     {
         MeccgApi.send("/game/view-cards/shuffle", { target: "playdeck" });
