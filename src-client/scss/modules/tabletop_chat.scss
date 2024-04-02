@@ -10,8 +10,10 @@
     padding: 0.65em 0.75em;
     outline: none;
     overflow-y: hidden;
-
+    opacity: 0.16;
+    transition: opacity 0.4s ease-in-out;
     &:hover {
+        opacity: 1;
         max-height: 50%;
         max-width: 50%;
         overflow-y: auto;

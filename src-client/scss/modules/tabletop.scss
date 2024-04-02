@@ -31,7 +31,8 @@ a {
         position: absolute;
         width: 280px;
         top: -35px;
-
+        opacity: 0.2;
+        transition: opacity 0.4s ease-in-out;
         &.taskbar-icons-reduced
         {
             width: 120px;
@@ -168,6 +169,10 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
 
         .tableCell {
             vertical-align: bottom;
+        }
+
+        .companies {
+            margin-left: 30px;
         }
     }
 
@@ -365,12 +370,24 @@ body.table-companies-breakline .companies {
         visibility: hidden;
     }
 
+    .hand-card-actions
+    {
+        opacity: 0.16;
+        transition: opacity 0.4s ease-in-out;
+    }
+
     &:hover {
         .card-hand-count {
             background: var(--color-orange);            
-        }    
+        }
+
         .hand-card-sizer {
             visibility: visible;
+        }
+
+        .hand-card-actions,
+        .taskbar-icons {
+            opacity: 1;
         }
     }
 
