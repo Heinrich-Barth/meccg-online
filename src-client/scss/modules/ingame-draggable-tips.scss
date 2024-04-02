@@ -15,7 +15,7 @@ body.on-drag-event-resource .area-player .company-characters-add:before
     border-radius: 5px;
     position: absolute;
     text-align: center;
-    color: var(--color-yellow);
+    color: var(--color-near-white);
     text-transform: uppercase;
     font-size: 0.8em;
     padding: 5px 2px;
@@ -28,7 +28,7 @@ body.on-drag-event-generic #card_counter a {
 body.on-drag-event-generic #shared_outofplay:after,
 body.on-drag-event-generic #card_counter a:before {
     position: absolute;
-    color: var(--color-yellow);
+    color: var(--color-near-white);
     z-index: 901;
     left: 40px;
     top: 20px;
@@ -193,7 +193,7 @@ body.on-drag-event-generic #card_counter a.victory:before { content: "Store this
     width: 230px;
     background: linear-gradient(90deg, rgba(35, 35, 35, 0.7) 0%, rgba(35, 35, 35, 0.3) 100%);
     border-radius: 5px;
-    color: var(--color-yellow);
+    color: var(--color-near-white);
     text-transform: uppercase;
     font-size: 0.8em;
     padding: 0.5em;
