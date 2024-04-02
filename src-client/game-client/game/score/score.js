@@ -121,9 +121,9 @@ class ScoringContainers {
             tr.innerHTML = `
                 <th>${entry.label}</th>
                 <td data-player="self">
-                    <a href="#" data-score-action="increase" title="increase"><i class="fa fa-plus-circle" title="increase" aria-hidden="true"></i></a>
+                    <a href="#" data-score-action="increase" title="increase"><i class="fa fa-plus-square" title="increase" aria-hidden="true"></i></a>
                     <span>0</span>
-                    <a href="#" data-score-action="decrease" title="decrease"><i class="fa fa-minus-circle" title="decrease" aria-hidden="true"></i></a>
+                    <a href="#" data-score-action="decrease" title="decrease"><i class="fa fa-minus-square" title="decrease" aria-hidden="true"></i></a>
                 </td>`;
 
             jBody.appendChild(tr);
@@ -865,7 +865,7 @@ const SCORING_INGAME =
                 aP.setAttribute("data-score-action", "increase");
                 aP.setAttribute("title", "increase " + entry.label + " points by 1");
                 aP.onclick = SCORING_INGAME.onClickIncrease;
-                aP.innerHTML = `<i class="fa fa-plus-circle" aria-hidden="true"></i>`;
+                aP.innerHTML = `<i class="fa fa-plus-square" aria-hidden="true"></i>`;
 
                 const span = document.createElement("span");
                 span.innerText = "0";
@@ -878,7 +878,7 @@ const SCORING_INGAME =
                 aM.setAttribute("data-score-action", "decrease");
                 aM.setAttribute("title", "decrease " + entry.label + " points by 1");
                 aM.onclick = SCORING_INGAME.onClickDecrease;
-                aM.innerHTML = `<i class="fa fa-minus-circle" aria-hidden="true"></i>`;
+                aM.innerHTML = `<i class="fa fa-minus-square" aria-hidden="true"></i>`;
 
                 td.append(aP, span, strong, aM);
             }

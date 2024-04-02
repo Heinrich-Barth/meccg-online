@@ -140,7 +140,7 @@ class ResolveHandSizeContainer
             div.appendChild(document.createTextNode(sTextPrefix));
 
         _i = document.createElement("i");
-        _i.setAttribute("class", "fa fa-plus-circle card-hands-sizer-plus");
+        _i.setAttribute("class", "fa fa-plus-square card-hands-sizer-plus");
         _i.setAttribute("title", "increase hand size");
         _i.setAttribute("data-for", idSizerValue);
         _i.setAttribute("aria-hidden", "true");
@@ -154,7 +154,7 @@ class ResolveHandSizeContainer
         div.appendChild(_i);
 
         _i = document.createElement("i");
-        _i.setAttribute("class", "fa fa-minus-circle card-hands-sizer-minus");
+        _i.setAttribute("class", "fa fa-minus-square card-hands-sizer-minus");
         _i.setAttribute("title", "decrease hand size");
         _i.setAttribute("data-for", idSizerValue);
         _i.setAttribute("aria-hidden", "true");
