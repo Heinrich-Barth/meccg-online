@@ -432,7 +432,11 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         if (!this.getRoomManager().roomExists(req.room))
             res.redirect("/error/nosuchroom");
         else
-            this.createExpireResponse(res, 'text/html').send(this.#pageWatch).status(200);
+            this.createExpireResponse(res, 'text/html').send(
+                this.#pageWatch
+                    .replace("/media/assets/favicon.png", "/data/favicon/" + req.room)
+                    .replace("/pwa/icon-512.png", "/data/favicon/" + req.room)
+            ).status(200);
     }
 
     onLobby(req:any, res:Response)
