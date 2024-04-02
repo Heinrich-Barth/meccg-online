@@ -278,6 +278,17 @@ class JumbleCards
 
         JumbleCards.#num = val;
         JumbleCards.#updateCompanies(val);
+        JumbleCards.#updateStages(val);
+    }
+
+    static #updateStages(val)
+    {
+        if (val === -1)
+            val = JumbleCards.#num;
+
+        const list = document.getElementsByClassName("staging-area-area");
+        for (let elem of list)
+            JumbleCards.#updateStageAraCards(elem, val);
     }
 
     static #updateCompanies(val)
@@ -303,6 +314,12 @@ class JumbleCards
             JumbleCards.updateCompanyCard(elem, val, true);
     }
 
+    static #updateStageAraCards(company, val)
+    {
+        const list = company.querySelectorAll("div.card");
+        for (let elem of list)
+            JumbleCards.#updateStageAraCard(elem, val);
+    }
     static #updateCompanyChars(company, val)
     {
         const cards = company.querySelectorAll(".company-characters div.card");
@@ -351,6 +368,32 @@ class JumbleCards
             return conservative ? 5 : 15;
     }
 
+    static #updateStageAraCard(card, val = -1)
+    {
+        if (val === -1)
+            val = JumbleCards.#num;
+
+        if (val < 1)
+        {
+            JumbleCards.#removeOptions(card);
+            return;
+        }
+        
+        const conservative = val === 1;
+        
+        if (JumbleCards.#updatePropertyX(conservative))
+            card.style.setProperty("--jumble-translate-x", JumbleCards.#calcTranslate(conservative) + "px");
+        else
+            card.style.setProperty("--jumble-translate-x", "0px");
+
+        if (JumbleCards.#updateProperty(conservative))
+            card.style.setProperty("--jumble-translate-y", JumbleCards.#calcTranslate(conservative) + "px");
+        else
+            card.style.setProperty("--jumble-translate-y", "0px");
+
+        card.classList.add("card-jumbled");
+    }
+
     static updateCompanyCard(card, val = -1, isSites = false)
     {
         if (val === -1)
@@ -364,7 +407,7 @@ class JumbleCards
         
         const conservative = val === 1;
         
-        if (JumbleCards.#updateProperty(conservative))
+        if (JumbleCards.#updatePropertyX(conservative))
             card.style.setProperty("--jumble-translate-x", JumbleCards.#calcTranslate(conservative, isSites) + "px");
         else
             card.style.setProperty("--jumble-translate-x", "0px");
@@ -382,6 +425,11 @@ class JumbleCards
         card.classList.add("card-jumbled");
     }
 
+    static #updatePropertyX(conservative)
+    {
+        const val = JumbleCards.#calcVal(10);
+        return conservative ? val >= 4 : val > 3;
+    }
     static #updateProperty(conservative)
     {
         const val = JumbleCards.#calcVal(10);
@@ -392,7 +440,7 @@ class JumbleCards
     static #updateRotation(conservative)
     {
         const val = JumbleCards.#calcVal(20);
-        return conservative ? val > 15 : val > 10;
+        return conservative ? false : val > 10;
     }
 
     static #removeOptions(card)
