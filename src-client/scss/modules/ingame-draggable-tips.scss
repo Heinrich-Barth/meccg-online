@@ -186,3 +186,39 @@ body.on-drag-event-hazard .area-opponent .site-regions:before
 
 body.on-drag-event-generic #card_counter a.victory:before { content: "Store this card"; }
 
+.playercard-hand-container:empty 
+{
+    padding-top: 5px;
+    position: relative;
+    &::before
+    {
+        content: "Your hand is empty. Draw a new card.";
+        position: absolute;
+        color: var(--color-near-white);
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+        left: 0;
+        top: 0px;
+        bottom: 0;
+        width: 200px;
+    }
+}
+
+#arda_hand_container_mps:empty
+{
+    position: relative;
+    padding-top: 5px;
+    &::before
+    {
+        content: "Your hand is empty. Draw a new card.";
+        position: absolute;
+        color: var(--color-near-white);
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+        right: 0;
+        width: 90px;
+        top: 0px;
+    }
+}
