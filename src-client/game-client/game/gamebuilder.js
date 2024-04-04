@@ -116,10 +116,10 @@ const GameBuilder = {
 
     initAdditionals : function()
     {
-        const div_card_count = document.createElement("div");
+        const div_card_count = document.createElement("span");
         div_card_count.setAttribute("id", "draw_card_count");
         div_card_count.setAttribute("class", "card-hand-count")
-        document.getElementById("draw_card").parentElement.append(div_card_count);
+        document.getElementById("draw_card").append(div_card_count);
         
         if (GameBuilder._isVisitor === true || g_sRoom === undefined || g_sRoom === "")
             return;

@@ -1218,25 +1218,27 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             bar.prepend(a);
 
             const pScore = document.querySelector(".taskbar-score")
+            if (pScore)
+                pScore.classList.add("hidden");
+
             
-            const pMove = document.createElement("div");
-            pMove.setAttribute("class", "icon move-hand-icon");
-            pMove.innerHTML = `<i class="fa fa-arrows "></i>`
-            pMove.setAttribute("id", "move-hand-icon");
-            pMove.setAttribute("title", "Click to drag anywhere.\nRIGHT click to restore to original position");
-            pMove.oncontextmenu = () => {
-                const elem = document.getElementById("playercard_hand");
-                if (elem.hasAttribute("style"))
-                    elem.removeAttribute("style");
-                return false;
-            }
-
-            bar.insertBefore(pMove, pScore);
-            pScore.classList.add("hidden")
-
             const pHandDiv = document.getElementById("playercard_hand");
             if (pHandDiv !== null)
             {
+                const pMove = document.createElement("div");
+                pMove.setAttribute("class", "move-hand-icon");
+                pMove.innerHTML = `<i class="fa fa-arrows "></i>`
+                pMove.setAttribute("id", "move-hand-icon");
+                pMove.setAttribute("title", "Click to drag anywhere.\nRIGHT click to restore to original position");
+                pMove.oncontextmenu = () => {
+                    const elem = document.getElementById("playercard_hand");
+                    if (elem.hasAttribute("style"))
+                        elem.removeAttribute("style");
+                    return false;
+                }
+                
+                document.querySelector(".card-draw").prepend(pMove);
+
                 jQuery(pHandDiv).draggable(
                 { 
                     start: function (event, ui) { 

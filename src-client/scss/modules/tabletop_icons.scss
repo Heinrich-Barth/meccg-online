@@ -9,8 +9,6 @@
 
 .icons 
 {
-    margin-bottom: 3px;
-
     a,
     a:hover { 
         display: inline-block; 
@@ -29,16 +27,6 @@
             background: url("/media/assets/images/icons/icon-orga-hover.png") 0 0 no-repeat; 
         }
     } 
-    .move-hand-icon {
-        display: inline-block;
-        color: #fff;
-        text-align: center;
-        cursor: grabbing;
-
-        &:hover {
-            color: var(--color-orange);
-        }
-    }
     .taskbar-score
     { 
         background: url("/media/assets/images/icons/icon-score.png") 0 0 no-repeat; 

@@ -63,8 +63,8 @@
 
         <div id="interface" data-time="{TPL_JOINED_TIMESTAMP}">
 
-            <div class="player-selector-box">
-                <div class="player_selector blue-box smallCaps">
+            <div class="player-selector-box blue-box">
+                <div class="player_selector smallCaps">
                     <div class="player_group" id="player_selector"></div> 
                     <div class="player_group player_group_additionals">
                         <span class="fa fa-eye hidden" aria-hidden="true" title="Sectators" id="game_spectators">0</span>
@@ -117,28 +117,24 @@
             </div>
 
             <div class="card-hands" id="playercard_hand">
-                <div class="taskbar pos-rel">
-                    <div class="icons blue-box-light taskbar-icons" id="progression-phase-box">
-                        <a class="icon taskbar-score" title="Open score sheet">&nbsp;</a>
-                        <a class="icon taskbar-turn orga" data-phase="organisation" title="Organisation Phase">&nbsp;</a>
-                        <a class="icon taskbar-turn longevent" data-phase="longevent" title="Long Event Phase">&nbsp;</a>
-                        <a class="icon taskbar-turn move" data-phase="movement" title="Movement/Hazard Phase">&nbsp;</a>
-                        <a class="icon taskbar-turn site" data-phase="site" title="Site Phase (press 's')">&nbsp;</a>
-                        <a class="icon taskbar-turn eotdiscard" data-phase="eotdiscard" title="End-of-Turn Discard Phase (press 'e')">&nbsp;</a>
-                        <a class="icon taskbar-turn eot" data-phase="eot" title="End your turn and start next player's turn (press 'q').">&nbsp;</a>
-                        <a class="icon startphase act cursor-default hidden" id="startphase_turn" data-phase="start" title="Draft Phase">&nbsp;</a>
-                        <div class="task_overlay"></div>
-                    </div>
-                </div>
                 <div class="blue-box-light playercard-hand-content" id="playercard-hand-content">
-                    <div class="hand-card-sizer"></div>
-                    <div class="hand-card-actions">
-                        <div class="card-generic cursor-pointer card-dice" title="Click to roll the dice (press r or w)" id="roll_dice_icons"><img src="/dist-client/js/game/dice/dice-1.png"><img src="/dist-client/js/game/dice/dice-1.png"></div>
-                        <div class="card-hand card-draw">
-                            <a href="#" class="card-icon" id="draw_card" title="Draw a new card (press d)">&nbsp;</a>
-                        </div>
+                    <div class="card-hand card-draw">
+                        <a href="#" class="card-icon smallCaps" id="draw_card" title="Draw a new card (press d)">draw card</a><div class="hand-card-sizer"></div>
                     </div>
                     <div id="playercard_hand_container" class="playercard-hand-container"></div>
+                </div>
+            </div>
+            <div class="taskbar pos-rel">
+                <div class="icons blue-box-light taskbar-icons" id="progression-phase-box">
+                    <div class="card-generic cursor-pointer card-dice" title="Click to roll the dice (press r or w)" id="roll_dice_icons"><img src="/dist-client/js/game/dice/dice-1.png"><img src="/dist-client/js/game/dice/dice-1.png"></div>
+                    <a class="icon taskbar-score" title="Open score sheet">&nbsp;</a>
+                    <a class="icon taskbar-turn orga" data-phase="organisation" title="Organisation Phase">&nbsp;</a>
+                    <a class="icon taskbar-turn longevent" data-phase="longevent" title="Long Event Phase">&nbsp;</a>
+                    <a class="icon taskbar-turn move" data-phase="movement" title="Movement/Hazard Phase">&nbsp;</a>
+                    <a class="icon taskbar-turn site" data-phase="site" title="Site Phase (press 's')">&nbsp;</a>
+                    <a class="icon taskbar-turn eotdiscard" data-phase="eotdiscard" title="End-of-Turn Discard Phase (press 'e')">&nbsp;</a>
+                    <a class="icon taskbar-turn eot" data-phase="eot" title="End your turn and start next player's turn (press 'q').">&nbsp;</a>
+                    <a class="icon startphase act cursor-default hidden" id="startphase_turn" data-phase="start" title="Draft Phase">&nbsp;</a>
                 </div>
             </div>
         </div>

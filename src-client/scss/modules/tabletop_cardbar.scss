@@ -1,6 +1,6 @@
 .card-bar {
     &.card-bar-shared {
-        top: 123px;
+        top: 0px;
         position: absolute;
         max-height: 150px;
 
@@ -24,6 +24,8 @@
     
 
     &.card-bar-play {
+        
+        bottom: 200px;
 
         a {
             background: none !important;
@@ -233,6 +235,12 @@
     }
 }
 
+.preferences-wrapper .config-panel-overlay
+{
+    position: fixed;
+    z-index: 502;
+}
+
 #config-panel {
 
     left: 40px;
@@ -245,6 +253,16 @@
         gap: 1rem;
         grid-template-columns: repeat(2, 1fr);
         .preference-section { display: inline-block;}
+        color: var(--color-light-grey);
+        position: fixed;
+        z-index: 502;
+    }
+
+    label {
+        cursor: pointer;
+        &:hover {
+            color: var(--color-white);
+        }
     }
 }
 

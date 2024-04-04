@@ -1,20 +1,37 @@
-.player_selector {
-    padding: 5px;
-    display: inline-block;
-    height: 20px;
-
-    span.game_time {
-        font-size: 0.8em;
-    }
-}
-
 .player-selector-box {
     position: fixed;
-    top: 1px;
-    left: 33px;
+    top: 0;
+    left: 50%;
     min-width: 100px;
     color: var(--color-light-grey);
     z-index: 400;
+    transform: translateX(-50%);
+    border-radius: 0;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+    padding: 0 10px;
+
+    .player_selector {
+        padding: 5px;
+        display: inline-block;
+        height: 19px;
+
+        span.game_time {
+            font-size: 0.8em;
+        }
+    }
+
+    .config-zoom { display: none !important;}
+
+    .config-wrapper-game {
+        position: relative;
+        display: inline-block;
+        top: unset;
+        left: unset;
+        width: auto;
+        height: auto;
+        overflow: unset;
+    }
 
     .player-view {
         padding-left: 0;

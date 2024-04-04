@@ -229,7 +229,7 @@ class TaskBarCards
             return false;
         };
         
-        document.getElementById("playercard_hand").querySelector(".card-dice").onclick = (e) => 
+        document.querySelector(".card-dice").onclick = (e) => 
         {
             TaskBarCards.rollDiceCharacter("", "");
             e.stopPropagation();
@@ -250,7 +250,7 @@ class TaskBarCards
             return false;
         };
 
-        document.querySelector(".card-hands .taskbar-score").onclick = (e) => 
+        document.querySelector(".taskbar-score").onclick = (e) => 
         {
             const elem = document.getElementById("scoring-sheet");
             if (elem !== null && !elem.classList.contains("hidden"))

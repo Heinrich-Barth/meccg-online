@@ -80,7 +80,7 @@ const ShotcutManager =
                 if (CardPreview.currentCharacterId !== "")
                     document.getElementById(CardPreview.currentCharacterId).querySelector(".card-dice").dispatchEvent(new Event("click"));
                 else
-                    document.getElementById("playercard_hand").querySelector(".card-dice").dispatchEvent(new Event("click"));
+                    document.querySelector(".card-dice").dispatchEvent(new Event("click"));
                 break;
 
             case "d":

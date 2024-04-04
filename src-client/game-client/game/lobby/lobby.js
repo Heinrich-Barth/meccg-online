@@ -46,24 +46,28 @@ const Lobby = {
 
         Lobby._room = sRoom;
         Lobby._token = sLobbyToken;
+        let playerselector = document.body.querySelector(".player-selector-box");
+        if (playerselector === null)
+            playerselector = document.body;
 
         let div = document.createElement("div");
         div.setAttribute("id", "lobby-wrapper");
-        div.setAttribute("class", "wrapper-topleft lobby-wrapper blue-box cursor-pointer");
+        div.setAttribute("class", "wrapper-topleft lobby-wrapper cursor-pointer");
         div.setAttribute("data-allow", "true");
         div.setAttribute("title", "Players can join this game");
         div.innerHTML =`<div class="icons"><i class="fa fa-user-circle" aria-hidden="true"></i></div>`;
         div.onclick = Lobby.onClickToggleUsers;
-        document.body.appendChild(div);
+
+        playerselector.appendChild(div);
 
         div = document.createElement("div");
         div.setAttribute("id", "visitor-wrapper");
-        div.setAttribute("class", "wrapper-topleft visitor-wrapper blue-box cursor-pointer");
+        div.setAttribute("class", "wrapper-topleft visitor-wrapper cursor-pointer");
         div.setAttribute("data-allow", "true");
         div.setAttribute("title", "Visitors can join this game");
         div.innerHTML =`<div class="icons"><i class="fa fa-eye" aria-hidden="true"></i></div>`;
         div.onclick = Lobby.onClickToggleVisitors;
-        document.body.appendChild(div);
+        playerselector.appendChild(div);
 
         document.getElementById("interface").classList.add("is-admin");
         

@@ -1,6 +1,7 @@
 .game-watch-only {
 
     .card-bar-play,
+    .taskbar,
     .help-wrapper,
     #playercard-hand-content,
     .taskbar-score,
@@ -15,10 +16,6 @@
     .icons a.hand,
     #playercard_hand {
         display: none !important;
-    }
-
-    .taskbar.turn-opponent .task_overlay {
-        left: 0;
     }
 
     .area-opponent {

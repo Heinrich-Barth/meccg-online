@@ -15,12 +15,12 @@ setTimeout(() => {
     div.appendChild(elem);
 
     const divParent = document.createElement("div");
-    divParent.setAttribute("class", "wrapper-topleft help-wrapper blue-box cursor-pointer");
+    divParent.setAttribute("class", "wrapper-topleft help-wrapper cursor-pointer");
     divParent.setAttribute("title", "End this game and show final scores (after final confirmation)");
     divParent.onclick = () => document.body.dispatchEvent(new CustomEvent("meccg-query-end-game", { }));;
     divParent.appendChild(div);
     
-    document.body.appendChild(divParent);
+    document.body.querySelector(".player-selector-box").prepend(divParent);
 }, 200);
 
 /**

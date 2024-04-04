@@ -253,6 +253,11 @@ class Preferences extends PreferencesStorable {
     {
         return "";
     }
+
+    appendContainer(div)
+    {
+        document.body.appendChild(div);
+    }
     
     init()
     {
@@ -267,15 +272,19 @@ class Preferences extends PreferencesStorable {
             return;
         
         const div = document.createElement("div");
-        div.setAttribute("class", "config-wrapper blue-box " + this.getGameCss());
+        div.setAttribute("class", "config-wrapper " + this.getGameCss());
         div.innerHTML = `<div class="icons cursor-pointer" id="prefs">
                             <i class="fa fa-sliders" aria-hidden="true" title="Game Settings">${this.getSettingsName()}</i>
-                        </div>
-                        <div id="preferences-wrapper" class="hide">
-                            <div class="config-panel-overlay" id="config-panel-overlay"></div>
-                            <div class="config-panel blue-box" id="config-panel"></div>
                         </div>`;
-        document.body.appendChild(div);
+
+        this.appendContainer(div);
+
+        const divWrapp = document.createElement("div");
+        divWrapp.setAttribute("id", "preferences-wrapper");
+        divWrapp.setAttribute("class", "hide preferences-wrapper");
+        divWrapp.innerHTML = `<div class="config-panel-overlay" id="config-panel-overlay"></div>
+        <div class="config-panel blue-box" id="config-panel"></div>`
+        document.body.appendChild(divWrapp);
 
         const target = document.getElementById("config-panel");
         for (let elem of this._html)

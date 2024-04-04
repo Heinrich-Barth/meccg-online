@@ -24,15 +24,17 @@ a {
 
 .taskbar {
 
-    display: inline-block;
-    margin-bottom: 5px;
-
     .taskbar-icons {
-        position: absolute;
-        width: 280px;
-        top: -35px;
-        opacity: 0.2;
+        position: fixed;
+        bottom: 0;
+        opacity: 0.7;
         transition: opacity 0.4s ease-in-out;
+        left: 50%;
+        transform: translateX(-50%);
+        border-top-left-radius:15px;
+        border-top-right-radius:15px;
+        padding: 0 10px;
+
         &.taskbar-icons-reduced
         {
             width: 120px;
@@ -40,35 +42,18 @@ a {
         }
     }
 
-    .task_overlay {
-        display: none;
-    }
-
-    &.turn-opponent .task_overlay {
-        position: absolute;
-        left: 35px;
-        top: 0;
-        bottom: 0;
-        right: 0px;
-        display: block;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 3px;
-    }
+    &:hover .taskbar-icons { opacity: 1;}
 
     a {
         margin: 5px;
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
 
         &:first-of-type {
             margin-left: 10px;
             margin-right: 10px;
         }
     }
-}
-
-.is-admin .taskbar.turn-opponent .task_overlay {
-    display: none;
 }
 
 @import "tabletop_icons.scss";
@@ -160,7 +145,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
         margin-bottom: 20px;
         position: relative;
         min-height: 25%;
-        padding-top: 20px;
+        padding-top: 30px;
 
         .hiddenToOpponent,
         .company-characters-add {
@@ -316,8 +301,8 @@ body.table-companies-breakline .companies {
 
 .card-hands {
     position: fixed;
-    left: 55px;
-    bottom: 5px;
+    left: 0;
+    bottom: 0;
     z-index: 400;
     padding: 5px;
     max-width: 90%;
@@ -331,13 +316,65 @@ body.table-companies-breakline .companies {
             width: 25px;
         }
     }
-
     .card-generic,
     .card-hand {
         display: inline-block;
         position: relative;
     }
+
+    .card-draw
+    {
+        font-size: 0.8em;
+        position: absolute;
+        top: -18px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 0 10px;
+        background: var(--color-black);
+        .hand-card-sizer { 
+            display: none ; 
+        }
+
+        .move-hand-icon {
+
+            display: inline-block;
+            
+            color: #fff;
+            text-align: center;
+            margin-right: 20px;
+            cursor: grabbing;
     
+            &:hover {
+                color: var(--color-orange);
+            }
+        }
+    
+        a {
+            color: var(--color-light-grey);
+
+            &::before {
+                content: " ";
+                height: 16px;
+                width: 16px;
+                background: url(/media/assets/images/icons/icon-draw.png) 0 5px no-repeat;
+                background-size: contain;
+                display: inline-block;
+            }
+
+            &:hover {
+                color: var(--color-yellow);
+                &::before {
+                    content: " ";
+                    height: 16px;
+                    width: 16px;
+                        background: url(/media/assets/images/icons/icon-draw-hover.png) 0 5px no-repeat;
+                        background-size: contain;
+                        display: inline-block;
+                        }
+            }
+        }
+    }
+
     .playercard-hand-content-small .playercard-hand-container .card-hand 
     {
         margin-left: -30px;
@@ -348,18 +385,11 @@ body.table-companies-breakline .companies {
         transform: rotate(180deg);
     }
 
-    .card-draw {
-        width: 100%;
-    }
-
     .card-hand-count {
-        position: absolute;
-        left: 1px;
-        top: 14px;
-        font-size: 0.8em;
-        background: var(--color-dark-grey);
-        border-radius: 5px;
-        padding: 2px;
+        margin-left: 10px;
+
+        &::before { content: "(" }
+        &::after { content: ")" }
     }
 
     .hand-card-sizer {
@@ -377,12 +407,10 @@ body.table-companies-breakline .companies {
     }
 
     &:hover {
-        .card-hand-count {
-            background: var(--color-orange);            
-        }
 
         .hand-card-sizer {
             visibility: visible;
+            display: inline;
         }
 
         .hand-card-actions,
@@ -419,17 +447,24 @@ body.table-companies-breakline .companies {
         }
     }
 
-    .card-hand,
-    .card-dice
+    div.ui-draggable
     {
         transition: scale 0.2s ease-in-out;
-
+    
         &:hover {
             scale: 1.1;
         }
     }
+    
 }
+.card-dice
+{
+    transition: scale 0.2s ease-in-out;
 
+    &:hover {
+        scale: 1.1;
+    }
+}
 .transition-grow-shrink {
     transition: width 0.1s, margin 0.4s;
 }
@@ -446,10 +481,8 @@ body.table-companies-breakline .companies {
 
 #playercard_hand_container {
     display: inline-block;
-    margin-left: 60px;
     min-height: 83px;
-    margin-right: 5px;
-
+    
     a.discardpile,
     a.discardpile:hover {
         background-size: contain !important;
@@ -682,18 +715,22 @@ div.card img:hover {
     }
 }
 
-.staging-opponent-dice,
 .card-dice {
-    height: 30px;
-    padding-bottom: 8px;
-    
+    display: inline-block;
     img {
-        width: 30px;
+        width: 15px;
+        margin-right: 5px;
     }
 }
 
-.staging-opponent-dice{
+.staging-opponent-dice {
     position: relative;
+    height: 30px;
+    padding-bottom: 8px;
+
+    img {
+        width: 30px;
+    }
     &:hover:before 
     {
         content: "Last dice roll";
@@ -781,7 +818,7 @@ body[data-is-watcher='false']
 }
 
 
-#draw_card {
+#draw_card__dep {
     display: block;
     height: 40px;
     margin-top: 4px;
@@ -789,7 +826,7 @@ body[data-is-watcher='false']
 
     &:hover {
         background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
-    }
+    }  
 }
 
 .hosts_nothing {

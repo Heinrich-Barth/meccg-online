@@ -478,12 +478,17 @@ class GamePreferences extends Preferences {
         return Preferences._getConfigValue("game_sfx") > 5;
     }
 
+    appendContainer(div)
+    {
+        document.body.querySelector(".player-selector-box").prepend(div);
+    }
+    
     init()
     {
         super.init();
 
         const div = document.createElement("div");
-        div.setAttribute("class", "config-zoom blue-box " + this.getGameCss());
+        div.setAttribute("class", "config-zoom " + this.getGameCss());
 
         const icons = document.createElement("div");
         icons.setAttribute("class", "icons cursor-pointer");
@@ -494,7 +499,8 @@ class GamePreferences extends Preferences {
 
         icons.onclick = this.toggleZoom.bind(this);
         div.appendChild(icons);
-        document.body.appendChild(div);
+
+        this.appendContainer(div);
 
         if (this.data.background !== undefined)
             this.setBackgroundImage(this.data.background);
