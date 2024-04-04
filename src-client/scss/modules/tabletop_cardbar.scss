@@ -128,6 +128,31 @@
         }
     }
 
+    a.icon {
+
+        img {
+            box-shadow: 1px 3px 3px #000;
+        }
+
+        &[data-size="size-many"] {
+            img {
+                box-shadow: 6px 6px 3px #000
+            }
+        }
+
+        &[data-size="size-middle"] {
+            img {
+                box-shadow: 4px 4px 3px #000
+            }
+        }
+
+        &[data-size="size-few"] {
+            img {
+                box-shadow: 2px 2px 3px #000
+            }
+        }
+    }
+
     .icons a.backside {
         background: url("/data/backside") 0 0 no-repeat;
         background-size: 31px 50px !important;

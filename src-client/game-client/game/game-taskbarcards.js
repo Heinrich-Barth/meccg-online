@@ -403,6 +403,33 @@ class TaskBarCards
         MeccgApi.send("/game/view-cards/list", {type: type, sorted: isSorted=== true });
     }
 
+    static SetPileSize(span, val)
+    {
+        if (span == null || typeof val === "undefined")
+            return;
+
+        span.innerText = val;
+
+        const num = typeof val === "number" ? val : parseInt(val);
+
+        let cssClass = "";
+        if (!isNaN(num)) try
+        {
+            if (num > 40)
+                cssClass = "size-many"
+            else if (num > 20)
+                cssClass = "size-middle";
+            else if (num > 5)
+                cssClass = "size-few";
+        }
+        catch (exIgnore)
+        {
+
+        }
+
+        span.parentElement.setAttribute("data-size", cssClass);
+    }
+
     static onShowVictorySheet(e) 
     {
         const vsList = e === undefined ? null : e.detail;

@@ -656,11 +656,11 @@ const GameBuilder = {
             if (bIsMe)
             {
                 const div = document.getElementById("card_counter");
-                div.querySelector("a.discardpile span").innerText = playload.discard;
-                div.querySelector("a.sideboard span").innerText = playload.sideboard;
-                div.querySelector("a.playdeck span").innerText = playload.playdeck;
-                div.querySelector("a.victory span").innerText = playload.victory;
-                div.querySelector("a.hand span").innerText = playload.hand;
+                TaskBarCards.SetPileSize(div.querySelector("a.discardpile span"), playload.discard);
+                TaskBarCards.SetPileSize(div.querySelector("a.sideboard span"), playload.sideboard);
+                TaskBarCards.SetPileSize(div.querySelector("a.playdeck span"), playload.playdeck);
+                TaskBarCards.SetPileSize(div.querySelector("a.victory span"), playload.victory);
+                TaskBarCards.SetPileSize(div.querySelector("a.hand span"), playload.hand);
                 document.getElementById("draw_card_count").innerText = playload.hand;
             }
             
