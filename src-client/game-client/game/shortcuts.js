@@ -77,10 +77,19 @@ const ShotcutManager =
 
             case "w":
             case "r":
+
                 if (CardPreview.currentCharacterId !== "")
-                    document.getElementById(CardPreview.currentCharacterId).querySelector(".card-dice").dispatchEvent(new Event("click"));
-                else
-                    document.querySelector(".card-dice").dispatchEvent(new Event("click"));
+                {
+                    const elem = document.getElementById(CardPreview.currentCharacterId);
+                    const diceIcon = elem === null ? null : elem.querySelector(".card-dice");
+                    if (diceIcon != null)
+                    {
+                        diceIcon.dispatchEvent(new Event("click"));
+                        break;
+                    }
+                }
+
+                document.body.querySelector(".card-dice").dispatchEvent(new Event("click"));
                 break;
 
             case "d":
