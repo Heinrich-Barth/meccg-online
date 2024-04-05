@@ -180,7 +180,7 @@ class ResolveHandSizeContainer
             return;
 
         const _handSizer = handContent.querySelector(".hand-card-sizer");
-        const _sizerId = ResolveHandSizeContainer.create(_handSizer, "Always ask to resolve to", ResolveHandSizeContainer.#getCount(), "cards.");
+        const _sizerId = ResolveHandSizeContainer.create(_handSizer, "Hand size is ", ResolveHandSizeContainer.#getCount(), "");
         if (_sizerId !== "")
             ResolveHandSizeFirst.create("playercard_hand_container", _sizerId, "cards");
     }
