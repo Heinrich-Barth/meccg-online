@@ -229,12 +229,25 @@ class TaskBarCards
             return false;
         };
         
-        document.querySelector(".card-dice").onclick = (e) => 
+        document.getElementById("roll_dice_icons").onclick = (e) => 
         {
             TaskBarCards.rollDiceCharacter("", "");
             e.stopPropagation();
             return false;
         };
+
+        {
+            const iconHand = document.getElementById("roll_dice_icon_hand");
+            if (iconHand !== null)
+            {
+                iconHand.onclick = (e) => 
+                {
+                    TaskBarCards.rollDiceCharacter("", "");
+                    e.stopPropagation();
+                    return false;
+                };
+            }
+        }
 
         document.querySelector(".card-bar .sideboard").onclick = (e) => 
         {

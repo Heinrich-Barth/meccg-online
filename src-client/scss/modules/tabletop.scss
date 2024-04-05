@@ -327,7 +327,7 @@ body.table-companies-breakline .companies {
     {
         font-size: 0.8em;
         position: absolute;
-        top: -18px;
+        top: -  16px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         padding: 0 10px;
@@ -736,6 +736,33 @@ div.card img:hover {
         width: 15px;
         margin-right: 5px;
     }
+}
+
+.card-dice-hand {
+    
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    padding: 0 5px;
+
+    img {
+        width: 20px;
+        margin: 0 2px;
+        position: absolute;
+        bottom: -3px;
+        opacity: 1 !important;
+        transition: scale 0.2s ease-in-out;
+        
+        &:first-of-type {
+            left: 5px;
+        }
+
+        &:last-of-type {
+            right: 0;
+        }
+    }
+
+    &:hover img { scale: 1.5; }
 }
 
 .staging-opponent-dice {

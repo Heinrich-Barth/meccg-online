@@ -153,9 +153,42 @@ class DiceContainer {
         setTimeout(() => DiceContainer.removeResult(nId), DiceContainer._timeout); 
     }
 
+    #updateDiceUserSelfContainer(id, asset, first, second)
+    {
+        const div = document.getElementById(id);
+        if (div === null)
+        {
+            console.warn("Cannot find dice container #" + id);
+            return;
+        }
+
+        const list = div.getElementsByTagName("img")
+        if (list === null || list.length !== 2)
+        {
+            console.warn("no images found in dice container #" + id);
+            return;
+        }
+        
+        list[0].setAttribute("src", DiceContainer.getImage(asset, first))
+        list[1].setAttribute("src", DiceContainer.getImage(asset, second))
+    }
+
+    #updateDiceUserSelf(first, second, dice)
+    {
+        const asset = this.getDiceAsset(dice);
+        this.#updateDiceUserSelfContainer("roll_dice_icons", asset, first, second);
+        this.#updateDiceUserSelfContainer("roll_dice_icon_hand", asset, first, second);
+    }
+
     updateDiceUser(isMe, first, second, dice)
     {
-        const container = isMe ? document.getElementById("roll_dice_icons") : this.#requireOpponentDices();
+        if (isMe)
+        {
+            this.#updateDiceUserSelf(first, second, dice);
+            return;
+        }
+
+        const container = this.#requireOpponentDices();
         if (container === null)
             return;
 
