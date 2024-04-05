@@ -89,7 +89,7 @@ const ShotcutManager =
                     }
                 }
 
-                document.body.querySelector(".card-dice").dispatchEvent(new Event("click"));
+                document.getElementById("roll_dice_icons").dispatchEvent(new Event("click"));
                 break;
 
             case "d":
