@@ -331,6 +331,7 @@ body.table-companies-breakline .companies {
         border-top-right-radius: 10px;
         padding: 0 10px;
         background: var(--color-black);
+
         .hand-card-sizer { 
             display: none ; 
         }
@@ -341,36 +342,49 @@ body.table-companies-breakline .companies {
             
             color: #fff;
             text-align: center;
-            margin-right: 20px;
+            margin-right: 5px;
             cursor: grabbing;
     
             &:hover {
                 color: var(--color-orange);
             }
         }
-    
+
         a {
             color: var(--color-light-grey);
+            &:hover {
+                color: var(--color-yellow);
+            }
+        }
+    
+        a.card-icon {
+            position: relative;
+            padding-left: 40px;
 
             &::before {
                 content: " ";
-                height: 16px;
-                width: 16px;
-                background: url(/media/assets/images/icons/icon-draw.png) 0 5px no-repeat;
+                position: absolute;
+                height: 40px;
+                width: 40px;
+                bottom: 0;
+                left: 0;
+                background: url(/media/assets/images/icons/icon-draw.png) 0 10px no-repeat;
                 background-size: contain;
                 display: inline-block;
             }
 
             &:hover {
-                color: var(--color-yellow);
                 &::before {
                     content: " ";
-                    height: 16px;
-                    width: 16px;
-                        background: url(/media/assets/images/icons/icon-draw-hover.png) 0 5px no-repeat;
-                        background-size: contain;
-                        display: inline-block;
-                        }
+                    position: absolute;
+                    height: 40px;
+                    width: 40px;
+                    bottom: 0;
+                    left: 0;
+                    background: url(/media/assets/images/icons/icon-draw-hover.png) 0 10px no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                    }
             }
         }
     }
