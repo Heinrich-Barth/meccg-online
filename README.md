@@ -22,6 +22,13 @@ Make sure to check out the meccg related resoures
 * https://councilofelrond.org 
 * https://meccg.com
 
+## Tutorial Videos on Youtube
+
+* Setting up Standard/Multiplayer: https://youtu.be/5wwK6E0CamU
+* Setting up ARDA: https://youtu.be/33UvkKAMbmI
+* Interface: https://youtu.be/QjLWo26ik-g
+* Turn progression: https://youtu.be/JbntAqz3J7A
+
 ## Introduction
 
 This project aims to provide an easy way to setup and maintain a card game server to allow you and your friends to play your favourite card game online.
