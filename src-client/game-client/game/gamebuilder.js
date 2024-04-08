@@ -671,7 +671,11 @@ const GameBuilder = {
         { 
             if (bIsMe)
             {
-                document.getElementById("icon_hand").querySelector("span").innerText = jData.hand;
+                const elem = document.getElementById("icon_hand");
+                const span = elem === null ? null : elem.querySelector("span");
+                if (span !== null)
+                    span.innerText = jData.hand;
+                
                 GameBuilder.HandCardsDraggable.checkReDeckNoteForPlayer(jData.playdeck);
             }
             

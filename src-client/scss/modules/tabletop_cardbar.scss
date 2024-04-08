@@ -25,7 +25,8 @@
 
     &.card-bar-play {
         
-        top: 230px;
+        top: 300px;
+        max-height: 380px;
 
         a {
             background: none !important;
@@ -109,11 +110,7 @@
         content: 'Sideboard';
         font-size: 0.78em;
     }
-
-    .icon-tooltip-hand::after {
-        content: 'Hand';
-    }
-
+    
     .icon {
         font-size: 12px;
 

@@ -163,7 +163,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
     }
 
     .row {
-        margin: 0 0 0 60px;
+        margin: 0 0 0 70px;
         height: 100%;
 
         div.card {
@@ -315,6 +315,8 @@ body.table-companies-breakline .companies {
     transition: all .2s ease-in;
 }
 
+#card_counter a#icon_hand { display: none; }
+
 .card-hands {
     position: fixed;
     left: 0;
@@ -324,6 +326,42 @@ body.table-companies-breakline .companies {
     max-width: 90%;
     min-width: 290px;
     min-height: 84px;
+
+    .playercard_hand_droppable
+    { 
+        width: 70px;
+        height: 80px;
+        background: url("/media/assets/images/icons/icon-hand.png") 15px 24px no-repeat;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: 2px dotted #000;
+        border-radius: 5px;
+        position: absolute;
+        top: -90px;
+
+        display: none;
+
+        &.act,
+        &:hover,
+        &.on-drag-over
+        { 
+            background: url("/media/assets/images/icons/icon-hand-hover.png") 15px 24px no-repeat;
+            background-color: rgba(101, 152, 81, 0.5) !important;
+        }
+
+        &::before {
+            width: 70px;
+            background-color: #000;
+            color: var(--color-near-white);
+            content: 'to hand';
+        }
+    }
+
+    &.card-hands-hidden {
+        #playercard_hand_container,
+        .ingame-icon-openclose-hand {
+            display: none;
+        }
+    }
 
     .hand-card-actions .card-dice {
         display: block;
@@ -366,6 +404,13 @@ body.table-companies-breakline .companies {
             }
         }
 
+        .card-hand-eye {
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .card-hand-eye,
         a {
             color: var(--color-light-grey);
             &:hover {

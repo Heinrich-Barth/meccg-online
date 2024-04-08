@@ -41,6 +41,11 @@ body.on-drag-event-generic #card_counter a.icon {
     background: rgba(61, 65, 70, 0.82)
 }
 
+body.on-drag-event-generic #playercard_hand_droppable
+{
+    display: inline-block;
+}
+
 body.on-drag-event-generic #card_counter a.icon img {
     visibility: hidden;
 }

@@ -120,7 +120,7 @@ class DropableAreas {
     
     static hand() 
     { 
-        return DropableAreas.get("icon_hand"); 
+        return DropableAreas.get("playercard_hand_droppable"); 
     }
 
     static handContent()

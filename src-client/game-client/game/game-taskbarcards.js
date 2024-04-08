@@ -208,12 +208,27 @@ class TaskBarCards
             }
         }
 
-        document.getElementById("icon_hand").onclick = TaskBarCards.OnClickIconHand;
-        document.getElementById("icon_hand").oncontextmenu = () => 
+        const iconHand = document.getElementById("icon_hand");
+        if (iconHand !== null)
         {
-            TaskBarCards.OnRevealToOpponent("hand");
-            return false;
-        };
+            iconHand.onclick = TaskBarCards.OnClickIconHand;
+            iconHand.oncontextmenu = () => 
+            {
+                TaskBarCards.OnRevealToOpponent("hand");
+                return false;
+            };
+        }
+
+        const iconHandEye = document.getElementById("icon_hand_eye");
+        if (iconHandEye !== null)
+        {
+            iconHandEye.onclick = TaskBarCards.OnClickIconHand;
+            iconHandEye.oncontextmenu = () => 
+            {
+                TaskBarCards.OnRevealToOpponent("hand");
+                return false;
+            };
+        }
 
         document.getElementById("shared_outofplay").onclick = (e) => 
         {
@@ -729,18 +744,21 @@ class TaskBarCards
     static OnClickIconHand(e) 
     {
         const elem = document.getElementById("icon_hand");
-        if (elem.classList.contains("act")) 
+        if (elem !== null)
         {
-            document.getElementById("playercard_hand").classList.add("hidden");
-            elem.classList.remove("act");
-        }
-        else 
-        {
-            document.getElementById("playercard_hand").classList.remove("hidden");
-            elem.classList.add("act");
+            if (elem.classList.contains("act")) 
+            {
+                document.getElementById("playercard_hand").classList.add("card-hands-hidden");
+                elem.classList.remove("act");
+            }
+            else 
+            {
+                document.getElementById("playercard_hand").classList.remove("card-hands-hidden");
+                elem.classList.add("act");
 
-            /** query cards in hand */
-            MeccgApi.send("/game/card/hand", {});
+                /** query cards in hand */
+                MeccgApi.send("/game/card/hand", {});
+            }
         }
 
         TaskBarCards.#onArdaHandToggle();
