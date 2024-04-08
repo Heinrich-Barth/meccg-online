@@ -105,7 +105,7 @@ a {
     &:hover {
         opacity: 1;
         color: #000;
-        background-color: var(--color-orange);
+        background-color: var(--color-orange-light);
     }
 }
 
@@ -657,7 +657,7 @@ body.table-companies-breakline .companies {
         .card-highlight-mark {
 
             img {
-                box-shadow: 0px 0px 10px 2px var(--color-orange);
+                box-shadow: 0px 0px 5px 1px var(--color-orange);
             }
 
             .character-mark-toggle {
@@ -779,7 +779,7 @@ body.table-companies-breakline .companies {
 
 .card-highlight-mark img,
 div.card img:hover {
-    box-shadow: 0px 0px 10px 2px var(--color-orange);
+    box-shadow: 0px 0px 5px 1px var(--color-orange);
 }
 
 .playercard-hand-content {

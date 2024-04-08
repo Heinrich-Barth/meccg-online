@@ -91,15 +91,15 @@
     }
 
     .indicator-green {
-        border-left: 5px solid #BADA55;
+        border-left: 5px solid var(--colog-green-light);
     }
 
     .indicator-red {
-        border-left: 5px solid #d94f4f;
+        border-left: 5px solid var(--color-red);
     }
 
     .indicator-grey {
-        border-left: 5px solid grey;
+        border-left: 5px solid var(color-dark-grey);
     }
 }
 

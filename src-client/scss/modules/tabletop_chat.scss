@@ -212,15 +212,15 @@
 
 @keyframes glowGreen {
     0% {
-        box-shadow: 0 0 10px -10px #099b04;
+        box-shadow: 0 0 2px 0 #a8e4b1;
     }
 
     50% {
-        box-shadow: 0 0 10px 10px #099b04;
+        box-shadow: 0 0 2px 2px #a8e4b1;
     }
 
     99% {
-        box-shadow: 0 0 10px -10px #099b04;
+        box-shadow: 0 0 2px 0 #a8e4b1;
     }
 
     100% {
@@ -230,15 +230,15 @@
 
 @keyframes glowYellow {
     0% {
-        box-shadow: 0 0 10px -10px var(--color-orange);
+        box-shadow: 0 0 2px -2px var(--color-orange-light);
     }
 
     50% {
-        box-shadow: 0 0 10px 10px var(--color-orange);
+        box-shadow: 0 0 2px 2px var(--color-orange-light);
     }
 
     99% {
-        box-shadow: 0 0 10px -10px var(--color-orange);
+        box-shadow: 0 0 2px -2px var(--color-orange-light);
     }
 
     100% {

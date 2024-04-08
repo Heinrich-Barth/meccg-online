@@ -22,11 +22,11 @@
         
         animation: notification-fadeout 4s linear forwards;
 
-        &.success .notification-element { background: #6eb566; }
+        &.success .notification-element { background: #a8e4b1; }
         &.failure .notification-element { background: #e36666; }
         &.info .notification-element 
         { 
-            background-color: #ffab00; 
+            background-color: #f1eb9a; 
             color: #363434; 
         }
     }
