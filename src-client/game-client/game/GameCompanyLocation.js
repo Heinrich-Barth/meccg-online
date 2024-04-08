@@ -393,7 +393,9 @@ class GameCompanyLocation
             },
             drop: function (_event, ui)
             {
-                GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
+                if (ui?.helper?.attr("data-prio") !== "true")
+                    GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
+                
                 return false;
             }
         });
@@ -433,7 +435,9 @@ class GameCompanyLocation
             },
             drop: function (_event, ui)
             {
-                GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
+                if (ui?.helper?.attr("data-prio") !== "true")
+                    GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
+
                 return false;
             }
         });

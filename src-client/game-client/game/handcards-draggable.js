@@ -260,6 +260,9 @@ const DropFunctions = {
     
     dropOnStageArea : function( _event, ui ) 
     {
+        if (DropFunctions.isPrioElement(ui))
+            return false;
+
         if (ui.draggable.attr("data-location") === "hand")
         {
             const uuid = ui.draggable.attr("data-uuid");
@@ -331,9 +334,17 @@ const DropFunctions = {
 
         return false;
     },
+
+    isPrioElement: function(ui)
+    {
+        return ui?.helper?.attr("data-prio") === "true";
+    },
     
     dropOnAddCompanyCharacter :  function( _event, ui, companyUuid ) 
     {
+        if (DropFunctions.isPrioElement(ui))
+            return false;
+
         const pCard = ui.draggable[0];
         const type = pCard.getAttribute("data-card-type");
         if (type === "character" || type === "resource")
@@ -627,6 +638,9 @@ const HandCardsDraggable = {
 
     onCardCharacterHostOnDrop : function(_event, ui)
     {
+        if (DropFunctions.isPrioElement(ui))
+            return false;
+
         const elemDraggable = ui.draggable[0];
         const droppableArea = HandCardsDraggable.findFirstCharacterDiv(this);
         const source = elemDraggable.getAttribute("data-location");
@@ -700,6 +714,9 @@ const HandCardsDraggable = {
 
     onCardCharacterFollowerOnDrop : function(_event, ui ) 
     {
+        if (DropFunctions.isPrioElement(ui))
+            return false;
+
         const elemDraggable = ui.draggable[0];
         const source = elemDraggable.getAttribute("data-location");
         const receivingCharacter = HandCardsDraggable.getCompanyPath(this);
@@ -1037,7 +1054,7 @@ const HandCardsDraggable = {
     
     droppableAcceptStagingArea : function(elem)
     {
-        let sAttr = elem.attr("data-card-type");
+        const sAttr = elem.attr("data-card-type");
         return sAttr === "resource" || sAttr === "hazard";
     },
 
@@ -1081,6 +1098,16 @@ const HandCardsDraggable = {
             elem.classList.remove("playercard-hand-content-small");
         else
             elem.classList.add("playercard-hand-content-small");
+    },
+
+    onDroppableHighPrioOver : function( _drop_event, drop_ui ) 
+    {
+        drop_ui.helper.attr("data-prio", 'true');
+    },
+
+    onDroppableHighPrioOut : function( _drop_event, drop_ui ) 
+    {
+        drop_ui.helper.attr("data-prio", 'false');
     }
 };
 
@@ -1098,6 +1125,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnDiscard.bind(DropFunctions)
     });
     
@@ -1106,6 +1135,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnVicotry
     });
 
@@ -1114,6 +1145,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnSideboard
     });
 
@@ -1122,6 +1155,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnPlaydeck
     });
     
@@ -1130,6 +1165,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnHand
     });
 
@@ -1138,6 +1175,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         accept: HandCardsDraggable.droppableAccept,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnHand
     });
     
@@ -1162,6 +1201,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnOutOfPlay,
+        over: HandCardsDraggable.onDroppableHighPrioOver,
+        out: HandCardsDraggable.onDroppableHighPrioOut,  
         accept: function() {
             return true;
         }
