@@ -33,6 +33,7 @@
         right: 5px;
         bottom: 97px;
         position: fixed;
+        z-index: 1;
     }
 
     i {
@@ -68,39 +69,27 @@
         display: none;
     }
 
-    .card-hands-sizer { text-align: left; }
-
     &:hover {
-        .arda-inline {
-            margin-right: 60px;
-        }
-
-        .card-hand {
-            margin-right: 0px !important;
-        }
 
         .arda-actions {
             display: inline-block
+        }
+
+        .card-hand 
+        {
+            margin-right: 0 !important;
         }
     }
 
     .arda-inline {
         display: inline-block;
         margin-right: 0px;
+        background: #000;
 
         &:last-of-type {
             margin-right: 0;
         }
     }
-
-    &.arda-card-hand-mps {
-        .arda-inline {
-            margin-right: 60px;
-            &:last-of-type {
-                margin-right: 0;
-            }
-        }
-    } 
 
     &.arda-card-hand-stage,
     &.arda-card-hand-minor,
@@ -109,11 +98,7 @@
         opacity: 0.3;
 
         .arda-actions,
-        .arda-hand-card-actions,
-        .arda-card-hands-sizer{ display: none; }
-        .arda-hand-card-actions > .arda-inline { 
-            margin-right: 0;
-        }
+        .arda-hand-card-actions { display: none; }
 
         .card-hand {
             margin-right: -30px;
@@ -128,10 +113,25 @@
             opacity: 1;
 
             .arda-actions,
-            .arda-hand-card-actions { display: inline-block;}
-            .arda-card-hands-sizer{ display: block; }
-            .arda-hand-card-actions > .arda-inline { margin-right: 60px;}
+            .arda-hand-card-actions { display: inline-block; }
         }
+    }
+
+    &.arda-card-hand-mps,
+    &.arda-card-hand-stage,
+    &.arda-card-hand-minor,
+    &.arda-card-hand-charackters
+    {
+        &:hover
+        {
+            .arda-handbar-top {
+                visibility: visible;
+            }
+        }
+    }
+
+    &.arda-card-hand-mps .arda-handbar-top {
+        visibility: visible;
     }
 }
 
@@ -166,7 +166,7 @@ div#arda_mps_hand {
 .arda-card-hands-sizer {
     color: #fff;
     font-size: 10px;
-    padding: 5px 10px;
+    padding: 0px 10px;
     text-align: right;
     margin-left: 0;
     display: block;
@@ -229,7 +229,12 @@ div#arda_mps_hand {
 }
 
 .arda-actions img:nth-child(2) {
-    top: 10px;
+    display: none;
+}
+
+body.arda-draft .arda-actions img:nth-child(2) {
+    display: none;
+    top: 15px;
 }
 
 .arda-pile-action:hover img,
@@ -242,15 +247,60 @@ div#arda_mps_hand {
 }
 
 .arda-card-draw {
-    display: block;
-    height: 40px;
-    width: 60px;
+    display: inline-block;
+    height: 35px;
+    width: 40px;
     cursor: pointer;
-    margin-top: 4px;
-    background: url("/media/assets/images/icons/icon-draw.png") 0 -0 no-repeat;
+
+    background: url("/media/assets/images/icons/icon-draw.png") 0 0 no-repeat;
 
     &:hover {
         background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
+    }
+
+    background-size: contain;
+}
+
+.arda-handbar-top {
+
+    display: block;
+    position: relative;
+    text-align: right;
+    font-size: 0.8em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 0 10px;
+    background: var(--color-black);
+    visibility: hidden;
+
+    .card-hands-sizer
+    {
+        display: block;
+    }
+
+    a {
+        position: absolute;
+        display: inline-block;
+        top: -12px;
+    }
+
+    .arda-pile-action img {
+        height: 30px;
+        width: auto;
+    }
+
+    .arda-card-draw {
+        left: 0;
+        background-size: contain;
+    }
+
+    .arda-pile-action {
+        left: 40px;
+
+        &[data-view="discard"]
+        {
+            left: 80px;
+        }
     }
 }
 
@@ -349,18 +399,14 @@ div#arda_mps_hand {
         margin-bottom: 20px;
     }
 
-    .arda-inline {
-        margin-right: 60px;
-    }
-
     .card-hand {
         margin-right: 0px !important;
     }
 
     .arda-actions,
-    .arda-hand-card-actions { display: inline-block !important}
-    .arda-card-hands-sizer{ display: block !important; }
-    .arda-hand-card-actions > .arda-inline { margin-right: 60px !important;}
+    .arda-hand-card-actions,
+    .arda-card-hands-sizer{ display: inline-block !important; }
+
 }}
 
 body.force-mobile-helper

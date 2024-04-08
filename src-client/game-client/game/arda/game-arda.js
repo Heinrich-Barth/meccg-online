@@ -288,16 +288,20 @@ let Arda = {
         if (elem !== null)
             return id;
 
+        const divHandTop = document.createElement("div");
+        divHandTop.setAttribute("class", "arda-handbar-top");
+
         const div = document.createElement("div");
-        div.setAttribute("class", "arda-card-hands blue-box hidden arda-card-hand-" + dataType);
+        div.setAttribute("class", "arda-card-hands hidden arda-card-hand-" + dataType);
         div.setAttribute("id", id);
+        div.append(divHandTop);
 
         let _sizerId = "";
         
         if (!this.isSinglePlayer())
         {
-            _sizerId = ResolveHandSizeContainer.create(div, title + " - max. ", nHandSize, "cards.");
-            div.getElementsByClassName("card-hands-sizer")[0].classList.add("arda-card-hands-sizer");
+            _sizerId = ResolveHandSizeContainer.create(divHandTop, "Hand size is", nHandSize, "");
+            divHandTop.getElementsByClassName("card-hands-sizer")[0].classList.add("arda-card-hands-sizer");
         }
         else 
             nHandSize = -1;
@@ -320,7 +324,7 @@ let Arda = {
             _a.setAttribute("title", "View discard pile");
             _a.innerHTML = `<img src="/media/assets/images/icons/icon-discardpile.png" data-view="discard" data-type="${dataType}">`;
             _a.onclick = Arda.onViewPile;
-            _div.appendChild(_a);
+            divHandTop.prepend(_a);
 
             _a = document.createElement("a");
             _a.setAttribute("src", "#");
@@ -332,7 +336,7 @@ let Arda = {
             _a.innerHTML = `<img src="/media/assets/images/icons/icon-playdeck.png" data-view="playdeck" data-type="${dataType}">`;
             _a.onclick = Arda.onViewPile;
             _a.oncontextmenu = Arda.onShufflePlaydeck;
-            _div.appendChild(_a);
+            divHandTop.prepend(_a);
 
             _a = document.createElement("a");
             _a.setAttribute("src", "#");
@@ -343,7 +347,7 @@ let Arda = {
             _a.setAttribute("title", "Draw a new card");
             _a.setAttribute("data-container-id", id);
             _a.onclick = Arda.onDrawNewCard;
-            _div.appendChild(_a);
+            divHandTop.prepend(_a);
         }
         div.appendChild(_div);
 
