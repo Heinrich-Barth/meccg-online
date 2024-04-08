@@ -601,11 +601,11 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
         const pDeck = this.getPlayerDeck(card.owner);
         if (pDeck === null)
             return null;
-        else
-        {
-            pDeck.pop().fromAnywhere(_uuid);
+
+        if (pDeck.pop().fromAnywhere(_uuid) ||  this.removeCardFromDeckOrCompany(card.owner, _uuid))
             return card;
-        }
+        else
+            return null;
     }
 }
 

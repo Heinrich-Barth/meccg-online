@@ -1110,6 +1110,7 @@ export default class GameStandard extends GamePlayers
         card.revealed = revealOnDrop;
 
         this.publishToPlayers("/game/remove-card-from-hand", "", _uuid);
+        this.publishToPlayers("/game/remove-card-from-board", "", _uuid);
         this.publishToPlayers("/game/add-onguard", userid, {
             uuid: _uuid,
             company: targetCompanyUuid,
