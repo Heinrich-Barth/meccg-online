@@ -556,7 +556,9 @@ const HandCardsDraggable = {
             {
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAcceptCharacterAndResource,
-                drop: (event, ui) => DropFunctions.dropOnAddCompanyCharacter(event, ui, companyUuid)
+                drop: (event, ui) => DropFunctions.dropOnAddCompanyCharacter(event, ui, companyUuid),
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
             });
         });
         
@@ -776,7 +778,9 @@ const HandCardsDraggable = {
                 tolerance: "pointer",
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAccept,
-                drop: HandCardsDraggable.onCardCharacterHostOnDrop
+                drop: HandCardsDraggable.onCardCharacterHostOnDrop,
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
             });
         }
         else /* influenced character */
@@ -786,7 +790,9 @@ const HandCardsDraggable = {
                 tolerance: "pointer",
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAcceptResrouceAndHazards,
-                drop: HandCardsDraggable.onCardCharacterFollowerOnDrop
+                drop: HandCardsDraggable.onCardCharacterFollowerOnDrop,
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
             });
         }
 
@@ -815,11 +821,16 @@ const HandCardsDraggable = {
                 CreateHandCardsDraggableUtils.initTargets(this.getAttribute("data-card-type"));
             },
             
-            stop: function() 
+            stop: function(event, ui) 
             {
                 CreateHandCardsDraggableUtils.clearTargets(this.getAttribute("data-card-type"));
+
                 if (this.hasAttribute("style"))
                     this.removeAttribute("style");
+
+                const elem = ui.helper.length > 0 ? ui.helper[0] : null;
+                if (elem !== null && elem.classList.contains("ui-on-droppable"))
+                    elem.classList.remove("ui-on-droppable");
             }
         }
 
@@ -1185,7 +1196,9 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnStageArea,
-        accept: HandCardsDraggable.droppableAcceptStagingArea
+        accept: HandCardsDraggable.droppableAcceptStagingArea,
+        over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
     });
     
     jQuery(DropableAreas.getCompanyAreaPlayerAddNew()).droppable(
@@ -1193,7 +1206,9 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnAddNew,
-        accept: HandCardsDraggable.droppableAcceptCharacter
+        accept: HandCardsDraggable.droppableAcceptCharacter,
+        over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
     });
 
     jQuery(DropableAreas.outOfPlay()).droppable(
@@ -1223,7 +1238,9 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             tolerance: "pointer",
             classes: HandCardsDraggable.droppableParams,
             drop: DropFunctions.dropOnMobileActionAreaLeftClick,
-            accept: () => true
+            accept: () => true,
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
         });
 
         elem = document.createElement("div");
@@ -1239,7 +1256,9 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             tolerance: "pointer",
             classes: HandCardsDraggable.droppableParams,
             drop: DropFunctions.dropOnMobileActionAreaLeftClickRight,
-            accept: () => true
+            accept: () => true,
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
         });
 
         const bar = document.getElementById("progression-phase-box");
@@ -1261,7 +1280,6 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             const pScore = document.querySelector(".taskbar-score")
             if (pScore)
                 pScore.classList.add("hidden");
-
             
             const pHandDiv = document.getElementById("playercard_hand");
             if (pHandDiv !== null)
