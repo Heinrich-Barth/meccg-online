@@ -88,19 +88,20 @@ body.on-drag-event-generic .playercard-hand-content.on-drag-over,
     background-color: rgba(101, 152, 81, 0.8) !important;
 }
 
-div.ui-on-droppable {
-    transition: opacity 0.2s ease-in-out;
+div.ui-draggable-on-droppable {
     opacity: 1 !important;
     animation: ui-draggable-shake 0.2s forwards ease-in-out;
     
     img { opacity: 1;}
     .fa,
     i, a { visibility: hidden !important;} 
-
 }
 
 div.ui-draggable-dragging { 
-    z-index: 403;
+    z-index: 901 !important;
+    img {
+        z-index: 901 !important;
+    }
     &::before, 
     &::after,
     ::before, 

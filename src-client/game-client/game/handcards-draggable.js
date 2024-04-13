@@ -557,8 +557,8 @@ const HandCardsDraggable = {
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAcceptCharacterAndResource,
                 drop: (event, ui) => DropFunctions.dropOnAddCompanyCharacter(event, ui, companyUuid),
-                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
             });
         });
         
@@ -779,8 +779,8 @@ const HandCardsDraggable = {
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAccept,
                 drop: HandCardsDraggable.onCardCharacterHostOnDrop,
-                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
             });
         }
         else /* influenced character */
@@ -791,8 +791,8 @@ const HandCardsDraggable = {
                 classes: HandCardsDraggable.droppableParams,
                 accept: HandCardsDraggable.droppableAcceptResrouceAndHazards,
                 drop: HandCardsDraggable.onCardCharacterFollowerOnDrop,
-                over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+                over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+                out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
             });
         }
 
@@ -813,8 +813,8 @@ const HandCardsDraggable = {
         const config = {
             cursor: 'move',
             revert: true,
-            opacity: 0.7,
-            revertDuration : 100,
+            opacity: 0.8,
+            revertDuration : 50,
             
             start: function() 
             {
@@ -829,8 +829,8 @@ const HandCardsDraggable = {
                     this.removeAttribute("style");
 
                 const elem = ui.helper.length > 0 ? ui.helper[0] : null;
-                if (elem !== null && elem.classList.contains("ui-on-droppable"))
-                    elem.classList.remove("ui-on-droppable");
+                if (elem !== null && elem.classList.contains("ui-draggable-on-droppable"))
+                    elem.classList.remove("ui-draggable-on-droppable");
             }
         }
 
@@ -1114,11 +1114,15 @@ const HandCardsDraggable = {
     onDroppableHighPrioOver : function( _drop_event, drop_ui ) 
     {
         drop_ui.helper.attr("data-prio", 'true');
+        if (drop_ui.draggable?.length > 0)
+            drop_ui.draggable[0].classList.add("ui-draggable-on-droppable");
     },
 
     onDroppableHighPrioOut : function( _drop_event, drop_ui ) 
     {
         drop_ui.helper.attr("data-prio", 'false');
+        if (drop_ui.draggable?.length > 0)
+            drop_ui.draggable[0].classList.remove("ui-draggable-on-droppable");
     }
 };
 
@@ -1197,8 +1201,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnStageArea,
         accept: HandCardsDraggable.droppableAcceptStagingArea,
-        over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+        over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
     
     jQuery(DropableAreas.getCompanyAreaPlayerAddNew()).droppable(
@@ -1207,8 +1211,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnAddNew,
         accept: HandCardsDraggable.droppableAcceptCharacter,
-        over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+        over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
 
     jQuery(DropableAreas.outOfPlay()).droppable(
@@ -1239,8 +1243,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             classes: HandCardsDraggable.droppableParams,
             drop: DropFunctions.dropOnMobileActionAreaLeftClick,
             accept: () => true,
-            over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
         });
 
         elem = document.createElement("div");
@@ -1257,8 +1261,8 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
             classes: HandCardsDraggable.droppableParams,
             drop: DropFunctions.dropOnMobileActionAreaLeftClickRight,
             accept: () => true,
-            over: ( event, ui ) => ui.draggable[0].classList.add("ui-on-droppable"),
-            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-on-droppable")
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
         });
 
         const bar = document.getElementById("progression-phase-box");
