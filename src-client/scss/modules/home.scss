@@ -55,7 +55,7 @@ body, p
 
         .room-image { cursor: pointer; }
         .room-image-edit {
-            color: var(--color-orange);
+            color: var(--color-orange-light);
             padding: 10px;
             border-radius: 50%;
             position: absolute;
@@ -193,7 +193,7 @@ footer {
     color: red;
     display: inline-block;
 
-    &.time-restart-information-yellow { color: var(--color-orange); }
+    &.time-restart-information-yellow { color: var(--color-orange-light); }
     
     i {
         margin-right: 1em;

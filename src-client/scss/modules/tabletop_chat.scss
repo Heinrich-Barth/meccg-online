@@ -35,7 +35,7 @@
     }
 
     b {
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 }
 
@@ -69,7 +69,7 @@
 
     h2 {
         text-align: center;
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 
     .button {
@@ -147,7 +147,7 @@
         }
 
         &:hover {
-            background-color: var(--color-orange);
+            background-color: var(--color-orange-light);
             color: var(--color-black);
         }
     }
@@ -162,7 +162,7 @@
     }
 
     .border-top a {
-        border-top: 1px solid var(--color-orange);
+        border-top: 1px solid var(--color-orange-light);
         padding-top: 0.5em;
     }
 

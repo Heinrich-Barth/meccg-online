@@ -12,7 +12,7 @@ body {
 }
 
 a {
-    color: var(--color-orange);
+    color: var(--color-orange-light);
     text-decoration: none;
 
     &:hover {
@@ -258,7 +258,7 @@ body.table-companies-breakline .companies {
         color: var(--color-light-grey);
 
         &:hover {
-            color: var(--color-orange);
+            color: var(--color-orange-light);
         }
     }
 }
@@ -400,7 +400,7 @@ body.table-companies-breakline .companies {
             cursor: grabbing;
     
             &:hover {
-                color: var(--color-orange);
+                color: var(--color-orange-light);
             }
         }
 
@@ -501,7 +501,7 @@ body.table-companies-breakline .companies {
             position: absolute;
             left: 9px;
             top: 13px;
-            color: var(--color-orange);
+            color: var(--color-orange-light);
             text-transform: uppercase;
             font-size: 12px;
         }
@@ -575,7 +575,8 @@ body.table-companies-breakline .companies {
         visibility: hidden
     }
 
-    &:hover {
+    .card-hand:hover 
+    {
         a.discardpile {
             visibility: visible;
         }
@@ -650,19 +651,19 @@ body.table-companies-breakline .companies {
             right: 60%;
 
             &:hover {
-                color: var(--color-orange);
+                color: var(--color-orange-light);
             }
         }
 
         .card-highlight-mark {
 
             img {
-                box-shadow: 0px 0px 5px 1px var(--color-orange);
+                box-shadow: 0px 0px 5px 1px var(--color-orange-light);
             }
 
             .character-mark-toggle {
                 visibility: visible;
-                color: var(--color-orange);
+                color: var(--color-orange-light);
                 transform: rotate(24deg);
             }
         }
@@ -690,7 +691,7 @@ body.table-companies-breakline .companies {
             left: 0px;
             height: 3px;
             width: 0px;
-            background: var(--color-orange);
+            background: var(--color-orange-light);
             display: none;
         }
 
@@ -779,7 +780,7 @@ body.table-companies-breakline .companies {
 
 .card-highlight-mark img,
 div.card img:hover {
-    box-shadow: 0px 0px 5px 1px var(--color-orange);
+    box-shadow: 0px 0px 5px 1px var(--color-orange-light);
 }
 
 .playercard-hand-content {
@@ -986,7 +987,7 @@ body[data-is-watcher='false']
     margin-left: 10px;
 
     i {
-        color: var(--color-orange);
+        color: var(--color-orange-light);
         font-weight: bold;
         padding: 0 5px;
 
@@ -1080,7 +1081,7 @@ div.card[data-token]:after {
     top: 10%;
     padding: 5px;
     font-size: 0.8em;
-    background: var(--color-orange);
+    background: var(--color-orange-light);
     border-radius: 50%;
     line-height: 1em;
     content: "10+";
@@ -1140,7 +1141,7 @@ div.card[data-token="10"]:after {
     }
 
     h3 {
-        color: var(--color-orange);
+        color: var(--color-orange-light);
         font-size: 2em;
         text-align: center;
     }
@@ -1255,7 +1256,7 @@ div.card[data-token="10"]:after {
         height: 13px;
         border-radius: 50%;
         border: 1px solid #000;
-        background: var(--color-orange);
+        background: var(--color-orange-light);
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
         &:nth-child(1) 

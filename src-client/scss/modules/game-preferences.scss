@@ -87,12 +87,12 @@
 
 .config-panel .preference-section-pad {
     margin-top: 20px;
-    color:var(--color-orange);
+    color:var(--color-orange-light);
     text-transform: uppercase;
 }
 
 .config-wrapper .icons { width: 20px; padding: 0; text-align:center;}
-.config-wrapper .icons:hover {color:var(--color-orange);}
+.config-wrapper .icons:hover {color:var(--color-orange-light);}
 
 .config-wrapper:hover .icon {
     background: url(/media/assets/images/icons/icon-prefs-hover.png) 0 0 no-repeat;
@@ -106,7 +106,7 @@
     margin-top: 10px;
 }
 .config-wrapper label { margin: 0; cursor: pointer;}
-.config-wrapper .preference:hover { color:var(--color-orange); }
+.config-wrapper .preference:hover { color:var(--color-orange-light); }
 
 .config-panel .switch {
 position: relative;
@@ -150,7 +150,7 @@ display: none;
     border-radius: 5px;
 }
 
-.restore-panel h2 { color: var(--color-orange); text-align: center;}
+.restore-panel h2 { color: var(--color-orange-light); text-align: center;}
 
 .restore-panel td.center { text-align: center; }
 .restore-panel td.entry { width: 200px;  }

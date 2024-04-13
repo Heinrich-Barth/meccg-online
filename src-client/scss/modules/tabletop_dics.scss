@@ -20,8 +20,8 @@
     animation-fill-mode: forwards;
 
     span {
-        &.who  { color: var(--color-orange); }
-        &.big { font-size: 2em; color: var(--color-orange); padding: 0 10px; } 
+        &.who  { color: var(--color-orange-light); }
+        &.big { font-size: 2em; color: var(--color-orange-light); padding: 0 10px; } 
         &.dice-info { font-style: italic; }
     }
     

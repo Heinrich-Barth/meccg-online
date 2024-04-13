@@ -57,7 +57,7 @@
             visibility: hidden;
 
             &:hover{
-                color: var(--color-orange);
+                color: var(--color-orange-light);
             }
         }
     }
@@ -105,10 +105,11 @@
         position: absolute;
         right: 0;
         top: 0;
-        background-color: var(--color-yellow);
+        background-color: var(--color-near-white);
         color: #000;
-        border-radius: 4px;
-        padding: 0.3em;
+        border-radius: 50%;
+        padding: 4px;
+        font-size: 0.8em;
     }
 
     a,

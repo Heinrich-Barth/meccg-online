@@ -45,7 +45,7 @@ h2 {
 
     .arda-text {
         display: block;
-        color: var(--color-orange);
+        color: var(--color-orange-light);
 
         &.arda-text-intro {
             padding-top: 10px;
@@ -87,7 +87,7 @@ h2 {
 
     details[open] {
         summary {
-            color: var(--color-orange);
+            color: var(--color-orange-light);
         }
     }
 }
@@ -104,7 +104,7 @@ h2 {
 
     a {
         color: #FFF;
-        background-color: var(--color-orange);
+        background-color: var(--color-orange-light);
         border-radius: 50%;
         display: inline-block;
         text-align: center;
@@ -221,7 +221,7 @@ h2 {
 .converter h2,
 h3 {
     font-size: 1em;
-    color: var(--color-orange);
+    color: var(--color-orange-light);
     margin-bottom: 0;
 }
 
@@ -231,7 +231,7 @@ h3 {
         margin: 2em auto;
         background: transparent;
         color: #fff;
-        border-bottom: 1px solid var(--color-orange);
+        border-bottom: 1px solid var(--color-orange-light);
     }
 
     .content {

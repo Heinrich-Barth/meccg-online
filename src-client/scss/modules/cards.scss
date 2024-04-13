@@ -169,7 +169,7 @@ body {
         a:hover {
             color: var(--color-white);
             background-color: rgba(255, 165, 0, 0.35);
-            border: 1px solid var(--color-orange);
+            border: 1px solid var(--color-orange-light);
         }
     }
 
@@ -185,7 +185,7 @@ body {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    color: var(--color-orange);
+    color: var(--color-orange-light);
     padding: 10px;
     font-size: 2em;
     z-index: 10;
@@ -280,13 +280,13 @@ body {
 
         label {
             padding-top: 10px;
-            border-bottom: 1px dotted var(--color-orange);
+            border-bottom: 1px dotted var(--color-orange-light);
             display: block;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 0.9em;
             margin: 1em 0;
-            color: var(--color-orange);
+            color: var(--color-orange-light);
 
             &:hover {
                 color: #fff;
@@ -394,10 +394,10 @@ body {
             .count_bubble {
                 right: 5px;
                 top: 5px;
-                color: #fff;
+                color: var(--color-black);
                 position: absolute;
                 border-radius: 10px;
-                background: var(--color-orange);
+                background: var(--color-orange-light);
                 padding: 5px;
                 font-weight: bold;
                 font-size: 15px;
@@ -422,7 +422,7 @@ body {
                     color: var(--color-white);
 
                     &:hover {
-                        color: var(--color-orange);
+                        color: var(--color-orange-light);
                     }
                 }
             }

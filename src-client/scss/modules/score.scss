@@ -25,7 +25,7 @@
 
     .view-score-container h2 {
         text-align: center;
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 
     select.req {
@@ -154,11 +154,11 @@
             .return-to-lobby a{
                 display: block !important;
                 text-transform: uppercase;
-                color: var(--color-yellow);
+                color: var(--color-orange-light);
                 font-size: 0.8em;
 
                 &:hover {
-                    color: var(--color-orange);
+                    color: var(--color-near-white);
                 }
             }
 
@@ -378,8 +378,8 @@
     &::before { content: '\00AB' }
 
     &:hover {
-        border-color: var(--color-orange);
-        color: var(--color-orange);
+        border-color: var(--color-orange-light);
+        color: var(--color-orange-light);
         opacity: 1;
     }
 }
@@ -509,7 +509,7 @@
         cursor: pointer;
         text-align: center; 
 
-        &:hover { color:  var(--color-orange); }
+        &:hover { color:  var(--color-orange-light); }
     }
 }
 
