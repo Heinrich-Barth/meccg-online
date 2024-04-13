@@ -19,7 +19,7 @@
     }
 
     .act {
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 }
 
@@ -45,7 +45,7 @@
         transition: all 0.2s ease-in-out;
 
         &:hover {
-            color: var(--color-orange);
+            color: var(--color-orange-light);
             scale: 1.1;
         }
     }
@@ -135,6 +135,47 @@
     }
 }
 
+body[data-is-singleplayer="true"] {
+
+    .scoring-sheet-ingame.scoring-arda
+    {
+        bottom: 0;
+    }
+
+    div#arda_mps_hand
+    {
+        bottom: unset;
+        top: 57px;
+        right: 50%;
+        transform: translateX(50%);
+        max-width: unset;
+    }
+
+    .arda-card-hand-mps {
+
+        .arda-handbar-top {
+            min-height: 16px;
+            min-width: 100px;
+        }
+    
+        .arda-inline {
+            background-color: #000;
+            min-width: 119px;
+        }
+        
+        #arda_hand_container_mps:empty
+        {
+            &::before
+            {
+                width: 100px;
+                top: -10px;
+            }
+        }
+    }
+}
+
+
+
 
 div#arda_characters_hand {
     top: 50px;
@@ -172,7 +213,7 @@ div#arda_mps_hand {
     display: block;
 
     strong {
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 }
 
@@ -239,7 +280,7 @@ body.arda-draft .arda-actions img:nth-child(2) {
 
 .arda-pile-action:hover img,
 .arda-actions img:hover {
-    background-color: var(--color-orange);
+    background-color: var(--color-orange-light);
 }
 
 .arda-pile-action:first-child {
@@ -331,7 +372,7 @@ body.arda-draft .arda-actions img:nth-child(2) {
         text-align: center;
         font-size: 1.1em;
         color: #fff;
-        color: var(--color-orange);
+        color: var(--color-orange-light);
     }
 
     p {
