@@ -94,9 +94,19 @@ div.ui-on-droppable {
     animation: ui-draggable-shake 0.2s forwards ease-in-out;
     
     img { opacity: 1;}
+    .fa,
+    i, a { visibility: hidden !important;} 
+
 }
 
-div.ui-draggable-dragging { z-index: 403; }
+div.ui-draggable-dragging { 
+    z-index: 403;
+    &::before, 
+    &::after,
+    ::before, 
+    ::after,
+    i, a { visibility: hidden !important;} 
+}
 
 @keyframes ui-draggable-shake {
     0% {
@@ -155,6 +165,10 @@ body.on-drag-event-character .area-player .company-character-host:before
     z-index: 901;
     left: 0px;
 }
+
+body.on-drag-event-character .area-player .company-character-influenced .company-character-host:before
+{ display: none; }
+
 
 body.on-drag-event-hazard .area-opponent .company-character-host:before,
 body.on-drag-event-resource .area-player .company-character-host:before
