@@ -758,6 +758,12 @@ const GameBuilder = {
             GameBuilder.CompanyManager.revealLocations(jData.company);
             if (!bIsMe)
                 GameBuilder.showDropEventBox("", jData.company);
+            else
+            {
+                const phase = document.querySelector(".taskbar .taskbar-turn.move");
+                if (phase !== null && typeof phase.click === "function")
+                    phase.click();
+            }
         });
 
         MeccgApi.addListener("/game/company/location/choose", (bIsMe, jData) => 
