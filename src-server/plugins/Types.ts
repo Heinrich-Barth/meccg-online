@@ -15,6 +15,7 @@ export interface ICard extends Iterable<string> {
     region_type?:string,
     site_type?:string,
     Site?:string,
+    uniqueness?:boolean,
     isUnderdeep?:boolean
     [key:string]:any
 }

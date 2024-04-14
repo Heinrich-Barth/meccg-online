@@ -3,6 +3,7 @@ import DeckArda from "./DeckArda";
 import GameStandard from "./GameStandard";
 import HandManagerArda from "./HandManagerArda";
 import { TDeckCard } from "./DeckCommons";
+import Player from "./Player";
 
 export default class GameArda extends GameStandard
 {
@@ -22,7 +23,7 @@ export default class GameArda extends GameStandard
         super.publishChat(userid, message, false);
     }
     
-    assignOpeningChars7()
+    #assignOpeningChars7()
     {
         const players = this.getDeckManager().getPlayers();
         if (players.length === 0)
@@ -45,7 +46,7 @@ export default class GameArda extends GameStandard
         }
     }
 
-    assignOpeningChars(nCount:number)
+    #assignOpeningChars(nCount:number)
     {
         const players = this.getDeckManager().getPlayers();
         for (let userid of players)
@@ -98,7 +99,7 @@ export default class GameArda extends GameStandard
         }
     }
 
-    getRessourceOnly(list:TDeckCard[]) : TDeckCard[]
+    #getRessourceOnly(list:TDeckCard[]) : TDeckCard[]
     {
         let result = [];
         for (let card of list)
@@ -118,11 +119,11 @@ export default class GameArda extends GameStandard
             cards: {
                 first: { 
                     mp: this.getCardList(this.getDeckManager().getCards().handMarshallingPoints(obj.first)),
-                    hand: this.getRessourceOnly(this.getCardList(this.getDeckManager().getCards().hand(obj.first)))
+                    hand: this.#getRessourceOnly(this.getCardList(this.getDeckManager().getCards().hand(obj.first)))
                 },
                 second: {
                     mp: this.getCardList(this.getDeckManager().getCards().handMarshallingPoints(obj.second)),
-                    hand: this.getRessourceOnly(this.getCardList(this.getDeckManager().getCards().hand(obj.second)))
+                    hand: this.#getRessourceOnly(this.getCardList(this.getDeckManager().getCards().hand(obj.second)))
                 }
             }
         }
@@ -416,8 +417,8 @@ export default class GameArda extends GameStandard
 
     onAssignCharacters(userid:string, socket:any, data:any)
     {
-        this.assignOpeningChars7();
-        this.assignOpeningChars(this.#getGenericCharacterCount(data?.count));
+        this.#assignOpeningChars7();
+        this.#assignOpeningChars(this.#getGenericCharacterCount(data?.count));
 
         this.#reycled.ready = true;
         this.onCheckDraft(userid, socket);
@@ -572,6 +573,33 @@ export default class GameArda extends GameStandard
 
         const listStage = this.getCardList(pAdminDeck.getHandStage());
         this.publishToPlayers("/game/arda/hand/stage", userid, {list: listStage});
+    }
+
+    joinGame(pPlayer:Player, playerId:string)
+    {
+        if (!super.joinGame(pPlayer, playerId))
+            return false;
+        
+        this.#updateMPOwnershipOnInit(playerId);
+        return true;
+    }
+
+    #updateMPOwnershipOnInit(userid:string)
+    {
+        const deck = this.getDeckManager().getPlayerDeck(userid) as DeckArda;
+        if (deck === null)
+            return;
+
+        const uuids = deck.GetDeckListPile("handCardsMP");
+        if (uuids === null || uuids.length === 0)
+            return;
+
+        for (let uuid of uuids)
+        {
+            const card = this.getDeckManager().getFullPlayerCard(uuid);
+            if (card !== null)
+                this.updateCardOwnership(userid, card);       
+        }
     }
 
     onMoveArdaHandCard(userid:string, socket:any, obj:any)

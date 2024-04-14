@@ -508,6 +508,27 @@ export default class CardRepository {
         const card = this.getCardByCode(code);
         return card?.Secondary !== undefined ? card.Secondary : "";
     }
+    isHoardItem(code:string)
+    {
+        const card = this.getCardByCode(code);
+        if (card === null)
+            return false;
+
+        const sRace = card.Race;
+        if (typeof sRace === "string" && sRace.toLowerCase().indexOf("hoard") !== -1)
+            return true;
+        
+        if (card.keywords && Array.isArray(card.keywords) && card.keywords.includes("hoard"))
+            return true;            
+
+        return false;
+    }
+    
+    isUnique(code:string)
+    {
+        const card = this.getCardByCode(code);
+        return card?.uniqueness === true;
+    }
 
     isStageCard(code:string)
     {

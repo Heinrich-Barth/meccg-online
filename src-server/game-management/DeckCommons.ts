@@ -23,6 +23,8 @@ export type TDeckCard = {
     turn: number,
     stage: boolean,
     secondary: string,
+    hoard: boolean,
+    unique: boolean,
     token?:number,
     target?:string,
     status: number
@@ -281,7 +283,9 @@ export default class DeckCommons {
             turn: 0,
             stage: false,
             secondary: "",
-            status: 0
+            status: 0,
+            unique: false,
+            hoard: false
         };
     }
 
@@ -361,7 +365,7 @@ export default class DeckCommons {
      * @param {Boolean} isAgent 
      * @returns 
      */
-    createCardEntry(code:string, isAgent:boolean)
+    createCardEntry(code:string, isAgent:boolean): TDeckCard|null
     {
         if (typeof code === "undefined")
         {
@@ -387,6 +391,8 @@ export default class DeckCommons {
         data.turn = 0;
         data.secondary = CardDataProvider.getCardTypeSpecific(code);
         data.stage = isAgent !== true && CardDataProvider.isStageCard(code);
+        data.hoard = CardDataProvider.isHoardItem(code);
+        data.unique = CardDataProvider.isUnique(code);
         return data;
     }
 }

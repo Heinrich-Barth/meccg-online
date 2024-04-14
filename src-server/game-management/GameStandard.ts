@@ -221,7 +221,9 @@ export default class GameStandard extends GamePlayers
                     agent: false,
                     turn: 0,
                     target: "",
-                    status: 0
+                    status: 0,
+                    unique: card.unique,
+                    hoard: card.hoard
                 });
             }
         }

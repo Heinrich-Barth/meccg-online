@@ -117,6 +117,11 @@
         }
     }
 
+    &.arda-card-hand-minor
+    {
+        max-width: 70%;
+    }
+
     &.arda-card-hand-mps,
     &.arda-card-hand-stage,
     &.arda-card-hand-minor,
@@ -190,7 +195,6 @@ div#arda_minors_hand {
 }
 
 body.arda-draft .arda-card-hand-minor {
-    max-width: 70%;
     max-height: 100%;
     opacity: 1;
 }
@@ -412,10 +416,16 @@ body.arda-draft .arda-actions img:nth-child(2) {
     }
 }
 
-.game-arda .table .row {
-    padding-right: 100px;
+.game-arda {
+    .player-playdeck-count { display: none; }
+    .table .row {
+        padding-right: 100px;
+    }
+    .player-selector-box {
+        left: 25%;
+        transform: translateX(-20%);    
+    }
 }
-
 
 @media screen and (max-width: 500px) {body {
 

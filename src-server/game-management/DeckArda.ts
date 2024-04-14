@@ -166,7 +166,7 @@ export default class DeckArda extends DeckDefault {
         /** minor items will be drawn to hand on startup */
         nSize = this.add(jsonDeck["minors"], this.#handMinorItems, _cardMap);
         this.#copyIds(this.#handMinorItems, this.#typesMinors);
-
+        // this.#prediscardMinorItems(_cardMap);
         Logger.info("Added " + nSize + " minor items");
         
         nSize = this.add(jsonDeck["mps"], this.#playdeckMP, _cardMap);
@@ -190,6 +190,32 @@ export default class DeckArda extends DeckDefault {
         this.#copyIds(this.#playdeckStage, this.#playdeckStage);
         this.#shuffleAnyTimes(this.#playdeckStage, 3);
         Logger.info("Added " + this.#typeStage.length + " stage resources");
+    }
+
+    #prediscardMinorItems(cardMap:TDeckCardMap)
+    {
+        if (this.#handMinorItems.length === 0)
+            return;
+
+        const listMove: string[] = [];
+        for (let uuid of this.#handMinorItems)
+        {
+            const card = cardMap[uuid];
+            if (card.unique || card.hoard)
+            {
+                console.log("Move minor to discard:", card.code)
+                listMove.push(uuid);
+            }
+        }
+
+        for (let uuid of listMove)
+        {
+            this.pop().fromHandMinor(uuid);
+            this.push().toDiscardpile(uuid);
+        }
+
+        if (listMove.length > 0)
+            Logger.info("Moved " + listMove.length + " hoard and/or unique minor items to discard pile");
     }
     
     /**
@@ -561,7 +587,7 @@ export default class DeckArda extends DeckDefault {
     pop()
     {
         const deck = this;
-        let res:any = super.pop();
+        const res:any = super.pop();
 
         res.fromHandMinor = function(uuid:string)
         {

@@ -77,7 +77,7 @@ export default class DeckManagerArda extends DeckManager
         /** every player draws their own MP hand */
         if (!this.isSinglePlayer())    
         {
-            this.drawMarshallingPoints(playerId, 5)
+            this.#drawMarshallingPoints(playerId, 5)
             this.drawStage(playerId, 5)
         }
 
@@ -94,7 +94,7 @@ export default class DeckManagerArda extends DeckManager
         }
     }
 
-    drawMarshallingPoints(playerId:string, nCount:number)
+    #drawMarshallingPoints(playerId:string, nCount:number)
     {
         const deckSource = this.getPlayerDeck(playerId) as DeckArda;
         if (deckSource !== null)

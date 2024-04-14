@@ -95,7 +95,9 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
             agent: _card.agent,
             turn: _card.turn,
             stage: _card.stage,
-            secondary: _card.secondary
+            secondary: _card.secondary,
+            unique: _card.unique,
+            hoard: _card.hoard
         }
     }
     
