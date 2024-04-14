@@ -78,7 +78,7 @@ export default class DeckManagerArda extends DeckManager
         if (!this.isSinglePlayer())    
         {
             this.#drawMarshallingPoints(playerId, 5)
-            this.drawStage(playerId, 5)
+            this.#drawStage(playerId, 5)
         }
 
         return pDeck;
@@ -104,7 +104,7 @@ export default class DeckManagerArda extends DeckManager
         }
     }
 
-    drawStage(playerId:string, nCount:number)
+    #drawStage(playerId:string, nCount:number)
     {
         const deckSource = this.getPlayerDeck(playerId) as DeckArda;
         if (deckSource !== null)
