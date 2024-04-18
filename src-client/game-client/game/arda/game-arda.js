@@ -19,11 +19,23 @@ let Arda = {
         div.setAttribute("data-card-code", GameCompanies.CardList.getSafeCode(_code));
 
         if (type === "charackters")
+        {
+            div.setAttribute("title", "Drag card to play it or \nDOUBLECLICK to create new company without dragging it.");
             div.setAttribute("data-card-type", "character");
+        }
         else 
+        {
+            div.setAttribute("title", "Drag card to play it or \nDOUBLECLICK to play card without dragging it.");
             div.setAttribute("data-card-type", "resource");
+        }
 
-        div.innerHTML = `<img crossorigin="anonymous" decoding="async" src="${_img}" data-id="${_code}" class="card-icon">`;
+        const cardImage = document.createElement("img");
+        cardImage.setAttribute("crossorigin", "anonymous");
+        cardImage.setAttribute("data-id", _code);
+        cardImage.setAttribute("class", "card-icon");
+        cardImage.setAttribute("src", _img);
+        cardImage.ondblclick = Arda.onDoubleClickCard;
+        div.append(cardImage);
 
         const divHover = document.createElement("div");
         divHover.setAttribute("class", "arda-actions");
@@ -54,6 +66,25 @@ let Arda = {
 
         HandCardsDraggable.initDraggableCard(div);
         return div;
+    },
+
+    onDoubleClickCard: function(e)
+    {
+        const elem = e.target.parentElement;
+        const uuid = elem.hasAttribute("data-uuid") ? elem.getAttribute("data-uuid") : "";
+
+        if (uuid === "")
+            return false;
+
+        const isChar = elem.getAttribute("data-card-type") === "character";
+        CreateHandCardsDraggableUtils.removeDraggableDomElement(elem);
+
+        if (isChar)
+            HandCardsDraggable.onCreateNewCompany(uuid, "hand");
+        else
+            HandCardsDraggable.onAddGenericCardToStagingArea(uuid, true);
+
+        return false;
     },
 
     /**

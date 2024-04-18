@@ -101,8 +101,8 @@
         .arda-hand-card-actions { display: none; }
 
         .card-hand {
+            cursor: move;
             margin-right: -30px;
-
             &:last-of-type {
                 margin-right: 0;
             }
@@ -111,9 +111,6 @@
        
         &:hover {
             opacity: 1;
-
-            .arda-actions,
-            .arda-hand-card-actions { display: inline-block; }
         }
     }
 
@@ -131,6 +128,12 @@
         {
             .arda-handbar-top {
                 visibility: visible;
+            }
+
+            .card-hand:hover {
+                opacity: 1;
+                .arda-actions,
+                .arda-hand-card-actions { display: inline-block; }
             }
         }
     }
