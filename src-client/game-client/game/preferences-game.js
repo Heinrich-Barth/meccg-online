@@ -480,7 +480,7 @@ class GamePreferences extends Preferences {
 
         this.addConfigSlider("slider_scramble", "Jumble company cards", 2, this.#getJumbleCardsVal(), "fa-search-plus slider-short", this.#jumbleCards.bind(this));
 
-        this.#toggleCardPreview(this.#useSmallCardPreview());
+        this.#toggleCardPreview(!this.#useSmallCardPreview());
 
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
