@@ -13,8 +13,7 @@ Open your terminal and access this project folder. THen run the following comman
 ````
 npm install
 npm run build #run only once
-npm run dev_server #develop server module
-npm run dev_client #develop client module
+npm run dev
 ````
 
 Your app should now be running on [localhost:8080](http://localhost:8080/).
