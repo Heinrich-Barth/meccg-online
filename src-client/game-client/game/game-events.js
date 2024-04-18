@@ -77,7 +77,7 @@ class GameEvents
         if (currentTurn === -1)
             return;
 
-        this.forEachCardIn(this.getCardsInStagingArea(), function(card) 
+        this.forEachCardIn(this.#getCardsInStagingAreaLongShort(), function(card) 
         {
             const sec = card.getAttribute("data-secondary");
             if (sec !== null && sec !== "" && sec.indexOf("permanent event") === -1)
@@ -107,7 +107,7 @@ class GameEvents
     autoFlip()
     {
         const codes = ["kesä (nw)", "talvi (nw)"];
-        this.forEachCardIn(this.getCardsInStagingArea(), function(card) 
+        this.forEachCardIn(this.#getCardsInStagingArea(true), function(card) 
         {
             for (let code of codes)
             {
@@ -120,14 +120,33 @@ class GameEvents
         });
     }
 
-    getCardsInStagingArea()
+    #getStagingAreaContainer(isResource = true)
     {
-        const pArea = document.getElementById("staging-area-player");
-        if (pArea === null)
-            return null;
+        const area = isResource ? document.getElementById("staging_area_resources_longshort_player") : document.getElementById("staging_area_hazards_longshort_player");
+        if (area !== null)
+            return area;
 
-        const list = pArea.getElementsByClassName("card");
-        return list === null || list.length === 0 ? null : list;
+        return document.getElementById("staging-area-player");
+    }
+
+    #getCardsInStagingArea(isResource = true)
+    {
+        const pArea = this.#getStagingAreaContainer(isResource);
+        const list = pArea === null ? null : pArea.getElementsByClassName("card");
+        return list === null || list.length === 0 ? [] : list;
+    }
+
+    #getCardsInStagingAreaLongShort()
+    {
+        const list = [];
+
+        for (let elem of this.#getCardsInStagingArea(true))
+            list.push(elem);
+
+        for (let elem of this.#getCardsInStagingArea(false))
+            list.push(elem);
+
+        return list;
     }
 
     forEachCardIn(list, fnCall)

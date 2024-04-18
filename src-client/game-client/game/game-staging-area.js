@@ -69,36 +69,40 @@ class StagingArea
      * @param {boolean} isStage 
      * @returns HTML element
      */
-    #getTargetContainer(isPlayer, isResource, isFaction, isStage)
+    #getTargetContainer(isPlayer, isResource, isFaction, isStage, isLongOrShort)
     {
-        const area = this.#getTargetContainerSpecific(isPlayer, isResource, isFaction, isStage);
-        return area !== null ? area : this.#getTargetContainerSpecific(isPlayer, isResource, false, false);
+        const area = this.#getTargetContainerSpecific(isPlayer, isResource, isFaction, isStage, isLongOrShort);
+        return area !== null ? area : this.#getTargetContainerSpecific(isPlayer, isResource);
     }
 
-    #getTargetContainerSpecific(isPlayer, isResource, isFaction, isStage)
+    #getTargetContainerSpecific(isPlayer, isResource, isFaction = false, isStage = false, isLongOrShort = false)
     {
         const area = isPlayer ? StagingArea.areaPlayer : StagingArea.areaOpponent;
         if (!isResource)
-            return area.hazards();
+            return isLongOrShort ? area.hazardsLongShort() : area.hazards();
         else if (isFaction)
             return area.factions();
         else if (isStage)
             return area.stage();
         else
-            return area.resources();
+            return isLongOrShort ? area.resourcesLongShort() : area.resources();
     }
 
     static areaOpponent = {
         resources : function() { return document.getElementById("staging_area_resources_opponent"); },
+        resourcesLongShort : function() { return document.getElementById("staging_area_resources_longshort_opponent"); },
         factions : function() { return document.getElementById("staging_area_factions_opponent"); },
         hazards : function() { return document.getElementById("staging_area_hazards_opponent"); },
+        hazardsLongShort : function() { return document.getElementById("staging_area_hazards_longshort_opponent"); },
         stage : function() { return document.getElementById("staging_area_stage_opponent"); }
     }
         
     static areaPlayer = {
         resources : function() { return document.getElementById("staging_area_resources_player"); },
+        resourcesLongShort : function() { return document.getElementById("staging_area_resources_longshort_player"); },
         factions : function() { return document.getElementById("staging_area_factions_player"); },
         hazards : function() { return document.getElementById("staging_area_hazards_player"); },
+        hazardsLongShort : function() { return document.getElementById("staging_area_hazards_longshort_player"); },
         stage : function() { return document.getElementById("staging_area_stage_player"); }
     }
 
@@ -124,6 +128,7 @@ class StagingArea
         if (document.getElementById(id) !== null)
             return "";
 
+        const isLongOrShort = this.#isLongOrShortEvent(secondary.toLowerCase());
         const css = this.getCardStateCss(state);
         const res = this.createNewCard(uuid, code, type, id, css, turn, token, secondary);
         if (res === null)
@@ -131,15 +136,20 @@ class StagingArea
 
         const isFacion = isResource && secondary.toLowerCase() === "faction";
         const isStage = !isFacion && stage === true;
-        const container = this.#getTargetContainer(isPlayer, isResource, isFacion, isStage);
+        const container = this.#getTargetContainer(isPlayer, isResource, isFacion, isStage, isLongOrShort);
         if (container === null)
             return "";
 
-        if (isFacion)
+        if (isFacion || (isLongOrShort && secondary.toLowerCase().startsWith("long")))
             container.append(res);
         else
             container.prepend(res);
         return id;
+    }
+
+    #isLongOrShortEvent(secondary = "")
+    {
+        return secondary.startsWith("long ") || secondary.startsWith("short ");
     }
 
     /**
