@@ -311,3 +311,12 @@ img.card-icon {
 
     display: none;
 }
+
+
+.preview-container div {
+    max-height: 50%;
+}
+
+.large-preview .preview-container div {
+    max-height: 90%;
+}

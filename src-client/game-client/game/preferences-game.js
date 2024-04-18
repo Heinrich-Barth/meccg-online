@@ -50,6 +50,22 @@ class GamePreferences extends Preferences {
         document.body.dispatchEvent(new CustomEvent("meccg-chat-view", { "detail": isActive }));
     }
 
+    #useSmallCardPreview()
+    {
+        return sessionStorage.getItem("cards_smallprev");
+    }
+
+    #toggleSmallPreview(isActive)
+    {
+        if (isActive)
+            sessionStorage.setItem("cards_smallprev", "1");
+        else if (this.#useSmallCardPreview())
+            sessionStorage.removeItem("cards_smallprev");
+        
+        this.#toggleCardPreview(!isActive);
+    }
+
+
     #getJumbleCardsVal()
     {
         const candidate = sessionStorage.getItem("cards_jumble");
@@ -351,6 +367,8 @@ class GamePreferences extends Preferences {
         if (!bWatcher)
             this.createEntry0("toggle_phasese");
 
+        this.createEntry0("toggle_zoom_preview");
+            
         this.createSection("Look & Feel");
         this.createEntry0("toggle_zoom");
         if (!bWatcher)
@@ -358,7 +376,6 @@ class GamePreferences extends Preferences {
             this.createEntry0("slider_scramble");
             this.createEntry0("toggle_company_break");
             this.#toggleStackStage(true);
-            this.createEntry0("toggle_stack_stage");
 
             this.#toggleAlignCompaniesLeft(true);
             this.createEntry0("toggle_align_companies_left");
@@ -450,8 +467,8 @@ class GamePreferences extends Preferences {
         this.addConfigAction("game_save", "Save current game", false, "fa-floppy-o", () => document.body.dispatchEvent(new CustomEvent("meccg-game-save-request", { "detail": ""})));
         this.addConfigAction("game_load", "Restore a saved game", false, "fa-folder-open", () => document.body.dispatchEvent(new CustomEvent("meccg-game-restore-request", { "detail": ""})));
 
-        this.addConfigToggle("toggle_stack_stage", "Stack event cards vertically", true, this.#toggleStackStage.bind(this));
         this.addConfigToggle("toggle_align_companies_left", "Align companies to the left", true, this.#toggleAlignCompaniesLeft.bind(this));
+        this.addConfigToggle("toggle_zoom_preview", "Use smaller card preview", this.#useSmallCardPreview(), this.#toggleSmallPreview.bind(this));
 
         this.addConfigAction("leave_game", "End game now (after confirmation)", false, "fa-power-off", this.#endGame);
         this.addConfigToggle("use_padding_bottom", "Add additional space at the bottom for your hand", true, this.#togglePaddingBottom)
@@ -463,14 +480,18 @@ class GamePreferences extends Preferences {
 
         this.addConfigSlider("slider_scramble", "Jumble company cards", 2, this.#getJumbleCardsVal(), "fa-search-plus slider-short", this.#jumbleCards.bind(this));
 
-        this.#toggleCardPreview();
+        this.#toggleCardPreview(this.#useSmallCardPreview());
+
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
     }
 
-    #toggleCardPreview()
+    #toggleCardPreview(bAdd = true)
     {
-        document.body.classList.add("large-preview");
+        if (bAdd && !document.body.classList.contains("large-preview"))
+            document.body.classList.add("large-preview");
+        else if (!bAdd && document.body.classList.contains("large-preview"))
+            document.body.classList.remove("large-preview");
     }
 
     allowSfx()
