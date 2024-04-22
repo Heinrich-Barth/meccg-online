@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import Logger from "../Logger";
-import ConfigurationInstance from "../Configuration";
 
 export default class CookiePreferences
 {
     #available:any = {};
     #prefix:string;
-    #isProduction = ConfigurationInstance.isProduction()
 
     constructor(sPrefix:string = "")
     {
