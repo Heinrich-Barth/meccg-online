@@ -243,13 +243,35 @@ class TaskBarCards
             e.stopPropagation();
             return false;
         };
-        
-        document.getElementById("roll_dice_icons").onclick = (e) => 
+
         {
-            TaskBarCards.rollDiceCharacter("", "");
-            e.stopPropagation();
-            return false;
-        };
+            const dice = document.getElementById("roll_dice_icons");
+            if (dice !== null)
+            {
+                dice.onclick = (e) => 
+                {
+                    TaskBarCards.rollDiceCharacter("", "");
+                    e.stopPropagation();
+                    return false;
+                };
+        
+                dice.oncontextmenu = (e) => 
+                {
+                    document.body.dispatchEvent(new CustomEvent("meccg-dice-chooser"));
+                    e.stopPropagation();
+                    return false;
+                };
+        
+                dice.setAttribute("title", "Click to roll the dice (press r or w)\nRIGHT CLICK to change dices");
+            }
+        }
+        
+
+        {
+            const img = document.getElementById("taskbar-background");
+            if (img !== null)
+                img.onclick = (e) => document.body.dispatchEvent(new CustomEvent("meccg-background-chooser"));
+        }
 
         {
             const iconHand = document.getElementById("roll_dice_icon_hand");
