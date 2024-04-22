@@ -104,17 +104,6 @@ class Configuration
             return getRootFolder() + "/" + val;
     }
 
-    static #assertUrlOrDataDirectory(input:any, def:string)
-    {
-        const val = Configuration.assertString(input, def);
-        if (val.indexOf("//") > -1)
-            return val;
-        else if (val.startsWith("/"))
-            return getRootFolder() + val;
-        else
-            return getRootFolder() + "/" + val;
-    }
-
     isValid(input:string)
     {
         return typeof input === "string" && input !== "";
@@ -293,11 +282,6 @@ class Configuration
     static #checkHasLocalImages():boolean
     {
         return fs.existsSync(getRootFolder() + "/data-local") && fs.existsSync(getRootFolder() + "/data-local/images");
-    }
-
-    static #hasLocalCardJson():boolean
-    {
-        return fs.existsSync(getRootFolder() + "/data-local") && fs.existsSync(getRootFolder() + "/data-local/cards.json");
     }
 
     useLocalImages():boolean
