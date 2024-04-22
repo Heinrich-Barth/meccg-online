@@ -909,7 +909,10 @@ const SCORING_INGAME =
             th1.append(span, strong);
         }
 
-        tbody.appendChild(tr);
+        if (isMe)
+            tbody.prepend(tr);
+        else
+            tbody.appendChild(tr);
     },
 
     onUpdateValue : function(link, nDif)
