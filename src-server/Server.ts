@@ -130,13 +130,16 @@ const RoomNames = {
 
 export class ServerInstance {
 
-    static #instance = express();
+    static readonly #instance = express();
     static #io: any = null;
     static #http:any = null;
     static #roomManager:RoomManager|null = null;
-    static #sampleRooms:string[] = RoomNames.createImages();
-    static #sampleNames:string[] = RoomNames.readJsonArray(getRootFolder() + '/data-local/namelist.json');
-    
+    static readonly #sampleRooms:string[] = RoomNames.createImages();
+    static readonly #sampleNames:string[] = RoomNames.readJsonArray(getRootFolder() + '/data-local/namelist.json');
+    static #instanceListener:any = null;
+    static #page404 = "";
+    static #page500 = "";
+
     static getServerInstance()
     {
         return ServerInstance.#instance;
@@ -208,11 +211,6 @@ export class ServerInstance {
         ServerInstance.#roomManager = new RoomManager(ServerInstance.getSocketIo, readAndCreateUniqueVersion(ROOT_DIRECTORY + "/pages/game.html"));
         AuthenticationManagement.setUserManager(ServerInstance.#roomManager);
     }
-
-    static #instanceListener:any = null;
-
-    static #page404 = "";
-    static #page500 = "";
 
     static onListenSetupSocketIo()
     {
