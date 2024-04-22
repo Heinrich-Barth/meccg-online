@@ -53,21 +53,18 @@
     top: 10%;
     max-height: 80%;
     text-align: center;
-}
-#dices-panel-content p { color: var(--color-white); }
-
-#dices-panel-content img
+    p { color: var(--color-white); }
+    img
 {
     display: inline;
     width: 40px;
     cursor: pointer;
 }
-#dices-panel-content .dice-option {
+.dice-option {
     display: inline-block;
     padding: 5px;
 }
-
-#dices-panel-content .image-option {
+.image-option {
     width: 150px;
     height: 150px;
     margin-left: 5px;
@@ -75,6 +72,10 @@
     background-attachment: unset;
     cursor: pointer;
 }
+
+}
+
+
 .config-panel-overlay {
     position: fixed;
     left: 0;
@@ -119,11 +120,6 @@ display: none;
 }
 .config-panel input[type="range"] {
     display: inline-block;
-    width: 55%;
-}
-
-.config-panel input[name="toggle_zoom"]
-{
     width: 30%;
 }
 
@@ -141,28 +137,31 @@ display: none;
     color: #fff;
     position: fixed;
     text-align: center;
+
+    table { width: 100%; text-align: left; }
+    th { border-bottom: 1px solid #fff; }
+    select {
+        padding: 5px;
+        border-radius: 5px;
+    }
+    
+    h2 { color: var(--color-orange-light); text-align: center;}
+
+    td {
+        &.center { text-align: center; }
+        &.entry { width: 200px;  }
+    }
+    button {
+   
+       width: 200px !important;
+       background-color: #98c593;
+       border: 0;
+       border-radius: 3.5em;
+       color: #ffffff;
+       cursor: pointer;
+       display: inline-block;
+       height: 3.5em;
+       margin-top: 30px;
+   }    
 }
 
-.restore-panel table { width: 100%; text-align: left; }
-.restore-panel th { border-bottom: 1px solid #fff; }
-.restore-panel select {
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.restore-panel h2 { color: var(--color-orange-light); text-align: center;}
-
-.restore-panel td.center { text-align: center; }
-.restore-panel td.entry { width: 200px;  }
-.restore-panel button {
-
-    width: 200px !important;
-    background-color: #98c593;
-    border: 0;
-    border-radius: 3.5em;
-    color: #ffffff;
-    cursor: pointer;
-    display: inline-block;
-    height: 3.5em;
-    margin-top: 30px;
-}
