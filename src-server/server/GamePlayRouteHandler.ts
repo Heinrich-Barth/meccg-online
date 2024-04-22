@@ -34,18 +34,6 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         this.#pageWatch = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/login-watch.html"));
     }
 
-    static maxRooms = 5;
-    static maxPlayersPerRoom = 10;
-
-    static setMaxPlayers(nRooms:number, nPlayers:number)
-    {
-        if (nRooms > 0)
-            GamePlayRouteHandler.maxRooms = nRooms;
-
-        if (nPlayers > 0)
-            GamePlayRouteHandler.maxPlayersPerRoom = nPlayers;
-    }
-
     isArda()
     {
         return false;
@@ -314,18 +302,9 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         {
             Logger.info("Too many rooms or too many players in room " + room);
             this.createExpireResponse(res).redirect("/error/login");
-            return;
         }
-        
-        const nPlayers = this.getRoomManager().countPlayersInRoom(room);
-        if (GamePlayRouteHandler.maxPlayersPerRoom > 0 && nPlayers > GamePlayRouteHandler.maxPlayersPerRoom)
-        {
-            Logger.info("Too crowded in room " + room);
-            this.createExpireResponse(res).redirect("/error/login");
-            return;
-        }
-
-        next();
+        else
+            next();
     }
 
     onLoginCheck(req:any, res:Response, next:NextFunction)
