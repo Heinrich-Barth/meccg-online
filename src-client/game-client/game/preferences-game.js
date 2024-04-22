@@ -379,7 +379,6 @@ class GamePreferences extends Preferences {
 
             this.#toggleAlignCompaniesLeft(true);
             this.createEntry0("toggle_align_companies_left");
-            this.createEntry0("use_padding_bottom");
         }
         
         this.createEntry0("toggle_company_help");
@@ -390,6 +389,7 @@ class GamePreferences extends Preferences {
         
         if (!bWatcher)
         {
+            this.createEntry0("use_padding_bottom");
             this.createEntry0("toggle_touch_help");
             this.createEntry0("draw_to_handsize");
 
@@ -450,7 +450,7 @@ class GamePreferences extends Preferences {
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
         this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen);
         this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
-        this.addConfigToggle("show_chat", "Show game log window", true, this.#chat);
+        this.addConfigToggle("show_chat", "Show game log window", false, this.#chat);
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));
 
         this.addConfigToggle("toggle_spanishcards", "Use Spanish instead of English cards (if available).", sessionStorage.getItem("cards_es") === "yes", this.#toggleSpanishCards.bind(this));
@@ -481,9 +481,9 @@ class GamePreferences extends Preferences {
         this.addConfigSlider("slider_scramble", "Jumble company cards", 2, this.#getJumbleCardsVal(), "fa-search-plus slider-short", this.#jumbleCards.bind(this));
 
         this.#toggleCardPreview(!this.#useSmallCardPreview());
-
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
+        this.#chat(false);
     }
 
     #toggleCardPreview(bAdd = true)
