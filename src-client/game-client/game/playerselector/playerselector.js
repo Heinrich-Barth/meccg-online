@@ -74,7 +74,7 @@ class PlayerSelector
         if (typeof nCountPlaydeck === "undefined")
             nCountPlaydeck = "?";
 
-        let pContainer = document.getElementById("player_selector_" + this.player2Hex(username));
+        const pContainer = document.getElementById("player_selector_" + this.player2Hex(username));
         if (pContainer !== null)
         {
             let elem = pContainer.querySelector(".player-handcard-count");
