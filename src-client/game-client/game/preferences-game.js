@@ -484,6 +484,54 @@ class GamePreferences extends Preferences {
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
         this.#chat(false);
+
+        this.#insertHelp();
+    }
+
+    #insertHelp()
+    {
+        const elem = document.body.querySelector(".help-icon");
+        if (elem !== null)
+        {
+            elem.setAttribute("title", "Open help tips");
+            elem.onclick = this.#showHelp.bind(this);
+        }
+    }
+
+    #showHelp()
+    {
+        const content = document.createElement("div");
+        content.setAttribute("class", "text-left");
+        content.append(
+            this.#createShortcut("d", "draw card to hand"),
+            this.#createShortcut("r", "roll dice"),
+            this.#createShortcut("q", "end your turn"),
+            this.#createShortcut("f", "flips card currently hovering over"),
+            this.#createShortcut("x", "discards card currently hovering over"),
+            this.#createParagaph("You can right click on cards and deck icons to open a context menu."),
+            this.#createParagaph("You can double click on a hand card to play it (without dragging)."),
+            this.#createParagaph("If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region."),
+            this.#createParagaph("Discarding your opponent's card will sort it into their discard pile.")
+        );
+        new Question("", false).show("Tips & Shortcuts", content, "Close");
+    }
+
+    #createParagaph(text = "")
+    {
+        const span = document.createElement("p");
+        span.innerText = text;
+        return span;
+    }
+
+    #createShortcut(key = "", text = "")
+    {
+        const span = document.createElement("span");
+        span.setAttribute("class", "code");
+        span.innerText = key;
+        
+        const p = document.createDocumentFragment();
+        p.append(span, document.createTextNode(text), document.createElement("br"));
+        return p;
     }
 
     #toggleCardPreview(bAdd = true)
