@@ -19,6 +19,17 @@
     text-align: center;
     padding: 20px;
     background: rgba(0,0,0,0.8);
+
+    .text-left { text-align: left; }
+    .code { 
+        font-family: monospace; 
+        background-color: var(--color-dark-grey); 
+        color: var(--color-black);
+        padding: 2px;
+        border-radius: 2px;
+        line-height: 1.7em;
+        margin-right: 10px;
+    }
 }
 
 .question-game input[type="button"] {

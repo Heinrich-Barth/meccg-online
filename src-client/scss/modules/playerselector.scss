@@ -50,6 +50,16 @@
         font-size: 0.8em;
     }
 
+    .help-icon {
+        display: inline-block;
+        cursor: pointer;
+        color: var(--color-light-grey);
+
+        &:hover {
+            color: var(--color-orange-light);
+        }
+    }
+
     a {
         display: inline-block;
         min-width: 10px;

@@ -169,9 +169,10 @@
 }
 
 .context-cursor {
-    cursor: help !important;
-    /* fallback if grab cursor is unsupported */
     cursor: context-menu !important;
+}
+.pointer-cursor {
+    cursor: pointer;
 }
 
 .move-cursor {
