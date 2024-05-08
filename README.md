@@ -113,6 +113,11 @@ The project does have a very low resource profile:
 
 By default, the project does *does not* spawn separate processes, because room/game management via socket.io does not consider a multi-thread approach.
 
+Spontaneous browser checks also showed a super low profile:
+
+* about 150 MB used for the tab (after 4 hours of 5 player ARDA game)
+* about 38 MB of allocated JS heap
+
 ## Security
 
 This project does not require any databases or other storage containers. Everything is held in memory only.
