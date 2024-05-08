@@ -62,8 +62,8 @@ setTimeout(() => {
         divContent.innerHTML = `<h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;How to play</h2>
                             <p>Simply <span class="text-white">drag &amp; drop</span> cards as you would intuitively do. Depending on your card, different targets/options will be made available visually.</p>
 
-                            <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Customize Background etc.</h2>
-                            <p>You will find many ways to customise your experience.<br>Access the <span class="text-white cursor-pointer" data-event="settings"><i class="fa fa-sliders"></i> <b>game settings</b></span> and checkout the various options.</p>
+                            <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Tips &amp; Shortcuts</h2>
+                            <p>Click on the <span class="text-white"><i class="fa fa-question-circle"></i> help icon</span> at the top bar to access shortcuts and tips.</p>
 
                             <h2><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Resume a saved game</h2>
                             <p>Once all players are at the table, access the <span class="text-white cursor-pointer" data-event="settings"><i class="fa fa-sliders"></i> <b>game settings</b></span> (upper left corner) and 
