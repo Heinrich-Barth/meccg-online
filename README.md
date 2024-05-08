@@ -183,7 +183,19 @@ Once closed, the table will look like this:
                 
 ![The table](public/readme-data/table.png)
 
-The upper left corner shows the players at this table. The active player is highlighted in bold. Next to each player is the card number in hand once the first organisation phase starts.
+The center top panel contains
+* information about players currently at the table
+* icon to access to settings
+* icon to quit game
+* icon to allow/deny players to join (host only)
+* icon to allow/deny watchers to join (host only)
+
+The center bottom panel contains
+* dice rolling action (right click to change them)
+* change background setting
+* Turn / Phase indicator
+
+The lower right contains in-game MP settings.
 
 #### Playing Cards
 
@@ -198,10 +210,6 @@ You can drag the card over each of the drop zones and drop it to put it into pla
 A character may create a *new company* or *join* an existing company under general influence or follow a character under direct influence. As a player, you have to make sure that the action is legitimate, i.e. there is enough general or direct influence available.
 
 Splitting and reoganizing companies is easy as well. Simply drag the character and perform the action. If they have followers, they will continue to follow as well.
-
-![Playing Characters](public/readme-data/char.png)
-
-In this example, a character may join its current company under general influence, join another company either under direct or general influence or split into a separate company.
 
 #### Choosing a start site
 
@@ -233,21 +241,14 @@ To reval the movement to your opponent, click on the "eye" icon.
 
 #### Playing Hazards
 
-Hazards can be either events or creatures. Usually, events are added to the staging area.
+Hazards can be either events or creatures. 
+
+* Usually, events are added to the staging area.
+* Hazards may also be attached to a specific chraracter, e.g. corruption cards.
+* To force a company or character to face hazard, drop it onto the regions and it will appear next to the site.
+* If you want to play a card "on guard", simply drop it onto the destiation site and it will appear face fown.
 
 ![ ](public/readme-data/hazard-1.png)
-
-Hazards may also be attached to a specific chraracter, e.g. corruption cards.
-
-![ ](public/readme-data/hazard-2.png)
-
-To force a company or character to face hazard, drop it onto the regions and it will appear next to the site.
-
-![ ](public/readme-data/hazard-3.png)
-
-![ ](public/readme-data/hazard-4.png)
-
-If you want to play a card "on guard", simply drop it onto the destiation site and it will appear face fown.
 
 #### Obtaining Marshalling Points
 
@@ -271,17 +272,13 @@ This action will reduce the sitepath to the destiation site only. On guard cards
 
 #### Updating your scores
 
-Click on the victory pile icon to open the score sheet.
+You will find your score sheet at the lower right corner. There, you can adjust your points as needed during the game.
 
 ![ ](public/readme-data/score-3.png)
 
-You can change your points at any time during the game.
-
-![ ](public/readme-data/score-4.png)
-
 #### Tapping Cards and Sites
 
-To alter the card state, hover over the card and wait for the cursor to change. A question mark indicates a right click action to be available.
+To alter the card state, you may click on it. This will tap, wound or ready the card. Alternatively, hover over the card and right click on it.
 
 ![ ](public/readme-data/tap-1.png)
 
@@ -290,9 +287,6 @@ To alter the card state, hover over the card and wait for the cursor to change. 
 The context menu provides all available actions.
 
 ![ ](public/readme-data/tap-3.png)
-
-![ ](public/readme-data/tap-4.png)
-
 
 #### Reshuffle discard pile into playdeck
 
@@ -322,7 +316,7 @@ You can access certain options via the options icon.
 
 #### Revealing cards to your opponent
 
-You can reveal cards to your opponent by opening the respective pile and selecting the action at the top of the box.
+You can reveal cards to your opponent by opening the respective pile and selecting the action via right click context menu.
 
 ![Revealing cards](public/readme-data/reveal-cards.png)
 
