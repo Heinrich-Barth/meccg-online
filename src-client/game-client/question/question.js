@@ -2,13 +2,14 @@
 class Question {
 
     #callbackCancel = null;
+    #addCancel;
+    #css = "";
 
-    constructor(icon)
+    constructor(icon = "fa-question-circle", showCancel = true)
     {
         this.callbackOk = null;
-        this.css = "";
         this.icon = icon === undefined || icon === "" ? "fa-question-circle" : icon;
-        this._addCancel = true;
+        this.#addCancel = showCancel;
     }
 
     static removeNode(node)
@@ -26,38 +27,100 @@ class Question {
     {
         if (sClass !== "")
         {
-            if (this.css === "")
-                this.css = sClass;
+            if (this.#css === "")
+                this.#css = sClass;
             else
-                this.css += " " + sClass;
+                this.#css += " " + sClass;
         }
 
         return this;
     }
 
-    insertTemplate(title, message, labelOk, sLabelCancel = "Cancel")
+    #createTitle(title)
+    {
+        const h3 = document.createElement("h3");
+        h3.innerText = title;
+        return h3;
+    }
+
+    #createContent(title, message)
+    {
+        const res = document.createElement("div");
+        res.setAttribute("class", "question-question");
+        res.append(this.#createTitle(title));
+
+        if (typeof message === "undefined")
+            message = "";
+
+        if (typeof message === "string")
+        {
+            const p = document.createElement("p");
+            p.setAttribute("class", "bold");
+            p.innerText = message;
+            res.append(p);
+        }
+        else
+        {
+            res.append(message);
+        }
+
+        return res;
+    }
+
+    #createButtons(labelOk, sLabelCancel)
+    {
+        const div = document.createElement("div");
+        div.setAttribute("class", "question-answers");
+
+        const buttonOk = document.createElement("input");
+        buttonOk.setAttribute("name", "deck");
+        buttonOk.setAttribute("class", "w100");
+        buttonOk.setAttribute("type", "button");
+        buttonOk.setAttribute("id", "q_ok");
+        buttonOk.setAttribute("value", labelOk);
+
+        const cancelCss = this.#addCancel ? "" : "question-hide-cancel";
+        const buttonCancel = document.createElement("input");
+        buttonCancel.setAttribute("name", "deck");
+        buttonCancel.setAttribute("class", "w100 cancel " + cancelCss);
+        buttonCancel.setAttribute("type", "button");
+        buttonCancel.setAttribute("id", "q_cancel");
+        buttonCancel.setAttribute("value", sLabelCancel);
+
+        div.append(buttonOk, buttonCancel);
+        return div;
+    }
+
+    #createQuestionIcon()
+    {
+        const divQ = document.createElement("div");
+        divQ.setAttribute("class", `fa ${this.icon} question-icon`);
+        return divQ;
+    }
+
+    #insertTemplate(title, message, labelOk, sLabelCancel = "Cancel")
     {
         const div = document.createElement("div");
         div.setAttribute("class", "hidden");
         div.setAttribute("id", "question_box");
         div.setAttribute("data-game", "");
 
-        const cancelCss = this._addCancel ? "" : "question-hide-cancel";
+        const tplContent = document.createDocumentFragment();
+
+        tplContent.append(
+            this.#createQuestionIcon(),
+            this.#createContent(title, message),
+            this.#createButtons(labelOk, sLabelCancel)
+        );
+        
         const innerDiv = document.createElement("div");
         innerDiv.setAttribute("class", "blue-box question-game ");
-        innerDiv.innerHTML = `<div class="fa ${this.icon} question-icon"></div>
-                              <div class="question-question">
-                                <h3>${title}</h3><p class="bold">${message}</p>
-                              </div>
-                              <div class="question-answers">
-                                <input type="button" name="deck" id="q_ok" class="w100" value="${labelOk}" />
-                                <input type="button" name="deck" id="q_cancel" class="w100 cancel ${cancelCss}" value="${sLabelCancel}" />
-                              </div>`;
+        innerDiv.append(tplContent);
 
-        if (this.css !== "")
+        if (this.#css !== "")
         {
             const divCss = document.createElement("div");
-            divCss.setAttribute("class", this.css);
+            divCss.setAttribute("class", this.#css);
             innerDiv.appendChild(divCss);
         }
 
@@ -84,15 +147,15 @@ class Question {
 
     hideCancel()
     {
-        this._addCancel = false;
+        this.#addCancel = false;
     }
 
-    show(sTitle, sInfo, sLabelOk, sLabelCancel = "Cancel")
+    show(sTitle, sInfo, sLabelOk = "Ok", sLabelCancel = "Cancel")
     {
         if (this.isVisible())
             this.close();
 
-        this.insertTemplate(sTitle, sInfo, sLabelOk, sLabelCancel);
+        this.#insertTemplate(sTitle, sInfo, sLabelOk, sLabelCancel);
     
         document.getElementById("question_box").onclick = this.close.bind(this);
         document.getElementById("q_cancel").onclick = this.onClickCancel.bind(this);
