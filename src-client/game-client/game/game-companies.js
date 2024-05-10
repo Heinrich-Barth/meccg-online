@@ -25,7 +25,7 @@ const createCompanyHtml = function(companyId, id)
 
 const createOpponentContainer = function(sHexPlayerCode, playerId)
 {
-    let pContainer = document.getElementById("opponent_table");
+    let pContainer = document.getElementById("opponent-companies");
     if (pContainer === null)
         return null;
 
@@ -39,14 +39,10 @@ const createOpponentContainer = function(sHexPlayerCode, playerId)
     div.setAttribute("class", "col90 companies");
     div.setAttribute("id", "companies_opponent_" + sHexPlayerCode);
     div.setAttribute("data-player", sHexPlayerCode);
-    div.innerHTML = `<div class="company tableCell emptyContainer create-new-company hiddenToOpponent" id="create_new_company_opponent_${sHexPlayerCode}">
-                        <div class="clear"></div>
-                    </div>`;
 
     pContainer.appendChild(div);
 
     createOpponentContainerVisitorHand(pContainer, playerId);
-
     return div;
 };
 
