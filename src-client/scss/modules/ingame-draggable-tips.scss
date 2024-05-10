@@ -88,6 +88,7 @@ body.on-drag-event-generic .playercard-hand-content.on-drag-over,
     background-color: rgba(101, 152, 81, 0.8) !important;
 }
 
+a.ui-draggable-on-droppable,
 div.ui-draggable-on-droppable {
     opacity: 1 !important;
     animation: ui-draggable-shake 0.2s forwards ease-in-out;
