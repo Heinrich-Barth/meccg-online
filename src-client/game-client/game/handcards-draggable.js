@@ -130,7 +130,7 @@ class DropableAreas {
    
     static victory() 
     { 
-        return DropableAreas.get("icon_bar_victory"); 
+        return DropableAreas.get("shared_victories"); 
     }
 
     static stagagingArea() 

@@ -239,11 +239,17 @@ class TaskBarCards
 
         document.getElementById("shared_victories").onclick = (e) => 
         {
-            TaskBarCards.Show("sharedvicotory");
+            TaskBarCards.Show("victory");
             e.stopPropagation();
             return false;
         };
 
+        document.getElementById("shared_victories").oncontextmenu = (e) => 
+        {
+            ContextMenu.contextActions.onContextVictoryActions(e);
+            return false;
+        }
+       
         {
             const dice = document.getElementById("roll_dice_icons");
             if (dice !== null)

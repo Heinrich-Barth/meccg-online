@@ -442,6 +442,20 @@ const ContextMenu = {
             return false;
         },
 
+        onContextVictoryActions : function(e)
+        {
+            if (e.target !== null)
+                ContextMenu.show(e, "_site", "_code", "_company", "victory");
+            
+            if (e.preventDefault)
+                e.preventDefault();
+
+            if (e.stopPropagation)
+                e.stopPropagation();
+
+            return false;
+        },
+
         onContextDiscardPileActions : function(e)
         {
             if (e.target !== null)
@@ -643,6 +657,16 @@ const ContextMenu = {
             let uuid = ContextMenu.getAttribute(pMenu, "data-card-uuid");
             let code = ContextMenu.getAttribute(pMenu, "data-card-code");
             ContextMenu.callbacks.doRotate(uuid, code, sAction);
+        },
+
+        showVictoryShared : function()
+        {
+            TaskBarCards.Show("sharedvicotory", true);
+        },
+
+        showVictoryMe : function()
+        {
+            TaskBarCards.Show("victory", true);
         },
 
         doRotate : function(uuid, code, sAction)
@@ -996,12 +1020,18 @@ const ContextMenu = {
 
         this.addItem("playdeck_choose_site", "Add a site as a character", "fa-map-signs", "context-menu-item-generic", ContextMenu.callbacks.addSiteCharacter, "", "Adds this site as CHARACTER to your hand.");
 
+
+        this.addItem("victory_me", "Show my stored cards", "fa-thumbs-up", "context-menu-item-generic", ContextMenu.callbacks.showVictoryMe.bind(ContextMenu.callbacks));
+        this.addItem("victory_shared", "Show opponent's stored cards", "fa-thumbs-down", "context-menu-item-generic", ContextMenu.callbacks.showVictoryShared.bind(ContextMenu.callbacks));
+
+
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
         this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "playdeck_choose_site", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
         this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_sites", "_divider", "discardpile_shuffle", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
+        this.data.types["victory"] = ["victory_me", "victory_shared"];
 
         this.data.offsets["playdeck_actions"] = -100;
         this.data.specialClasses["location"] = "context-menu-site";
