@@ -375,11 +375,12 @@ class GamePreferences extends Preferences {
         {
             this.createEntry0("slider_scramble");
             this.createEntry0("toggle_company_break");
-            this.#toggleStackStage(true);
 
             this.#toggleAlignCompaniesLeft(true);
             this.createEntry0("toggle_align_companies_left");
         }
+
+        this.#toggleStackStage(true);
         
         this.createEntry0("toggle_company_help");
         this.createEntry0("toggle_fullscreen");
