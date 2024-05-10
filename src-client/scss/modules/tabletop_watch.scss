@@ -35,14 +35,13 @@
 
     .visitor-hand-view {
         text-align: center;
-        border-bottom: 2px solid black;
-        margin-bottom: 100px;
+        border: 1px solid black;
+        background-color: rgba(0,0,0,0.2);
     }
 
     .staging-area,
     .companies,
     .visitor-hand-view,
-    .table .row,
     .area-opponent,
     .scoring-sheet.final-score.final-score-watch .button {
         display: block !important;
@@ -85,7 +84,7 @@
     }
 
     .card-bar.card-bar-shared {
-        height: 190px;
+        align-content: start !important;
     }
 
     .staging-area .fr {
@@ -114,9 +113,6 @@
         white-space: normal !important;
     }
 
-    .table .row {
-        margin: 0 50px;
-    }
 }
 
 body[data-is-singleplayer="true"] {
