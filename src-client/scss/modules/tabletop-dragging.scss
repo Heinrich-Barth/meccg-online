@@ -27,11 +27,18 @@ body {
             background-repeat: no-repeat;
             background-position: center;
         }
+
+        .staging-area-area { opacity: 0; }
         .create-new-company {
             background-image: url(/media/assets/images/icon-company-new.png);
             background-repeat: no-repeat;
             background-position: center;
             visibility: visible;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
         }
         .company-character-influenced .company-character-host {
             background-color: transparent;
