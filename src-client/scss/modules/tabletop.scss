@@ -1057,8 +1057,36 @@ div#table-dark {
     top: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(rgba(30, 23, 0, 0.4), rgba(30, 23, 0, 0.6));
     z-index: 0;
+    background: linear-gradient(rgba(30, 23, 0, 0.4), rgba(30, 23, 0, 0.2));
+
+    &::after {
+        content: " ";
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        background-image: url("/media/assets/shader.svg");
+        opacity: 0.1;
+    }
+}
+
+#table-dark {
+        
+    
+
+    &::before {
+        background-color: rgba(30, 23, 0, 0.5);
+        content: "";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1;
+    }
 }
 
 @import "tabletop_mobile.scss";
