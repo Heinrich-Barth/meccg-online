@@ -46,6 +46,8 @@ body {
         }
     }
 
+    &.on-drag-event-generic .card-bar { z-index: 901; }
+
     &.on-drag-event-site .area-player {
         .company-characters-add {
             display: none;
@@ -55,6 +57,11 @@ body {
             background-repeat: no-repeat;
             background-position: center;
             visibility: visible;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
         }
         .company-character-influenced .company-character-host {
             background-color: transparent;
