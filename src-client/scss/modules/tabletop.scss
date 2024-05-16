@@ -303,11 +303,19 @@ body.table-companies-breakline .companies {
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     content: "\f023";
-    left: -12%;
-    top: 19%;
+    left: -16%;
+    top: 16%;
     display: inline-block;
-    color: var(--color-black);
     z-index: 2;
+}
+
+.state_tapped_fixed::before,
+.character-mark-toggle,
+.character-card-dice {
+    color: var(--color-black);
+    background: var(--color-near-white);
+    padding: 2px;
+    border-radius: 3px;
 }
 
 .rot180,
@@ -613,6 +621,8 @@ body.table-companies-breakline .companies {
         .site-onguard {
             margin-left: -30px;
         }
+
+        .card { position: relative ;}
     }
 
     .company {
@@ -630,7 +640,7 @@ body.table-companies-breakline .companies {
             scale: 1.05;
         }
 
-        .company-character:hover {
+        .company-character .card:hover {
 
             .character-mark-toggle,
             .character-card-dice {
@@ -642,20 +652,15 @@ body.table-companies-breakline .companies {
         .character-card-dice {
             position: absolute;
             bottom: 20%;
-            width: 30px;
-            height: 20px;
             cursor: pointer;
             visibility: hidden;
             text-align: center;
             display: inline-block;
             max-height: 30px;
-
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 5px;
         }
 
         .character-mark-toggle {
-            transition: all 0.2s ease-in;
+            transition: color 0.2s ease-in;
             right: 60%;
 
             &:hover {
@@ -682,6 +687,7 @@ body.table-companies-breakline .companies {
             background-image: url("/media/assets/images/icons/icon-dices.png");
             background-repeat: no-repeat;
             height: 15px;
+            width: 30px;
 
             &:hover {
                 background-image: url("/media/assets/images/icons/icon-dices-hover.png");
