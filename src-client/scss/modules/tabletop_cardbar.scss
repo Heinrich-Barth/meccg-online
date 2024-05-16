@@ -19,11 +19,12 @@
         }
     }
     
-
+    &.card-bar-shared,
+    &.card-bar-play {
+        position: relative;
+    }
     &.card-bar-play {
         
-        position: sticky;
-
         a {
             background: none !important;
         }
