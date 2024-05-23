@@ -62,13 +62,19 @@ const ReleaseNotes = {
         div.setAttribute("class", "game-list");
         
         const h2 = document.createElement("h2");
-        h2.innerText = "Latest Updates";
+        
+        const i = document.createElement("i");
+        i.setAttribute("class", "fa fa-info-circle");
+        i.setAttribute("aria-hidden", "true");
+        
+        h2.append(i, document.createTextNode(" Latest Updates"));
 
         const p = document.createElement("p")
         
         const aLink = document.createElement("a");
         aLink.setAttribute("href", "https://github.com/Heinrich-Barth/meccg-online");
         aLink.setAttribute("target", "_blank");
+        aLink.setAttribute("class", "inline-link");
 
         const aI = document.createElement("i");
         aI.setAttribute("class", "fa fa-github");
