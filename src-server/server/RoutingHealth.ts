@@ -1,6 +1,6 @@
 import * as Authentication from "../authentication";
 import { Request, Response } from "express";
-import getServerInstance, { ServerInstance, endpointVisitsResult } from "../Server"
+import getServerInstance, { ServerInstance } from "../Server"
 import { loadavg as getLoadavg } from "os";
 
 const autoRestart = typeof process.env.SERVER_AUTO_RESTART === "string" && process.env.SERVER_AUTO_RESTART !== "";
@@ -38,17 +38,6 @@ const onHealthSmall = function(_req:Request, res:Response)
 
 const onHealth = function(_req:Request, res:Response) 
 {
-    const jGames = ServerInstance.getRoomManager().getActiveGames();
-    const gameCount = ServerInstance.getRoomManager().getGameCount();
-    const counters = endpointVisitsResult();
-
-    const visits = {
-        deckbuilder : counters.deckbuilder,
-        cards : counters.cards,
-        converter : counters.converter,
-        games: gameCount
-    };
-
     const data = { 
 
         startup: g_sUptime,
@@ -56,8 +45,13 @@ const onHealth = function(_req:Request, res:Response)
         loadavg : getLoadavg(),
         memory : getMemory(),
 
-        games: jGames,
-        count: visits
+        games: ServerInstance.getRoomManager().getActiveGames(),
+        count: {
+            deckbuilder : 0,
+            cards : 0,
+            converter : 0,
+            games: []
+        }
     };
 
     res.header('Content-Type', 'application/json');
