@@ -28,6 +28,10 @@ body, p
     h1 {
         text-align: center;
       }
+
+    .game-list h2 .fa {
+        font-size: 0.7em;
+    }
       
     input { 
         width: 60%;
@@ -71,6 +75,8 @@ body, p
             visibility: visible;
         }
     }
+
+    .inline-link { display: inline-block; margin-left: 0.5em;}
 }
 
 
@@ -213,4 +219,40 @@ td.game-log-time {
 
 td.game-log-name {
     width: 300px;
+}
+
+.game-list-tournament {
+
+    padding: 2em 0;
+
+    summary { cursor: pointer; text-transform: uppercase;}
+    .game-list-tournament-participants {
+        
+        ul {
+            list-style-type: decimal;
+            padding-left: 3em;
+        }
+        li { text-align: left;}
+        
+    }
+
+    h3, th {
+        color: var(--color-orange-light);
+        font-weight: 300;
+        text-decoration: none;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+    }
+
+    th { padding-right: 2em;}
+
+    .game-list-tournament-score { max-width: 100px; text-align: center;}
+    .game-list-tournament-name-vs { width: 30px; text-align: center; font-size: 0.8em;}
+    .game-list-tournament-winner { font-weight: bold; font-size: 1.2em; }
+
+    .tournament-round-round {
+        th, td { padding-top: 10px; }
+    }
 }

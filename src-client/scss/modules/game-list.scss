@@ -5,6 +5,10 @@
     margin-top: 0.5em;
     color: var(--color-light-grey);
 
+    &.game-list-no-space-top {
+        padding-top: 0;
+    }
+
     h2:not(:first-of-type) {
         margin-top: 2em;
     }

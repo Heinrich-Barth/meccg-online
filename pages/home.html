@@ -41,7 +41,7 @@
                 
                 <div class="room-image-wrapper">
                     <div class="room-image">
-                        <img src="/data/backside" id="enter_room_image" alt="Ambience room image">
+                        <img src="/data/backside" id="enter_room_image" alt="Ambience room">
                         <span class="fa fa-pencil room-image-edit"></span>
                     </div>
                     <div class="room-text">
@@ -55,22 +55,24 @@
 
             <div class="game-lists" id="game-list-wrapper">
 
-                <div class="game-list hidden" id="no_games">
-                    <h2>How to start</h2>
-                    <p class="center">Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing.</p>
-
-                    <h2>Finding Players</h2>
-                    <p class="center">You may find other players on the <a href="https://discord.com/invite/EFqBJmT" class="inline" target="_blank">discord server</a>.</p>
+                <div class="game-list game-list-no-space-top hidden" id="no_games">
+                    <h2><i class="fa fa-question-circle" aria-hidden="true"></i> How to start</h2>
+                    <p class="center">Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the <a href="https://discord.com/invite/EFqBJmT" class="inline" target="_blank">discord server</a>.</p>
                 </div>
 
                 <div class="game-list hidden" id="active_games">
                 
-                    <h2>Current Games</h2>
+                    <h2><i class="fa fa-comments" aria-hidden="true"></i> Current Games</h2>
                     <p class="center">Click on a game to join or watch</p>
                     <div class="game_list" id="game_list"></div>
                 </div>
 
+                <div class="game-list-tournament hidden" id="game-list-tournament">
+                    <h2><i class="fa fa-trophy" aria-hidden="true"></i> Current Tournaments</h2>
+                    <p>Click on any tournament for details.</p>
+                </div>
             </div>
+
 
         </div>
 
@@ -78,6 +80,7 @@
         <div class="nav-background"></div>
         
         <script src="/dist-client/js/home/home.js?version=240119"></script>
+        <script src="/dist-client/js/home/tournaments.js?version=240119"></script>
         <script src="/dist-client/js/home/whatsnew.js?version=240119"></script>
         <script async src="/dist-client/js/navigation/navigation.js"></script>
         <script async src="/dist-client/js/notification/notification.js?version=240119"></script>
