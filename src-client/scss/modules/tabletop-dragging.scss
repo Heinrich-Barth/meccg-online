@@ -83,7 +83,7 @@ body {
     &.on-drag-event-generic .area-player .ui-droppable-active,
     &.on-drag-event-generic .card-bar .ui-droppable-active {
         background-color: rgba(0, 0, 0, 0.2) !important;
-        border: 2px dotted #000 !important;
+        border: 1px dotted rgba(0, 0, 0, 0.2) !important;
         border-radius: 5px !important;
         z-index: 900;
     }    
@@ -93,11 +93,6 @@ body {
         z-index: 901;
     }
     
-    &.on-drag-event-site .area-player .company-character-host .card img,
-    &.on-drag-event-resource .area-player .company-character-host .card img,
-    &.on-drag-event-character .area-player .company-character-host .card img {
-        opacity: 0.8;
-    }
 }
 
 

@@ -813,7 +813,7 @@ const HandCardsDraggable = {
         const config = {
             cursor: 'move',
             revert: true,
-            opacity: 0.8,
+            opacity: 1,
             revertDuration : 50,
             
             start: function() 

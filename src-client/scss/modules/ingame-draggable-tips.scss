@@ -85,7 +85,7 @@ body.on-drag-event-generic .area .on-drag-over,
 body.on-drag-event-generic .playercard-hand-content.on-drag-over,
 #player_companies .company-characters-add.on-drag-over
 {
-    background-color: rgba(101, 152, 81, 0.8) !important;
+    background-color: rgba(101, 152, 81, 0.2) !important;
 }
 
 a.ui-draggable-on-droppable,
@@ -139,10 +139,11 @@ body.on-drag-event-generic div.card img:hover
     box-shadow: none;
 }
 
+body.on-drag-event-generic .sites .ui-droppable-active.on-drag-over img,
 .company-character .ui-droppable-active.on-drag-over img {
-    opacity: 0.3 !important;
+    opacity: 0.8 !important;
+    translate: 5px 5px;
 }
-
 
 body.on-drag-event-hazard div#staging-area-player:before
 {

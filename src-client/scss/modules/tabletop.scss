@@ -348,8 +348,8 @@ body.table-companies-breakline .companies {
         width: 70px;
         height: 80px;
         background: url("/media/assets/images/icons/icon-hand.png") 15px 24px no-repeat;
-        background-color: rgba(0, 0, 0, 0.3);
-        border: 2px dotted #000;
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px dotted rgba(0, 0, 0, 0.2);
         border-radius: 5px;
         position: absolute;
         top: -90px;
@@ -361,7 +361,7 @@ body.table-companies-breakline .companies {
         &.on-drag-over
         { 
             background: url("/media/assets/images/icons/icon-hand-hover.png") 15px 24px no-repeat;
-            background-color: rgba(101, 152, 81, 0.5) !important;
+            background-color: rgba(101, 152, 81, 0.2) !important;
         }
 
         &::before {

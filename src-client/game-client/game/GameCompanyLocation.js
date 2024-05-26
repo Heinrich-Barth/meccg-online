@@ -397,7 +397,9 @@ class GameCompanyLocation
                     GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
                 
                 return false;
-            }
+            },
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
         });
     }
 
@@ -439,7 +441,9 @@ class GameCompanyLocation
                     GameCompanyLocation.onDropOnGuard(sCompanyUuid, ui.draggable[0], bRevealOnDrop);
 
                 return false;
-            }
+            },
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
         });
     }
 
