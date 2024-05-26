@@ -376,8 +376,6 @@ class MeccgTournament {
     }
 }
 
-
-
 setTimeout(() => {
 
     fetch("/data/tournaments")
@@ -385,4 +383,4 @@ setTimeout(() => {
     .then(MeccgTournament.init)
     .catch(console.error);
 
-}, 100);
+}, 60);
