@@ -26,6 +26,7 @@ import { getRootFolder } from "./Configuration";
 import CreateRobotsTxt from "./robotstxt";
 import InitFaviconRoutes from "./plugins/Favicons";
 import InitTournamentsEndpoints from "./plugins/TournamentList";
+import InitFeedbackEndpoint from "./plugins/FeedbackForm";
 
 ServerInstance.setup();
 setupEvents();
@@ -106,6 +107,7 @@ ServerInstance.getServerInstance().get("/data/spectators/:room", Caching.expires
 InitDecklistRoutes();
 InitFaviconRoutes();
 InitTournamentsEndpoints();
+InitFeedbackEndpoint();
 
 /**
   * Check if the deck is valid.
