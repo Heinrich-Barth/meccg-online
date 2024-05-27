@@ -181,29 +181,28 @@ class MeccgTournament {
         if (this.#rounds.length === 0)
             return document.createDocumentFragment();
 
-        const table = document.createElement("table");
+        const table = document.createElement("ul");
         table.classList.add("tournament-round");
-
-        const tbody = document.createElement("tbody");
-        table.append(tbody);
 
         for (let round of this.#rounds)
         {
-            
-            const tr = document.createElement("tr");
-            tr.classList.add("tournament-round-round");
+            const li = document.createElement("li");
+            li.classList.add("tournament-round-round");
 
-            const th = document.createElement("th");
-            th.innerText = round.headline.join(" ");
+            const h3 = document.createElement("h3");
+            h3.innerText = round.headline.join(" ").trim();
+            li.append(h3);
 
-            const td = document.createElement("td");
-            td.setAttribute("colspan", 5)
-            td.innerText = round.texts.join(" ");
+            const text = round.texts.join(" ").trim();
+            if (text !== "")
+            {
+                const p = document.createElement("p");
+                p.innerText = text;
+                li.append(p);
+            }
 
-            tr.append(th, td);
-
-            tbody.append(tr);
-            tbody.append(this.#tournamentRountsRoundList(round.data));
+            li.append(this.#tournamentRountsRoundList(round.data));
+            table.append(li);
         }
 
         return table;
@@ -331,50 +330,39 @@ class MeccgTournament {
 
     #tournamentRountsRoundListEntry(first, seond)
     {
-        const tr = document.createElement("tr");
-        tr.append(document.createElement("th"));
+        const tr = document.createDocumentFragment();
+        const hasRes = first.points !== 0 || seond.points !== 0;
         
-        const pFirst = this.#createRoundEntry(first);
-        const pSecond = this.#createRoundEntry(seond);
-
-        const vs = document.createElement("td");
-        vs.classList.add("game-list-tournament-name-vs")
-        vs.innerText = "vs";
+        const pFirst = this.#createRoundEntry(first, hasRes);
+        const pSecond = this.#createRoundEntry(seond, hasRes);
 
         tr.append(
-            pFirst.td1,
-            pFirst.td2,
-            vs,
-            pSecond.td2,
-            pSecond.td1
-        )
+            pFirst,
+            document.createTextNode(" vs "),
+            pSecond,
+            document.createElement("br")
+        );
 
         return tr;
     }
 
-    #createRoundEntry(first)
+
+    #createRoundEntry(first, showpt)
     {
         const _name = this.#getAlias(first.name);
-       
-        const td1 = document.createElement("td");
-        td1.innerText = _name;
+        const _pt = showpt ? " (" + first.points + ")" : "";
+        const text = _name + _pt;
 
-        const td2 = document.createElement("td");
-        td2.classList.add("game-list-tournament-score")
-        td2.innerText = "(" + first.points + ")";
+        if (!first.winner)
+            return document.createTextNode(text);
 
-        if (first.winner)
-        {
-            td1.classList.add("game-list-tournament-winner");
-            td2.classList.add("game-list-tournament-winner");
-        }
+        const span = document.createElement("span")
+        span.setAttribute("class", "game-list-tournament-winner");
+        span.innerText = text;
 
-        return {
-            td1: td1,
-            td2: td2
-        }
+        return span;
     }
-}
+}       
 
 setTimeout(() => {
 

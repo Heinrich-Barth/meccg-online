@@ -236,6 +236,13 @@ td.game-log-name {
         
     }
 
+    .tournament-round {
+        list-style-type: none;
+        padding-left: 0 !important;
+        text-align: left;
+        li { display: inline-block; padding-right: 2em; padding-top: 1em;}
+    }
+
     h3, th {
         color: var(--color-orange-light);
         font-weight: 300;
@@ -245,6 +252,7 @@ td.game-log-name {
         padding: 0;
         text-align: left;
     }
+    table { display: inline-block   }
 
     th { padding-right: 2em;}
 
