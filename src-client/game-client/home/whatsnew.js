@@ -1,6 +1,6 @@
 const ReleaseNotes = {
 
-    MAX_ENTRIES : 10,
+    MAX_ENTRIES : 20,
 
     init : function(listRows)
     {
@@ -22,7 +22,6 @@ const ReleaseNotes = {
         table.setAttribute("class", "release-notes")
         table.innerHTML = `<thead>
         <tr>
-            <th>Area</th>
             <th>Description</th>
         </tr>
         </thead>
@@ -35,13 +34,9 @@ const ReleaseNotes = {
         {
             const tr = document.createElement("tr");
             
-            const td1 = document.createElement("td");
-            td1.innerText = row.type;
-
             const td2 = document.createElement("td");
             td2.innerText = row.description;
 
-            tr.appendChild(td1);
             tr.appendChild(td2);
             tbody.appendChild(tr);
         }
@@ -83,7 +78,7 @@ const ReleaseNotes = {
         aLink.append(aI, document.createTextNode("github/meccg-online."));
 
         p.append(
-            document.createTextNode("This list contians the 10 latest feature/fixes. For a full list, please checkout the repository at"),
+            document.createTextNode("This list contians the " + this.MAX_ENTRIES + " latest feature/fixes. For a full list, please checkout the repository at"),
             aLink
         );
 
