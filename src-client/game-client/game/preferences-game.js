@@ -449,7 +449,7 @@ class GamePreferences extends Preferences {
         this.addConfigSlider("toggle_zoom", "Zoom Level", 2, 1, "fa-search-plus slider-short", this.#zoomChange.bind(this));
         this.addConfigToggle("bg_shawod", "Reduce background brightness", true, this.#backgroundDarkness);
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
-        this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen);
+        this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen.bind(this), "fa-compress", "fa-expand");
         this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
         this.addConfigToggle("show_chat", "Show game log window", false, this.#chat);
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));
@@ -468,7 +468,7 @@ class GamePreferences extends Preferences {
         this.addConfigAction("game_save", "Save current game", false, "fa-floppy-o", () => document.body.dispatchEvent(new CustomEvent("meccg-game-save-request", { "detail": ""})));
         this.addConfigAction("game_load", "Restore a saved game", false, "fa-folder-open", () => document.body.dispatchEvent(new CustomEvent("meccg-game-restore-request", { "detail": ""})));
 
-        this.addConfigToggle("toggle_align_companies_left", "Align companies to the left", true, this.#toggleAlignCompaniesLeft.bind(this));
+        this.addConfigToggle("toggle_align_companies_left", "Align companies to the left", true, this.#toggleAlignCompaniesLeft.bind(this), "fa-align-left", "fa-align-justify");
         this.addConfigToggle("toggle_zoom_preview", "Use smaller card preview", this.#useSmallCardPreview(), this.#toggleSmallPreview.bind(this));
 
         this.addConfigAction("leave_game", "End game now (after confirmation)", false, "fa-power-off", this.#endGame);
@@ -576,6 +576,14 @@ class GamePreferences extends Preferences {
             this.setBackgroundImage(this.data.background);
 
         this.#autosave(true);
+        this.#addFullscreentoTaskbar();
+    }
+
+    #addFullscreentoTaskbar()
+    {
+        const fulls = document.getElementById("taskbar-fullscreen");
+        if (fulls !== null)
+            fulls.onclick = () => this.#toggleFullscreen(true);
     }
 
     initDices()

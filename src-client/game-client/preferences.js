@@ -84,7 +84,7 @@ class Preferences extends PreferencesStorable {
         }
     }
 
-    addConfigToggle(id, title, initialValue, pCallback)
+    addConfigToggle(id, title, initialValue, pCallback, type_on = "fa-toggle-on", type_off = "fa-toggle-off")
     {
         if (typeof pCallback === "undefined")
             pCallback = Preferences._emptyCallback;
@@ -93,8 +93,8 @@ class Preferences extends PreferencesStorable {
             title: title,
             value : initialValue,
             callback : pCallback,
-            type_on: "fa-toggle-on",
-            type_off: "fa-toggle-off",
+            type_on: type_on,
+            type_off: type_off,
             type: Preferences.Type.CHECKBOX
         }
     }
