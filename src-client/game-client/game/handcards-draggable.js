@@ -1100,6 +1100,9 @@ const HandCardsDraggable = {
         div.setAttribute("class", "ingame-icon-openclose ingame-icon-openclose-hand");
         div.onclick = this.onToogleHandCards;
         elem.append(div);
+
+        // toggle by default
+        this.onToogleHandCards();
     },
 
     onToogleHandCards: function()
