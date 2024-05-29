@@ -468,7 +468,7 @@ body.table-companies-breakline .companies {
 
     .playercard-hand-content-small .playercard-hand-container .card-hand 
     {
-        margin-left: -30px;
+        margin-left: -45px;
         &:first-of-type { margin-left: 0; }
     }
 
@@ -528,25 +528,12 @@ body.table-companies-breakline .companies {
                 color: var(--color-yellow);
             }
 
-            img {
-                opacity: 0.8;
-            }
         }
 
         &.card-draw:hover img {
             opacity: 0.6;
         }
     }
-
-    div.ui-draggable
-    {
-        transition: scale 0.2s ease-in-out;
-    
-        &:hover {
-            scale: 1.1;
-        }
-    }
-    
 }
 .card-dice
 {
@@ -634,10 +621,6 @@ body.table-companies-breakline .companies {
 
         @media only screen and (min-width: 1500px) {
             margin-right: 40px;
-        }
-
-        &:hover {
-            scale: 1.05;
         }
 
         .company-character .card:hover {
@@ -749,7 +732,6 @@ body.table-companies-breakline .companies {
 .company-accessibility {
     .company:hover {
         background: rgba(255, 255, 255, 0.15);
-        scale: 1.05;
     }
         
     .company-character:hover {
@@ -1097,22 +1079,15 @@ div#table-dark {
 
 @import "tabletop_mobile.scss";
 
-.site-regions,
 .card img.card-icon {
-    transition: all 0.2s ease-in;
+    transition: transform 0.2s ease-in;
 }
 
-.card:hover .card-icon {
-    scale: 1.05;
-}
-
-.site-regions {
+.playercard-hand-container .card-hand,
+.card {
+    transition: rotate 0.2s ease-in-out;
     &:hover {
-        scale: 1.05;
-    }
-
-    .card:hover .card-icon {
-        scale: none;
+        rotate: -3deg;
     }
 }
 
