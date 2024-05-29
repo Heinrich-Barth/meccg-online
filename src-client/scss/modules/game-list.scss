@@ -5,10 +5,6 @@
     margin-top: 0.5em;
     color: var(--color-light-grey);
 
-    &.game-list-no-space-top {
-        padding-top: 0;
-    }
-
     h2:not(:first-of-type) {
         margin-top: 2em;
     }
@@ -50,6 +46,14 @@
         padding-top: 5px;
         border-radius: 5px;
         min-height: 140px;
+
+        .room-image img {
+            transition: all 0.3s ease-in-out;
+        }
+
+        &:hover .room-image img{
+            scale: 1.6;
+        }
 
     }
     .room-image { top: 5px; }
