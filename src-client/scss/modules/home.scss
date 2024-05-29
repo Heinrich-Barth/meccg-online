@@ -70,9 +70,17 @@ body, p
             visibility: hidden;
             background-color: #000;
         }
+        .room-image img {
+            transition: all 0.3s ease-in-out;
+        }
 
-        .room-image-wrapper:hover .room-image-edit {
-            visibility: visible;
+        .room-image-wrapper:hover {
+            .room-image-edit {
+                visibility: visible;
+            }
+            .room-image img{
+                scale: 1.6;
+            }
         }
     }
 
@@ -262,5 +270,15 @@ td.game-log-name {
 
     .tournament-round-round {
         th, td { padding-top: 10px; }
+    }
+}
+
+.game-lists-intro-twocolumns {
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    > div {
+        margin-top: 0.5em;
+        padding-top: 0;
     }
 }
