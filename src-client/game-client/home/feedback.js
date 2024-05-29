@@ -8,7 +8,7 @@ setTimeout(() => {
         if (typeof url !== "string" || url === "")
             return;
 
-        const div = document.createDocumentFragment();
+        const div = document.createElement("div");
         
         const h2 = document.createElement("h2");
         h2.innerText = "Your Feedback wanted.";
@@ -39,9 +39,9 @@ setTimeout(() => {
 
         div.append(h2, p);
 
-        const pSibling = document.getElementById("active_games");
-        pSibling.parentElement.insertBefore(div, pSibling);
-
+        const target = document.getElementById("game-lists-intro");
+        target.classList.add("game-lists-intro-twocolumns")
+        target.append(div);
     })
     .catch(console.error);
 
