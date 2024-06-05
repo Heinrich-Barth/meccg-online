@@ -97,6 +97,7 @@ a {
     }
 }
 
+.site-action-return,
 .location-icon-image {
     position: absolute;
     right: 0;
@@ -119,9 +120,14 @@ a {
     }
 }
 
+.site-action-return {
+    top: 60px;
+}
+
 body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; overflow: hidden; font-size: 1em;}
 
 .company:hover {
+    .site-action-return,
     .location-icon-image {
         visibility: visible;
     }

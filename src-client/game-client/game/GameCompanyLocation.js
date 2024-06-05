@@ -77,6 +77,34 @@ class GameCompanyLocation
         }
     }
 
+    insertTargetReturnAction(company, companyElem)
+    {
+        const bIsPlayer = this.pGameCompanies.isPlayersCompany(companyElem);
+        if (!bIsPlayer)
+            return;
+
+        const pContainerTarget = companyElem.querySelector(".site-target");
+        if (pContainerTarget.querySelector(".site-action-return") !== null)
+            return;
+
+        const div = document.createElement("div");
+        div.setAttribute("class", "site-action-return fa fa-ban");
+        div.setAttribute("title", "Cancel movement and\nreturn to site of origin");
+        div.setAttribute("data-company-uid", company);
+
+        div.innerText = " Cancel";
+        div.onclick = this.abortMovement.bind(this);
+        pContainerTarget.appendChild(div);
+    }
+
+    abortMovement(e)
+    {
+        const elem = e.target;
+        const companyid =  elem && elem.hasAttribute("data-company-uid") ? elem.getAttribute("data-company-uid") : "";
+        if (typeof companyid === "string" && companyid !== "")
+            MeccgApi.send("/game/company/returntoorigin", {company : companyid });
+    }
+
     drawTargetSite(company, companyElem, target, bIsPlayer, target_tapped)
     {
         const code = this.CardList.getSafeCode(target);
@@ -151,6 +179,8 @@ class GameCompanyLocation
         ArrayList(jSiteContaienr).find(".site-regions .card-icon").each(this.revealCard);
         ArrayList(jSiteContaienr).find(".site-target .card-icon").each(this.revealCard);
         ArrayList(companyElem).find(".location-reveal").each((e) => e.classList.add("hide"));
+
+        this.insertTargetReturnAction(company, companyElem);
     }
 
     removeDuplicateRegions(jSiteContaienr)
@@ -278,6 +308,7 @@ class GameCompanyLocation
 
         pCurrent.appendChild(pTarget);
         DomUtils.removeAllChildNodes(pSites.querySelector(".site-regions"));
+        DomUtils.removeAllChildNodes(pSites.querySelector(".site-target"));
     }
 
     drawLocations(company, start, regions, target, isRevealed, attached, current_tapped, target_tapped, revealStartSite)
@@ -321,7 +352,10 @@ class GameCompanyLocation
         this.drawRegions(companyElem, regions, bIsPlayer, target !== "");
 
         if (target !== "" && isRevealed)
+        {
             this.revealMovement(company);
+            this.insertTargetReturnAction(company, companyElem)
+        }        
 
         if (!bIsPlayer)
         {
