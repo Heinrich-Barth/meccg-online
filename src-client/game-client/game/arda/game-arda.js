@@ -20,13 +20,15 @@ let Arda = {
 
         if (type === "charackters")
         {
-            div.setAttribute("title", "Drag card to play it or \nDOUBLECLICK to create new company without dragging it.");
+            div.setAttribute("title", Dictionary.get("arda_drag_char"));
             div.setAttribute("data-card-type", "character");
+            div.setAttribute("data-translate-title", "arda_drag_char");
         }
         else 
         {
-            div.setAttribute("title", "Drag card to play it or \nDOUBLECLICK to play card without dragging it.");
+            div.setAttribute("title", Dictionary.get("arda_drag_res"));
             div.setAttribute("data-card-type", "resource");
+            div.setAttribute("data-translate-title", "arda_drag_res");
         }
 
         const cardImage = document.createElement("img");
@@ -48,7 +50,8 @@ let Arda = {
         aHand.setAttribute("data-from", type);
         aHand.setAttribute("data-uuid", _uuid);
         aHand.setAttribute("data-code", _code);
-        aHand.setAttribute("title", "Discard this card");
+        aHand.setAttribute("data-translate-title", "arda_discard")
+        aHand.setAttribute("title", Dictionary.get("arda_discard"));
         aHand.onclick = Arda.onCardAction; 
         divHover.appendChild(aHand);
 
@@ -58,7 +61,8 @@ let Arda = {
         aHand.setAttribute("data-from", type);
         aHand.setAttribute("data-uuid", _uuid);
         aHand.setAttribute("data-code", _code);
-        aHand.setAttribute("title", "Move to your hand");
+        aHand.setAttribute("data-translate-title", "arda_tohand")
+        aHand.setAttribute("title", Dictionary.get("arda_tohand"));
         aHand.onclick = Arda.onCardAction; 
         divHover.appendChild(aHand);
         
@@ -248,7 +252,7 @@ let Arda = {
         a.setAttribute("data-type", dataType);
         a.setAttribute("data-player", playerId);
         a.setAttribute("id", "arda-action-container-" + dataType);
-        a.setAttribute("title", title + ".\nLeft click to toggle visibility.\nRight click to refresh.");
+        a.setAttribute("title", title + ".\n" + Dictionary.get("arda_tooglevis"));
         a.setAttribute("class", "blue-box fa act " + html);
         a.setAttribute("aria-hidden", "true");
         a.onclick = Arda.toogleView;
@@ -331,7 +335,7 @@ let Arda = {
         
         if (!this.isSinglePlayer())
         {
-            _sizerId = ResolveHandSizeContainer.create(divHandTop, "Hand size is", nHandSize, "");
+            _sizerId = ResolveHandSizeContainer.create(divHandTop, Dictionary.get("handsizeis"), nHandSize, "");
             divHandTop.getElementsByClassName("card-hands-sizer")[0].classList.add("arda-card-hands-sizer");
         }
         else 
@@ -352,7 +356,7 @@ let Arda = {
             _a.setAttribute("id", "arda-view-discard-" + dataType);
             _a.setAttribute("data-type", dataType);
             _a.setAttribute("data-view", "discard");
-            _a.setAttribute("title", "View discard pile");
+            _a.setAttribute("title", Dictionary.get("arda_viewdiscard"));
             _a.innerHTML = `<img src="/media/assets/images/icons/icon-discardpile.png" data-view="discard" data-type="${dataType}">`;
             _a.onclick = Arda.onViewPile;
             divHandTop.prepend(_a);
@@ -362,7 +366,7 @@ let Arda = {
             _a.setAttribute("class", "arda-pile-action context-cursor" + (bRecycleOnce ? " hidden":""));
             _a.setAttribute("id", "arda-view-playdeck-" + dataType);
             _a.setAttribute("data-type", dataType);
-            _a.setAttribute("title", "View playdeck. Right click to shuffle");
+            _a.setAttribute("title", Dictionary.get("arda_viewplaydeck"));
             _a.setAttribute("data-view", "playdeck");
             _a.innerHTML = `<img src="/media/assets/images/icons/icon-playdeck.png" data-view="playdeck" data-type="${dataType}">`;
             _a.onclick = Arda.onViewPile;
@@ -375,7 +379,7 @@ let Arda = {
             _a.setAttribute("id", "arda-card-draw-" + dataType);
             _a.setAttribute("data-type", dataType);
             _a.setAttribute("data-handsize", nHandSize)
-            _a.setAttribute("title", "Draw a new card");
+            _a.setAttribute("title", Dictionary.get("arda_drawnew"));
             _a.setAttribute("data-container-id", id);
             _a.onclick = Arda.onDrawNewCard;
             divHandTop.prepend(_a);
@@ -396,7 +400,7 @@ let Arda = {
         if (type === "mps" || type === "minor" || type === "stage")
         {
             MeccgApi.send("/game/arda/shuffle", { target: type });
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Playdeck shuffled (" + type + ")" }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("arda_shuffled") + " (" + type + ")" }));
         }
 
         e.preventDefault();
@@ -459,22 +463,22 @@ let Arda = {
         if (!bIsReady)
         {
             const elem1 = document.createElement("p");
-            elem1.innerText = "Once everybody is at the table, each player chooses their wizard. Once that is done, you assign random characters to each player's hand.";
+            elem1.innerText = Dictionary.get("arda_setup_1a");
 
             const elem2 = document.createElement("p");
-            elem2.innerText = "This will clear your hand and add random characters to your hand.";
+            elem2.innerText = Dictionary.get("arda_setup_1b");
 
             container.appendChild(elem1);
             
-            this.insertOnceAction(container, "fa-users", "Assign random characters to every player.", "randomchars", "arda_ranom", "Assign random characters", 8);
-            this.insertOnceAction(container, "fa-users", "Assign more random characters to every player.", "randomchars", "arda_ranom", "Assign random characters (12)", 12);
+            this.insertOnceAction(container, "fa-users", Dictionary.get("arda_setup_1c"), "randomchars", "arda_ranom", Dictionary.get("arda_setup_1d"), 8);
+            this.insertOnceAction(container, "fa-users", Dictionary.get("arda_setup_1e"), "randomchars", "arda_ranom", Dictionary.get("arda_setup_1d") + " (12)", 12);
 
             container.appendChild(elem2);
         }
         else if (!bHideDraftCharacters && !bHideDraftMinors)
         {
             let elem = document.createElement("p");
-            elem.innerText = "Everybody may draft characters with a total of 25 GI. Yet, only 20 GI may be used.";
+            elem.innerText = Dictionary.get("arda_setup_2a");
             container.appendChild(elem);
 
             let _a = document.createElement("a");
@@ -482,20 +486,20 @@ let Arda = {
             _a.setAttribute("class", "arda-card-recycle fa fa-recycle");
             _a.setAttribute("data-type", "charackters");
             _a.setAttribute("id", "arda-card-recycle-charackters");
-            _a.setAttribute("title", "Complete character draft and choose minor items.");
-            _a.innerText = " Complete character draft and choose minor items.";
+            _a.setAttribute("title", Dictionary.get("arda_setup_2b"));
+            _a.innerText = " " + Dictionary.get("arda_setup_2b");
             _a.onclick = Arda.onRecycleDeck;
             container.appendChild(_a);
 
             elem = document.createElement("p");
-            elem.innerText = "Recycling will automatically disacrd your current hand and reshuffle everything into the playdeck.";
+            elem.innerText = Dictionary.get("arda_setup_2c");
             container.appendChild(elem);
 
         }
         else 
         {
             const elem = document.createElement("p");
-            elem.innerText = "Everybody may choose up to 3 minor items. Once that is done, the game can start.";
+            elem.innerText = Dictionary.get("arda_setup_3a");
             container.appendChild(elem);
 
             let _a = document.createElement("a");
@@ -503,8 +507,8 @@ let Arda = {
             _a.setAttribute("class", "arda-card-recycle fa fa-recycle");
             _a.setAttribute("data-type", "minor");
             _a.setAttribute("id", "arda-card-recycle-minor");
-            _a.setAttribute("title", "Complete minor item draft and start the game.");
-            _a.innerText = " Complete minor item draft and start the game.";
+            _a.setAttribute("title", Dictionary.get("arda_setup_3b"));
+            _a.innerText = " " + Dictionary.get("arda_setup_3b");
             _a.onclick = Arda.onRecycleDeck;
             container.appendChild(_a);
         }
@@ -568,7 +572,11 @@ let Arda = {
                 Arda.showIfExitent(next);
 
             MeccgApi.send("/game/arda/recycle", { type: target });
-        }).show("Do you want to reshuffle all cards into the playdeck?", "All cards will be reshuffled into the playdeck and a new hand will be drawn.", "Reshuffle everything");
+        }).show(
+            Dictionary.get("arda_setup_4a"), 
+            Dictionary.get("arda_setup_4b"), 
+            Dictionary.get("arda_setup_4c")
+        );
     },
     
     getAllowedHandSize : function(elem)
@@ -608,7 +616,7 @@ let Arda = {
         if (nCount < nLen || nLen === -1)
             MeccgApi.send("/game/arda/draw", { type : type });
         else
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "Hand already holds " + nLen + " cards." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("arda_handlimit") }));
     },
 
     onDrawSingleCard : function(container, cardCode, uuid, type)
