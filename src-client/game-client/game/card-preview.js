@@ -46,7 +46,7 @@ CardPreview.checkIdle = function()
         CardPreview.idleForceShutdown = setTimeout( () => document.body.dispatchEvent(new CustomEvent("meccg-foce-end-game", { })), 1000 * 60 * 5);
     }
 
-    document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "You have been idle for too long. Please interact with a card." }));    
+    document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("warn_idle") }));
 }
 
 CardPreview.addHover = function(id, bRight, bTop)
