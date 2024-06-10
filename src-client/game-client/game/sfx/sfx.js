@@ -66,7 +66,7 @@ class SoundEffects {
                 {
                     document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
                         name : "System",
-                        message : "Could not play sound. Browser blocked it."
+                        message : Dictionary.get("sound_blocked")
                     }}));
                 });
               }

@@ -213,6 +213,7 @@ score_leavetolobby=Leave game and return to lobby
 score_returntolobbdy=Return to lobby.
 score_autosave=Save last autosave to disk
 score_couldnotfetch=Could not fetch scores.
+sound_blocked=Could not play sound. Browser blocked it.
         `;
     }
 
