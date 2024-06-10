@@ -47,7 +47,7 @@ class ScoringContainers {
         for (let i = this._points_min; i <= this._points_max; i++)
         {
             const _id = i < 0 ? ("score_m" + (i * -1)) : "score_" + i;
-            const _label  = i + " " + (i === 1 || i === -1 ? "Point" : "Points");
+            const _label  = i + " " + (i === 1 || i === -1 ? Dictionary.get("score_point") : Dictionary.get("score_points"));
 
             const div = document.createElement("div");
             div.setAttribute("class", "score_label");
@@ -82,7 +82,7 @@ class ScoringContainers {
 
         {
             const _temp = document.createElement("h2");
-            _temp.innerText = "Score Card";
+            _temp.innerText = Dictionary.get("score_card")
             jContainerData.appendChild(_temp);
         }
         
@@ -93,7 +93,7 @@ class ScoringContainers {
             const _temp = document.createElement("input");
             _temp.setAttribute("type", "button");
             _temp.setAttribute("class", "button");
-            _temp.setAttribute("value", "Score card");
+            _temp.setAttribute("value", Dictionary.get("score_card"));
             jContainerData.appendChild(_temp);
         }      
         
@@ -121,9 +121,9 @@ class ScoringContainers {
             tr.innerHTML = `
                 <th>${entry.label}</th>
                 <td data-player="self">
-                    <a href="#" data-score-action="increase" title="increase"><i class="fa fa-plus-square" title="increase" aria-hidden="true"></i></a>
+                    <a href="#" data-score-action="increase" title="+1 ${Dictionary.get("score_point")}"><i class="fa fa-plus-square" title="increase" aria-hidden="true"></i></a>
                     <span>0</span>
-                    <a href="#" data-score-action="decrease" title="decrease"><i class="fa fa-minus-square" title="decrease" aria-hidden="true"></i></a>
+                    <a href="#" data-score-action="decrease" title="-1 ${Dictionary.get("score_point")}"><i class="fa fa-minus-square" title="decrease" aria-hidden="true"></i></a>
                 </td>`;
 
             jBody.appendChild(tr);
@@ -151,8 +151,8 @@ class ScoringContainers {
                                 </tr>
                                 <tr>
                                     <th colspan="2" class="text-right">
-                                        <input type="button" class="button buttonCancel" value="Cancel">
-                                        <input type="button" class="button buttonUpdate" value="Update score">
+                                        <input type="button" class="button buttonCancel" value="${Dictionary.get("cancel")}">
+                                        <input type="button" class="button buttonUpdate" value="${Dictionary.get("score_update")}">
                                     </th>
                                 </tr>`;
             jTable.appendChild(tfoot);
@@ -168,7 +168,7 @@ class ScoringContainers {
         div.setAttribute("id", "view-score-sheet-card-list");
         div.innerHTML = `<div class="view-card-list-container blue-box">
                             <div class="container-title-bar">
-                                <div class="container-title-bar-title text-center smallCaps">Your Victory Pile</div>
+                                <div class="container-title-bar-title text-center smallCaps">${Dictionary.get("score_yours")}</div>
                                 <div class="clear"></div>
                             </div>
                             <div class="container-data"></div>
@@ -501,8 +501,8 @@ const SCORING_INGAME =
         const turnTimeTotal = document.createElement("tr");
         const turnTimeAverage = document.createElement("tr");
 
-        turnTimeTotal.appendChild(this.createSimpleNodeElement("th", "Total Turn Time", ""));
-        turnTimeAverage.appendChild(this.createSimpleNodeElement("th", "Avg. Turn Time", ""));
+        turnTimeTotal.appendChild(this.createSimpleNodeElement("th", Dictionary.get("score_avg_turntime_total"), ""));
+        turnTimeAverage.appendChild(this.createSimpleNodeElement("th", Dictionary.get("score_avg_turntime"), ""));
 
         const idPrefixTotal = "final-score-time-total-";
         const idPrefixAverage = "final-score-time-avg-";
@@ -524,7 +524,7 @@ const SCORING_INGAME =
             return document.createDocumentFragment();
 
         const th = document.createElement("th");
-        th.innerText = "Tournament";
+        th.innerText = Dictionary.get("score_tournament");
 
         const tr = document.createElement("tr");
         tr.appendChild(th);
@@ -831,11 +831,11 @@ const SCORING_INGAME =
         if (isMe)
         {
             th1.classList.add("scoring-ingame-avatar-clickable");
-            th1.setAttribute("title", "Click to change your avatar");
+            th1.setAttribute("title", Dictionary.get("score_click_changeavatar"));
             th1.onclick = () => MeccgApi.send("/game/character/list");
 
             img.setAttribute("class", "scoring-ingame-avatar");
-            img.setAttribute("title", "Click to change your avatar");
+            img.setAttribute("title", Dictionary.get("score_click_changeavatar"));
 
             const linkChange = document.createElement("span");
             linkChange.setAttribute("class", "link-change fa fa-pencil-square");
@@ -863,7 +863,7 @@ const SCORING_INGAME =
                 const aP = document.createElement("a");
                 aP.setAttribute("href", "#");
                 aP.setAttribute("data-score-action", "increase");
-                aP.setAttribute("title", "increase " + entry.label + " points by 1");
+                aP.setAttribute("title", "+1 MP - " + entry.label);
                 aP.onclick = SCORING_INGAME.onClickIncrease;
                 aP.innerHTML = `<i class="fa fa-plus-square" aria-hidden="true"></i>`;
 
@@ -876,7 +876,7 @@ const SCORING_INGAME =
                 const aM = document.createElement("a");
                 aM.setAttribute("href", "#");
                 aM.setAttribute("data-score-action", "decrease");
-                aM.setAttribute("title", "decrease " + entry.label + " points by 1");
+                aM.setAttribute("title", "-1 MP - " + entry.label);
                 aM.onclick = SCORING_INGAME.onClickDecrease;
                 aM.innerHTML = `<i class="fa fa-minus-square" aria-hidden="true"></i>`;
 
@@ -1276,10 +1276,10 @@ const SCORING = {
         div.setAttribute("class", "disconnection-notice");
 
         const h2 = document.createElement("h2");
-        h2.innerText = "Automatic disconnect";
+        h2.innerText = Dictionary.get("score_autodisconnect");
 
         const p = document.createElement("p");
-        p.innerText = "The server rebooted automatically (scheduled).";
+        p.innerText = Dictionary.get("score_reboot");
 
         div.appendChild(h2);
         div.appendChild(p);
@@ -1308,8 +1308,8 @@ const SCORING = {
 
         const a = document.createElement("a");
         a.setAttribute("href", "/");
-        a.setAttribute("title", "Leave game and return to lobby");
-        a.innerText = "Return to lobby."
+        a.setAttribute("title", Dictionary.get("score_leavetolobby"));
+        a.innerText = Dictionary.get("score_returntolobbdy");
 
         const p = document.createElement("p");
         p.appendChild(a);
@@ -1327,9 +1327,9 @@ const SCORING = {
             return;
 
         const a = document.createElement("a");
-        a.innerText = " Save last autosave to disk";
+        a.innerText = " " + Dictionary.get("score_autosave");
         a.setAttribute("href", "#");
-        a.setAttribute("title", "Save last autosave to disk");
+        a.setAttribute("title", Dictionary.get("score_autosave"));
         a.setAttribute("class", "fa fa-floppy-o");
         a.onclick = () => {
             document.body.dispatchEvent(new CustomEvent("meccg-game-save-auto-to-disk", { "detail": "Store." }));
@@ -1567,7 +1567,7 @@ function createScoringApp(_CardList)
     .catch((err) => 
     {
         MeccgUtils.logError(err);
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not fetch scores." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("score_couldnotfetch") }));
     });
 
     return SCORE_API;

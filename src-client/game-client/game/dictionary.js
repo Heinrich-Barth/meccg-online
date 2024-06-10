@@ -198,6 +198,21 @@ playerselector_activeplayer=Active Player
 playerselector_currenthazard=Current hazard player
 playerselector_cardsinhand=cards in hand
 playerselector_cardsindeck=cards in playdeck
+score_point=Point
+score_points=Points
+score_card=Score Card
+score_update=Update score
+score_yours=Your Victory Pile
+score_avg_turntime_total=Total Turn Time
+score_avg_turntime=Avg. Turn Time
+score_tournament=Tournament
+score_click_changeavatar=Click to change your avatar
+score_autodisconnect=Automatic disconnect
+score_reboot=The server rebooted automatically (scheduled).
+score_leavetolobby=Leave game and return to lobby
+score_returntolobbdy=Return to lobby.
+score_autosave=Save last autosave to disk
+score_couldnotfetch=Could not fetch scores.
         `;
     }
 
