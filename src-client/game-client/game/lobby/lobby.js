@@ -46,9 +46,9 @@ const Lobby = {
 
         Lobby._room = sRoom;
         Lobby._token = sLobbyToken;
-        let playerselector = document.body.querySelector(".player-selector-box");
+        const playerselector = document.getElementById("chat_icon");
         if (playerselector === null)
-            playerselector = document.body;
+            return;
 
         let div = document.createElement("div");
         div.setAttribute("id", "lobby-wrapper");
@@ -58,7 +58,7 @@ const Lobby = {
         div.innerHTML =`<div class="icons"><i class="fa fa-user-circle" aria-hidden="true"></i></div>`;
         div.onclick = Lobby.onClickToggleUsers;
 
-        playerselector.appendChild(div);
+        playerselector.parentElement.insertBefore(div, playerselector);
 
         div = document.createElement("div");
         div.setAttribute("id", "visitor-wrapper");
@@ -67,7 +67,7 @@ const Lobby = {
         div.setAttribute("title", "Visitors can join this game");
         div.innerHTML =`<div class="icons"><i class="fa fa-eye" aria-hidden="true"></i></div>`;
         div.onclick = Lobby.onClickToggleVisitors;
-        playerselector.appendChild(div);
+        playerselector.parentElement.insertBefore(div, playerselector);
 
         document.getElementById("interface").classList.add("is-admin");
         
