@@ -58,8 +58,8 @@ class DiceContainer {
         spanWho.setAttribute("class", "who");
         spanWho.innerText = sName;
         htmlP.appendChild(spanWho);
-
-        htmlP.appendChild(document.createTextNode(" rolled a "));
+        
+        htmlP.appendChild(document.createTextNode(" " + Dictionary.get("dice_who_rolled") + " "));
         
         const spanTotal = document.createElement("span");
         spanTotal.setAttribute("class", "total big");

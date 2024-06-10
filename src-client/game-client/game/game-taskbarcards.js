@@ -751,7 +751,7 @@ class TaskBarCards
     static ShufflePlaydeck(e) 
     {
         MeccgApi.send("/game/view-cards/shuffle", { target: "playdeck" });
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Playdeck shuffled." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("taskbar_shuffled") }));
 
         if (e !== undefined && typeof e.stopPropagation !== "undefined")
             e.stopPropagation();

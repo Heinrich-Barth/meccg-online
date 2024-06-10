@@ -59,9 +59,9 @@ class ResolveHandSizeFirst
     {
         const nDiff = nAllowed - nSize;
         if (nDiff > 0)
-            return "Please draw " + nDiff + " " + this.#sHandName;
+            return Dictionary.get("resolve_draw") + " " + nDiff + " " + this.#sHandName;
         else
-            return "Please discard " + (nDiff*-1) + " " + this.#sHandName;
+            return Dictionary.get("resolve_discard") + " " + (nDiff*-1) + " " + this.#sHandName;
     }
 
     #countHandCards()
@@ -141,7 +141,7 @@ class ResolveHandSizeContainer
 
         _i = document.createElement("i");
         _i.setAttribute("class", "fa fa-plus-square card-hands-sizer-plus");
-        _i.setAttribute("title", "increase hand size");
+        _i.setAttribute("title", Dictionary.get("resolve_inc"));
         _i.setAttribute("data-for", idSizerValue);
         _i.setAttribute("aria-hidden", "true");
         _i.onclick = ResolveHandSizeContainer.increase;
@@ -155,7 +155,7 @@ class ResolveHandSizeContainer
 
         _i = document.createElement("i");
         _i.setAttribute("class", "fa fa-minus-square card-hands-sizer-minus");
-        _i.setAttribute("title", "decrease hand size");
+        _i.setAttribute("title", Dictionary.get("resolve_dec"));
         _i.setAttribute("data-for", idSizerValue);
         _i.setAttribute("aria-hidden", "true");
         _i.onclick = ResolveHandSizeContainer.decrease;
@@ -180,7 +180,7 @@ class ResolveHandSizeContainer
             return;
 
         const _handSizer = handContent.querySelector(".hand-card-sizer");
-        const _sizerId = ResolveHandSizeContainer.create(_handSizer, "Hand size is ", ResolveHandSizeContainer.#getCount(), "");
+        const _sizerId = ResolveHandSizeContainer.create(_handSizer, Dictionary.get("resolve_handsizeis") + " ", ResolveHandSizeContainer.#getCount(), "");
         if (_sizerId !== "")
             ResolveHandSizeFirst.create("playercard_hand_container", _sizerId, "cards");
     }

@@ -44,22 +44,22 @@ class RevealCardPile extends TradeCards
 
     labelChooseCards()
     {
-        return "Reordering of cards in " + this.deck.toUpperCase();
+        return Dictionary.get("rvpil_choose") + " " + this.deck.toUpperCase();
     }
 
     labelCardsBeingOffered()
     {
-        return "Card reordering will appear automatically. The left is considered the TOP of the card stack.";
+        return Dictionary.get("rvpils_text");
     }
 
     labelSelectCardsToTrade()
     {
-        return "Click on a card to send it to the bottom of this list. Right click on any card send it to the bottom of the deck.";
+        return Dictionary.get("rvpils_text_click");
     }
 
     labelAcceptTrade()
     {
-        return "Accept ordering";
+        return Dictionary.get("rvpils_accept");
     }
 
     getRouteTradeStart()
@@ -262,15 +262,15 @@ class RevealPlayerDeckSelf
         const dialog = document.createElement("div");
         dialog.setAttribute("id", "dialog_reveal_self");
         dialog.setAttribute("class", "reveal-to-self");
-        dialog.setAttribute("title", "click anywhere to close");
+        dialog.setAttribute("title", Dictionary.get("rvpils_anywhere"));
         dialog.onclick = () => this.#closeDialog();
 
 
         const h2 = document.createElement("h2");
-        h2.innerText = "Look at your playdeck";
+        h2.innerText = Dictionary.get("rvpils_look_title");
 
         const p = document.createElement("p");
-        p.innerText = "Click anywhere here to close this dialog.";
+        p.innerText = Dictionary.get("rvpils_look_text");
 
         const div = document.createElement("div");
         div.setAttribute("class", "reveal-to-self-content");

@@ -290,10 +290,10 @@ class GamePreferences extends Preferences {
             return;
 
         navigator.clipboard.writeText(text)
-        .then(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Link copied to clipboard."})))
+        .then(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("conf_share_copied_ok")})))
         .catch((err) => 
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not copy link to clipboard."}));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("conf_share_copied_err")}));
             console.error(err);
         });
     }
@@ -311,17 +311,6 @@ class GamePreferences extends Preferences {
     #addCardsToDeck()
     {
         document.body.dispatchEvent(new CustomEvent("meccg-cards-add-ingame", { "detail": "" }));
-    }
-
-    #gameAudio()
-    {
-        const div = document.createElement("div");
-        div.setAttribute("id", "question-fake-hide");
-        div.setAttribute("class", "question-fake-hide");
-        div.innerHTML = `<a id="question-fake-hide-a" href="https://meet.jit.si/${g_sRoom}" rel="noopener" rel="noreferrer" target="_blank">Audio Chat</a>`;
-        document.body.appendChild(div);
-        document.getElementById("question-fake-hide-a").click();
-        DomUtils.removeNode(document.getElementById("question-fake-hide"));
     }
 
     static drawToHandsize()
@@ -347,7 +336,7 @@ class GamePreferences extends Preferences {
     getEntries()
     {
         const bWatcher = GamePreferences.isWatching();
-        this.createSection("Backgrounds / Customise");
+        this.createSection(Dictionary.get("conf_h_bgcustomise"));
 
         if (!bWatcher)
         {
@@ -364,7 +353,7 @@ class GamePreferences extends Preferences {
 
         this.createEntry0("toggle_zoom_preview");
             
-        this.createSection("Look & Feel");
+        this.createSection(Dictionary.get("conf_h_lookfeel"));
         this.createEntry0("toggle_zoom");
         if (!bWatcher)
         {
@@ -380,7 +369,7 @@ class GamePreferences extends Preferences {
         this.createEntry0("toggle_company_help");
         this.createEntry0("toggle_fullscreen");
 
-        this.createSection("Accessibility / Language");
+        this.createSection(Dictionary.get("conf_h_access"));
         this.createEntry0("toggle_spanishcards");
         
         if (!bWatcher)
@@ -389,7 +378,7 @@ class GamePreferences extends Preferences {
             this.createEntry0("toggle_touch_help");
             this.createEntry0("draw_to_handsize");
 
-            this.createSection("Save/Load");
+            this.createSection(Dictionary.get("conf_h_save"));
             this.createEntry0("game_save");
             this.createEntry0("game_load");
             
@@ -412,7 +401,7 @@ class GamePreferences extends Preferences {
             this.createEntry0("share_watch");                    
         }
 
-        this.createSection("General");
+        this.createSection(Dictionary.get("conf_h_general"));
         if (!bWatcher)
             this.createEntry0("viewpile_open");
     }
@@ -448,7 +437,6 @@ class GamePreferences extends Preferences {
         this.addConfigToggle("toggle_spanishcards", "Use Spanish instead of English cards (if available).", sessionStorage.getItem("cards_es") === "yes", this.#toggleSpanishCards.bind(this));
 
         this.addConfigAction("game_addcards", "Add new cards to sideboard", false, "fa-plus-square", this.#addCardsToDeck);
-        this.addConfigAction("game_audio", "Join audio chat", false, "fa-headphones", this.#gameAudio);
 
         if(this.isAdmin())
         {
@@ -484,7 +472,7 @@ class GamePreferences extends Preferences {
         const elem = document.body.querySelector(".help-icon");
         if (elem !== null)
         {
-            elem.setAttribute("title", "Open help tips");
+            elem.setAttribute("title", Dictionary.get("conf_help"));
             elem.onclick = this.#showHelp.bind(this);
         }
     }
@@ -494,18 +482,19 @@ class GamePreferences extends Preferences {
         const content = document.createElement("div");
         content.setAttribute("class", "text-left");
         content.append(
-            this.#createShortcut("d", "draw card to hand"),
-            this.#createShortcut("r", "roll dice"),
-            this.#createShortcut("q", "end your turn"),
-            this.#createShortcut("f", "flips card currently hovering over"),
-            this.#createShortcut("x", "discards card currently hovering over"),
-            this.#createParagaph("You can right click on cards and deck icons to open a context menu."),
-            this.#createParagaph("You can double click on a hand card to play it (without dragging)."),
-            this.#createParagaph("If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region."),
-            this.#createParagaph("Discarding your opponent's card will sort it into their discard pile.")
+            this.#createShortcut("d", Dictionary.get("conf_cut_d")),
+            this.#createShortcut("r", Dictionary.get("conf_cut_r")),
+            this.#createShortcut("q", Dictionary.get("conf_cut_q")),
+            this.#createShortcut("f", Dictionary.get("conf_cut_f")),
+            this.#createShortcut("x", Dictionary.get("conf_cut_x")),
+            this.#createParagaph(Dictionary.get("conf_cut_p1")),
+            this.#createParagaph(Dictionary.get("conf_cut_p2")),
+            this.#createParagaph(Dictionary.get("conf_cut_p3")),
+            this.#createParagaph(Dictionary.get("conf_cut_p4")),
         );
-        new Question("", false).show("Tips & Shortcuts", content, "Close");
+        new Question("", false).show(Dictionary.get("conf_cut_title"), content, Dictionary.get("close"));
     }
+
 
     #createParagaph(text = "")
     {
@@ -554,8 +543,8 @@ class GamePreferences extends Preferences {
         icons.setAttribute("class", "icons cursor-pointer");
         icons.setAttribute("data-level", "0");
         icons.setAttribute("id", "zoom-level");
-        icons.setAttribute("title", "Toggle zoom level")
-        icons.innerHTML = '<i class="fa fa-search-plus" aria-hidden="true" title="Toogle zoom"></i>';
+        icons.setAttribute("title", Dictionary.get("conf_toggle_zoom_level"))
+        icons.innerHTML = '<i class="fa fa-search-plus" aria-hidden="true" title="'+Dictionary.get("conf_l_toggle_zoom") + '"></i>';
 
         icons.onclick = this.toggleZoom.bind(this);
         div.appendChild(icons);

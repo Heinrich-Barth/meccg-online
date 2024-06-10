@@ -23,17 +23,17 @@ class TradeCards extends PlayerSelectorAction {
 
     labelErrorTooFewPlayers()
     {
-        return "Another player is needed to trade cards";
+        return Dictionary.get("trade_toofew");
     }
 
     labelChooseTradingPartner()
     {
-        return "Choose player to trade with";
+        return Dictionary.get("trade_choosep");
     }
 
     labelChoosePlayerToTradeWith()
     {
-        return "Please choose one player to trade cards with";
+        return Dictionary.get("trade_chooseone");
     }
 
     resetTraders()
@@ -178,22 +178,22 @@ class TradeCards extends PlayerSelectorAction {
 
     labelChooseCards()
     {
-        return "Choose cards to trade";
+        return Dictionary.get("trade_choosecards");
     }
 
     labelCardsBeingOffered()
     {
-        return "Cards being offered to you will appear automatically.";
+        return Dictionary.get("trade_beingoffered");
     }
 
     labelSelectCardsToTrade()
     {
-        return "Select your cards to trade.";
+        return Dictionary.get("trade_selectcards");
     }
 
     labelAcceptTrade()
     {
-        return "Accept trade"
+        return Dictionary.get("trade_accept")
     }
 
     createCardContainer(code, uuid, addId, reveal) 
@@ -341,7 +341,7 @@ class TradeCards extends PlayerSelectorAction {
     {
         this.removeOverlay();
         if (!_isMe && this.tradePartyNumber(jData) !== 0)
-            this.showWarning("Trade was cancelled");
+            this.showWarning(Dictionary.get("trade_wascanceled"));
     }
 
     tradeSuccess(_isMe, jData)
@@ -350,7 +350,7 @@ class TradeCards extends PlayerSelectorAction {
 
         if (this.tradePartyNumber(jData) !== 0)
         {
-            this.showSuccess("Trade completed");
+            this.showSuccess(Dictionary.get("trade_success"));
             return true;
         }
         else
@@ -369,7 +369,7 @@ class TradeCards extends PlayerSelectorAction {
 
         if (otherPlayer === null || otherPlayer === undefined || otherPlayer === "")
         {
-            this.showError("Could not get other player to trade with.");
+            this.showError(Dictionary.get("trade_noother"));
         }
         else
         {

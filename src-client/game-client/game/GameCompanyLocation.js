@@ -8,9 +8,9 @@ class GameCompanyLocation
         this.CARDID_PREFIX = CARDID_PREFIX;
     }
 
-    static TITLE_SITE_DEST = "Click to let player arrive or drop hazards to play onguard.";
-    static TITLE_SITE_DEST_PLAYER = "Click to reveal or tap if already revealed.";
-    static TITLE_SITE_ORIGIN = "Site of origin/current site";
+    static TITLE_SITE_DEST() { return Dictionary.get("loc_site_dest") }
+    static TITLE_SITE_DEST_PLAYER() { return Dictionary.get("loc_site_player") }
+    static TITLE_SITE_ORIGIN() { return Dictionary.get("loc_site_org") }
 
 
     createLocationCard(code, img, bIsPlayer, sTitle)
@@ -50,7 +50,7 @@ class GameCompanyLocation
         const code = this.CardList.getSafeCode(start);
         const img = this.CardList.getImageSite(start);
 
-        const pCard = this.createLocationCard(code, img, bIsPlayer, GameCompanyLocation.TITLE_SITE_ORIGIN);
+        const pCard = this.createLocationCard(code, img, bIsPlayer, GameCompanyLocation.TITLE_SITE_ORIGIN());
         companyElem.querySelector(".site-current").appendChild(pCard);
 
         if (revealStartSite)
@@ -89,7 +89,7 @@ class GameCompanyLocation
 
         const div = document.createElement("div");
         div.setAttribute("class", "site-action-return fa fa-ban");
-        div.setAttribute("title", "Cancel movement and\nreturn to site of origin");
+        div.setAttribute("title", Dictionary.get("loc_cancel"));
         div.setAttribute("data-company-uid", company);
 
         div.innerText = " Cancel";
@@ -113,7 +113,7 @@ class GameCompanyLocation
         const pContainerTarget = companyElem.querySelector(".site-target");
 
         DomUtils.removeAllChildNodes(pContainerTarget);
-        const pCardDiv = this.createLocationCard(code, img, bIsPlayer, bIsPlayer ? GameCompanyLocation.TITLE_SITE_DEST_PLAYER : GameCompanyLocation.TITLE_SITE_DEST);
+        const pCardDiv = this.createLocationCard(code, img, bIsPlayer, bIsPlayer ? GameCompanyLocation.TITLE_SITE_DEST_PLAYER() : GameCompanyLocation.TITLE_SITE_DEST());
         pContainerTarget.appendChild(pCardDiv);
         
         if (!bIsPlayer)
@@ -291,7 +291,7 @@ class GameCompanyLocation
         {
             const code = this.CardList.getSafeCode(_reg);
             const img = this.CardList.getImageRegion(_reg);
-            pContainerReg.appendChild(this.createLocationCard(code, img, bIsPlayer, "Region moved through. Drop hazard creates here"));
+            pContainerReg.appendChild(this.createLocationCard(code, img, bIsPlayer, Dictionary.get("loc_region")));
         }
     }
 
@@ -304,7 +304,7 @@ class GameCompanyLocation
         const pCurrent = pSites.querySelector(".site-current");
         DomUtils.removeAllChildNodes(pCurrent);
 
-        pTarget.setAttribute("title", GameCompanyLocation.TITLE_SITE_ORIGIN);
+        pTarget.setAttribute("title", GameCompanyLocation.TITLE_SITE_ORIGIN());
 
         pCurrent.appendChild(pTarget);
         DomUtils.removeAllChildNodes(pSites.querySelector(".site-regions"));

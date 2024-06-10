@@ -215,7 +215,7 @@ const GameBuilder = {
         linkA.setAttribute("href", "#");
         linkA.setAttribute("class", "discardpile");
         linkA.setAttribute("data-card-uuid", _uuid);
-        linkA.setAttribute("title", "Move to top of discard pile");
+        linkA.setAttribute("title", Dictionary.get("builder_move_topdiscard"));
         linkA.onclick = GameBuilder._onClickDiscardHandCard;
 
         div.appendChild(img);
@@ -300,7 +300,7 @@ const GameBuilder = {
         const elemImage = elem?.querySelector("img");
         if (elemImage)
         {
-            elem.setAttribute("title", "Drag card to play it or \nRIGHT CLICK to toggle playing it face down\nDOUBLECLICK to play card without dragging it.");
+            elem.setAttribute("title", Dictionary.get("builder_handcard_tip"));
             elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);           
             elemImage.ondblclick = this.onHandCardDoubleClick.bind(this);
         }
@@ -554,7 +554,7 @@ const GameBuilder = {
             if (bIsMe)
             {
                 document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "yourturn" }));
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "It is your turn now." }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("builder_yourturn") }));
                 return;
             }
             
@@ -564,7 +564,7 @@ const GameBuilder = {
             else if (sName.length > 40)
                 sName = sName.substring(0, 39);
             
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": sName + " is the active player." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": sName + " " + Dictionary.get("builder_whosactive") }));
 
         });
         
@@ -775,14 +775,6 @@ const GameBuilder = {
                 else
                     GameBuilder.CompanyManager.showMapInteraction(jData.company);
             }
-
-            const prefix = jData.hide ? "finished choosing" : "is choosing";
-            const message = prefix + " " + (jData.homesite ? "a home site" : "a destination site");
-            
-            document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
-                name : MeccgPlayers.getPlayerDisplayName(jData.userid),
-                message : message
-            }}));
         });
 
         
@@ -892,7 +884,7 @@ const GameBuilder = {
             {
                 case "start":
                     if (bIsMe)
-                        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "It is your turn now" }));
+                        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_yourturn") }));
                         
                     GameBuilder.CompanyManager.onEnterStartPhase(bIsMe);
                     break;
@@ -1034,7 +1026,7 @@ const ChangeAvatarApp = {
 
         const img = document.createElement("img");
         img.setAttribute("src", src);
-        img.setAttribute("title", "Click to choose this avatar");
+        img.setAttribute("title", Dictionary.get("builder_chooseavatar"));
         img.setAttribute("data-code", code);
         img.setAttribute("decoding", "async");
         img.onclick = this.onselectavatar.bind(this);
@@ -1059,10 +1051,10 @@ const ChangeAvatarApp = {
         const div = document.createDocumentFragment();
 
         const h2 = document.createElement("h2");
-        h2.innerText = "Choose your Avatar";
+        h2.innerText = Dictionary.get("builder_chooseavatar_title");
 
         const p = document.createElement("p");
-        p.innerText = "Click on your avatar/character or press ESC to close";
+        p.innerText = Dictionary.get("builder_chooseavatar_text");
 
         div.append(h2, p);
         return div;
@@ -1093,7 +1085,7 @@ const ChangeAvatarApp = {
 
         if (codes.length === 0)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "No characters available." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_nocharsavail") }));
             return;
         }
         

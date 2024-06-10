@@ -297,7 +297,7 @@ const MeccgApi =
     onConnected : function()
     {
         if (!MeccgApi._ignoreDisconnection)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Reconnected." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("api_reconnected") }));
 
         document.body.dispatchEvent(new CustomEvent("meccg-connected", { "detail": true }));
     },
@@ -382,7 +382,7 @@ const MeccgApi =
                 reason = "";
 
             document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "notify" }));
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Connection to server lost: " + reason + ". Reconnecting in 1 second" }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("api_connectionlost") + " " + reason + ". " + Dictionary.get("api_recon") }));
         
             setTimeout(MeccgApi.triggerReconnection.bind(MeccgApi), 1000);
             setTimeout(MeccgApi.verifyReconnected.bind(MeccgApi), 1000 * 10)
@@ -394,12 +394,12 @@ const MeccgApi =
         MeccgApi.isConnected = true;
         MeccgApi._disconnectInfo.abort();
 
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Reconnected." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("api_reconnected") }));
     },
 
     triggerReconnection: function()
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "Reconnecting..." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("api_reconnecting") }));
         this._reconnecting = true;
         this._socket.connect();
     },
@@ -502,7 +502,13 @@ const MeccgApi =
     
     queryEndGame : function()
     {
-        new Question("fa-sign-out").onOk(MeccgApi.forceEndGame).show("Do you want to end this game?", "Let's see the final scorings.", "End this game");
+        new Question("fa-sign-out")
+            .onOk(MeccgApi.forceEndGame)
+            .show(
+                Dictionary.get("api_endgame_q"), 
+                Dictionary.get("api_endgame_t"), 
+                Dictionary.get("api_endgame_a")
+            );
     },
 
     disconnectSocket : function()

@@ -17,17 +17,17 @@ class PlayerSelectorAction {
 
     labelErrorTooFewPlayers()
     {
-        return "Another player is needed to show cards to";
+        return Dictionary.get("psaction_toofew");
     }
 
     labelChooseTradingPartner()
     {
-        return "Choose player to show cards";
+        return Dictionary.get("psaction_choose");
     }
 
     labelChoosePlayerToTradeWith()
     {
-        return "Please choose one player to show cards";
+        return Dictionary.get("psaction_choosetrade");
     }
 
     includeAllOption(b)
@@ -53,7 +53,7 @@ class PlayerSelectorAction {
 
         let _temp = document.createElement("div");
         _temp.setAttribute("class", "config-panel-overlay");
-        _temp.setAttribute("title", "click here to cancel");
+        _temp.setAttribute("title", Dictionary.get("psaction_clickcancel"));
         _temp.setAttribute("id", "trade-panel-overlay");
         _temp.onclick = this.removeOverlay.bind(this);
         div.appendChild(_temp);
@@ -77,7 +77,7 @@ class PlayerSelectorAction {
         _temp.appendChild(playerList.html);
 
         _element = document.createElement("button");
-        _element.innerText = "Cancal";
+        _element.innerText = Dictionary.get("cancal");
         _element.onclick = this.removeOverlay.bind(this);
         _temp.appendChild(_element);
 
@@ -113,7 +113,7 @@ class PlayerSelectorAction {
         }
 
         if (this.#includeAllOption)
-            ul.appendChild(this.#createPlayerLink("", "All opponents"));
+            ul.appendChild(this.#createPlayerLink("", Dictionary.get("psaction_allopp")));
 
         return {
             html: ul,
@@ -140,8 +140,8 @@ class PlayerSelectorAction {
 
 class PlayerSelectorActionCallback extends PlayerSelectorAction
 {
-    #title = "Choose player";
-    #text = "Please choose one player to show cards";
+    #title = Dictionary.get("psaction_call_choose");
+    #text = Dictionary.get("psaction_call_show");
 
     #callback = () => false;
 
@@ -165,7 +165,7 @@ class PlayerSelectorActionCallback extends PlayerSelectorAction
 
     labelErrorTooFewPlayers()
     {
-        return "Another player is needed.";
+        return Dictionary.get("psaction_call_needed");
     }
 
     labelChooseTradingPartner()

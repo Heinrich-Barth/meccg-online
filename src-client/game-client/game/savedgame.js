@@ -20,12 +20,12 @@ const SavedGameManager =
         {
             if (select.value === "")
             {
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Assign players first!" }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_assign") }));
                 return;
             }
             else if (assignedPlayers[select.value] !== undefined)
             {
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Duplicate player assignment detected" }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_dupl") }));
                 return;
             }
             else
@@ -71,17 +71,15 @@ const SavedGameManager =
             .then((response) => 
             {
                 if (response.value !== jGame.check)
-                    throw new Error("Invalid savegame signature");
+                    throw new Error(Dictionary.get("sv_err"));
                 else
                     this.onRestoreGameJson(JSON.parse(atob(jGame.game)));
             })
             .catch((err) => {
                 console.error(err);
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not restore game: " + err.message }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_err_1") + " " + err.message }));
             });
         });
-
-        
     },
 
     onRestoreGameJson : function(jGame)
@@ -93,7 +91,7 @@ const SavedGameManager =
         const sizeCurrent = Object.keys(pPlayersCurrent).length;
         if (sizeSaved !== sizeCurrent)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Player number missmatch!<br>Saved game: " + sizeSaved + "<br>Currently: " + sizeCurrent }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_err_2") + sizeSaved + "/" + sizeCurrent }));
             return;
         }
 
@@ -102,22 +100,22 @@ const SavedGameManager =
         const div = document.createElement("div");
         div.setAttribute("id", "restore-game");
         div.setAttribute("class", "restore-game config-panel");
-        div.innerHTML = `<div class="config-panel-overlay" title="click here to cancel" id="restore-panel-overlay"></div>
+        div.innerHTML = `<div class="config-panel-overlay" title="${Dictionary.get("sv_click_cancle")}" id="restore-panel-overlay"></div>
                         <div class="config-panel blue-box restore-panel" id="restore-panel">
-                            <h2>Assign players</h2>
-                            <p>Please choose which player from the saved game represents which player at the current table</p>
+                            <h2>${Dictionary.get("sv_assign_players")}</h2>
+                            <p>${Dictionary.get("sv_assign_text")}</p>
                             <table id="restore-panel-table">
                                 <thead>
                                 <tr>
-                                    <th class="entry">Current Game</th>
+                                    <th class="entry">${Dictionary.get("sv_current")}</th>
                                     <th></th>
-                                    <th class="entry">Saved Game</th>
+                                    <th class="entry">${Dictionary.get("sv_saved")}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
-                            <button type="button" class="button-small" id="button_restore_game"><i class="fa fa-check-circle" aria-hidden="true"></i> Restore saved game</button>
+                            <button type="button" class="button-small" id="button_restore_game"><i class="fa fa-check-circle" aria-hidden="true"></i> ${Dictionary.get("sv_restore")}</button>
                         </div>`;
 
         document.body.appendChild(div);
@@ -156,7 +154,7 @@ const SavedGameManager =
         select.setAttribute("data-current-player", _currentPlayerId);
 
         let option = document.createElement("option");
-        option.text = "Assign player from savegame"
+        option.text = Dictionary.get("sv_dropdown")
         option.value = "";
         select.add(option);
 
@@ -187,7 +185,7 @@ const SavedGameManager =
   
             const reader = new FileReader();
             reader.onload = (e) => SavedGameManager.onRestoreGame(JSON.parse(e.target.result));
-            reader.onerror = (e) => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not load game file." }));
+            reader.onerror = (e) => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_invalidfile") }));
             reader.readAsText(files[0]);
         };
 
@@ -204,7 +202,7 @@ const SavedGameManager =
         if (SavedGameManager._autosave)
             document.body.dispatchEvent(new CustomEvent("meccg-saveas-file-autosave"));
         else
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "No autosave available." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_noautos") }));
     },
 
     obtainSaveName : function(jGame)
@@ -225,7 +223,7 @@ const SavedGameManager =
     onRestored : function(jRes)
     {
         if (jRes === undefined || !jRes.success)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not restore saved game!" }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_norestore") }));
         else
             window.location.reload();
     },
@@ -250,7 +248,7 @@ const SavedGameManager =
             document.body.dispatchEvent(new CustomEvent("meccg-saveas-autosave", { "detail": data}));
             document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
                 name : "System",
-                message : "Autosaved current game."
+                message : Dictionary.get("sv_doautosav")
             }}));
         });
     },
@@ -301,7 +299,7 @@ const SavedGameManager =
                 .then((response) => det.data.check = response.value)
                 .catch(err => 
                 {
-                    document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not autosave." }));
+                    document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_noautoload") }));
                     console.error(err);
                 })
                 .finally(() => callback(det));
@@ -309,7 +307,7 @@ const SavedGameManager =
         }
         catch (err)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not save game." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("sv_nosave") }));
             console.error(err);
             callback(null);
         }

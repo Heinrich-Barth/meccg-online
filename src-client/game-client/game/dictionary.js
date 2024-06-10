@@ -12,7 +12,6 @@ class Dictionary {
     
     static get(key)
     {
-        console.log(key)
         const val = Dictionary.#instance.#getValue(key, Dictionary.#instance.#currentLang);
         if (val !== "")
             return val;
@@ -50,7 +49,12 @@ class Dictionary {
             const left = line.substring(0, pos).trim();
             const right = line.substring(pos+1).trim();
             if (left !== "" && right !== "")
+            {
+                if (data[left] !== undefined)
+                    console.warn("Duplicate key for key " + left);
+
                 data[left] = right;
+            }
         }
         return data;
     }
@@ -58,9 +62,21 @@ class Dictionary {
     #init()
     {
         this.#setLanguage();
-        this.#data.en = this.#prepareData(this.#getEN());
-        this.#data.es = this.#prepareData(this.#getES());
-        this.#data.fs = this.#prepareData(this.#getFR());
+        switch(this.#currentLang)
+        {
+            case "es":
+                this.#data.es = this.#prepareData(this.#getES());
+                break;
+            case "fr":
+                this.#data.fr = this.#prepareData(this.#getFR());
+                break;
+
+            case "en":
+            default:
+                this.#data.en = this.#prepareData(this.#getEN());
+                break;
+        }
+            
     }
 
     #getES()
@@ -101,6 +117,7 @@ title_showtoopp=Show to your Opponent
 reval_opp=reveal to opp.
 close_and_shuffle=Clsoe & Shuffle
 cancel=Cancel
+close=Close
 importtosb_message_add_list=Please add cards to the list.
 importtosb_message_add_list_ok=Cards were added to your sideboard.
 importtosb_title=Add cards to your Sideboard
@@ -194,6 +211,7 @@ dice_clickclose=Click to close dice result
 dice_title=Choose Dices
 dice_text=Click on a dice to immediately choose it or click anywhere else to close the panel
 dice_clickchoose=Click to use these dices
+dice_who_rolled=rolled a
 into_end=End this game and show final scores (after final confirmation)
 playerselector_rearranged=Player seating rearranged.
 playerselector_hazardplayer=You are the hazard player.
@@ -235,6 +253,152 @@ seat_invalid4=You can only change player order with more than 2 players.
 seat_title=Rearrange the seating position.
 seat_text=Each players plays hazards against the following opponent (you play hazards to your right/following opponent)
 seat_myself=Myself
+company_orga_deeps=Organise underdeep movement
+company_orga_deeps_inner=Deeps
+company_orga_sites=Organise region movement
+company_orga_sites_inner=Sites
+company_orga_reveal=Reveal movement / mark as current company in movement hazard phase
+company_orga_reveal_inner=Reveal
+company_roll_for_c=Click to roll dice for
+company_roll_for=Click to roll dice
+company_roll_markunmark_c=Mark/Unmark
+company_roll_markunmark=Mark/Unmark this card
+taskbar_shuffled=Playdeck shuffled.
+builder_move_topdiscard=Move to top of discard pile
+builder_handcard_tip=Drag card to play it or \nRIGHT CLICK to toggle playing it face down\nDOUBLECLICK to play card without dragging it.
+builder_yourturn=It is your turn now.
+builder_whosactive=is the active player.
+builder_chooseavatar=Click to choose this avatar
+builder_chooseavatar_title=Choose your Avatar
+builder_chooseavatar_text=Click on your avatar/character or press ESC to close
+builder_nocharsavail=No characters available.
+loc_site_dest=Click to let player arrive or drop hazards to play onguard.
+loc_site_player=Click to reveal or tap if already revealed.
+loc_site_org=Site of origin/current site
+loc_cancel=Cancel movement and\nreturn to site of origin
+loc_region=Region moved through. Drop hazard creates here
+handcards_404sites=Cannot find companies' sites.
+handcards_movementfirst=Please organize movement first.
+handcards_movecontainer=Click to drag anywhere.\nRIGHT click to restore to original position
+api_reconnected=Reconnected.
+api_connectionlost=Connection to server lost -
+api_recon=Reconnecting in 1 second
+api_reconnecting=Reconnecting...
+api_endgame_q=Do you want to end this game?
+api_endgame_t=Let's see the final scorings.
+api_endgame_a=End this game
+refresh_title=Connectivity Problem
+refresh_reason1=It seems the connection to the server was lost.<br><br>This page will be reloaded in 10 seconds
+refresh_reason2=Connection lost due to the reason:
+refresh_reason3=This page will be reloaded in 10 seconds
+refresh_now=Reload now
+refresh_decknote=Deck Notification
+refresh_decknote_t=Your deck is about to exhaust. It will be reshuffled automatically if needed. Just keep on drawing.
+refresh_decknode_ok=Got it.
+psaction_toofew=Another player is needed to show cards to
+psaction_choose=Choose player to show cards
+psaction_choosetrade=Please choose one player to show cards
+psaction_clickcancel=Click here to cancel
+psaction_allopp=All opponents
+psaction_call_choose=Choose player
+psaction_call_show=Please choose one player to show cards
+psaction_call_needed=Another player is needed.
+prefch_dice=Could not fetch dices.
+conf_share_copied_ok=Link copied to clipboard.
+conf_share_copied_err=Could not copy link to clipboard.
+conf_h_bgcustomise=Backgrounds / Customise
+conf_h_lookfeel=Look & Feel
+conf_h_access=Accessibility / Language
+conf_h_save=Save/Load
+conf_h_general=General
+conf_l_viewpile_open=I can see my own card piles (reavling to opponent...)
+conf_l_images_errata_dc=Use DC Errata
+conf_l_draw_to_handsize=Draw to hand size if hand is empy
+conf_l_bg_default=Change background
+conf_l_game_dices=Change dices
+conf_l_game_sfx=Sound volume
+conf_l_toggle_phasese=Reduce phase bar to checkered flag only
+conf_l_toggle_zoom=Zoom Level
+conf_l_bg_shawod=Reduce background brightness
+conf_l_score_double_misc=Double MISC points (DC rules)
+conf_l_toggle_fullscreen=Toggle Fullscreen
+conf_l_toggle_company_help=Add white background to companies when hovering
+conf_l_toggle_company_break=Expand companies over multiple lines
+conf_l_toggle_spanishcards=Use Spanish instead of English cards (if available).
+conf_l_game_addcards=Add new cards to sideboard
+conf_l_game_autosave=Save game at the beginning of a player's turn
+conf_l_change_seats=Change player order
+conf_l_game_save=Save current game
+conf_l_game_load=Restore a saved game
+conf_l_toggle_align_companies_left=Align companies to the left
+conf_l_toggle_zoom_preview=Use smaller card preview
+conf_l_leave_game=End game now (after confirmation)
+conf_l_use_padding_bottom=Add additional space at the bottom for your hand
+conf_l_share_play=Copy link to join this game to clipboard
+conf_l_share_watch=Copy link to watch this game to clipboard
+conf_l_toggle_touch_help=Use mobile touch support
+conf_l_change_avatar=Change your avatar icon
+conf_l_slider_scramble=Jumble company cards
+conf_l_settings=Game Settings
+conf_help=Open help tips
+conf_cut_d=draw card to hand
+conf_cut_r=roll dice
+conf_cut_q=end your turn
+conf_cut_f=flips card currently hovering over
+conf_cut_x=discards card currently hovering over
+conf_cut_d=draw card to hand
+conf_cut_r=roll dice
+conf_cut_q=end your turn
+conf_cut_f=flips card currently hovering over
+conf_cut_x=discards card currently hovering over
+conf_cut_p1=You can right click on cards and deck icons to open a context menu.
+conf_cut_p2=You can double click on a hand card to play it (without dragging).
+conf_cut_p3=If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region.
+conf_cut_p4=Discarding your opponent's card will sort it into their discard pile.
+conf_cut_title=Tips & Shortcuts
+conf_toggle_zoom_level=Toggle zoom level
+resolve_draw=Please draw
+resolve_discard=Please discard
+resolve_inc=Increase hand size
+resolve_dec=Decrease hand size
+resolve_handsizeis=Hand size:
+rvpil_choose=Reordering of cards in
+rvpils_text=Card reordering will appear automatically. The left is considered the TOP of the card stack.
+rvpils_text_click=Click on a card to send it to the bottom of this list. Right click on any card send it to the bottom of the deck.
+rvpils_accept=Accept ordering
+rvpils_anywhere=Click anywhere to close
+rvpils_look_title=Look at your playdeck
+rvpils_look_text=Click anywhere here to close this dialog.
+sv_assign=Assign players first.
+sv_dupl=Duplicate player assignment detected
+sv_err=Invalid savegame signature
+sv_err_1=Could not restore game:
+sv_norestore=Could not restore saved game!
+sv_doautosav=Autosaved current game.
+sv_err_2=Player number missmatch!<br>Saved game:
+sv_click_cancle=Click here to cancel
+sv_assign_players=Assign players
+sv_assign_text=Please choose which player from the saved game represents which player at the current table
+sv_current=Current Game
+sv_saved=Saved Game
+sv_restore=Restore saved game
+sv_dropdown=Assign player from savegame
+sv_invalidfile=Could not load game file.
+sv_noautos=No autosave available.
+sv_noautoload=Could not autosave.
+sv_nosave=Could not save game.
+trade_toofew=Another player is needed to trade cards
+trade_choosep=Choose player to trade with
+trade_chooseone=Please choose one player to trade cards with
+trade_choosecards=Choose cards to trade
+trade_beingoffered=Cards being offered to you will appear automatically.
+trade_selectcards=Select your cards to trade.
+trade_accept=Accept trade
+trade_wascanceled=Trade was cancelled
+trade_success=Trade completed
+trade_noother=Could not get other player to trade with.
+turnstats_showdur=Show turn duration statistics
+turnstats_score=Show final scoring table
         `;
     }
 

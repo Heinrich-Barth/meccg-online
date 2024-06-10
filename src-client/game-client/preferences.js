@@ -69,13 +69,19 @@ class Preferences extends PreferencesStorable {
         return typeof Preferences.config[id] === "undefined" ? def : Preferences.config[id].value;
     }
 
+    #getLabel(id, sDef)
+    {
+        const text = typeof Dictionary != "undefined" ? Dictionary.get("conf_l_" + id) : "";
+        return text === "" ? sDef : text;
+    }
+
     addConfigAction (id, title, initialValue, type, pCallback)
     {
         if (typeof pCallback === "undefined")
             pCallback = Preferences._emptyCallback;
 
         Preferences.config[id] = {
-            title: title,
+            title: this.#getLabel(id, title),
             value : initialValue,
             callback : pCallback,
             type_on: "",
@@ -90,7 +96,7 @@ class Preferences extends PreferencesStorable {
             pCallback = Preferences._emptyCallback;
 
         Preferences.config[id] = {
-            title: title,
+            title: this.#getLabel(id, title),
             value : initialValue,
             callback : pCallback,
             type_on: type_on,
@@ -105,7 +111,7 @@ class Preferences extends PreferencesStorable {
             pCallback = Preferences._emptyCallback;
 
         Preferences.config[id] = {
-            title: title,
+            title: this.#getLabel(id, title),
             value : Preferences.toInt(initialValue),
             callback : pCallback,
             type_on: icon,
@@ -274,7 +280,7 @@ class Preferences extends PreferencesStorable {
         const div = document.createElement("div");
         div.setAttribute("class", "config-wrapper " + this.getGameCss());
         div.innerHTML = `<div class="icons cursor-pointer" id="prefs">
-                            <i class="fa fa-sliders" aria-hidden="true" title="Game Settings">${this.getSettingsName()}</i>
+                            <i class="fa fa-sliders" aria-hidden="true" title="${this.#getLabel("settings", "Game Settings")}">${this.getSettingsName()}</i>
                         </div>`;
 
         this.appendContainer(div);

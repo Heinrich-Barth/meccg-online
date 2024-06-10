@@ -86,7 +86,7 @@ class PreferenceChoise extends PreferencesStorable
         {
             const pThis = this;
             fetch(sUrl).then((response) => response.json().then((folders) => pThis.showOptions(folders)))
-            .catch((e) => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not fetch dices." })));
+            .catch((e) => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("prefch_dice") })));
         }
     }
 
