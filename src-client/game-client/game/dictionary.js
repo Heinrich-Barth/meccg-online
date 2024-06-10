@@ -33,11 +33,6 @@ class Dictionary {
             this.#currentLang = broserLang;
     }
 
-    static register(key, textEN, textES, textFR)
-    {
-        
-    }
-
     #getEN() 
     {
         return `
@@ -66,6 +61,16 @@ title_showtoopp=Show to your Opponent
 reval_opp=reveal to opp.
 close_and_shuffle=Clsoe & Shuffle
 cancel=Cancel
+importtosb_message_add_list="Please add cards to the list."
+importtosb_message_add_list_ok="Cards were added to your sideboard."
+importtosb_title=Add cards to your Sideboard
+importtosb_p=Please open the deckbuilder and copy the cards to add here.
+importtosb_tip=copy card codes here, e.g. 1 Gandalf [H] (TW)
+importtosb_button_add=Add to sideboard
+arda_trade_toofew="Another player is needed to trade cards"
+arda_trade_choose=Choose player to trade with
+arda_trade_choose_trading="Please choose one player to trade cards with"
+arda_trade_link=Click to exchange cards with another player
         `;
     }
 

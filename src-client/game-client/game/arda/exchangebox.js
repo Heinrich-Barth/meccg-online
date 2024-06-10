@@ -2,17 +2,17 @@ class ArdaExchangeBox extends TradeCards {
 
     labelErrorTooFewPlayers()
     {
-        return "Another player is needed to trade cards";
+        return Dictionary.get("arda_trade_toofew");
     }
 
     labelChooseTradingPartner()
     {
-        return "Choose player to trade with";
+        return Dictionary.get("arda_trade_choose");
     }
 
     labelChoosePlayerToTradeWith()
     {
-        return "Please choose one player to trade cards with";
+        return Dictionary.get("arda_trade_choose_trading");
     }
 
     getRouteTradeStart()
@@ -68,7 +68,8 @@ class ArdaExchangeBox extends TradeCards {
         const div = document.createElement("div");
         const a = document.createElement("i");
 
-        a.setAttribute("title", "Click to exchange cards with another player");
+        a.setAttribute("title", Dictionary.get("arda_trade_link"));
+        a.setAttribute("data-translate-title", "arda_trade_link");
         a.setAttribute("class", "blue-box fa fa-exchange");
         a.setAttribute("aria-hidden", "true");
         a.onclick = this.onChoosePlayer.bind(this);
