@@ -192,6 +192,12 @@ dice_opponent=Opponent
 dice_you=You
 dice_clickclose=Click to close dice result
 into_end=End this game and show final scores (after final confirmation)
+playerselector_rearranged=Player seating rearranged.
+playerselector_hazardplayer=You are the hazard player.
+playerselector_activeplayer=Active Player
+playerselector_currenthazard=Current hazard player
+playerselector_cardsinhand=cards in hand
+playerselector_cardsindeck=cards in playdeck
         `;
     }
 
