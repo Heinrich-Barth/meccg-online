@@ -12,7 +12,7 @@ class DiceContainer {
     {
         let sName = DiceContainer._jPlayerMap[id];
         if (typeof sName === "undefined" || sName === "")
-            return "Opponent";
+            return Dictionary.get("dice_opponent");
         else
             return sName;
     }
@@ -116,7 +116,7 @@ class DiceContainer {
         if (code !== "")
             return code;
         else
-            return bIsPlayer ? "You" : this.getPlayerName(userId);
+            return bIsPlayer ? Dictionary.get("dice_you") : this.getPlayerName(userId);
     }
 
     requireContainer()
@@ -142,7 +142,7 @@ class DiceContainer {
             const div = document.createElement("div");
             div.setAttribute("class", "character-dice-body");
             div.setAttribute("id", nId);
-            div.setAttribute("title", "Click to close dice result");
+            div.setAttribute("title", Dictionary.get("dice_clickclose"));
             div.style.left = pos.x + "px";
             div.style.top = pos.y + "px";
             div.appendChild(elem);
