@@ -73,28 +73,7 @@
         border-radius: 5px;
     }
 
-    .icon-shared-out::after {
-        content: 'Out';
-    }
-
-    .icon-shared-victory::after {
-        content: 'Stored';
-    }
-
-    .icon-tooltip-mps::after {
-        content: 'Stored';
-    }
-
-    .icon-tooltip-playdeck::after {
-        content: 'Deck';
-    }
-
-    .icon-tooltip-discard::after {
-        content: 'Discard';
-    }
-
     .icon-tooltip-sideboard::after {
-        content: 'Sideboard';
         font-size: 0.78em;
     }
     

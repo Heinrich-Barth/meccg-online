@@ -140,25 +140,13 @@ body.on-drag-event-generic .sites .ui-droppable-active.on-drag-over img,
     translate: 5px 5px;
 }
 
-body.on-drag-event-hazard div#staging-area-player:before
-{
-    content: "Hazard Events";
-}
-
-body.on-drag-event-resource div#staging-area-player:before
-{
-    content: "Resource Events & Factions";
-}
-
 body.on-drag-event-generic #shared_outofplay:after { 
-    content: "Remove card (cannt be undone)"; 
     font-size: 12px;
     width: 100px;
 }
 
 body.on-drag-event-character .area-player .company-character-host:before
 {
-    content: "Follow this \a character";
     white-space: pre-wrap;
     z-index: 901;
     left: 0px;
@@ -171,7 +159,6 @@ body.on-drag-event-character .area-player .company-character-influenced .company
 body.on-drag-event-hazard .area-opponent .company-character-host:before,
 body.on-drag-event-resource .area-player .company-character-host:before
 {
-    content: "Attach to \a character";
     white-space: pre-wrap;
     z-index: 901;
     left: 0px;
@@ -180,7 +167,6 @@ body.on-drag-event-resource .area-player .company-character-host:before
 
 body.on-drag-event-character .create-new-company:before
 {
-    content: "Create \a new \a Company";
     white-space: pre-wrap;
     top: 0px;
     width: 75px;
@@ -188,14 +174,12 @@ body.on-drag-event-character .create-new-company:before
 
 body.on-drag-event-character .area-opponent .company-character.character-is-company-host:before
 {
-    content: "Follow";
     z-index: 901;
     margin-left: -30px;
     top: 10px;
 }
 body.on-drag-event-character .area-player .company-characters-add:before
 {
-    content: "Join company";
     position: absolute;
     left: 0;
     top: 0;
@@ -203,7 +187,6 @@ body.on-drag-event-character .area-player .company-characters-add:before
 }
 body.on-drag-event-resource .area-player .company-characters-add:before
 {
-    content: "Play Resource \aon Company";
     white-space: pre-wrap;
     position: absolute;
     left: 0;
@@ -215,7 +198,6 @@ body.on-drag-event-generic .area-opponent
 {
     .site-target:before
     {
-        content: "Place \a On-Guard";
         white-space: pre-wrap;
         bottom: -40px;
         z-index: 402;   
@@ -226,13 +208,10 @@ body.on-drag-event-generic .area-opponent
 
 body.on-drag-event-hazard .area-opponent .site-regions:before
 {
-    content: "Let company \a face this hazard";
     white-space: pre-wrap;
     bottom: -40px;
     top: unset;
 }
-
-body.on-drag-event-generic #card_counter a.victory:before { content: "Store this card"; }
 
 .playercard-hand-container:empty 
 {
@@ -240,7 +219,6 @@ body.on-drag-event-generic #card_counter a.victory:before { content: "Store this
     position: relative;
     &::before
     {
-        content: "Your hand is empty. Draw a new card.";
         position: absolute;
         color: var(--color-near-white);
         padding: 10px;
@@ -259,7 +237,6 @@ body.on-drag-event-generic #card_counter a.victory:before { content: "Store this
     padding-top: 5px;
     &::before
     {
-        content: "Your hand is empty. Draw a new card.";
         position: absolute;
         color: var(--color-near-white);
         padding: 10px;
@@ -270,3 +247,5 @@ body.on-drag-event-generic #card_counter a.victory:before { content: "Store this
         top: 0px;
     }
 }
+
+@import "tabletop_dictionary.scss";

@@ -36,6 +36,8 @@ class Dictionary {
             this.#currentLang = sessLang;
         else if (this.#isValidLang(broserLang))
             this.#currentLang = broserLang;
+
+        document.body.classList.add("language-"+ this.#currentLang);
     }
 
     #prepareData(txt)
@@ -341,11 +343,6 @@ conf_l_change_avatar=Change your avatar icon
 conf_l_slider_scramble=Jumble company cards
 conf_l_settings=Game Settings
 conf_help=Open help tips
-conf_cut_d=draw card to hand
-conf_cut_r=roll dice
-conf_cut_q=end your turn
-conf_cut_f=flips card currently hovering over
-conf_cut_x=discards card currently hovering over
 conf_cut_d=draw card to hand
 conf_cut_r=roll dice
 conf_cut_q=end your turn

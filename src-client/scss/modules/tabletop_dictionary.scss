@@ -1,0 +1,352 @@
+body {
+    &.language-en {
+        &.on-drag-event-hazard div#staging-area-player:before
+        {
+            content: "Hazard Events";
+        }
+        
+        &.on-drag-event-resource div#staging-area-player:before
+        {
+            content: "Resource Events & Factions";
+        }
+        
+        &.on-drag-event-generic #shared_outofplay:after { 
+            content: "Remove card (cannt be undone)"; 
+        }
+        
+        &.on-drag-event-character .area-player .company-character-host:before
+        {
+            content: "Follow this \a character";
+        }
+        
+        &.on-drag-event-hazard .area-opponent .company-character-host:before,
+        &.on-drag-event-resource .area-player .company-character-host:before
+        {
+            content: "Attach to \a character";
+        }
+        
+        
+        &.on-drag-event-character .create-new-company:before
+        {
+            content: "Create \a new \a Company";
+        }
+        
+        &.on-drag-event-character .area-opponent .company-character.character-is-company-host:before
+        {
+            content: "Follow";
+        }
+        &.on-drag-event-character .area-player .company-characters-add:before
+        {
+            content: "Join company";
+        }
+        &.on-drag-event-resource .area-player .company-characters-add:before
+        {
+            content: "Play Resource \aon Company";
+        }
+        
+        &.on-drag-event-generic .area-opponent
+        {
+            .site-target:before
+            {
+                content: "Place \a On-Guard";
+            }
+        }
+        
+        &.on-drag-event-hazard .area-opponent .site-regions:before
+        {
+            content: "Let company \a face this hazard";
+        }
+        
+        &.on-drag-event-generic #card_counter a.victory:before { content: "Store this card"; }
+        
+        .playercard-hand-container:empty 
+        {
+            &::before
+            {
+                content: "Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        #arda_hand_container_mps:empty
+        {
+            &::before
+            {
+                content: "Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        .card-bar {
+            .icon-shared-out::after {
+                content: 'Out';
+            }
+        
+            .icon-shared-victory::after {
+                content: 'Stored';
+            }
+        
+            .icon-tooltip-mps::after {
+                content: 'Stored';
+            }
+        
+            .icon-tooltip-playdeck::after {
+                content: 'Deck';
+            }
+        
+            .icon-tooltip-discard::after {
+                content: 'Discard';
+            }
+        
+            .icon-tooltip-sideboard::after {
+                content: 'Sideboard';
+            }
+        }
+
+        .card-hands .playercard_hand_droppable
+        { 
+            &::before {
+                content: 'to hand';
+            }
+        }
+
+        .staging-opponent-dice {
+            &:hover:before 
+            {
+                content: "Last dice roll";
+            }
+        }
+    }
+
+    &.language-es {
+        &.on-drag-event-hazard div#staging-area-player:before
+        {
+            content: "ES Hazard Events";
+        }
+        
+        &.on-drag-event-resource div#staging-area-player:before
+        {
+            content: "ES Resource Events & Factions";
+        }
+        
+        &.on-drag-event-generic #shared_outofplay:after { 
+            content: "ES Remove card (cannt be undone)"; 
+        }
+        
+        &.on-drag-event-character .area-player .company-character-host:before
+        {
+            content: "ES Follow this \a character";
+        }
+        
+        &.on-drag-event-hazard .area-opponent .company-character-host:before,
+        &.on-drag-event-resource .area-player .company-character-host:before
+        {
+            content: "ES Attach to \a character";
+        }
+        
+        
+        &.on-drag-event-character .create-new-company:before
+        {
+            content: "ES Create \a new \a Company";
+        }
+        
+        &.on-drag-event-character .area-opponent .company-character.character-is-company-host:before
+        {
+            content: "ES Follow";
+        }
+        &.on-drag-event-character .area-player .company-characters-add:before
+        {
+            content: "ES Join company";
+        }
+        &.on-drag-event-resource .area-player .company-characters-add:before
+        {
+            content: "ES Play Resource \aon Company";
+        }
+        
+        &.on-drag-event-generic .area-opponent
+        {
+            .site-target:before
+            {
+                content: "ES Place \a On-Guard";
+            }
+        }
+        
+        &.on-drag-event-hazard .area-opponent .site-regions:before
+        {
+            content: "ES Let company \a face this hazard";
+        }
+        
+        &.on-drag-event-generic #card_counter a.victory:before { content: "ES Store this card"; }
+        
+        .playercard-hand-container:empty 
+        {
+            &::before
+            {
+                content: "ES Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        #arda_hand_container_mps:empty
+        {
+            &::before
+            {
+                content: "ES Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        .card-bar {
+            .icon-shared-out::after {
+                content: 'ES Out';
+            }
+        
+            .icon-shared-victory::after {
+                content: 'ES Stored';
+            }
+        
+            .icon-tooltip-mps::after {
+                content: 'ES Stored';
+            }
+        
+            .icon-tooltip-playdeck::after {
+                content: 'ES Deck';
+            }
+        
+            .icon-tooltip-discard::after {
+                content: 'ES Discard';
+            }
+        
+            .icon-tooltip-sideboard::after {
+                content: 'ES Sideboard';
+            }
+        }
+
+        .card-hands .playercard_hand_droppable
+        { 
+            &::before {
+                content: 'ES to hand';
+            }
+        }
+
+        .staging-opponent-dice {
+            &:hover:before 
+            {
+                content: "ES Last dice roll";
+            }
+        }
+    }
+
+    &.language-fr {
+        &.on-drag-event-hazard div#staging-area-player:before
+        {
+            content: "ES Hazard Events";
+        }
+        
+        &.on-drag-event-resource div#staging-area-player:before
+        {
+            content: "ES Resource Events & Factions";
+        }
+        
+        &.on-drag-event-generic #shared_outofplay:after { 
+            content: "ES Remove card (cannt be undone)"; 
+        }
+        
+        &.on-drag-event-character .area-player .company-character-host:before
+        {
+            content: "ES Follow this \a character";
+        }
+        
+        &.on-drag-event-hazard .area-opponent .company-character-host:before,
+        &.on-drag-event-resource .area-player .company-character-host:before
+        {
+            content: "ES Attach to \a character";
+        }
+        
+        
+        &.on-drag-event-character .create-new-company:before
+        {
+            content: "ES Create \a new \a Company";
+        }
+        
+        &.on-drag-event-character .area-opponent .company-character.character-is-company-host:before
+        {
+            content: "ES Follow";
+        }
+        &.on-drag-event-character .area-player .company-characters-add:before
+        {
+            content: "ES Join company";
+        }
+        &.on-drag-event-resource .area-player .company-characters-add:before
+        {
+            content: "ES Play Resource \aon Company";
+        }
+        
+        &.on-drag-event-generic .area-opponent
+        {
+            .site-target:before
+            {
+                content: "ES Place \a On-Guard";
+            }
+        }
+        
+        &.on-drag-event-hazard .area-opponent .site-regions:before
+        {
+            content: "ES Let company \a face this hazard";
+        }
+        
+        &.on-drag-event-generic #card_counter a.victory:before { content: "ES Store this card"; }
+        
+        .playercard-hand-container:empty 
+        {
+            &::before
+            {
+                content: "ES Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        #arda_hand_container_mps:empty
+        {
+            &::before
+            {
+                content: "ES Your hand is empty. Draw a new card.";
+            }
+        }
+        
+        .card-bar {
+            .icon-shared-out::after {
+                content: 'ES Out';
+            }
+        
+            .icon-shared-victory::after {
+                content: 'ES Stored';
+            }
+        
+            .icon-tooltip-mps::after {
+                content: 'ES Stored';
+            }
+        
+            .icon-tooltip-playdeck::after {
+                content: 'ES Deck';
+            }
+        
+            .icon-tooltip-discard::after {
+                content: 'ES Discard';
+            }
+        
+            .icon-tooltip-sideboard::after {
+                content: 'ES Sideboard';
+            }
+        }
+
+        .card-hands .playercard_hand_droppable
+        { 
+            &::before {
+                content: 'ES to hand';
+            }
+        }
+
+        .staging-opponent-dice {
+            &:hover:before 
+            {
+                content: "ES Last dice roll";
+            }
+        }
+    }
+}
