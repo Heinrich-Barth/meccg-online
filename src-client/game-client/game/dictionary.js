@@ -191,6 +191,7 @@ context_e_victory_shared=Show opponent's stored cards
 dice_opponent=Opponent
 dice_you=You
 dice_clickclose=Click to close dice result
+into_end=End this game and show final scores (after final confirmation)
         `;
     }
 
