@@ -27,9 +27,8 @@ export default class AuthenticationManagement {
     {
         // when the client emits 'new message', this listens and executes
         socket.on("/game/chat/message", (data:any) => AuthenticationManagement.#userManager.onNewMessage(socket, data));
+        socket.on("/game/chat/predefined", (data:any) => AuthenticationManagement.#userManager.onNewMessagePredef(socket, data));
         
-        socket.on("/messages/chat", (data:any) => AuthenticationManagement.#userManager.onNewMessageLobby(data));
-
         socket.on("/game/finalscore", () => AuthenticationManagement.#userManager.sendFinalScore(socket.room));
         
         socket.on("/game/quit", () => {

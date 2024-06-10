@@ -11,7 +11,7 @@ import { getRootFolder } from "../Configuration";
 export default class Chat {
 
     #api:GameAPI;
-    #endpoint:string;
+    #endpoint = "/game/chat/message";
     #saveLogsAfter:number
     #gameLogFileUri:string;
     #gameLogfileName:string;
@@ -25,10 +25,9 @@ export default class Chat {
      * @param {Object} pApi Game API Reference
      * @param {*} sEndpoint Target endpoint
      */
-    constructor(pApi:GameAPI, sEndpoint:string, room:string, saveLogsAfter:number)
+    constructor(pApi:GameAPI, room:string, saveLogsAfter:number)
     {
         this.#api = pApi;
-        this.#endpoint = sEndpoint;
         const gameLogfileName = Chat.#requireGameLogFile(room) 
         this.#gameLogFileUri = path.join(getRootFolder() + "/logs/" + gameLogfileName);
         this.#gameLogfileName = gameLogfileName;
@@ -192,15 +191,28 @@ export default class Chat {
      */
     sendMessage(userid:string, text:string, saveGameLog = false)
     {
-        if (this.#endpoint === undefined || this.#endpoint === "" || this.#api === null || text.indexOf(">") !== -1 || text.indexOf("<") !== -1)
+        if (this.#api === null || text.indexOf(">") !== -1 || text.indexOf("<") !== -1)
             return;
 
         this.#api.publish(this.#endpoint, userid, {
             userid: userid,
-            message: text
+            message: text,
+            id: -1
         });
 
         if (saveGameLog)
             this.#appendLog(text, userid);
+    }
+
+    sendMessagePrefeined(userid:string, id:number)
+    {
+        if (this.#api)
+        {
+            this.#api.publish(this.#endpoint, userid, {
+                userid: userid,
+                message: "",
+                id: id
+            });
+        }
     }
 }

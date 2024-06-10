@@ -2,8 +2,8 @@ const Chat = require("./Chat");
 
 test("Chat.getGameLogFile()", () => {
 
-    const fileRoom = new Chat(null, null, "roomname").getGameLogFile();
-    const fileNoRoom = new Chat(null, null, "").getGameLogFile();
+    const fileRoom = new Chat(null, "roomname").getGameLogFile();
+    const fileNoRoom = new Chat(null, "").getGameLogFile();
 
     expect(fileRoom.endsWith("-roomname.txt")).toBeTruthy();
     expect(fileNoRoom.endsWith(".txt")).toBeTruthy();

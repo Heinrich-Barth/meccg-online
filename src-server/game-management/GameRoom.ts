@@ -56,7 +56,7 @@ export class GameRoom
         let pPlayboardManager;
         let gameInstance;
         const api = new GameAPI(io, room);
-        const chat = new Chat(api, "/game/chat/message", room, -1);
+        const chat = new Chat(api, room, -1);
         if (isArda || isSinglePlayer)
         {
             pPlayboardManager = isSinglePlayer ? new PlayboardManagerSingleplayer() : new PlayboardManagerArda();
@@ -302,11 +302,14 @@ export class GameRoom
         this.#visitors = {};
     }
 
-    sendMessage(userid:string, message:string)
+    sendMessage(userid:string, message:string, preid = -1)
     {
-        this.#chat.sendMessage(userid, message.trim(), false)
+        if (message !== "")
+            this.#chat.sendMessage(userid, message.trim(), false)
+        else if (preid > 0)
+            this.#chat.sendMessagePrefeined(userid, preid);
     }
-
+    
     reply(sPath:string, socket:any, data:any)
     {
         this.#api.reply(sPath, socket, data);

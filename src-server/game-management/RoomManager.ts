@@ -672,11 +672,26 @@ export default class RoomManager {
             if (this.#rooms[socket.room] !== undefined && message.indexOf("<") === -1 && message.indexOf(">") === -1 && message.trim() !== "")
                 this.#rooms[socket.room].sendMessage(socket.userid, message.trim());
         }
-        catch (err) 
+        catch (errIgnore) 
         {
+            /** ignore */
         }
     }
       
+    onNewMessagePredef(socket:any, message:string)
+    {
+        try
+        {
+            const val = parseInt(message);
+            if (!isNaN(val) && val > 0 && this.#rooms[socket.room])
+                this.#rooms[socket.room].sendMessage(socket.userid, "", val);
+        }
+        catch (errIgnore) 
+        {
+            /** ignore */
+        }
+    }
+
     sendFinalScore(room:string)
     {
         if (this.#rooms[room] !== undefined)
