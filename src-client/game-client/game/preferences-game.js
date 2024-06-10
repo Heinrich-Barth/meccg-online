@@ -44,12 +44,7 @@ class GamePreferences extends Preferences {
     {
         document.body.dispatchEvent(new CustomEvent("meccg-dice-chooser"));
     }
-
-    #chat(isActive)
-    {
-        document.body.dispatchEvent(new CustomEvent("meccg-chat-view", { "detail": isActive }));
-    }
-
+    
     #useSmallCardPreview()
     {
         return sessionStorage.getItem("cards_smallprev");
@@ -420,9 +415,6 @@ class GamePreferences extends Preferences {
         this.createSection("General");
         if (!bWatcher)
             this.createEntry0("viewpile_open");
-        
-        this.createEntry0("show_chat");
-        
     }
 
     static isWatching()
@@ -451,7 +443,6 @@ class GamePreferences extends Preferences {
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
         this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen.bind(this), "fa-compress", "fa-expand");
         this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
-        this.addConfigToggle("show_chat", "Show game log window", false, this.#chat);
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));
 
         this.addConfigToggle("toggle_spanishcards", "Use Spanish instead of English cards (if available).", sessionStorage.getItem("cards_es") === "yes", this.#toggleSpanishCards.bind(this));
@@ -484,7 +475,6 @@ class GamePreferences extends Preferences {
         this.#toggleCardPreview(!this.#useSmallCardPreview());
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
-        this.#chat(false);
 
         this.#insertHelp();
     }
