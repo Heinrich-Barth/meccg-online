@@ -2,12 +2,12 @@ class BackgroundChooser extends PreferenceChoise
 {
     getHeadline()
     {
-        return "Choose Background";
+        return Dictionary.get("bg_choose");
     }
 
     getDescription()
     {
-        return "Click on am image to immediately choose it or click anywhere else to close the panel";
+        return Dictionary.get("bg_choose_text");
     }
 
     insertOption(folder)
@@ -15,7 +15,7 @@ class BackgroundChooser extends PreferenceChoise
         const elem = document.createElement("div");
         elem.setAttribute("class", "dice-option image-option " + folder);
         elem.setAttribute("data-type", folder);
-        elem.setAttribute("title", "Click to use this background");
+        elem.setAttribute("title", Dictionary.get("bg_click"));
         elem.onclick = (e) => this.onDiceClick(e.target);
         elem.innerText = " ";
 

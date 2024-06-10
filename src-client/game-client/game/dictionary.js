@@ -216,6 +216,9 @@ score_couldnotfetch=Could not fetch scores.
 sound_blocked=Could not play sound. Browser blocked it.
 watch_score=Open score sheet
 watch_showhide=Show/Hide hand cards
+bg_choose=Choose Background
+bg_choose_text=Click on am image to immediately choose it or click anywhere else to close the panel
+bg_click=Click to use this background
         `;
     }
 
