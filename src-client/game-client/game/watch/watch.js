@@ -33,14 +33,14 @@ const WatchOnly = {
         let elemScore = document.createElement("a");
         elemScore.onclick = this.showVictory;
         elemScore.setAttribute("class", "icon victory");
-        elemScore.setAttribute("title", "Open score sheet");
+        elemScore.setAttribute("title", Dictionary.get("watch_score"));
         container.appendChild(elemScore);
 
         elemScore = document.createElement("a");
         elemScore.onclick = this.showHands;
         elemScore.setAttribute("id", "watch_togglehand");
         elemScore.setAttribute("class", "icon hand");
-        elemScore.setAttribute("title", "Show/Hide hand cards");
+        elemScore.setAttribute("title", Dictionary.get("watch_showhide"));
         container.appendChild(elemScore);
     },
 
