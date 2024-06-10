@@ -2,12 +2,12 @@ class DiceChooser extends PreferenceChoise
 {
     getHeadline()
     {
-        return "Choose Dices";
+        return Dictionary.get("dice_title");
     }
 
     getDescription()
     {
-        return "Click on a dice to immediately choose it or click anywhere else to close the panel";
+        return Dictionary.get("dice_text");
     }
 
     insertOption(folder)
@@ -20,7 +20,7 @@ class DiceChooser extends PreferenceChoise
             let img = document.createElement("img");
             img.setAttribute("src", "/media/personalisation/dice/" + folder + "/dice-" + i + ".png");
             img.setAttribute("data-type", folder);
-            img.setAttribute("title", "Click to use these dices");
+            img.setAttribute("title", Dictionary.get("dice_clickchoose"));
             img.onclick = (e) => this.onDiceClick(e.target);
             elem.appendChild(img);
         }

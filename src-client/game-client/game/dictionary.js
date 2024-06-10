@@ -191,6 +191,9 @@ context_e_victory_shared=Show opponent's stored cards
 dice_opponent=Opponent
 dice_you=You
 dice_clickclose=Click to close dice result
+dice_title=Choose Dices
+dice_text=Click on a dice to immediately choose it or click anywhere else to close the panel
+dice_clickchoose=Click to use these dices
 into_end=End this game and show final scores (after final confirmation)
 playerselector_rearranged=Player seating rearranged.
 playerselector_hazardplayer=You are the hazard player.
@@ -220,6 +223,18 @@ bg_choose=Choose Background
 bg_choose_text=Click on am image to immediately choose it or click anywhere else to close the panel
 bg_click=Click to use this background
 warn_idle=You have been idle for too long. Please interact with a card.
+warn_fetchimage=Could not fetch image list.
+seat_up=Move up
+seat_down=Move down
+seat_save=Save changes
+seat_ignore=Ignore changes
+seat_invalid1=Invalid number of players.
+seat_invalid2=Same order. No need to update
+seat_invalid3=Invalid player array! Cannot and will not update order.
+seat_invalid4=You can only change player order with more than 2 players.
+seat_title=Rearrange the seating position.
+seat_text=Each players plays hazards against the following opponent (you play hazards to your right/following opponent)
+seat_myself=Myself
         `;
     }
 
