@@ -358,3 +358,7 @@ chat_item_end_1;Let's call the council;;
 chat_item_end_2;Let's count MPs;;
 chat_item_end_3;Ready to end the game;;
 chat.icon.title;Messages;Messages;Mensajes
+conf_h_language;Language;Langue;Idioma
+conf_l_lang_en;Switch to English;Passer à l'anglais;Cambiar al inglés
+conf_l_lang_es;Switch to Spanish;Passer à l'espagnol;Cambiar al español
+conf_l_lang_fr;Switch to French;Passer au français;Cambiar al francés

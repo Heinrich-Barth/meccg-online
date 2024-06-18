@@ -401,9 +401,16 @@ class GamePreferences extends Preferences {
             this.createEntry0("share_watch");                    
         }
 
-        this.createSection(Dictionary.get("conf_h_general"));
         if (!bWatcher)
+        {
+            this.createSection(Dictionary.get("conf_h_general"));
             this.createEntry0("viewpile_open");
+        }
+
+        this.createSection(Dictionary.get("conf_h_language"));
+        this.createEntry0("lang_en");
+        this.createEntry0("lang_fr");
+        this.createEntry0("lang_es");
     }
 
     static isWatching()
@@ -464,7 +471,40 @@ class GamePreferences extends Preferences {
         this.#backgroundDarkness(true);
         this.#toggleCompanyHoverBackground(sessionStorage.getItem("toggle_white") === "yes");
 
+        this.addConfigAction("lang_en", "Switch to English", false, "fa-globe", this.#langEN.bind(this));
+        this.addConfigAction("lang_es", "Switch to Spanish", false, "fa-globe", this.#langES.bind(this));
+        this.addConfigAction("lang_fr", "Switch to French", false, "fa-globe", this.#langFR.bind(this));
+
         this.#insertHelp();
+    }
+
+    #refreshLanguage(lang)
+    {
+        let url = location.href;
+        let pos = url.indexOf("?");
+        if (pos > 0)
+            url = url.substring(0, pos);
+
+        pos = url.indexOf("#");
+        if (pos > 0)
+            url = url.substring(0, pos);
+
+        location.href = url + "?language=" + lang;
+    }
+
+    #langEN()
+    {
+        this.#refreshLanguage("en")
+    }
+
+    #langES()
+    {
+        this.#refreshLanguage("es")
+    }
+
+    #langFR()
+    {
+        this.#refreshLanguage("fr")
     }
 
     #insertHelp()
