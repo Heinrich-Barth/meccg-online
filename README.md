@@ -42,6 +42,8 @@ Here is a [step by step guide](README_setup.md) how to set everything up. Detail
 
 2 decks are provided to test play. The data files included are not suitable for deckbuilding and doing more than just playtesting.
 
+The platform supports English, French and Spanish. Please read [the translations document](README_translations.md) to find out about how that is achieved and how you may help.
+
 ### Feature Overview
 
 The project allows you to 
@@ -382,6 +384,18 @@ To join an Arda game, simply click on the game from the game list.
 ![Join an arda game](public/readme-data/arda-5.png)
 
 You will be asked to provide only a user name so your fellow players know who you are. 
+
+## Non-English Players
+
+The platform supports English, Spanish and French and the navigation offers an accessible language switcher.
+
+![Language Switching](public/readme-data/message_0.png)
+
+While playing your game, you can exchange messages with your opponents. A dedicated text section with predefined texts allows you to communicate with players who may not speak your language or do not feel confident enough.
+
+![Open messages](public/readme-data/message_2.png)
+
+![Open messages](public/readme-data/message_3.png)
 
 ## Dependencies
 

@@ -1,6 +1,8 @@
 # Translation Information
 
-Currently, the platform is only available in English. However, there is a `dictionary.csv` file available that is used to load supported languages.
+Currently, the platform is only available in English. However, this is to be changed!
+
+A langauge switcher already exists and makes use of a [./data-local/dictionary.csv](data-local/dictionary.csv) file to load supported languages and their translated texts.
 
 ## Edit Translations
 
@@ -22,3 +24,4 @@ Either
 * create an "issue" and attach the CSV there.
 
 I appreaciate your help!
+
