@@ -1,6 +1,7 @@
 @import "../variables.scss";
 
 .navigation-full-width {
+    color: var(--color-white);
 
     .navigation {
         
@@ -33,6 +34,18 @@
     .content .inner-content
     {
         padding-top: 1em;
+    }
+
+    .language-switch {
+
+        a {
+            padding-left: 5px;
+            padding-right: 5px;
+
+            &:last-of-type { 
+                padding-right: 0;
+            }
+        }
     }
 }
 

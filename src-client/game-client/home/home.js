@@ -158,10 +158,10 @@ const addGameType = function(value, isArda, context, labelGameType)
         
         const _r = [];
         if (value.accessible)
-            _r.push(`<a href="/${_context}/${_room}" title="Click to join" class="fa fa-plus-square"> play</a>`);
+            _r.push(`<a href="/${_context}/${_room}" title="${Dictionary.get("home.clicktojoin")}" class="fa fa-plus-square"> ${Dictionary.get("home.clicktojoin.play")}</a>`);
         
         if (value.visitors)
-            _r.push(`<a href="/${_context}/${_room}/watch" title="Click to watch" class="fa fa-eye"> watch</a>`);
+            _r.push(`<a href="/${_context}/${_room}/watch" title="${Dictionary.get("home.clicktowatch")}" class="fa fa-eye"> ${Dictionary.get("home.clicktowatch.watch")}</a>`);
 
         actions.innerHTML= _r.join("");
     }

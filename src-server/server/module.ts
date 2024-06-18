@@ -5,7 +5,6 @@ import InitRoutingHealth from "./RoutingHealth";
 import InitRoutingLogin from "./RoutingLogin";
 import InitRoutingMap from "./RoutingMap";
 import InitRoutingPlay from "./RoutingPlay";
-import InitRoutingTournament from "./RoutingTournament";
 
 export default function InitRouting()
 {
@@ -14,6 +13,5 @@ export default function InitRouting()
     InitRoutingLogin();
     InitRoutingGelerals();
     InitRoutingHealth();
-    InitRoutingTournament();
     InitRoutingErrorPages();
 }

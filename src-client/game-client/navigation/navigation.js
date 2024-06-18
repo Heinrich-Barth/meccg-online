@@ -51,11 +51,38 @@ const Navigation = {
             li.append(_a);
             nav.appendChild(li);
         }
+
+        this.insertLanguageSwitch(nav);
         
         const div = document.createElement("div");
         div.setAttribute("class", "navigation");
         div.appendChild(nav);
         document.body.prepend(div);
+    },
+
+    insertLanguageSwitch:function(ul)
+    {
+        const li = document.createElement("li")
+        li.setAttribute("class", "fa fa-globe language-switch");
+
+        let del = "";
+        for (let lang of ["en", "es", "fr"])
+        {
+            if (del !== "")
+            {
+                const d = document.createTextNode(del);
+                li.append(d);
+            }
+
+            const a = document.createElement("a");
+            a.setAttribute("href", "?language=" + lang);
+            a.innerText = lang.toUpperCase();
+            li.append(a);
+
+            del = "|";
+        }
+
+        ul.append(li);
     },
 
     init : function(json)

@@ -156,7 +156,8 @@ const MeccgPlayers = {
     {
         document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
             name : this.getPlayerDisplayName(jData.userid),
-            message : jData.message
+            message : jData.message,
+            id: jData.id
         }}));
     },
 

@@ -124,7 +124,7 @@
                     </div>
                     <div class="help-icon fa fa-question-circle"></div>
                 </div>
-                <div class="fa fa-commenting" id="chat_icon"></div>
+                <div class="cursor-pointer fa fa-commenting" id="chat_icon"></div>
             </div>
 
             <div class="card-hands" id="playercard_hand">

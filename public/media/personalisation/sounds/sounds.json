@@ -7,5 +7,6 @@
     "launch": "/media/personalisation/sounds/launch.ogg",
     "yourturn": "/media/personalisation/sounds/launch.ogg",
     "endgame": "/media/personalisation/sounds/endgame.ogg",
-    "notify": "/media/personalisation/sounds/notifiation.ogg"
+    "notify": "/media/personalisation/sounds/notifiation.ogg",
+    "chatmessage": "/media/personalisation/sounds/notifiation.ogg"
 }

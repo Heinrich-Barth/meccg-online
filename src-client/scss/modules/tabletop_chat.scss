@@ -2,27 +2,86 @@
     position: fixed;
     right: 5px;
     top: 5px;
-    width: 150px;
-    height: 25px;
-    font-size: 0.65em;
+    max-width: 20%;
+    max-height: 50%;
+    font-size: 0.7em;
     color: var(--color-light-grey);
     display: block;
-    padding: 0.65em 0.75em;
     outline: none;
-    overflow-y: hidden;
-    opacity: 0.16;
+    z-index: 401;
+    opacity: 0.3;
     transition: opacity 0.4s ease-in-out;
+    overflow: hidden;
+
+    .chatbox-log {
+        position: relative;
+        padding: 0.65em 0.75em;
+    }
+
+    .chatbox-form-container {
+        display: none;
+        bottom: 0;
+        height: 400px;
+        position: fixed;
+        background-color: var(--color-black);
+        box-shadow: 0px -5px 10px #000;
+    }
+
+    .message-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .chat_item__item {
+        cursor: pointer;
+        padding: 1px;
+        &:hover {
+            color: var(--color-black);
+            background-color: var(--color-orange-light);
+        }
+    }
+
+    h3 {
+        margin: 1em 0 0 0;
+        color: var(--color-orange-light);
+        text-transform: uppercase;
+        border-bottom: 1px dotted;
+    }
+
+    h2 {
+        margin: 5px 0;
+    }
+
+    input {
+        width: 90%;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.7);
+
+        &:focus-within,
+        &:active {
+            background: #fff;
+        }
+    }
+
     &:hover {
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: -5px 0px 10px #000;
         opacity: 1;
-        max-height: 50%;
-        max-width: 50%;
-        overflow-y: auto;
-        background: #000;
-        height: auto;
-        width: auto;
-        z-index: 401;
-        font-size: 1.2em;
-        line-height: 1.4em;
+        height: 100%;
+        max-height: unset;
+        top: 0;
+        bottom: 0;
+        max-width: 30%;
+
+        .chatbox-log { 
+            height: 70%;
+            font-size: 1.3em;
+        }
+        .chatbox-form-container { 
+            display: block; 
+        }
     }
 
     div {
@@ -36,6 +95,12 @@
 
     b {
         color: var(--color-orange-light);
+    }
+}
+
+.player-selector-box {
+    .chat_icon_newmessage {
+        color: var(--color-red);
     }
 }
 

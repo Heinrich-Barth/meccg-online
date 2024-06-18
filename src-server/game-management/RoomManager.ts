@@ -15,6 +15,18 @@ export type TRoomOptions = {
     jitsi:  boolean,
     avatar: string
 };
+const PART_HTML = 0;
+const PART_BODY = 2;
+const PART_JS = 4;
+
+function prepareGamePage(content:string):string[]
+{
+    const parts = content.split("<!-- CUT -->");
+    if (parts.length !== 6)
+        throw new Error("Invalid game page... Expected 6 parts but found " + parts.length);
+
+    return parts;
+}
 
 /**
  * Create a new room if necessary
@@ -36,7 +48,7 @@ export default class RoomManager {
     
     constructor(fnSocketIo:Function, sGameHtmlPageUri:string)
     {
-        this.#gamePageHtml = sGameHtmlPageUri;
+        this.#gamePageHtml = prepareGamePage(sGameHtmlPageUri);
         this.#eventManager = EventManager;
         this.#fnSocketIo = fnSocketIo;
     }
@@ -682,9 +694,8 @@ export default class RoomManager {
     {
         try
         {
-            const val = parseInt(message);
-            if (!isNaN(val) && val > 0 && this.#rooms[socket.room])
-                this.#rooms[socket.room].sendMessage(socket.userid, "", val);
+            if (message !== "" && this.#rooms[socket.room])
+                this.#rooms[socket.room].sendMessage(socket.userid, "", message);
         }
         catch (errIgnore) 
         {
@@ -940,15 +951,15 @@ export default class RoomManager {
             pRoom.updateDice(userId, dice);
     }
 
-    loadGamePage(room:string, userId:string, username:string, lTimeJoined:number, dice:string) 
+    loadGamePage(room:string, userId:string, username:string, lTimeJoined:number, dice:string, language:string):string[]
     {
         const pRoom = this.getRoom(room);
         if (pRoom === null)
-            return "";
+            return [];
             
         const pPlayer = this.#getPlayerOrVisitor(room, userId);
         if (pPlayer === null)
-            return "";
+            return [];
 
         const isVisitor = pRoom.hasVisitor(userId);
 
@@ -961,21 +972,32 @@ export default class RoomManager {
         const conCount = "" + pRoom.getConnectionCount(userId);
         const useDCE = pRoom.useDCE() ? "true" : "false";
 
-        return this.#gamePageHtml.replace("{TPL_DISPLAYNAME}", username)
-            .replace("/media/assets/favicon.png", "/data/favicon/" + room)
-            .replace("{TPL_BACKGROUND}", this.#getRandomBackground())
-            .replace("{TPL_TIME}", "" + lTimeJoined)
-            .replace("{TPL_ROOM}", room)
-            .replace("{TPL_USE_DCE}", useDCE)
-            .replace("{TPL_LOBBY_TOKEN}", sLobbyToken)
-            .replace("{TPL_USER_ID}", userId)
-            .replace("{TPL_DICE}", tplDice)
-            .replace("{TPL_API_KEY}", sSecret)
-            .replace("{TPL_IS_ARDA}", isArda)
-            .replace("{TPL_IS_VISITOR}", isVisitor ? "true" : "false")
-            .replace("{TPL_IS_SINGLEPLAYER}", isSinglePlayer)
-            .replace("{TPL_JOINED_TIMESTAMP}", sToken)
-            .replace("{TPL_CON_COUNT}", conCount);
+        const bodyPart = this.#gamePageHtml[2]
+                                .replace("{TPL_BACKGROUND}", this.#getRandomBackground())
+                                .replace("{TPL_USE_DCE}", useDCE)
+                                .replace("{TPL_CON_COUNT}", conCount)
+                                .replace("{TPL_IS_VISITOR}", isVisitor ? "true" : "false")
+                                .replace("{TPL_DICE}", tplDice)
+                                .replace("{TPL_IS_ARDA}", isArda)
+                                .replace("{TPL_IS_SINGLEPLAYER}", isSinglePlayer)
+                                .replace("{TPL_JOINED_TIMESTAMP}", sToken);
+
+        const bodyJsPart = this.#gamePageHtml[4]
+                                .replace("{TPL_DISPLAYNAME}", username)
+                                .replace("{TPL_TIME}", "" + lTimeJoined)
+                                .replace("{TPL_ROOM}", room)
+                                .replace("{TPL_LOBBY_TOKEN}", sLobbyToken)
+                                .replace("{TPL_USER_ID}", userId)
+                                .replace("{TPL_API_KEY}", sSecret);
+                                
+        return [
+            this.#gamePageHtml[0].replace('{LANG}', language),
+            this.#gamePageHtml[1].replace("/media/assets/favicon.png", "/data/favicon/" + room),
+            bodyPart,
+            this.#gamePageHtml[3],
+            bodyJsPart,
+            this.#gamePageHtml[5]
+        ];
     }
 
     #getRandomBackground()

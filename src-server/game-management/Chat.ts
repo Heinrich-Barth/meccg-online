@@ -197,14 +197,14 @@ export default class Chat {
         this.#api.publish(this.#endpoint, userid, {
             userid: userid,
             message: text,
-            id: -1
+            id: ""
         });
 
         if (saveGameLog)
             this.#appendLog(text, userid);
     }
 
-    sendMessagePrefeined(userid:string, id:number)
+    sendMessagePrefeined(userid:string, id:string)
     {
         if (this.#api)
         {

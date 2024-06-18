@@ -37,7 +37,7 @@
                     <img src="/media/assets/images/logo-meccg.png" alt="meccg logo">
                 </div>
 
-                <h1>Start a Game</h1>
+                <h1 data-translation="home.startgame">Start a Game</h1>
                 
                 <div class="room-image-wrapper">
                     <div class="room-image">
@@ -45,42 +45,40 @@
                         <span class="fa fa-pencil room-image-edit"></span>
                     </div>
                     <div class="room-text">
-                        <p class="center padBottom10">Choose your game name and click on <i>Continue &amp; choose deck</i> or <a href="/help">check out how to play</a>.</p>
+                        <p class="center padBottom10" data-translation="home.choosegame">Choose your game name and click on <i>Continue &amp; choose deck</i> or <a href="/help">check out how to play</a>.</p>
                         <input id="enter_room"  placeholder="Your game name here (a-zA-Z0-9)"  type="text" value="">
-                        <button id="start_game" type="button"><i class="fa fa-play-circle" aria-hidden="true"></i> Continue &amp; choose deck</button>
+                        <button id="start_game" type="button"><i class="fa fa-play-circle" aria-hidden="true"></i> <span data-translation="home.continuestart">Continue &amp; choose deck</span></button>
                     </div>
                 </div>
-
             </div>
 
             <div class="game-lists" id="game-list-wrapper">
 
                 <div class="game-lists-intro" id="game-lists-intro">
                     <div class="game-list" id="no_games">
-                        <h2><i class="fa fa-question-circle" aria-hidden="true"></i> How to start</h2>
-                        <p class="center">Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the <a href="https://discord.com/invite/EFqBJmT" class="inline" target="_blank">discord server</a>.</p>
+                        <h2><i class="fa fa-question-circle" aria-hidden="true"></i> <span data-translation="home.howtostart">How to start</span></h2>
+                        <p class="center" data-translation="home.howtostart.desc">Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the <a href="https://discord.com/invite/EFqBJmT" class="inline" target="_blank">discord server</a>.</p>
                     </div>
                 </div>
 
                 <div class="game-list hidden" id="active_games">
                 
-                    <h2><i class="fa fa-comments" aria-hidden="true"></i> Current Games</h2>
-                    <p class="center">Click on a game to join or watch</p>
+                    <h2><i class="fa fa-comments" aria-hidden="true"></i> <span data-translation="home.currentgames">Current Games</span></h2>
+                    <p class="center" data-translation="home.clickongame">Click on a game to join or watch</p>
                     <div class="game_list" id="game_list"></div>
                 </div>
 
                 <div class="game-list-tournament hidden" id="game-list-tournament">
-                    <h2><i class="fa fa-trophy" aria-hidden="true"></i> Current Tournaments</h2>
-                    <p>Click on any tournament for details.</p>
+                    <h2><i class="fa fa-trophy" aria-hidden="true"></i> <span data-translation="home.currenttournaments">Current Tournaments</span></h2>
+                    <p data-translation="home.currenttournaments.desc">Click on any tournament for details.</p>
                 </div>
             </div>
-
-
         </div>
 
         <div class="game-list-counter line-countdown-10s" id="game-list-counter"></div>        
         <div class="nav-background"></div>
         
+        <script src="/data/dictionary.js?version=240119"></script>
         <script src="/dist-client/js/home/home.js?version=240119"></script>
         <script src="/dist-client/js/home/feedback.js?version=240119"></script>
         <script src="/dist-client/js/home/tournaments.js?version=240119"></script>

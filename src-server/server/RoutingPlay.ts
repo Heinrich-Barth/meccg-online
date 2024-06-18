@@ -6,12 +6,15 @@ import GamePlayRouteHandlerArda from "./GamePlayRouteHandlerArda";
 import GamePlayRouteHandlerSingle from "./GamePlayRouteHandlerSingle";
 import express from "express";
 import { getRootFolder } from "../Configuration";
+import { AddLanguageCookieToRequest } from "../Languags";
 
 const pCookiePreferences = new CookiePreferences("game");
 pCookiePreferences.addPreference("background", "bg-game");
 
 export default function InitRoutingPlay()
 {
+    getServerInstance().use("/play", AddLanguageCookieToRequest);
+
     new GamePlayRouteHandler("/play", "login.html", "lobby.html").setupRoutes();
     new GamePlayRouteHandlerArda("/arda", "login-arda.html", "lobby.html").setupRoutes();
     new GamePlayRouteHandlerSingle("/singleplayer", "login.html", "home.html").setupRoutes();

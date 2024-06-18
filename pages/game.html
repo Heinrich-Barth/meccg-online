@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{LANG}">
+    <!-- CUT -->
     <head>
         <meta charset="UTF-8">
         <meta name="robots" content="noindex, nofollow">
@@ -23,12 +24,13 @@
         <link rel="icon" type="image/png" href="/media/assets/favicon.png">
         <base target="_self">
     </head>
+    <!-- CUT -->
     <body class="{TPL_BACKGROUND} large-preview zoom-1" data-is-game="true" data-use-dce="{TPL_USE_DCE}" data-connected-count="{TPL_CON_COUNT}" data-is-watcher="{TPL_IS_VISITOR}" data-dice="{TPL_DICE}" data-is-singleplayer="{TPL_IS_SINGLEPLAYER}" data-game-arda="{TPL_IS_ARDA}" data-time="{TPL_JOINED_TIMESTAMP}">
-
+    <!-- CUT -->
         <div id="lidles-eye">
             <img src="/media/assets/images/splash-eye.png" alt="Waiting" title="Waiting...">
         </div>
-
+    <!-- CUT -->
         <script type="text/javascript" nonce="START">
             const g_sDisplayName = "{TPL_DISPLAYNAME}";
             const g_lTimeJoined = {TPL_TIME};
@@ -39,9 +41,9 @@
             const g_sVersion = "version=version";
             document.title = g_sRoom.toUpperCase() + " - MECCG Game in progress";
         </script>
-
+    <!-- CUT -->
         <script src="/dist-client/js/socket.io.min.js"></script>
-        <script src="/dist-client/js/game/dictionary.js?version=version"></script>
+        <script src="/data/dictionary.js?version=version"></script>
         <script src="/dist-client/js/game/table.js?version=version"></script>
         <script src="/dist-client/js/question/question.js?version=version"></script>
         <script src="/dist-client/js/game/PageRefreshInfo.js?version=version"></script>
@@ -95,6 +97,5 @@
         <script defer src="/dist-client/js/game/sfx/sfx.js?version=version"></script>
         <script defer src="/dist-client/js/game/InfoBoxCard.js?version=version"></script>
         <script defer src="/dist-client/js/game/ChangeSeating.js?version=version"></script>
-
     </body>
 </html>

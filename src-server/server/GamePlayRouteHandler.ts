@@ -548,9 +548,34 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
             this.clearSocialMediaCookies(res);
     
             this.getRoomManager().updateDice(room, req.cookies.userId, dice);
-            this.createExpireResponse(res, "text/html").send(this.getRoomManager().loadGamePage(room, this.sanatiseCookieValue(req.cookies.userId), this.sanatiseCookieValue(req.cookies.username), lTimeJoined, dice)).status(200);
+            this.createExpireResponse(res, "text/html").status(200);
+            const list = this.getRoomManager().loadGamePage(
+                room, this.sanatiseCookieValue(req.cookies.userId), 
+                this.sanatiseCookieValue(req.cookies.username), 
+                lTimeJoined, 
+                dice,
+                this.#getLanguageParam(req)
+            );
+            
+            for (let part of list)
+                res.write(part);
 
+            res.end();
             next();
+        }
+    }
+
+    #getLanguageParam(req:any)
+    {
+        const lang = typeof req._langauge === "string" ? req._langauge : "";
+        switch(lang)
+        {
+            case "es":
+            case "fr":
+            case "en":
+                return lang;
+            default:
+                return "en";
         }
     }
 

@@ -27,6 +27,7 @@ import CreateRobotsTxt from "./robotstxt";
 import InitFaviconRoutes from "./plugins/Favicons";
 import InitTournamentsEndpoints from "./plugins/TournamentList";
 import InitFeedbackEndpoint from "./plugins/FeedbackForm";
+import InitRouteDictionary from "./Languags";
 
 ServerInstance.setup();
 setupEvents();
@@ -36,6 +37,7 @@ setupEvents();
  */
 InitPWA();
 CreateRobotsTxt();
+InitRouteDictionary();
 
 ServerInstance.getServerInstance().use(express.static(getRootFolder() + "/public"));
 ServerInstance.getServerInstance().use("/dist-client", express.static("dist-client"));
