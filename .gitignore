@@ -23,3 +23,4 @@ dist-client/
 
 RELEASENOTES.MD
 deploy.sh
+public/media/dictionary*.js
