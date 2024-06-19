@@ -236,68 +236,68 @@ body {
     &.language-fr {
         &.on-drag-event-hazard div#staging-area-player:before
         {
-            content: "ES Hazard Events";
+            content: "Événements dangereux";
         }
         
         &.on-drag-event-resource div#staging-area-player:before
         {
-            content: "ES Resource Events & Factions";
+            content: "Ressources, événements et factions";
         }
         
         &.on-drag-event-generic #shared_outofplay:after { 
-            content: "ES Remove card (cannt be undone)"; 
+            content: "Retirer la carte (irréversible)"; 
         }
         
         &.on-drag-event-character .area-player .company-character-host:before
         {
-            content: "ES Follow this \a character";
+            content: "Suivez ce personnage";
         }
         
         &.on-drag-event-hazard .area-opponent .company-character-host:before,
         &.on-drag-event-resource .area-player .company-character-host:before
         {
-            content: "ES Attach to \a character";
+            content: "Joindre à \a caractère";
         }
         
         
         &.on-drag-event-character .create-new-company:before
         {
-            content: "ES Create \a new \a Company";
+            content: "créer une nouvelle société";
         }
         
         &.on-drag-event-character .area-opponent .company-character.character-is-company-host:before
         {
-            content: "ES Follow";
+            content: "Suivez";
         }
         &.on-drag-event-character .area-player .company-characters-add:before
         {
-            content: "ES Join company";
+            content: "Rejoindre la société";
         }
         &.on-drag-event-resource .area-player .company-characters-add:before
         {
-            content: "ES Play Resource \aon Company";
+            content: "Jouer la ressource sur la société";
         }
         
         &.on-drag-event-generic .area-opponent
         {
             .site-target:before
             {
-                content: "ES Place \a On-Guard";
+                content: "Place \a On-Guard";
             }
         }
         
         &.on-drag-event-hazard .area-opponent .site-regions:before
         {
-            content: "ES Let company \a face this hazard";
+            content: "La société doit faire face à ce risque";
         }
         
-        &.on-drag-event-generic #card_counter a.victory:before { content: "ES Store this card"; }
+        &.on-drag-event-generic #card_counter a.victory:before { content: "Conserver cette carte"; }
         
         .playercard-hand-container:empty 
         {
             &::before
             {
-                content: "ES Your hand is empty. Draw a new card.";
+                content: "Votre main est vide. Tirez une nouvelle carte.";
             }
         }
         
@@ -305,47 +305,47 @@ body {
         {
             &::before
             {
-                content: "ES Your hand is empty. Draw a new card.";
+                content: "Votre main est vide. Tirez une nouvelle carte.";
             }
         }
         
         .card-bar {
             .icon-shared-out::after {
-                content: 'ES Out';
+                content: 'Out';
             }
         
             .icon-shared-victory::after {
-                content: 'ES Stored';
+                content: 'Conserver';
             }
         
             .icon-tooltip-mps::after {
-                content: 'ES Stored';
+                content: 'Conserver';
             }
         
             .icon-tooltip-playdeck::after {
-                content: 'ES Deck';
+                content: 'Deck';
             }
         
             .icon-tooltip-discard::after {
-                content: 'ES Discard';
+                content: 'Discard';
             }
         
             .icon-tooltip-sideboard::after {
-                content: 'ES Sideboard';
+                content: 'Sideboard';
             }
         }
 
         .card-hands .playercard_hand_droppable
         { 
             &::before {
-                content: 'ES to hand';
+                content: 'à la main';
             }
         }
 
         .staging-opponent-dice {
             &:hover:before 
             {
-                content: "ES Last dice roll";
+                content: "Dernier jet de dés";
             }
         }
     }

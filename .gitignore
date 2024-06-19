@@ -14,6 +14,7 @@ pages/rules-*.html
 data-local/cards-full.json
 data-local/map-positions-full.json
 data-local/not-found.json
+data-local/_dictionary.csv
 
 logs/
 public/cards
