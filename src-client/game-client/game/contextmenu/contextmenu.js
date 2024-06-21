@@ -971,7 +971,7 @@ const ContextMenu = {
         if (typeof callback === "undefined")
             callback = ContextMenu.callbacks.empty;
 
-        let text = Dictionary.get("context_e_" + sAction);
+        let text = Dictionary.get("context_e_" + sAction, sLabel);
         if (text === "")
             text = sLabel;
         

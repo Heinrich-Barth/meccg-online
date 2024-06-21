@@ -71,7 +71,7 @@ class Preferences extends PreferencesStorable {
 
     #getLabel(id, sDef)
     {
-        const text = typeof Dictionary != "undefined" ? Dictionary.get("conf_l_" + id) : "";
+        const text = typeof Dictionary != "undefined" ? Dictionary.get("conf_l_" + id, sDef) : "";
         return text === "" ? sDef : text;
     }
 

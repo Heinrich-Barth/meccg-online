@@ -77,7 +77,7 @@ class PlayerSelectorAction {
         _temp.appendChild(playerList.html);
 
         _element = document.createElement("button");
-        _element.innerText = Dictionary.get("cancal");
+        _element.innerText = Dictionary.get("cancel", "Cancel");
         _element.onclick = this.removeOverlay.bind(this);
         _temp.appendChild(_element);
 
