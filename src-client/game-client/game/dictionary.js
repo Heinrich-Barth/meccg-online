@@ -45,8 +45,9 @@ class Dictionary {
         for (let elem of list)
         {
             const val = elem.getAttribute("data-translation");
-            if (val)
-                elem.innerText = this.#getValue(val);
+            const text = val ? this.#getValue(val) : "";
+            if (text !== "")
+                elem.innerText = text;
         }
     }
 
@@ -55,8 +56,9 @@ class Dictionary {
         for (let elem of list)
         {
             const val = elem.getAttribute("data-translation-placeholder");
-            if (val)
-                elem.setAttribute("placeholder", this.#getValue(val));
+            const text = val ? this.#getValue(val) : "";
+            if (text !== "")
+                elem.setAttribute("placeholder", text);
         }
     }
 

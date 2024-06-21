@@ -459,7 +459,7 @@ const HandCardsDraggable = {
         const sites = DomUtils.findParentByClass(elem, "company-site-list");
         if (sites === null)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("handcards_404sites") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("handcards_404sites", "Cannot find companies' sites.") }));
         }
         else if (sites.querySelector(".site-target img") !== null)
         {
@@ -471,7 +471,7 @@ const HandCardsDraggable = {
             HandCardsDraggable.getApi().send("/game/company/markcurrently", {uuid: companyUuid});
         }
         else
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("handcards_movementfirst") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("handcards_movementfirst", "Please organize movement first.") }));
     },
 
     onCompanyMovementSelectClick: function(e)
@@ -1295,7 +1295,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
                 pMove.setAttribute("class", "move-hand-icon");
                 pMove.innerHTML = `<i class="fa fa-arrows "></i>`
                 pMove.setAttribute("id", "move-hand-icon");
-                pMove.setAttribute("title", Dictionary.get("handcards_movecontainer"));
+                pMove.setAttribute("title", Dictionary.get("handcards_movecontainer", "Click to drag anywhere.\nRIGHT click to restore to original position"));
                 pMove.oncontextmenu = () => {
                     const elem = document.getElementById("playercard_hand");
                     if (elem.hasAttribute("style"))

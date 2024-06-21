@@ -16,7 +16,7 @@ setTimeout(() => {
 
     const divParent = document.createElement("div");
     divParent.setAttribute("class", "wrapper-topleft help-wrapper cursor-pointer");
-    divParent.setAttribute("title", Dictionary.get("into_end"));
+    divParent.setAttribute("title", Dictionary.get("into_end", "End this game and show final scores (after final confirmation)"));
     divParent.onclick = () => document.body.dispatchEvent(new CustomEvent("meccg-query-end-game", { }));;
     divParent.appendChild(div);
     

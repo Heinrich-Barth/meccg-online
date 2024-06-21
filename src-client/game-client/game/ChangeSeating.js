@@ -25,7 +25,7 @@ class ChangeSeating
 
         this.#players.push({
             id: id,
-            name: isMe ? Dictionary.get("seat_myself") : name,
+            name: isMe ? Dictionary.get("seat_myself", "Myself") : name,
             avatar: avatar
         });
 
@@ -42,13 +42,13 @@ class ChangeSeating
         if (moveUp)
         {
             aUp.setAttribute("data-action", "up");
-            aUp.setAttribute("title", Dictionary.get("seat_up"));
+            aUp.setAttribute("title", Dictionary.get("seat_up", "Move up"));
             aUp.setAttribute("class", "fa arrow-up fa-arrow-circle-up");
         }
         else
         {
             aUp.setAttribute("data-action", "down");
-            aUp.setAttribute("title", Dictionary.get("seat_down"));
+            aUp.setAttribute("title", Dictionary.get("seat_down", "Move down"));
             aUp.setAttribute("class", "fa arrow-down fa-arrow-circle-down");
         }
 
@@ -119,12 +119,12 @@ class ChangeSeating
         if (isSave)
         {
             button.setAttribute("data-save", "true");
-            button.innerText = Dictionary.get("seat_save");
+            button.innerText = Dictionary.get("seat_save", "Save changes");
         }
         else
         {
             button.setAttribute("class", "buttonCancel");
-            button.innerText = Dictionary.get("seat_ignore");
+            button.innerText = Dictionary.get("seat_ignore", "Ignore changes");
         }
 
         return button;
@@ -149,12 +149,12 @@ class ChangeSeating
     {
         if (list.length !== this.#players.length)
         {
-            this.#messageError(Dictionary.get("seat_invalid1"));
+            this.#messageError(Dictionary.get("seat_invalid1", "Invalid number of players."));
             return false;
         }
         else if (this.#initialOrder.join("") === list.join(""))
         {
-            this.#messageInfo(Dictionary.get("seat_invalid2"));
+            this.#messageInfo(Dictionary.get("seat_invalid2", "Same order. No need to update"));
             return false;
         }
 
@@ -162,7 +162,7 @@ class ChangeSeating
         {
             if (!list.includes(player.id))
             {
-                this.#messageError(Dictionary.get("seat_invalid3"));
+                this.#messageError(Dictionary.get("seat_invalid3", "Invalid player array! Cannot and will not update order."));
                 return false;
             }
         }
@@ -199,10 +199,10 @@ class ChangeSeating
     #createHtml()
     {
         const h3 = document.createElement("h3");
-        h3.innerText = Dictionary.get("seat_title");
+        h3.innerText = Dictionary.get("seat_title", "Rearrange the seating position.");
 
         const p = document.createElement("p");
-        p.innerText = Dictionary.get("seat_text");
+        p.innerText = Dictionary.get("seat_text", "Each players plays hazards against the following opponent (you play hazards to your right/following opponent)");
 
         const ul = document.createElement("ul");
         ul.setAttribute("class", "avatar-list");
@@ -241,7 +241,7 @@ class ChangeSeating
     {
         if (this.#players.length < 3)
         {
-            this.#messageInfo(Dictionary.get("seat_invalid4"));
+            this.#messageInfo(Dictionary.get("seat_invalid4", "You can only change player order with more than 2 players."));
             return;
         }
 

@@ -431,10 +431,10 @@ const createLabelDiv = function(title, color, count)
 const processLabelFilters = function(div)
 {
     const h3 = document.createElement("h3");
-    h3.innerText = Dictionary.get("home.selectdeck");
+    h3.innerText = Dictionary.get("home.selectdeck", "Deck Selection");
 
     const p = document.createElement("p");
-    p.innerText = Dictionary.get("home.selectdeck.text");
+    p.innerText = Dictionary.get("home.selectdeck.text", "Choose a deck or click here to load/import a deck");
     p.onclick = () => document.getElementById("deck-text-fields")?.setAttribute("open", "");
 
     div.setAttribute("id", "deck-list-filter");
@@ -1230,7 +1230,7 @@ function createAvatarList(list)
 
     const li = document.createElement("li");
     li.setAttribute("class", "label");
-    li.innerText = Dictionary.get("login.avatarstable");
+    li.innerText = Dictionary.get("login.avatarstable", "Avatars competing:");
     res.append(li);
     for (let src of list)
     {

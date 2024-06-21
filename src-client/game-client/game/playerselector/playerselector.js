@@ -18,7 +18,7 @@ class PlayerSelector
     onReorderPlayers(e)
     {
         if (this.#reorderHtmlElements(e.detail))
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("playerselector_rearranged") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("playerselector_rearranged", "Player seating rearranged.") }));
     }
 
     #reorderHtmlElements(list)
@@ -131,7 +131,7 @@ class PlayerSelector
         this.#setActivePlayerElement(elem, false);
 
         if (isMe)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("playerselector_hazardplayer") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("playerselector_hazardplayer", "You are the hazard player.") }));
     }
 
     #setActivePlayer(sPlayerId, bIsMe)
@@ -208,23 +208,23 @@ class PlayerSelector
             const iCurrent = document.createElement("i");
             iCurrent.setAttribute("class", "player-active fa fa-pagelines");
             iCurrent.setAttribute("data-translate-title", "playerselector_activeplayer");
-            iCurrent.setAttribute("title", Dictionary.get("playerselector_activeplayer"));
+            iCurrent.setAttribute("title", Dictionary.get("playerselector_activeplayer", "Active Player"));
 
             const iHazard = document.createElement("i");
             iHazard.setAttribute("class", "player-hazard fa fa-fire");
             iHazard.setAttribute("data-translate-title", "playerselector_currenthazard");
-            iHazard.setAttribute("title", Dictionary.get("playerselector_currenthazard"));
+            iHazard.setAttribute("title", Dictionary.get("playerselector_currenthazard", "Current hazard player"));
 
             const iHand = document.createElement("i");
             iHand.setAttribute("class", "player-handcard-count");
             iHand.setAttribute("data-translate-title", "playerselector_cardsinhand");
-            iHand.setAttribute("title", Dictionary.get("playerselector_cardsinhand"));
+            iHand.setAttribute("title", Dictionary.get("playerselector_cardsinhand", "cards in hand"));
             iHand.innerText = 0;
 
             const iPlay = document.createElement("i");
             iPlay.setAttribute("class", "player-playdeck-count");
             iPlay.setAttribute("data-translate-title", "playerselector_cardsindeck");
-            iPlay.setAttribute("title", Dictionary.get("playerselector_cardsindeck"));
+            iPlay.setAttribute("title", Dictionary.get("playerselector_cardsindeck", "cards in playdeck"));
             iPlay.innerText = 0;
 
             docGroup.append(iCurrent, iHazard, txtName, iView, iHand, iPlay);
@@ -266,13 +266,13 @@ class PlayerSelector
         {
             el.classList.add("act");
             el.setAttribute("data-translate-title", "playerselector_activeplayer");
-            el.setAttribute("title", Dictionary.get("playerselector_activeplayer"));
+            el.setAttribute("title", Dictionary.get("playerselector_activeplayer", "Active Player"));
         }
         else
         {
             el.classList.add("act-hazard");
             el.setAttribute("data-translate-title", "playerselector_currenthazard");
-            el.setAttribute("title", Dictionary.get("playerselector_currenthazard"));
+            el.setAttribute("title", Dictionary.get("playerselector_currenthazard", "Current hazard player"));
         }
     }
 

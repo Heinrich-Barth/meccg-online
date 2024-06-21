@@ -44,22 +44,22 @@ class RevealCardPile extends TradeCards
 
     labelChooseCards()
     {
-        return Dictionary.get("rvpil_choose") + " " + this.deck.toUpperCase();
+        return Dictionary.get("rvpil_choose", "Reordering of cards in") + " " + this.deck.toUpperCase();
     }
 
     labelCardsBeingOffered()
     {
-        return Dictionary.get("rvpils_text");
+        return Dictionary.get("rvpils_text", "Card reordering will appear automatically. The left is considered the TOP of the card stack.");
     }
 
     labelSelectCardsToTrade()
     {
-        return Dictionary.get("rvpils_text_click");
+        return Dictionary.get("rvpils_text_click", "Click on a card to send it to the bottom of this list. Right click on any card send it to the bottom of the deck.");
     }
 
     labelAcceptTrade()
     {
-        return Dictionary.get("rvpils_accept");
+        return Dictionary.get("rvpils_accept", "Accept ordering");
     }
 
     getRouteTradeStart()
@@ -262,15 +262,15 @@ class RevealPlayerDeckSelf
         const dialog = document.createElement("div");
         dialog.setAttribute("id", "dialog_reveal_self");
         dialog.setAttribute("class", "reveal-to-self");
-        dialog.setAttribute("title", Dictionary.get("rvpils_anywhere"));
+        dialog.setAttribute("title", Dictionary.get("rvpils_anywhere", "Click anywhere to close"));
         dialog.onclick = () => this.#closeDialog();
 
 
         const h2 = document.createElement("h2");
-        h2.innerText = Dictionary.get("rvpils_look_title");
+        h2.innerText = Dictionary.get("rvpils_look_title", "Look at your playdeck");
 
         const p = document.createElement("p");
-        p.innerText = Dictionary.get("rvpils_look_text");
+        p.innerText = Dictionary.get("rvpils_look_text", "Click anywhere here to close this dialog.");
 
         const div = document.createElement("div");
         div.setAttribute("class", "reveal-to-self-content");

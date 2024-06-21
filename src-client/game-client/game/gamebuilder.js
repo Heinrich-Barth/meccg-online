@@ -215,7 +215,7 @@ const GameBuilder = {
         linkA.setAttribute("href", "#");
         linkA.setAttribute("class", "discardpile");
         linkA.setAttribute("data-card-uuid", _uuid);
-        linkA.setAttribute("title", Dictionary.get("builder_move_topdiscard"));
+        linkA.setAttribute("title", Dictionary.get("builder_move_topdiscard", "Move to top of discard pile"));
         linkA.onclick = GameBuilder._onClickDiscardHandCard;
 
         div.appendChild(img);
@@ -300,7 +300,7 @@ const GameBuilder = {
         const elemImage = elem?.querySelector("img");
         if (elemImage)
         {
-            elem.setAttribute("title", Dictionary.get("builder_handcard_tip"));
+            elem.setAttribute("title", Dictionary.get("builder_handcard_tip", "Drag card to play it or \nRIGHT CLICK to toggle playing it face down\nDOUBLECLICK to play card without dragging it."));
             elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);           
             elemImage.ondblclick = this.onHandCardDoubleClick.bind(this);
         }
@@ -554,7 +554,7 @@ const GameBuilder = {
             if (bIsMe)
             {
                 document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "yourturn" }));
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("builder_yourturn") }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("builder_yourturn", "It is your turn now.") }));
                 return;
             }
             
@@ -564,7 +564,7 @@ const GameBuilder = {
             else if (sName.length > 40)
                 sName = sName.substring(0, 39);
             
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": sName + " " + Dictionary.get("builder_whosactive") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": sName + " " + Dictionary.get("builder_whosactive", "is the active player.") }));
 
         });
         
@@ -884,7 +884,7 @@ const GameBuilder = {
             {
                 case "start":
                     if (bIsMe)
-                        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_yourturn") }));
+                        document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_yourturn", "It is your turn now.") }));
                         
                     GameBuilder.CompanyManager.onEnterStartPhase(bIsMe);
                     break;
@@ -1026,7 +1026,7 @@ const ChangeAvatarApp = {
 
         const img = document.createElement("img");
         img.setAttribute("src", src);
-        img.setAttribute("title", Dictionary.get("builder_chooseavatar"));
+        img.setAttribute("title", Dictionary.get("builder_chooseavatar", "Click to choose this avatar"));
         img.setAttribute("data-code", code);
         img.setAttribute("decoding", "async");
         img.onclick = this.onselectavatar.bind(this);
@@ -1051,10 +1051,10 @@ const ChangeAvatarApp = {
         const div = document.createDocumentFragment();
 
         const h2 = document.createElement("h2");
-        h2.innerText = Dictionary.get("builder_chooseavatar_title");
+        h2.innerText = Dictionary.get("builder_chooseavatar_title", "Choose your Avatar");
 
         const p = document.createElement("p");
-        p.innerText = Dictionary.get("builder_chooseavatar_text");
+        p.innerText = Dictionary.get("builder_chooseavatar_text", "Click on your avatar/character or press ESC to close");
 
         div.append(h2, p);
         return div;
@@ -1085,7 +1085,7 @@ const ChangeAvatarApp = {
 
         if (codes.length === 0)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_nocharsavail") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("builder_nocharsavail", "No characters available.") }));
             return;
         }
         

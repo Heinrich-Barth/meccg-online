@@ -585,7 +585,7 @@ const ContextMenu = {
             const text = sessionStorage.getItem("deck-notes");
             if (typeof text !== "string" || text === "")
             {
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_nonotes") }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_nonotes", "Deck notes are not available for your deck.") }));
                 return;
             }
 
@@ -596,12 +596,12 @@ const ContextMenu = {
             const h1 = document.createElement("h1");
             h1.classList.add("center");
             h1.setAttribute("data-translate-inner", "context_yournotes");
-            h1.innerText = Dictionary.get("context_yournotes");
+            h1.innerText = Dictionary.get("context_yournotes", "Your Deck Notes");
 
             const p = document.createElement("p");
             p.classList.add("center");
             p.setAttribute("data-translate-inner", "context_anywhere_esc");
-            p.innerText = Dictionary.get("context_anywhere_esc");
+            p.innerText = Dictionary.get("context_anywhere_esc", "Click anywhere or press ESC to close the window");
 
             dialog.append(h1, p);
 
@@ -632,7 +632,7 @@ const ContextMenu = {
             document.body.appendChild(dialog);
             dialog.onclose = () => document.body.removeChild(document.getElementById("dialog-notes"));
             dialog.onclick = () => document.getElementById("dialog-notes").close();
-            dialog.setAttribute("title", Dictionary.get("context_clicktoclose"));
+            dialog.setAttribute("title", Dictionary.get("context_clicktoclose", "Click to close"));
             dialog.setAttribute("data-translate-inner", "context_clicktoclose")
             dialog.showModal();
         },
@@ -720,7 +720,7 @@ const ContextMenu = {
             .then((json) =>  { 
                 const keys = Object.keys(json);
                 if (keys.length === 0)
-                    document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_notappedsites") }));
+                    document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_notappedsites", "No tapped sites so far.") }));
                 else
                 {
                     keys.sort();
@@ -737,7 +737,7 @@ const ContextMenu = {
                 const h1 = document.createElement("h1");
                 h1.classList.add("center");
                 h1.setAttribute("data-translate-inner", "context_yourtappedsites");
-                h1.innerText = Dictionary.get("context_yourtappedsites");
+                h1.innerText = Dictionary.get("context_yourtappedsites", "Your Tapped Sites");
                 
                 const p = document.createElement("p");
                 p.classList.add("center");
@@ -760,14 +760,14 @@ const ContextMenu = {
                 g_Game.CardPreview.initGeneric(dialog);
                 dialog.onclick = () => DomUtils.removeNode(document.getElementById("tapped-sites-list"));
                 dialog.setAttribute("data-translate-inner", "context_anywhere");
-                dialog.setAttribute("title", Dictionary.get("context_anywhere"));
+                dialog.setAttribute("title", Dictionary.get("context_anywhere", "Click to close"));
 
                 document.body.appendChild(dialog);
             })
             .catch((err) => 
             {
                 console.error(err);
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("context_canotshowtapped") }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("context_canotshowtapped", "Cannot show tapped sites.") }));
             });
         },
 
@@ -878,8 +878,8 @@ const ContextMenu = {
         reveal5CardsToOpponent : function()
         {
             ContextMenu.callbacks.queryCardNumer(
-                Dictionary.get("context_reveal"), 
-                Dictionary.get("context_reveal_text"),
+                Dictionary.get("context_reveal", "Reveal cards to opponent"), 
+                Dictionary.get("context_reveal_text", "Please specifiy the number of cards your opponent will look at (if available in your deck)"),
                 (count) => RevealPlayerDeck.INSTANCE.onChoosePlayer(count));
         },
 
@@ -889,8 +889,8 @@ const ContextMenu = {
                 return;
 
             ContextMenu.callbacks.queryCardNumer(
-                Dictionary.get("context_lookdeck"), 
-                Dictionary.get("context_lookdeck_text"),
+                Dictionary.get("context_lookdeck", "Look at your playdeck"), 
+                Dictionary.get("context_lookdeck_text", "Please specifiy the number of cards to look at. The cards will be shuffled again automatically."),
                 (count) => RevealPlayerDeckSelf.lookAt(count)
             );
         },
@@ -901,11 +901,11 @@ const ContextMenu = {
                 return;
 
             ContextMenu.callbacks.queryCardNumer(
-                Dictionary.get("context_shuffle"), 
-                Dictionary.get("context_shuffle_text"),
+                Dictionary.get("context_shuffle", "Shuffle Top Playdeck"), 
+                Dictionary.get("context_shuffle_text", "Please specifiy the number of cards to shuffle."),
                 (count) => {
                     MeccgApi.send("/game/view-cards/shuffle", { target: "playdeck_top", count: count });
-                    document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_shuffled") }));
+                    document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("context_shuffled", "Playdeck shuffled.") }));
                 }
             );
         },
@@ -916,9 +916,9 @@ const ContextMenu = {
             {
                 MeccgApi.send("/game/deck/discard/playdeck", {  });
             }).show(
-                Dictionary.get("context_shuffleinto"), 
-                Dictionary.get("context_shuffleinto_text"), 
-                Dictionary.get("context_shuffleinto_do")
+                Dictionary.get("context_shuffleinto", "Do you want to reshuffle pile into the playdeck?"), 
+                Dictionary.get("context_shuffleinto_text", "All discarded cards will be reshuffled into the playdeck."), 
+                Dictionary.get("context_shuffleinto_do", "Reshuffle")
             );
         },
 
@@ -942,18 +942,18 @@ const ContextMenu = {
 
             const label = document.createElement("label");
             label.setAttribute("for", "input_number_cards");
-            label.innerText = Dictionary.get("context_numberofcards");
+            label.innerText = Dictionary.get("context_numberofcards", "Number of cards: ");
 
             const divButtons = document.createElement("div");
             divButtons.setAttribute("class", "question-answers");
 
             const buttonOk = document.createElement("button");
-            buttonOk.innerText = Dictionary.get("context_continue");
+            buttonOk.innerText = Dictionary.get("context_continue", "Continue");
             buttonOk.onclick = () => { dialog.close(); fnSuccessCallback(input.value); };
 
             const buttonCancel = document.createElement("button");
             buttonCancel.setAttribute("class", "buttonCancel");
-            buttonCancel.innerText = Dictionary.get("cancel");
+            buttonCancel.innerText = Dictionary.get("cancel", "Cancel");
             buttonCancel.onclick = () => dialog.close();
 
             divButtons.append(buttonOk, buttonCancel);

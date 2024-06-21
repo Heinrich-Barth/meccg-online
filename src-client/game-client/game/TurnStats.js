@@ -115,13 +115,13 @@ class TurnStats {
         {
             table1.classList.remove("hidden");
             table2.classList.add("hidden");
-            elem.innerText = Dictionary.get("turnstats_showdur");
+            elem.innerText = Dictionary.get("turnstats_showdur", "Show turn duration statistics");
         }
         else
         {
             table1.classList.add("hidden");
             table2.classList.remove("hidden");
-            elem.innerText = Dictionary.get("turnstats_score");
+            elem.innerText = Dictionary.get("turnstats_score", "Show final scoring table");
         }
 
         return false;
@@ -131,7 +131,7 @@ class TurnStats {
     {
         const a = document.createElement("a");
         a.setAttribute("id", "toggle-turn-stats")
-        a.innerText = Dictionary.get("turnstats_showdur");
+        a.innerText = Dictionary.get("turnstats_showdur", "Show turn duration statistics");
         a.setAttribute("href", "#");
         a.onclick = this.toggleStats.bind(this);
 

@@ -290,10 +290,10 @@ class GamePreferences extends Preferences {
             return;
 
         navigator.clipboard.writeText(text)
-        .then(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("conf_share_copied_ok")})))
+        .then(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("conf_share_copied_ok", "Link copied to clipboard.")})))
         .catch((err) => 
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("conf_share_copied_err")}));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("conf_share_copied_err", "Could not copy link to clipboard.")}));
             console.error(err);
         });
     }
@@ -336,7 +336,7 @@ class GamePreferences extends Preferences {
     getEntries()
     {
         const bWatcher = GamePreferences.isWatching();
-        this.createSection(Dictionary.get("conf_h_bgcustomise"));
+        this.createSection(Dictionary.get("conf_h_bgcustomise", "Backgrounds / Customise"));
 
         if (!bWatcher)
         {
@@ -353,7 +353,7 @@ class GamePreferences extends Preferences {
 
         this.createEntry0("toggle_zoom_preview");
             
-        this.createSection(Dictionary.get("conf_h_lookfeel"));
+        this.createSection(Dictionary.get("conf_h_lookfeel", "Look & Feel"));
         this.createEntry0("toggle_zoom");
         if (!bWatcher)
         {
@@ -369,7 +369,7 @@ class GamePreferences extends Preferences {
         this.createEntry0("toggle_company_help");
         this.createEntry0("toggle_fullscreen");
 
-        this.createSection(Dictionary.get("conf_h_access"));
+        this.createSection(Dictionary.get("conf_h_access", "Accessibility / Language"));
         this.createEntry0("toggle_spanishcards");
         
         if (!bWatcher)
@@ -378,7 +378,7 @@ class GamePreferences extends Preferences {
             this.createEntry0("toggle_touch_help");
             this.createEntry0("draw_to_handsize");
 
-            this.createSection(Dictionary.get("conf_h_save"));
+            this.createSection(Dictionary.get("conf_h_save", "Save/Load"));
             this.createEntry0("game_save");
             this.createEntry0("game_load");
             
@@ -403,11 +403,11 @@ class GamePreferences extends Preferences {
 
         if (!bWatcher)
         {
-            this.createSection(Dictionary.get("conf_h_general"));
+            this.createSection(Dictionary.get("conf_h_general", "General"));
             this.createEntry0("viewpile_open");
         }
 
-        this.createSection(Dictionary.get("conf_h_language"));
+        this.createSection(Dictionary.get("conf_h_language", "Language"));
         this.createEntry0("lang_en");
         this.createEntry0("lang_fr");
         this.createEntry0("lang_es");
@@ -512,7 +512,7 @@ class GamePreferences extends Preferences {
         const elem = document.body.querySelector(".help-icon");
         if (elem !== null)
         {
-            elem.setAttribute("title", Dictionary.get("conf_help"));
+            elem.setAttribute("title", Dictionary.get("conf_help", "Open help tips"));
             elem.onclick = this.#showHelp.bind(this);
         }
     }
@@ -522,17 +522,17 @@ class GamePreferences extends Preferences {
         const content = document.createElement("div");
         content.setAttribute("class", "text-left");
         content.append(
-            this.#createShortcut("d", Dictionary.get("conf_cut_d")),
-            this.#createShortcut("r", Dictionary.get("conf_cut_r")),
-            this.#createShortcut("q", Dictionary.get("conf_cut_q")),
-            this.#createShortcut("f", Dictionary.get("conf_cut_f")),
-            this.#createShortcut("x", Dictionary.get("conf_cut_x")),
-            this.#createParagaph(Dictionary.get("conf_cut_p1")),
-            this.#createParagaph(Dictionary.get("conf_cut_p2")),
-            this.#createParagaph(Dictionary.get("conf_cut_p3")),
-            this.#createParagaph(Dictionary.get("conf_cut_p4")),
+            this.#createShortcut("d", Dictionary.get("conf_cut_d", "draw card to hand")),
+            this.#createShortcut("r", Dictionary.get("conf_cut_r", "roll dice")),
+            this.#createShortcut("q", Dictionary.get("conf_cut_q", "end your turn")),
+            this.#createShortcut("f", Dictionary.get("conf_cut_f", "flips card currently hovering over")),
+            this.#createShortcut("x", Dictionary.get("conf_cut_x", "discards card currently hovering over")),
+            this.#createParagaph(Dictionary.get("conf_cut_p1", "You can right click on cards and deck icons to open a context menu.")),
+            this.#createParagaph(Dictionary.get("conf_cut_p2", "You can double click on a hand card to play it (without dragging).")),
+            this.#createParagaph(Dictionary.get("conf_cut_p3", "If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region.")),
+            this.#createParagaph(Dictionary.get("conf_cut_p4", "Discarding your opponent's card will sort it into their discard pile.")),
         );
-        new Question("", false).show(Dictionary.get("conf_cut_title"), content, Dictionary.get("close"));
+        new Question("", false).show(Dictionary.get("conf_cut_title", "Tips & Shortcuts"), content, Dictionary.get("close", "Close"));
     }
 
 
@@ -583,8 +583,8 @@ class GamePreferences extends Preferences {
         icons.setAttribute("class", "icons cursor-pointer");
         icons.setAttribute("data-level", "0");
         icons.setAttribute("id", "zoom-level");
-        icons.setAttribute("title", Dictionary.get("conf_toggle_zoom_level"))
-        icons.innerHTML = '<i class="fa fa-search-plus" aria-hidden="true" title="'+Dictionary.get("conf_l_toggle_zoom") + '"></i>';
+        icons.setAttribute("title", Dictionary.get("conf_toggle_zoom_level", "Toggle zoom level"))
+        icons.innerHTML = '<i class="fa fa-search-plus" aria-hidden="true" title="'+Dictionary.get("conf_l_toggle_zoom", "Zoom Level") + '"></i>';
 
         icons.onclick = this.toggleZoom.bind(this);
         div.appendChild(icons);

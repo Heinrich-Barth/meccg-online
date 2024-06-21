@@ -134,12 +134,12 @@ class ChatBox {
         div.append(this.#createPrefeinedList());
 
         const h2 = document.createElement("h2");
-        h2.innerText = Dictionary.get("chat_title");
+        h2.innerText = Dictionary.get("chat_title", "Communicate");
 
         const input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("maxlength", "100");
-        input.setAttribute("placeholder", Dictionary.get("chat_placeholder"));
+        input.setAttribute("placeholder", Dictionary.get("chat_placeholder", "type message and hit enter to send"));
 
         if (document.body.getAttribute("data-is-watcher") === "true")
             input.disabled = true;

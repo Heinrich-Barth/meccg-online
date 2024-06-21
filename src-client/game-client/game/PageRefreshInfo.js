@@ -81,20 +81,20 @@ class PageRefreshInfo extends TimedNotificationInfo
 
     getTitle()
     {
-        return Dictionary.get("refresh_title");
+        return Dictionary.get("refresh_title", "Connectivity Problem");
     }
 
     getText()
     {
         if (this.reason === "")
-            return Dictionary.get("refresh_reason1");
+            return Dictionary.get("refresh_reason1", "It seems the connection to the server was lost.<br><br>This page will be reloaded in 10 seconds");
         else
-            return `${Dictionary.get("refresh_reason2")}<br><br><span class="question-question-reason">${this.reason}</span><br><br>${Dictionary.get("refresh_reason3")}`;
+            return `${Dictionary.get("refresh_reason2", "Connection lost due to the reason:")}<br><br><span class="question-question-reason">${this.reason}</span><br><br>${Dictionary.get("refresh_reason3", "This page will be reloaded in 10 seconds")}`;
     }
 
     getButtonText()
     {
-        return Dictionary.get("refresh_now");
+        return Dictionary.get("refresh_now", "Reload now");
     }
 }
 
@@ -118,17 +118,17 @@ class ReDeckInfoNotification extends TimedNotificationInfo
 
     getTitle()
     {
-        return Dictionary.get("refresh_decknote");
+        return Dictionary.get("refresh_decknote", "Deck Notification");
     }
 
     getText()
     {
-        return Dictionary.get("refresh_decknote_t");
+        return Dictionary.get("refresh_decknote_t", "Your deck is about to exhaust. It will be reshuffled automatically if needed. Just keep on drawing.");
     }
 
     getButtonText()
     {
-        return Dictionary.get("refresh_decknode_ok");
+        return Dictionary.get("refresh_decknode_ok", "Got it.");
     }
 }
 

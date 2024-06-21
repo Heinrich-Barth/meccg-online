@@ -58,7 +58,7 @@ function CardList(images, quests, useImagesDC, useImagesIC)
 
             pThat._isReady = true;
         })
-        .catch(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("warn_fetchimage") })));
+        .catch(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("warn_fetchimage", "Could not fetch image list.") })));
     }
 }
 

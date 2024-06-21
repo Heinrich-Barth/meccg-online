@@ -7,9 +7,9 @@ const createCompanyHtml = function(companyId, id)
     div.setAttribute("data-company-id", companyId);
     div.innerHTML = `
         <div class="company-site-list pos-rel">
-            <div class="location-icon-image location-underdeep location-select-ud hiddenToOpponent" title="${Dictionary.get("company_orga_deeps")}"><i class="fa fa-code-fork "></i>${Dictionary.get("company_orga_deeps_inner")}</div>
-            <div class="location-icon-image location-icon location-select hiddenToOpponent" title="${Dictionary.get("company_orga_sites")}"><i class="fa fa-map-signs"></i>${Dictionary.get("company_orga_sites_inner")}</div>
-            <div class="location-icon-image location-reveal hide hiddenToOpponent" title="${Dictionary.get("company_orga_reveal")}"><i class="fa fa-eye"></i>${Dictionary.get("company_orga_reveal_inner")}</div>
+            <div class="location-icon-image location-underdeep location-select-ud hiddenToOpponent" title="${Dictionary.get("company_orga_deeps", "Organise underdeep movement")}"><i class="fa fa-code-fork "></i>${Dictionary.get("company_orga_deeps_inner", "Deeps")}</div>
+            <div class="location-icon-image location-icon location-select hiddenToOpponent" title="${Dictionary.get("company_orga_sites", "Organise region movement")}"><i class="fa fa-map-signs"></i>${Dictionary.get("company_orga_sites_inner", "Sites")}</div>
+            <div class="location-icon-image location-reveal hide hiddenToOpponent" title="${Dictionary.get("company_orga_reveal", "Reveal movement / mark as current company in movement hazard phase")}"><i class="fa fa-eye"></i>${Dictionary.get("company_orga_reveal_inner", "Reveal")}</div>
             <div class="sites">
                 <div class="site-container site-current"></div>
                 <div class="site-container site-regions"></div>
@@ -108,9 +108,9 @@ const createCharacterHtml = function(jsonCard, id)
     iDice.setAttribute("data-uuid", jsonCard.uuid);
     
     if (jsonCard.revealed === true)
-        iDice.setAttribute("title", Dictionary.get("company_roll_for_c") + " " + jsonCard.code);
+        iDice.setAttribute("title", Dictionary.get("company_roll_for_c", "Click to roll dice for") + " " + jsonCard.code);
     else
-        iDice.setAttribute("title", Dictionary.get("company_roll_for"));
+        iDice.setAttribute("title", Dictionary.get("company_roll_for", "Click to roll dice"));
 
     iDice.onclick = rollCharacterDice;
     characterDiv.appendChild(iDice);
@@ -121,9 +121,9 @@ const createCharacterHtml = function(jsonCard, id)
     iMarker.setAttribute("data-uuid", jsonCard.uuid);
     
     if (jsonCard.revealed === true)
-        iMarker.setAttribute("title", Dictionary.get("company_roll_markunmark_c") + " " + jsonCard.code);
+        iMarker.setAttribute("title", Dictionary.get("company_roll_markunmark_c", "Mark/Unmark") + " " + jsonCard.code);
     else
-        iMarker.setAttribute("title", Dictionary.get("company_roll_markunmark"));
+        iMarker.setAttribute("title", Dictionary.get("company_roll_markunmark", "Mark/Unmark this card"));
 
     iMarker.onclick = markCharacter;
     characterDiv.appendChild(iMarker);

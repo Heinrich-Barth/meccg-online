@@ -77,7 +77,7 @@ const AddCardsInGame = {
         let sText = document.getElementById("add-cards-wrapper").querySelector("textarea").value.toLowerCase();
         if (sText === undefined || sText.trim() === "")
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("importtosb_message_add_list") }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("importtosb_message_add_list", "Please add cards to the list.") }));
         }
         else
         {
@@ -85,7 +85,7 @@ const AddCardsInGame = {
             if (jDeck !== null)
             {
                 AddCardsInGame.onClose();
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("importtosb_message_add_list_ok") }));
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("importtosb_message_add_list_ok", "Cards were added to your sideboard.") }));
                 MeccgApi.send("/game/card/add", { cards: jDeck });        
             }
         }
@@ -108,9 +108,9 @@ const AddCardsInGame = {
         div.setAttribute("class", "hide");
         div.innerHTML = `<div id="add-cards-overlay" class="config-panel-overlay"></div>
             <div class="add-cards-box blue-box">
-                <h2 data-translate-inner="importtosb_title">${Dictionary.get("importtosb_title")}</h2>
-                <p data-translate-inner="importtosb_p">${Dictionary.get("importtosb_p")}</p>
-                <textarea name="cards_to_add" data-translate-placeholder="importtosb_tip" placeholder="${Dictionary.get("importtosb_tip")}"></textarea>
+                <h2 data-translate-inner="importtosb_title">${Dictionary.get("importtosb_title", "Add cards to your Sideboard")}</h2>
+                <p data-translate-inner="importtosb_p">${Dictionary.get("importtosb_p", "Please open the deckbuilder and copy the cards to add here.")}</p>
+                <textarea name="cards_to_add" data-translate-placeholder="importtosb_tip" placeholder="${Dictionary.get("importtosb_tip", "copy card codes here, e.g. 1 Gandalf [H] (TW)")}"></textarea>
                 <p>&nbsp;</p>
             </div>`;
 
@@ -119,14 +119,14 @@ const AddCardsInGame = {
         let button = document.createElement("input");
         button.setAttribute("type", "button");
         button.setAttribute("class", "button buttonCancel");
-        button.setAttribute("value", Dictionary.get("cancel"));
+        button.setAttribute("value", Dictionary.get("cancel", "Cancel"));
         button.onclick = this.onClose;
         jTarget.appendChild(button);
 
         button = document.createElement("input");
         button.setAttribute("type", "button");
         button.setAttribute("class", "button buttonUpdate");
-        button.setAttribute("value", Dictionary.get("importtosb_button_add"));
+        button.setAttribute("value", Dictionary.get("importtosb_button_add", "Add to sideboard"));
         button.onclick = this.onAdd.bind(this);
         jTarget.appendChild(button);
 

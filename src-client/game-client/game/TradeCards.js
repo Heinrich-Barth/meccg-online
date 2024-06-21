@@ -23,17 +23,17 @@ class TradeCards extends PlayerSelectorAction {
 
     labelErrorTooFewPlayers()
     {
-        return Dictionary.get("trade_toofew");
+        return Dictionary.get("trade_toofew", "Another player is needed to trade cards");
     }
 
     labelChooseTradingPartner()
     {
-        return Dictionary.get("trade_choosep");
+        return Dictionary.get("trade_choosep", "Choose player to trade with");
     }
 
     labelChoosePlayerToTradeWith()
     {
-        return Dictionary.get("trade_chooseone");
+        return Dictionary.get("trade_chooseone", "Please choose one player to trade cards with");
     }
 
     resetTraders()
@@ -178,22 +178,22 @@ class TradeCards extends PlayerSelectorAction {
 
     labelChooseCards()
     {
-        return Dictionary.get("trade_choosecards");
+        return Dictionary.get("trade_choosecards", "Choose cards to trade");
     }
 
     labelCardsBeingOffered()
     {
-        return Dictionary.get("trade_beingoffered");
+        return Dictionary.get("trade_beingoffered", "Cards being offered to you will appear automatically.");
     }
 
     labelSelectCardsToTrade()
     {
-        return Dictionary.get("trade_selectcards");
+        return Dictionary.get("trade_selectcards", "Select your cards to trade.");
     }
 
     labelAcceptTrade()
     {
-        return Dictionary.get("trade_accept")
+        return Dictionary.get("trade_accept", "Accept trade")
     }
 
     createCardContainer(code, uuid, addId, reveal) 
@@ -341,7 +341,7 @@ class TradeCards extends PlayerSelectorAction {
     {
         this.removeOverlay();
         if (!_isMe && this.tradePartyNumber(jData) !== 0)
-            this.showWarning(Dictionary.get("trade_wascanceled"));
+            this.showWarning(Dictionary.get("trade_wascanceled", "Trade was cancelled"));
     }
 
     tradeSuccess(_isMe, jData)
@@ -350,7 +350,7 @@ class TradeCards extends PlayerSelectorAction {
 
         if (this.tradePartyNumber(jData) !== 0)
         {
-            this.showSuccess(Dictionary.get("trade_success"));
+            this.showSuccess(Dictionary.get("trade_success", "Trade completed"));
             return true;
         }
         else
@@ -369,7 +369,7 @@ class TradeCards extends PlayerSelectorAction {
 
         if (otherPlayer === null || otherPlayer === undefined || otherPlayer === "")
         {
-            this.showError(Dictionary.get("trade_noother"));
+            this.showError(Dictionary.get("trade_noother", "Could not get other player to trade with."));
         }
         else
         {

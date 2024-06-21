@@ -8,9 +8,9 @@ class GameCompanyLocation
         this.CARDID_PREFIX = CARDID_PREFIX;
     }
 
-    static TITLE_SITE_DEST() { return Dictionary.get("loc_site_dest") }
-    static TITLE_SITE_DEST_PLAYER() { return Dictionary.get("loc_site_player") }
-    static TITLE_SITE_ORIGIN() { return Dictionary.get("loc_site_org") }
+    static TITLE_SITE_DEST() { return Dictionary.get("loc_site_dest", "Click to let player arrive or drop hazards to play onguard.") }
+    static TITLE_SITE_DEST_PLAYER() { return Dictionary.get("loc_site_player", "Click to reveal or tap if already revealed.") }
+    static TITLE_SITE_ORIGIN() { return Dictionary.get("loc_site_org", "Site of origin/current site") }
 
 
     createLocationCard(code, img, bIsPlayer, sTitle)
@@ -89,7 +89,7 @@ class GameCompanyLocation
 
         const div = document.createElement("div");
         div.setAttribute("class", "site-action-return fa fa-ban");
-        div.setAttribute("title", Dictionary.get("loc_cancel"));
+        div.setAttribute("title", Dictionary.get("loc_cancel", "Cancel movement and\nreturn to site of origin"));
         div.setAttribute("data-company-uid", company);
 
         div.innerText = " Cancel";
@@ -291,7 +291,7 @@ class GameCompanyLocation
         {
             const code = this.CardList.getSafeCode(_reg);
             const img = this.CardList.getImageRegion(_reg);
-            pContainerReg.appendChild(this.createLocationCard(code, img, bIsPlayer, Dictionary.get("loc_region")));
+            pContainerReg.appendChild(this.createLocationCard(code, img, bIsPlayer, Dictionary.get("loc_region", "Region moved through. Drop hazard creates here")));
         }
     }
 
