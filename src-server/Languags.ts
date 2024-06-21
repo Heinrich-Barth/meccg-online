@@ -175,7 +175,13 @@ class Dictionary {
     #saveDictionary(lang:string, js:string, fallback = "en")
     {
         const file = getRootFolder() + "/public/media/dictionary-" + lang + ".js";
-        const content = this.#createDictionary(lang, fallback);
+        let content = this.#createDictionary(lang, fallback);
+        if (lang === "en")
+        {
+            console.info("-- ignore english dictionary. Will use default values.");
+            content = {};
+        }
+    
         fs.writeFileSync(file, js.replace("{LANG}", lang).replace("/*DO NOT CHANGE*/", JSON.stringify(content) + "//"))
         console.info("Dictionary created for language " + lang);
     }
