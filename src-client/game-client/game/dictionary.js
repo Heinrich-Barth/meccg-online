@@ -6,14 +6,14 @@ class Dictionary {
     #data = /*DO NOT CHANGE*/ {} 
     // this dictionary data will be "replaced" with the correct content during startup
 
-    static get(key)
+    static get(key, defValue = "")
     {
         const val = Dictionary.#instance.#getValue(key);
         if (val !== "")
             return val;
             
         console.warn("Cannot find translation for key #", key);
-        return "";
+        return defValue;
     }
 
     #getValue(key)
