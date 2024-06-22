@@ -95,7 +95,9 @@ const createDeck = function()
 
     if (count === 0)
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "This deck is not suitable for play. Verify that you have cards for pool, chars, and hazards/resources" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { 
+            "detail": Dictionary.get("converter.suitable", "This deck is not suitable for play. Verify that you have cards for pool, chars, and hazards/resources") 
+        }));
         return null;
     }
     else
@@ -117,7 +119,7 @@ const onPerformLogin = function()
     let sName = document.getElementById("deckname").value;
     if (sName === null || sName === undefined || sName === "")
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Provide a deck name first" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("converter.deckname", "Provide a deck name first") }));
         document.getElementById("deckname").focus();
     }
     else
@@ -221,7 +223,7 @@ const onCheckCardCodes = function()
         }
     }).catch(() => 
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not check deck status." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("converter.nostatus", "Could not check deck status.") }));
     });   
 };
 

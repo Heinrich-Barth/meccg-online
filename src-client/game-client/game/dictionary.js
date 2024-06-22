@@ -11,9 +11,8 @@ class Dictionary {
         const val = Dictionary.#instance.#getValue(key);
         if (val !== "")
             return val;
-            
-        console.warn("Cannot find translation for key #", key);
-        return defValue;
+        else
+            return defValue;
     }
 
     #getValue(key)

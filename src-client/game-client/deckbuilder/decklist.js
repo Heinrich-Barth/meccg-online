@@ -121,7 +121,7 @@ const DeckList =
         const file = e.target.files[0];
         if (!file)
         {
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Please choose a file..." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("decklist.choose", "Please choose a file...") }));
             return;
         }
 

@@ -389,12 +389,12 @@ const createDeck = function()
 
     if (isEmpty(jDeck.hazards))
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "The Hazards are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.hazard", "The Hazards are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources") }));
         return null;
     }
     else if (isEmpty(jDeck.resources))
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "The Resources are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.resources", "The Resources are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources") }));
         return null;
     }
     else
@@ -558,7 +558,7 @@ const readSingleFromInput = function(e)
     const file = e.target.files[0];
     if (!file)
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Please choose a file..." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.choosefile", "Please choose a file...") }));
         return;
     }
 
@@ -568,7 +568,7 @@ const readSingleFromInput = function(e)
         removeSelectedDeck();
         const contents = e.target.result;
         if (contents === "" || contents.indexOf("#") === -1)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "File seems to be empty..." }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.empty", "File seems to be empty...") }));
         else    
             document.body.dispatchEvent(new CustomEvent("meccg-file-dropped", { "detail": contents }));
     };
@@ -596,7 +596,7 @@ const onDownloadDeck0 = function(name, data)
     catch (err)
     {
         console.error(err);
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not store deck" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.nostore", "Could not store deck") }));
     }
 }
 
@@ -616,7 +616,7 @@ const onDownloadDeck = function(e, deckid, name)
     .catch(err =>
     {
         console.error(err);
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not download deck" }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.nodownload", "Could not download deck") }));
     });
 
     return false;
@@ -700,10 +700,19 @@ const getRoomImage = function(list)
     return "";
 }
 
+const getLeftOf = function(input, char)
+{
+    if (char === "")
+        return input;
+
+    const pos = input.indexOf(char);
+    return pos === -1 ? input : input.substring(0, pos);
+}
+
 const stripHashFromUrl = function()
 {
-    let sUrl = window.location.href;
-    return sUrl.replace(/#/g, '').toLocaleLowerCase().trim().replace("/arda/", "/play/").replace("/singleplayer/", "/play/");
+    const sUrl = getLeftOf(window.location.href, "?");
+    return getLeftOf(sUrl, "#").toLocaleLowerCase().trim().replace("/arda/", "/play/").replace("/singleplayer/", "/play/");
 };
 
 const isAlphaNumeric = function(sInput)
@@ -1065,7 +1074,7 @@ const onCheckCardCodes = function()
     const vsCards = getCardCodeList();
     if (vsCards.length === 0)
     {
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Please choose a deck or add your own." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("login.deckneeded", "Please choose a deck or add your own.") }));
         return;
     }
 

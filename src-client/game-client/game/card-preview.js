@@ -29,7 +29,7 @@ CardPreview.updateActivity = function()
             clearTimeout(CardPreview.idleForceShutdown);
             CardPreview.idleForceShutdown = null;
             CardPreview.idleCountdownActive = false;
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": "Game is active again." }));    
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("preview.active", "Game is active again.") }));    
         }
     }
 }

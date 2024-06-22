@@ -472,7 +472,7 @@ const ViewCards =
         this.storeCards(jsonCards);
 
         if (hideMessage !== true)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Cards loaded" }));
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("viewcards.loaded", "Cards loaded") }));
     },
 
     onChangeRowNumber : function(value)

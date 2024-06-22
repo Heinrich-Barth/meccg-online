@@ -269,7 +269,7 @@ class GamePreferences extends Preferences {
 
         document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
             name : "System",
-            message : "Set volume to " + val
+            message : "Set volume to " + val,
         }}));
     }
 

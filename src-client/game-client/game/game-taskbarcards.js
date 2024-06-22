@@ -740,7 +740,7 @@ class TaskBarCards
     static ShuffleDiscardPile(e)
     {
         MeccgApi.send("/game/view-cards/shuffle", { target: "discardpile" });
-        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Discardpile shuffled." }));
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("game.shuffled", "Discardpile shuffled.") }));
 
         if (e !== undefined && typeof e.stopPropagation !== "undefined")
             e.stopPropagation();
