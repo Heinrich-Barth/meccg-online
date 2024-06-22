@@ -98,6 +98,8 @@
     }
 }
 
+body.on-drag-event-generic .chatbox { display: none !important;}
+
 .player-selector-box {
     .chat_icon_newmessage {
         color: var(--color-red);
