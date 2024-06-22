@@ -11,12 +11,10 @@
         position: relative;
         font-size: 1.0em;
         color:#363434;  
-        min-width: 300px;
-        max-width: 80%;
         margin-bottom: 20px;
 
         display: grid;
-        grid-template-columns: 40px 250px;
+        grid-template-columns: 40px auto;
         justify-content: center;
         column-gap: 10px;
         

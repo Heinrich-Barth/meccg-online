@@ -197,7 +197,8 @@ export default class Chat {
         this.#api.publish(this.#endpoint, userid, {
             userid: userid,
             message: text,
-            id: ""
+            id: "",
+            usertext: ""
         });
 
         if (saveGameLog)
@@ -211,8 +212,21 @@ export default class Chat {
             this.#api.publish(this.#endpoint, userid, {
                 userid: userid,
                 message: "",
-                id: id
+                id: id,
+                usertext: ""
             });
         }
+    }
+    sendMessageUserText(userid:string, text:string)
+    {
+        if (this.#api === null || text.indexOf(">") !== -1 || text.indexOf("<") !== -1)
+            return;
+
+        this.#api.publish(this.#endpoint, userid, {
+            userid: userid,
+            message: "",
+            id: "",
+            usertext: text
+        });
     }
 }

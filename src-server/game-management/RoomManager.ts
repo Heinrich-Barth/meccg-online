@@ -689,6 +689,19 @@ export default class RoomManager {
             /** ignore */
         }
     }
+
+    onNewMessageText(socket:any, message:string)
+    {
+        try
+        {
+            if (message !== "" && this.#rooms[socket.room])
+                this.#rooms[socket.room].sendMessage(socket.userid, "", "", message);
+        }
+        catch (errIgnore) 
+        {
+            /** ignore */
+        }
+    }
       
     onNewMessagePredef(socket:any, message:string)
     {

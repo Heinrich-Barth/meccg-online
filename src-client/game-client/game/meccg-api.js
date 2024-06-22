@@ -152,12 +152,14 @@ const MeccgPlayers = {
         }}));
     },
 
-    onChatMessage : function(_bIsMe, jData)
+    onChatMessage : function(bIsMe, jData)
     {
         document.body.dispatchEvent(new CustomEvent("meccg-chat-message", { "detail": {
             name : this.getPlayerDisplayName(jData.userid),
             message : jData.message,
-            id: jData.id
+            id: jData.id,
+            usertext: jData.usertext ?? "",
+            isMe: bIsMe
         }}));
     },
 

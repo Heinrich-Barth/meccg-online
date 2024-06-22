@@ -302,12 +302,14 @@ export class GameRoom
         this.#visitors = {};
     }
 
-    sendMessage(userid:string, message:string, preid = "")
+    sendMessage(userid:string, message:string, preid = "", usertext = "")
     {
         if (message !== "")
             this.#chat.sendMessage(userid, message.trim(), false)
         else if (preid !== "")
             this.#chat.sendMessagePrefeined(userid, preid);
+        else if (usertext !== "")
+            this.#chat.sendMessageUserText(userid, usertext);
     }
     
     reply(sPath:string, socket:any, data:any)

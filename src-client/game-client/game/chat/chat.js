@@ -34,34 +34,34 @@ class ChatBox {
     #submitSelection(e) {
         const code = e.target?.getAttribute("data-item");
         if (code && code !== "")
-            MeccgApi.send("/game/chat/predefined", code);
+            MeccgApi.send("/game/chat/predefined", code);    
     }
 
     #defaultValues = {
-        "chat_item_prepare": ":Prepration",
-        "chat_item_prepare_1": ":You can start the draft",
-        "chat_item_prepare_2": ":I will start the draft",
-        "chat_item_prepare_3": ":Let's roll to see who starts the draft",
-        "chat_item_mh": ":M/H",
-        "chat_item_mh_1": ":Any (more) hazards?",
-        "chat_item_mh_2": ":No more hazards",
-        "chat_item_mh_3": ":Which character(s) face attack - please mark",
-        "chat_item_mh_4": ":Roll body check",
-        "chat_item_mh_5": ":Next company",
-        "chat_item_mh_6": ":Your points",
-        "chat_item_general": ":General",
-        "chat_item_general_1": ":Yes",
-        "chat_item_general_2": ":No",
-        "chat_item_general_3": ":Done",
-        "chat_item_general_4": ":Let's go.",
-        "chat_item_general_5": ":You there?",
-        "chat_item_general_6": ":Hang on",
-        "chat_item_general_7": ":Wait a second",
-        "chat_item_general_8": ":Card effects",
-        "chat_item_end": ":End Game",
-        "chat_item_end_1": ":Let's call the council",
-        "chat_item_end_2": ":Let's count MPs",
-        "chat_item_end_3": ":Ready to end the game"
+        "chat_item_prepare": "Prepration",
+        "chat_item_prepare_1": "You can start the draft",
+        "chat_item_prepare_2": "I will start the draft",
+        "chat_item_prepare_3": "Let's roll to see who starts the draft",
+        "chat_item_mh": "M/H",
+        "chat_item_mh_1": "Any (more) hazards?",
+        "chat_item_mh_2": "No more hazards",
+        "chat_item_mh_3": "Which character(s) face attack - please mark",
+        "chat_item_mh_4": "Roll body check",
+        "chat_item_mh_5": "Next company",
+        "chat_item_mh_6": "Your points",
+        "chat_item_general": "General",
+        "chat_item_general_1": "Yes",
+        "chat_item_general_2": "No",
+        "chat_item_general_3": "Done",
+        "chat_item_general_4": "Let's go.",
+        "chat_item_general_5": "You there?",
+        "chat_item_general_6": "Hang on",
+        "chat_item_general_7": "Wait a second",
+        "chat_item_general_8": "Card effects",
+        "chat_item_end": "End Game",
+        "chat_item_end_1": "Let's call the council",
+        "chat_item_end_2": "Let's count MPs",
+        "chat_item_end_3": "Ready to end the game"
     }
 
     #getDefaultValue(key)
@@ -123,7 +123,7 @@ class ChatBox {
 
     #submitMessage(text) {
         if (text.indexOf("<") === -1 && text.indexOf(">") === -1)
-            MeccgApi.send("/game/chat/message", this.#ensureLength(text, 100));
+            MeccgApi.send("/game/chat/text", this.#ensureLength(text, 100));
     }
 
     #createChatform() {
@@ -163,9 +163,11 @@ class ChatBox {
     }
 
     #predefMessage(sFrom, id) {
-        const text = Dictionary.get(id);
+        const text = this.#getDictionaryEntry(id);
         if (text !== "")
             this.#textMessage(sFrom, text);
+
+        return text;
     }
 
     #textMessage(sFrom, sText) {
@@ -191,16 +193,42 @@ class ChatBox {
         objDiv.scrollTop = 0;
     }
 
-    #message(sFrom, sText, id) {
+    #message(sFrom, sText, id, usertext = "", isme = false) {
+
         if (!this.#isValidInput(sFrom))
             return;
 
         if (sText !== "")
+        {
             this.#textMessage(sFrom, sText);
-        else if (id && id !== "") {
-            this.#predefMessage(sFrom, id);
-            this.#notifyPlayer();
+            return;
         }
+
+        let textmessage = "";
+        if (id && id !== "") {
+            const txt = this.#predefMessage(sFrom, id);
+
+            if (!isme)
+                textmessage = txt;
+        }
+        else if (usertext !== "")
+        {
+            this.#textMessage(sFrom, usertext);
+            if (!isme)
+                textmessage = usertext;
+        }
+
+        if (textmessage !== "")
+        {
+            this.#sendNotification(textmessage);
+            this.#notifyPlayer();                    
+        }
+    }
+
+    #sendNotification(text)
+    {
+        if (text !== "")
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": text }));
     }
 
     #notifyPlayer() {
@@ -247,7 +275,13 @@ class ChatBox {
     }
 
     static OnChatMessageReceived(e) {
-        new ChatBox().#message(e.detail.name, e.detail.message, e.detail.id);
+        new ChatBox().#message(
+            e.detail.name, 
+            e.detail.message, 
+            e.detail.id, 
+            e.detail.usertext ?? "", 
+            e.detail.isMe === true, 
+        );
     }
 }
 

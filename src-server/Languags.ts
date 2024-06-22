@@ -35,10 +35,12 @@ const getDictionaryFile = function(req: any)
     return req._language + ".js?t=" + Date.now();
 }
 
+const uptime = Date.now();
+
 function RedirectToSource(req: any, res: Response, next: NextFunction)
 {
     res.header("Cache-Control", "no-store");
-    res.redirect("/media/dictionary-" + getDictionaryFile(req) + ".js");
+    res.redirect("/media/dictionary-" + getDictionaryFile(req) + ".js?version=" + uptime);
 }
 
 export function AddLanguageCookieToRequest(req: any, res: Response, next: NextFunction)
