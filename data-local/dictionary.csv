@@ -1,66 +1,66 @@
 Key (do not change!);English;French;Spanish
 home.startgame;Start a Game;Commencer une partie;Iniciar una partida
-home.choosegame;Choose your game name and click on Continue & choose deck or check out how to play.;Choisissez le nom de votre jeu et cliquez sur Continuer et choisir le jeu ou consultez la rubrique Comment jouer.;Elige el nombre de tu juego y haz clic en Continuar y elige baraja o consulta cómo jugar.
-home.continuestart;Continue & choose deck;Continuer et choisir le pont;Continuar y elegir cubierta
+home.choosegame;Choose your game name and click on Continue & choose deck or check out how to play.;Choisissez le nom de votre partie et cliquez sur Continuer puis choisissez deck ou consultez la rubrique Comment jouer.;Elige el nombre de tu juego y haz clic en Continuar y elige baraja o consulta cómo jugar.
+home.continuestart;Continue & choose deck;Continuer et choisir le deck;Continuar y elegir cubierta
 home.howtostart;How to start;Comment démarrer;Cómo empezar
-home.howtostart.desc;Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the discord server.;Choisissez simplement un nom de jeu et invitez vos amis à vous rejoindre. De nombreux decks sont disponibles, alors choisissez votre sorcier, ringwraith ou seigneur préféré et commencez à jouer. Vous pouvez trouver d'autres joueurs sur le serveur discord.;Sólo tienes que elegir un nombre de juego e invitar a tus amigos a unirse. Hay muchos mazos disponibles, así que elige tu mago, ringwraith o lord favorito y empieza a jugar. Puedes encontrar a otros jugadores en el servidor discord.
-home.currentgames;Current Games;Jeux actuels;Juegos actuales
-home.clickongame;Click on a game to join or watch;Cliquez sur un match pour le rejoindre ou le regarder;Haz clic en un partido para participar o verlo
+home.howtostart.desc;Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the discord server.;Choisissez simplement un nom de partie et invitez vos amis à vous rejoindre. De nombreux decks sont disponibles, alors choisissez votre sorcier, spectre ou seigneur préféré et commencez à jouer. Vous pouvez trouver d'autres joueurs sur le serveur discord.;Sólo tienes que elegir un nombre de juego e invitar a tus amigos a unirse. Hay muchos mazos disponibles, así que elige tu mago, ringwraith o lord favorito y empieza a jugar. Puedes encontrar a otros jugadores en el servidor discord.
+home.currentgames;Current Games;Parties actuelles;Juegos actuales
+home.clickongame;Click on a game to join or watch;Cliquez sur une partie pour la rejoindre ou la regarder;Haz clic en un partido para participar o verlo
 home.currenttournaments;Current Tournaments;Tournois actuels;Torneos en curso
 home.currenttournaments.desc;Click on any tournament for details.;Cliquez sur un tournoi pour plus de détails.;Haga clic en cualquier torneo para obtener más información.
-home.cookienotice;By joining, you agree that this site sets cookies necessary to play a game.;En vous inscrivant, vous acceptez que ce site mette en place les cookies nécessaires pour jouer à un jeu.;Al inscribirse, acepta que este sitio instale las cookies necesarias para jugar.
+home.cookienotice;By joining, you agree that this site sets cookies necessary to play a game.;En vous inscrivant, vous acceptez que ce site mette en place les cookies nécessaires pour jouer une partie.;Al inscribirse, acepta que este sitio instale las cookies necesarias para jugar.
 home.jointable;Join the table;Rejoindre la table;Unirse a la mesa
-home.gametype;Choose a game type;Choisir un type de jeu;Elija un tipo de juego
-home.gametype.solo;Singleplayer / Solitary Mode;Jeu solo;Un jugador / Modo solitario
-home.watchgame;Watch the game.;Regarder le match.;Mira el partido.
-home.joinarda;Join the Arda game.;Rejoindre le jeu Arda.;Únete al juego de Arda.
+home.gametype;Choose a game type;Choisir un type de partie;Elija un tipo de juego
+home.gametype.solo;Singleplayer / Solitary Mode;Un joueur / Jeu solo;Un jugador / Modo solitario
+home.watchgame;Watch the game.;Regarder la partie.;Mira el partido.
+home.joinarda;Join the Arda game.;Rejoindre la partie Arda.;Únete al juego de Arda.
 home.yourname;Who are you to the others?;Quel est votre nom?;¿Quién eres tú para los demás?
-home.creategame;Create Game;Créer un jeu;Crear juego
+home.creategame;Create Game;Créer une patie;Crear juego
 home.asktowatch;Ask to watch;Demander à regarder;Pedir ver
-home.gametype.solorandom;Solitary Mode (random hazard deck);Jeu solo (jeu de hasard);Modo solitario (mazo de peligros aleatorios)
-home.usespanish;Use Spanish instead of English cards (if available);Utiliser des cartes en espagnol plutôt qu'en anglais (si disponible);Utilizar tarjetas en español en lugar de en inglés (si está disponible)
+home.gametype.solorandom;Solitary Mode (random hazard deck);Jeu solo (deck de périls aléatoire);Modo solitario (mazo de peligros aleatorios)
+home.usespanish;Use Spanish instead of English cards (if available);Utiliser des cartes en espagnol plutôt qu'en anglais (si disponibles);Utilizar tarjetas en español en lugar de en inglés (si está disponible)
 home.invalidcodes;Invalid Codes found;Codes invalides trouvés;Códigos no válidos encontrados
-home.editdeck;Click here to edit selected deck or to import your own deck from Cardnum or other;Cliquez ici pour modifier le jeu de cartes sélectionné ou pour importer votre propre jeu de cartes à partir de Cardnum ou d'un autre logiciel.;Haga clic aquí para editar el mazo seleccionado o para importar su propio mazo de Cardnum u otro
-home.selectdeck;Deck Selection;Sélection du pont;Selección de cubiertas
-home.selectdeck.text;Choose a deck or click here to load/import a deck;Choisissez un jeu de cartes ou cliquez ici pour charger/importer un jeu de cartes;Elija un mazo o haga clic aquí para cargar/importar un mazo
-home.clicktojoin;Click to join;Cliquez pour adhérer;Haz clic para unirte
+home.editdeck;Click here to edit selected deck or to import your own deck from Cardnum or other;Cliquez ici pour modifier le deck sélectionné ou pour importer votre propre deck depuis Cardnum ou un autre logiciel.;Haga clic aquí para editar el mazo seleccionado o para importar su propio mazo de Cardnum u otro
+home.selectdeck;Deck Selection;Sélection du deck;Selección de cubiertas
+home.selectdeck.text;Choose a deck or click here to load/import a deck;Choisissez un deck ou cliquez ici pour charger/importer un deck;Elija un mazo o haga clic aquí para cargar/importar un mazo
+home.clicktojoin;Click to join;Cliquez pour rejoindre;Haz clic para unirte
 home.clicktojoin.play;play;Jouer;jugar
 home.clicktowatch;Click to watch;Cliquez pour regarder;Haga clic para ver
 home.clicktowatch.watch;watch;regarder;ver
 home.usedcerrata;Use DC errata;Utiliser l'errata DC;Utilizar la fe de erratas DC
 login.avatarstable;Avatars competing:;Avatars en compétition :;Avatares que compiten:
-look_shared_stored;Look at opponent's stored cards.;Regardez les cartes stockées de l'adversaire.;Mira las cartas guardadas del oponente.
-look_shared_oop;View cards which are out of play;Voir les cartes qui ne sont pas en jeu;Ver las cartas fuera de juego
-look_icon_scored;Look at your stored cards. Right click to edit score sheet;Regardez vos cartes enregistrées. Cliquez avec le bouton droit de la souris pour modifier la feuille de résultats.;Mira tus fichas guardadas. Haz clic con el botón derecho para editar la hoja de puntuación
+look_shared_stored;Look at opponent's stored cards.;Regardez les cartes en réserve de l'adversaire.;Mira las cartas guardadas del oponente.
+look_shared_oop;View cards which are out of play;Voir les cartes hors-jeu;Ver las cartas fuera de juego
+look_icon_scored;Look at your stored cards. Right click to edit score sheet;Regardez vos cartes en réserve. Cliquez avec le bouton droit de la souris pour modifier la feuille de résultats.;Mira tus fichas guardadas. Haz clic con el botón derecho para editar la hoja de puntuación
 look_icon_playdeck;Look at remaining playdeck. Right click to shuffle;Regardez la pioche restante. Cliquez avec le bouton droit de la souris pour mélanger les cartes.;Mira la baraja restante. Clic derecho para barajar
 look_icon_discard;Look at discard pile;Regarder la pile de défausse;Mira la pila de descartes
-look_icon_sideboard;Look at sideboard;Regarder le buffet;Mira el aparador
+look_icon_sideboard;Look at sideboard;Regarder le talon;Mira el aparador
 look_icon_hand;Look at hand cards. Right click to reveal cards to opponent;Regarder les cartes en main. Cliquer sur le bouton droit de la souris pour révéler les cartes à l'adversaire.;Mirar las cartas de la mano. Click derecho para revelar las cartas al oponente
 title_sectators;Spectators;Spectateurs;Espectadores
-title_duration;Duration of this game;Durée du jeu;Duración del juego
-title_icon_hand_eye;Toggle hand card visibility. RIGHT CLICK to reveal hand cards to opponent;Afficher ou non les cartes de la main. CLIQUEZ À DROIT pour révéler les cartes de la main à l'adversaire.;Alternar la visibilidad de las cartas de mano. CLICK DERECHO para revelar las cartas de mano al oponente.
-title_draw;Draw a new card (press d);Tirer une nouvelle carte (appuyer sur d);Roba una nueva carta (pulsa d)
+title_duration;Duration of this game;Durée du de la partie;Duración del juego
+title_icon_hand_eye;Toggle hand card visibility. RIGHT CLICK to reveal hand cards to opponent;Afficher ou non les cartes de la main. CLIC DROIT pour révéler les cartes de la main à l'adversaire.;Alternar la visibilidad de las cartas de mano. CLICK DERECHO para revelar las cartas de mano al oponente.
+title_draw;Draw a new card (press d);Piochez une nouvelle carte (appuyez sur d);Roba una nueva carta (pulsa d)
 title_dice;Click to roll the dice (press r or w);Cliquez pour lancer les dés (appuyez sur r ou w);Haz clic para tirar los dados (pulsa r o w)
-title_change_bg;Change Background;Changement de contexte;Cambiar fondo
-title_fullscreen;Enter fullscreen;Entrer en plein écran;Entrar en pantalla completa
+title_change_bg;Change Background;Changement de fond;Cambiar fondo
+title_fullscreen;Enter fullscreen;Entrer plein écran;Entrar en pantalla completa
 title_orga;Organisation Phase;Phase d'organisation;Fase de organización
-title_longevent;Long Event Phase;Phase longue de l'événement;Fase larga del evento
-title_mh;Movement/Hazard Phase;Phase de mouvement/danger;Fase de movimiento/peligro
-title_sitephase;Site Phase (press 's');Phase du site (appuyer sur "s");Fase del sitio (pulse "s")
-title_eotdiscard;End-of-Turn Discard Phase (press 'e');Phase de défausse de fin de tour (appuyer sur 'e');Fase de descarte de fin de turno (pulsa "e")
+title_longevent;Long Event Phase;Phase d'événements prolongés;Fase larga del evento
+title_mh;Movement/Hazard Phase;Phase de déplacements et périls;Fase de movimiento/peligro
+title_sitephase;Site Phase (press 's');"Phase de site (appuyez sur ""s"")";"Fase del sitio (pulse ""s"")"
+title_eotdiscard;End-of-Turn Discard Phase (press 'e');Phase de fin de tour Défausse (appuyez sur 'e');"Fase de descarte de fin de turno (pulsa ""e"")"
 title_eot;End your turn and start next player's turn (press 'q').;Terminez votre tour et commencez le tour du joueur suivant (appuyez sur 'q').;Termina tu turno y comienza el del siguiente jugador (pulsa 'q').
-title_draft;Draft Phase;Phase de rédaction;Fase de proyecto
+title_draft;Draft Phase;Phase de levée des personnages;Fase de proyecto
 title_showtoopp;Show to your Opponent;Montrez-le à votre adversaire;Muéstreselo a su oponente
-reval_opp;reveal to opp.;révéler à l'opp.;revelar a opp.
-close_and_shuffle;Clsoe & Shuffle;Clsoe & Shuffle;Clsoe & Shuffle
+reval_opp;reveal to opp.;révéler à l'adversaire.;revelar a opp.
+close_and_shuffle;Close & Shuffle;Clsoe & Shuffle;Close & Shuffle
 cancel;Cancel;Annuler;Cancelar
 close;Close;Fermer;Cerrar
 importtosb_message_add_list;Please add cards to the list.;Veuillez ajouter des cartes à la liste.;Por favor, añada tarjetas a la lista.
-importtosb_message_add_list_ok;Cards were added to your sideboard.;Des cartes ont été ajoutées à votre buffet.;Se han añadido cartas a tu sideboard.
-importtosb_title;Add cards to your Sideboard;Ajoutez des cartes à votre Sideboard;Añade cartas a tu Aparador
-importtosb_p;Please open the deckbuilder and copy the cards to add here.;Veuillez ouvrir le deckbuilder et copier les cartes à ajouter ici.;Por favor, abre el deckbuilder y copia las cartas para añadirlas aquí.
+importtosb_message_add_list_ok;Cards were added to your sideboard.;Des cartes ont été ajoutées à votre talon.;Se han añadido cartas a tu sideboard.
+importtosb_title;Add cards to your Sideboard;Ajoutez des cartes à votre Talon;Añade cartas a tu Aparador
+importtosb_p;Please open the deckbuilder and copy the cards to add here.;Veuillez ouvrir la création de deck et copier les cartes à ajouter ici.;Por favor, abre el deckbuilder y copia las cartas para añadirlas aquí.
 importtosb_tip;copy card codes here, e.g. 1 Gandalf [H] (TW);copier les codes des cartes ici, par exemple 1 Gandalf [H] (TW);copiar aquí los códigos de las cartas, por ejemplo 1 Gandalf [H] (TW)
-importtosb_button_add;Add to sideboard;Ajouter au buffet;Añadir al aparador
+importtosb_button_add;Add to sideboard;Ajouter au talon;Añadir al aparador
 arda_trade_toofew;Another player is needed to trade cards;Un autre joueur est nécessaire pour échanger les cartes;Se necesita otro jugador para intercambiar cartas
 arda_trade_choose;Choose player to trade with;Choisir le joueur avec lequel échanger;Elegir jugador con el que comerciar
 arda_trade_choose_trading;Please choose one player to trade cards with;Choisissez un joueur avec qui échanger des cartes;Elige un jugador con el que intercambiar cartas
@@ -69,111 +69,111 @@ handsizeis;Hand size is;La taille de la main est;El tamaño de la mano es
 arda_drag_char;Drag card to play it or \\nDOUBLECLICK to create new company without dragging it.;Faites glisser la carte pour la jouer ou cliquez deux fois pour créer une nouvelle compagnie sans la faire glisser.;Arrastre la carta para jugarla o \\nDOUBLECLICK para crear una nueva empresa sin arrastrarla.
 arda_drag_res;Drag card to play it or \\nDOUBLECLICK to play card without dragging it.;Faites glisser la carte pour la jouer ou cliquez deux fois pour la jouer sans la faire glisser.;Arrastre la carta para jugarla o \\nDOUBLECLICK para jugar la carta sin arrastrarla.
 arda_discard;Discard this card;Défaussez cette carte;Descarta esta carta
-arda_tohand;Move to your hand;Déplacez-vous vers votre main;Mover a la mano
+arda_tohand;Move to your hand;Déplacer vers votre main;Mover a la mano
 arda_tooglevis;Left click to toggle visibility.\\nRight click to refresh.;Cliquez sur le bouton gauche pour modifier la visibilité. Cliquez sur le bouton droit pour actualiser.;Haga clic con el botón izquierdo para cambiar la visibilidad. Haga clic con el botón derecho para actualizar.
 arda_viewdiscard;View discard pile;Voir la pile de défausse;Ver pila de descartes
-arda_viewplaydeck;View playdeck. Right click to shuffle;Afficher le plateau de jeu. Cliquez avec le bouton droit de la souris pour mélanger les fichiers.;Ver lista de reproducción. Haz clic con el botón derecho para reproducir aleatoriamente
-arda_drawnew;Draw a new card;Tirer une nouvelle carte;Robar una nueva carta
-arda_shuffled;Playdeck shuffled;Jeu mélangé;Baraja barajada
-arda_setup_1a; Once everybody is at the table, each player chooses their wizard. Once that is done, you assign random characters to each player's hand.; Une fois que tout le monde est à table, chaque joueur choisit son magicien. Une fois que c'est fait, vous attribuez des personnages au hasard dans la main de chaque joueur.; Una vez que todo el mundo está en la mesa, cada jugador elige a su mago. Una vez hecho esto, asigna personajes al azar a la mano de cada jugador.
-arda_setup_1b;This will clear your hand and add random characters to your hand.;Cela effacera votre main et ajoutera des caractères aléatoires à votre main.;Esto limpiará tu mano y añadirá personajes aleatorios a tu mano.
+arda_viewplaydeck;View playdeck. Right click to shuffle;Afficher la pioche. Cliquez avec le bouton droit de la souris pour mélanger la pioche.;Ver lista de reproducción. Haz clic con el botón derecho para reproducir aleatoriamente
+arda_drawnew;Draw a new card;Piocher une nouvelle carte;Robar una nueva carta
+arda_shuffled;Playdeck shuffled;Pioche mélangée;Baraja barajada
+arda_setup_1a; Once everybody is at the table, each player chooses their wizard. Once that is done, you assign random characters to each player's hand.; Quand tout le monde est en place, chaque joueur choisit son sorcier. Une fois que c'est fait, vous attribuez des personnages au hasard dans la main de chaque joueur.; Una vez que todo el mundo está en la mesa, cada jugador elige a su mago. Una vez hecho esto, asigna personajes al azar a la mano de cada jugador.
+arda_setup_1b;This will clear your hand and add random characters to your hand.;Cela annulera votre main et ajoutera des personnages aléatoires à votre main.;Esto limpiará tu mano y añadirá personajes aleatorios a tu mano.
 arda_setup_1c;Assign random characters to every player.;Attribuer des personnages aléatoires à chaque joueur.;Asigna personajes aleatorios a cada jugador.
-arda_setup_1d;Assign random characters;Attribuer des caractères aléatoires;Asignar caracteres aleatorios
+arda_setup_1d;Assign random characters;Attribuer des personnages aléatoires;Asignar caracteres aleatorios
 arda_setup_1e;Assign more random characters to every player.;Attribuer plus de personnages aléatoires à chaque joueur.;Asigna más personajes aleatorios a cada jugador.
-arda_setup_2a;Everybody may draft characters with a total of 25 GI. Yet, only 20 GI may be used.;Tout le monde peut rédiger des personnages avec un total de 25 IG. Cependant, seuls 20 IG peuvent être utilisés.;Todo el mundo puede reclutar personajes con un total de 25 IG. Sin embargo, solo se pueden utilizar 20 IG.
-arda_setup_2b;Complete character draft and choose minor items.;Compléter l'ébauche du personnage et choisir les éléments mineurs.;Completar el borrador del personaje y elegir elementos menores.
-arda_setup_2c;Recycling will automatically disacrd your current hand and reshuffle everything into the playdeck.;Le recyclage va automatiquement désactiver votre main actuelle et remélanger tout ce qui se trouve dans la pioche.;Reciclaje disacrd automáticamente su mano actual y barajar todo en la playdeck.
-arda_setup_3a;Everybody may choose up to 3 minor items. Once that is done, the game can start.;Chacun peut choisir jusqu'à 3 objets mineurs. Une fois cela fait, le jeu peut commencer.;Cada uno puede elegir hasta 3 objetos menores. Una vez hecho esto, el juego puede comenzar.
-arda_setup_3b;Complete minor item draft and start the game.;Complétez le projet d'objet mineur et démarrez le jeu.;Completa el borrador de objetos menores e inicia el juego.
-arda_setup_4a;Do you want to reshuffle all cards into the playdeck?, ;Voulez-vous mélanger toutes les cartes dans la pioche ?;¿Quieres volver a barajar todas las cartas en la baraja?,
-arda_setup_4b;All cards will be reshuffled into the playdeck and a new hand will be drawn., ;Toutes les cartes seront mélangées dans la pioche et une nouvelle main sera tirée,;Todas las cartas se barajarán de nuevo en la baraja y se robará una nueva mano.,
-arda_setup_4c;Reshuffle everything;Tout remettre à plat;Remodelar todo
-arda_handlimit;Hand already holds enough cards.;La main a déjà suffisamment de cartes en main.;La mano ya tiene suficientes cartas.
-context_nonotes;Deck notes are not available for your deck.;Les notes de jeu ne sont pas disponibles pour votre jeu.;Las notas de mazo no están disponibles para tu mazo.
-context_yournotes;Your Deck Notes;Vos notes de jeu;Notas de su baraja
+arda_setup_2a;Everybody may draft characters with a total of 25 GI. Yet, only 20 GI may be used.;Tout le monde peut choisir des personnages avec un total de 25 d'IG. Cependant, seuls 20 d'IG peuvent être utilisés.;Todo el mundo puede reclutar personajes con un total de 25 IG. Sin embargo, solo se pueden utilizar 20 IG.
+arda_setup_2b;Complete character draft and choose minor items.;Compléter la levée des personnages et choisir les objets mineurs.;Completar el borrador del personaje y elegir elementos menores.
+arda_setup_2c;Recycling will automatically discard your current hand and reshuffle everything into the playdeck.;Le recyclage va automatiquement défausser votre main actuelle et tout remélanger dans la pioche.;Reciclaje disacrd automáticamente su mano actual y barajar todo en la playdeck.
+arda_setup_3a;Everybody may choose up to 3 minor items. Once that is done, the game can start.;Chacun peut choisir jusqu'à 3 objets mineurs. Une fois cela fait, la partie peut commencer.;Cada uno puede elegir hasta 3 objetos menores. Una vez hecho esto, el juego puede comenzar.
+arda_setup_3b;Complete minor item draft and start the game.;Complétez le choix d'objet mineur et démarrez la partie.;Completa el borrador de objetos menores e inicia el juego.
+arda_setup_4a;Do you want to reshuffle all cards into the playdeck?, ;Voulez-vous remélanger toutes les cartes dans la pioche ?;¿Quieres volver a barajar todas las cartas en la baraja?,
+arda_setup_4b;All cards will be reshuffled into the playdeck and a new hand will be drawn., ;Toutes les cartes seront remélangées dans la pioche et une nouvelle main sera piochée,;Todas las cartas se barajarán de nuevo en la baraja y se robará una nueva mano.,
+arda_setup_4c;Reshuffle everything;Tout remélanger;Remodelar todo
+arda_handlimit;Hand already holds enough cards.;La main contient déjà suffisamment de cartes.;La mano ya tiene suficientes cartas.
+context_nonotes;Deck notes are not available for your deck.;Les annotations ne sont pas disponibles pour votre deck.;Las notas de mazo no están disponibles para tu mazo.
+context_yournotes;Your Deck Notes;Vos annotations de deck;Notas de su baraja
 context_anywhere_esc;Click anywhere or press ESC to close the window;Cliquez n'importe où ou appuyez sur ESC pour fermer la fenêtre;Haga clic en cualquier lugar o pulse ESC para cerrar la ventana
 context_anywhere;Click to close;Cliquez pour fermer;Pulse para cerrar
-context_canotshowtapped;Cannot show tapped sites.;Impossible d'afficher les sites exploités.;No se pueden mostrar los sitios intervenidos.
+context_canotshowtapped;Cannot show tapped sites.;Impossible d'afficher les sites engagés.;No se pueden mostrar los sitios intervenidos.
 context_reveal;Reveal cards to opponent;Révéler les cartes à l'adversaire;Revelar cartas al adversario
-context_reveal_text;Please specifiy the number of cards your opponent will look at (if available in your deck);Veuillez préciser le nombre de cartes que votre adversaire va regarder (si elles sont disponibles dans votre jeu).;Especifique el número de cartas que mirará su oponente (si están disponibles en su mazo)
-context_lookdeck;Look at your playdeck;Regardez votre playdeck;Mira tu playdeck
-context_lookdeck_text;Please specifiy the number of cards to look at. The cards will be shuffled again automatically.;Veuillez indiquer le nombre de cartes à examiner. Les cartes seront à nouveau mélangées automatiquement.;Especifique el número de cartas que desea ver. Las cartas se barajarán de nuevo automáticamente.
+context_reveal_text;Please specifiy the number of cards your opponent will look at (if available in your deck);Veuillez préciser le nombre de cartes que votre adversaire va regarder (si elles sont disponibles dans votre pioche).;Especifique el número de cartas que mirará su oponente (si están disponibles en su mazo)
+context_lookdeck;Look at your playdeck;Regardez votre pioche;Mira tu playdeck
+context_lookdeck_text;Please specifiy the number of cards to look at. The cards will be shuffled again automatically.;Veuillez indiquer le nombre de cartes à regarder. Les cartes seront à remélangées automatiquement.;Especifique el número de cartas que desea ver. Las cartas se barajarán de nuevo automáticamente.
 context_shuffle;Shuffle Top Playdeck;Shuffle Top Playdeck;Playdeck Shuffle Top
 context_shuffle_text;Please specifiy the number of cards to shuffle.;Veuillez préciser le nombre de cartes à mélanger.;Especifique el número de cartas a barajar.
-context_shuffled;Playdeck shuffled.;Jeu mélangé.;Baraja barajada.
+context_shuffled;Playdeck shuffled.;Pioche mélangée.;Baraja barajada.
 context_shuffleinto;Do you want to reshuffle pile into the playdeck?;Voulez-vous remélanger la pile dans la pioche ?;¿Quieres volver a barajar la pila en la baraja?
-context_shuffleinto_text;All discarded cards will be reshuffled into the playdeck.;Toutes les cartes défaussées sont remélangées dans la pioche.;Todas las cartas descartadas se barajarán de nuevo en el mazo.
-context_shuffleinto_do;Reshuffle;Remaniement;Reorganizar
+context_shuffleinto_text;All discarded cards will be reshuffled into the playdeck.;Toutes les cartes défaussées vont être remélangées dans la pioche.;Todas las cartas descartadas se barajarán de nuevo en el mazo.
+context_shuffleinto_do;Reshuffle;Remélanger;Reorganizar
 context_numberofcards;Number of cards: ;Nombre de cartes :;Número de tarjetas:
 context_clicktoclose;Click to close;Cliquez pour fermer;Pulse para cerrar
-context_notappedsites;No tapped sites so far.;Aucun site n'a été touché jusqu'à présent.;No hay sitios intervenidos hasta ahora.
-context_yourtappedsites;Your Tapped Sites;Vos sites d'écoute;Sus sitios intervenidos
+context_notappedsites;No tapped sites so far.;Aucun site n'a été engagé jusqu'à présent.;No hay sitios intervenidos hasta ahora.
+context_yourtappedsites;Your Tapped Sites;Vos sites engagés;Sus sitios intervenidos
 context_continue;Continue;Continuer;Continúe en
-context_e_ready;Ready card;Carte prête à l'emploi;Tarjeta Ready
-context_e_tap;Tap card (90°);Carte à tarauder (90°);Tarjeta de grifo (90°)
-context_e_tap_91;Tap and lock tapped (90°);Taraudage et verrouillage taraudé (90°);Grifo y cierre roscado (90°)
-context_e_wound;Wound card (180°);Carte à enrouler (180°);Tarjeta herida (180°)
-context_e_rot270;Rotate 270°;Rotation de 270;Girar 270
-context_e_glow_action;Highlight card (5s);Carte des points forts (5s);Tarjeta destacada (5s)
-context_e_flipcard;Flip Card;Carte à rabat;Tarjeta abatible
+context_e_ready;Ready card;Carte prête;Tarjeta Ready
+context_e_tap;Tap card (90°);Carte à engager (90°);Tarjeta de grifo (90°)
+context_e_tap_91;Tap and lock tapped (90°);Engager et verrouiller engagée (90°);Grifo y cierre roscado (90°)
+context_e_wound;Wound card (180°);Carte à inverser (180°);Tarjeta herida (180°)
+context_e_rot270;Rotate 270°;Rotation de 270°;Girar 270
+context_e_glow_action;Highlight card (5s);Montrer la carte (5s);Tarjeta destacada (5s)
+context_e_flipcard;Flip Card;Retourner la carte;Tarjeta abatible
 context_e_token_add;Add token;Ajouter un jeton;Añadir ficha
 context_e_token_remove;Remove token;Supprimer le jeton;Eliminar ficha
 context_e_arrive;Company arrives at destination;La compagnie arrive à destination;La empresa llega a su destino
 context_e_add_ressource;Add this site as a ressource;Ajouter ce site comme ressource;Añadir este sitio como recurso
 context_e_add_character;Add this site as a character;Ajouter ce site en tant que personnage;Añadir este sitio como personaje
 context_e_movement_return;Return to site of origin;Retour au site d'origine;Regreso al lugar de origen
-context_e_view_deck_cards;Look at my playdeck as it is;Regardez mon playdeck tel qu'il est;Mira mi playdeck como es
-context_e_view_deck_cards_ordered;Look at my playdeck and group cards;Regardez mon jeu de cartes et mes cartes de groupe;Mira mi baraja y cartas de grupo
+context_e_view_deck_cards;Look at my playdeck as it is;Regarder ma pioche telle qu'elle est;Mira mi playdeck como es
+context_e_view_deck_cards_ordered;Look at my playdeck and group cards;Regarder ma pioche et mes cartes empilées;Mira mi baraja y cartas de grupo
 context_e_view_deck_cards_reveal;Reveal playdeck to opponent;Révéler la pioche à l'adversaire;Revela la baraja al oponente
-context_e_view_discardpile_cards;Look at my discard pile as it is;Regardez ma pile de défausse telle qu'elle est;Mira mi pila de descartes como está
-context_e_view_discardpile_sites;Show my tapped sites;Afficher les sites sur lesquels j'ai tapé;Mostrar mis sitios pinchados
-context_e_view_discardpile_ordered;Look at my discard pile and group cards;Regardez ma pile de défausse et mes cartes de groupe;Mira mi pila de descartes y cartas de grupo
+context_e_view_discardpile_cards;Look at my discard pile as it is;Regarder ma pile de défausse telle qu'elle est;Mira mi pila de descartes como está
+context_e_view_discardpile_sites;Show my tapped sites;Afficher mes sites engagés;Mostrar mis sitios pinchados
+context_e_view_discardpile_ordered;Look at my discard pile and group cards;Regarder ma pile de défausse et mes cartes empilées;Mira mi pila de descartes y cartas de grupo
 context_e_view_discardpile_cards_reveal;Reveal discard pile to opponent;Révéler la pile de défausse à l'adversaire;Revela la pila de descartes al oponente
-context_e_move_company_left;Move company one position to the left;Déplacer l'entreprise d'une position vers la gauche;Mover la empresa una posición a la izquierda
-context_e_move_company_right;Move company one position to the right;Déplacer l'entreprise d'une position vers la droite;Desplazar la empresa una posición a la derecha
-context_e_move_company_end;Move company to the end;Déplacer l'entreprise à la fin;Mover la empresa al final
-context_e_view_deck_notes;View deck notes;Voir les notes de jeu;Ver notas de cubierta
-context_e_reval_cards_number;Reveal X cards to your opponent (I will not see them);Révélez X cartes à votre adversaire (je ne les verrai pas).;Revela X cartas a tu oponente (yo no las veré)
-context_e_reval_cards_number_self;Look at your top X cards;Examinez vos X cartes les plus importantes;Mira tus X mejores cartas
-context_e_playdeck_shuffle;Shuffle deck;Mélanger les cartes;Baraja
-context_e_playdeck_shuffle_x_cards;Shuffle top X cards of your playdeck;Mélangez les X cartes supérieures de votre jeu.;Baraja las X cartas superiores de tu baraja
+context_e_move_company_left;Move company one position to the left;Déplacer la compagnie vers la gauche;Mover la empresa una posición a la izquierda
+context_e_move_company_right;Move company one position to the right;Déplacer la compagnie vers la droite;Desplazar la empresa una posición a la derecha
+context_e_move_company_end;Move company to the end;Déplacer la compagnie à la fin;Mover la empresa al final
+context_e_view_deck_notes;View deck notes;Voir les annotations du deck;Ver notas de cubierta
+context_e_reval_cards_number;Reveal X cards to your opponent (I will not see them);Révéler X cartes à votre adversaire (vous ne les verrez pas).;Revela X cartas a tu oponente (yo no las veré)
+context_e_reval_cards_number_self;Look at your top X cards;Regarder vos X cartes du dessus de la pioche;Mira tus X mejores cartas
+context_e_playdeck_shuffle;Shuffle deck;Mélanger la pioche;Baraja
+context_e_playdeck_shuffle_x_cards;Shuffle top X cards of your playdeck;Mélangez les X cartes supérieures de votre pioche.;Baraja las X cartas superiores de tu baraja
 context_e_discardpile_shuffle_into_playdeck;Shuffle discard pile into your playdeck;Mélangez la pile de défausse dans votre pioche.;Baraja la pila de descartes en tu mazo de juego
 context_e_discardpile_shuffle;Shuffle Discard Pile;Mélanger la pile de défausse;Barajar Pila de Descartes
 context_e_playdeck_choose_site;Add a site as a character;Ajouter un site en tant que personnage;Añadir un sitio como personaje
-context_e_victory_me;Show my stored cards;Montrer mes cartes stockées;Mostrar mis tarjetas almacenadas
-context_e_victory_shared;Show opponent's stored cards;Afficher les cartes stockées de l'adversaire;Mostrar las cartas guardadas del adversario
-dice_opponent;Opponent;Opposant;Oponente
+context_e_victory_me;Show my stored cards;Montrer mes cartes en réserve;Mostrar mis tarjetas almacenadas
+context_e_victory_shared;Show opponent's stored cards;Afficher les cartes en réserve de l'adversaire;Mostrar las cartas guardadas del adversario
+dice_opponent;Opponent;Adversaire;Oponente
 dice_you;You;Vous;Usted
-dice_clickclose;Click to close dice result;Cliquez pour fermer le résultat des dés;Haga clic para cerrar el resultado de los dados
+dice_clickclose;Click to close dice result;Cliquez pour fermer le résultat du jet de dés;Haga clic para cerrar el resultado de los dados
 dice_title;Choose Dices;Choisir les dés;Elija Dados
 dice_text;Click on a dice to immediately choose it or click anywhere else to close the panel;Cliquez sur un dé pour le choisir immédiatement ou cliquez n'importe où ailleurs pour fermer le panneau.;Haz clic en un dado para elegirlo inmediatamente o haz clic en cualquier otro lugar para cerrar el panel
 dice_clickchoose;Click to use these dices;Cliquez pour utiliser ces dés;Haga clic para utilizar estos dados
-dice_who_rolled;rolled a;a roulé un;rodó un
-into_end;End this game and show final scores (after final confirmation);Terminer ce jeu et afficher les scores finaux (après confirmation finale);Finalizar este juego y mostrar los resultados finales (tras la confirmación final)
-playerselector_rearranged;Player seating rearranged.;Les sièges des joueurs ont été réaménagés.;Reorganización de los asientos de los jugadores.
-playerselector_hazardplayer;You are the hazard player.;Vous êtes le joueur de hasard.;Tú eres el jugador peligroso.
+dice_who_rolled;rolled a;a fait un jet de;rodó un
+into_end;End this game and show final scores (after final confirmation);Terminer cette partie et afficher les scores totaux (après confirmation finale);Finalizar este juego y mostrar los resultados finales (tras la confirmación final)
+playerselector_rearranged;Player seating rearranged.;Les places des joueurs ont été réaménagées.;Reorganización de los asientos de los jugadores.
+playerselector_hazardplayer;You are the hazard player.;Vous êtes le joueur de périls.;Tú eres el jugador peligroso.
 playerselector_activeplayer;Active Player;Joueur actif;Jugador activo
-playerselector_currenthazard;Current hazard player;Joueur de risque actuel;Jugador de peligro actual
+playerselector_currenthazard;Current hazard player;Joueur de périls actuel;Jugador de peligro actual
 playerselector_cardsinhand;cards in hand;cartes en main;cartas en mano
-playerselector_cardsindeck;cards in playdeck;cartes dans le jeu;cartas en el mazo
+playerselector_cardsindeck;cards in playdeck;cartes dans la pioche;cartas en el mazo
 score_point;Point;Point;Punto
 score_points;Points;Points;Puntos
-score_card;Score Card;Carte de pointage;Tarjeta de puntuación
+score_card;Score Card;Carte de score;Tarjeta de puntuación
 score_update;Update score;Mise à jour du score;Actualizar puntuación
-score_yours;Your Victory Pile;Votre pile de victoires;Su pila de victorias
-score_avg_turntime_total;Total Turn Time;Temps de rotation total;Tiempo total de giro
-score_avg_turntime;Avg. Turn Time;Avg. Temps de rotation;Avg. Tiempo de giro
+score_yours;Your Victory Pile;Votre pile de points de rassemblement;Su pila de victorias
+score_avg_turntime_total;Total Turn Time;Temps total de tour;Tiempo total de giro
+score_avg_turntime;Avg. Turn Time;Temps moyen de tour;Avg. Tiempo de giro
 score_tournament;Tournament;Tournoi;Torneo
 score_click_changeavatar;Click to change your avatar;Cliquez pour changer votre avatar;Haz clic para cambiar tu avatar
 score_autodisconnect;Automatic disconnect;Déconnexion automatique;Desconexión automática
 score_reboot;The server rebooted automatically (scheduled).;Le serveur a redémarré automatiquement (programmé).;El servidor se reinició automáticamente (programado).
-score_leavetolobby;Leave game and return to lobby;Quitter le jeu et retourner dans le hall;Salir del juego y volver al vestíbulo
-score_returntolobbdy;Return to lobby.;Retour au hall d'entrée.;Volver al vestíbulo.
+score_leavetolobby;Leave game and return to lobby;Quitter la partie et retourner à l'accueil;Salir del juego y volver al vestíbulo
+score_returntolobbdy;Return to lobby.;Retour à l'accueil.;Volver al vestíbulo.
 score_autosave;Save last autosave to disk;Sauvegarde de la dernière sauvegarde automatique sur le disque;Guardar en disco el último autoguardado
 score_couldnotfetch;Could not fetch scores.;Impossible de récupérer les scores.;No se han podido recuperar las puntuaciones.
 sound_blocked;Could not play sound. Browser blocked it.;Impossible de jouer le son. Le navigateur l'a bloqué.;No se puede reproducir el sonido. El navegador lo bloqueó.
-watch_score;Open score sheet;Feuille de score ouverte;Hoja de puntuación abierta
-watch_showhide;Show/Hide hand cards;Afficher/masquer les cartes des mains;Mostrar/Ocultar cartas de mano
+watch_score;Open score sheet;Ouvrir la Feuille de score;Hoja de puntuación abierta
+watch_showhide;Show/Hide hand cards;Afficher/masquer les cartes de la main;Mostrar/Ocultar cartas de mano
 bg_choose;Choose Background;Choisir l'arrière-plan;Elegir fondo
 bg_choose_text;Click on am image to immediately choose it or click anywhere else to close the panel;Cliquez sur une image pour la choisir immédiatement ou cliquez n'importe où ailleurs pour fermer le panneau.;Haga clic en una imagen para seleccionarla inmediatamente o haga clic en cualquier otro lugar para cerrar el panel.
 bg_click;Click to use this background;Cliquez pour utiliser cet arrière-plan;Haga clic para utilizar este fondo
@@ -182,167 +182,167 @@ warn_fetchimage;Could not fetch image list.;Impossible de récupérer la liste d
 seat_up;Move up;Monter en grade;Sube
 seat_down;Move down;Descendre;Baja
 seat_save;Save changes;Enregistrer les modifications;Guardar cambios
-seat_ignore;Ignore changes;Ignorer les changements;Ignorar los cambios
+seat_ignore;Ignore changes;Ignorer les modificationsions;Ignorar los cambios
 seat_invalid1;Invalid number of players.;Nombre de joueurs non valide.;Número de jugadores no válido.
 seat_invalid2;Same order. No need to update;Même ordre. Il n'est pas nécessaire de mettre à jour;Mismo orden. No es necesario actualizar
 seat_invalid3;Invalid player array! Cannot and will not update order.;Tableau de joueurs invalide ! Impossible de mettre à jour l'ordre.;Conjunto de jugadores no válido. No se puede y no se actualizará el orden.
 seat_invalid4;You can only change player order with more than 2 players.;Vous ne pouvez modifier l'ordre des joueurs qu'avec plus de 2 joueurs.;Sólo se puede cambiar el orden de los jugadores con más de 2 jugadores.
-seat_title;Rearrange the seating position.;Réorganiser la position assise.;Cambia la posición de los asientos.
-seat_text;Each players plays hazards against the following opponent (you play hazards to your right/following opponent);Chaque joueur joue des aléas contre l'adversaire suivant (vous jouez des aléas contre votre adversaire de droite/suivant).;Cada jugador juega peligros contra el siguiente oponente (juegas peligros contra tu oponente de la derecha/siguiente)
+seat_title;Rearrange the seating position.;Réorganiser la place des joueurs.;Cambia la posición de los asientos.
+seat_text;Each players plays hazards against the following opponent (you play hazards to your right/following opponent);Chaque joueur joue des périls contre l'adversaire suivant (vous jouez des périls contre votre adversaire de droite/suivant).;Cada jugador juega peligros contra el siguiente oponente (juegas peligros contra tu oponente de la derecha/siguiente)
 seat_myself;Myself;Moi-même;Yo mismo
-company_orga_deeps;Organise underdeep movement;Organiser le mouvement en profondeur;Organizar el movimiento subterráneo
-company_orga_deeps_inner;Deeps;Profondeurs;Profundidades
-company_orga_sites;Organise region movement;Organiser un mouvement régional;Organizar el movimiento regional
+company_orga_deeps;Organise underdeep movement;Organiser le déplacement aux sites des Abîmes ;Organizar el movimiento subterráneo
+company_orga_deeps_inner;Deeps;Abîmes;Profundidades
+company_orga_sites;Organise region movement;Organiser un déplacement régional;Organizar el movimiento regional
 company_orga_sites_inner;Sites;Sites;Sitios
-company_orga_reveal;Reveal movement / mark as current company in movement hazard phase;Révéler le mouvement / marquer la compagnie actuelle dans la phase de risque de mouvement;Revelar movimiento / marcar como compañía actual en fase de peligro de movimiento
+company_orga_reveal;Reveal movement / mark as current company in movement hazard phase;Révéler le déplacement / marquer la compagnie actuelle dans la phase de déplacements et périls;Revelar movimiento / marcar como compañía actual en fase de peligro de movimiento
 company_orga_reveal_inner;Reveal;Révéler;Revelar
 company_roll_for_c;Click to roll dice for;Cliquez pour lancer les dés pour;Haz clic para tirar los dados
 company_roll_for;Click to roll dice;Cliquez pour lancer les dés;Haz clic para tirar los dados
 company_roll_markunmark_c;Mark/Unmark;Marquer/Démarquer;Marcar/Desmarcar
 company_roll_markunmark;Mark/Unmark this card;Marquer/démarquer cette carte;Marcar/desmarcar esta tarjeta
-taskbar_shuffled;Playdeck shuffled.;Jeu mélangé.;Baraja barajada.
+taskbar_shuffled;Playdeck shuffled.;Pioche mélangée.;Baraja barajada.
 builder_move_topdiscard;Move to top of discard pile;Déplacer vers le haut de la pile de défausse;Mover a la parte superior de la pila de descartes
-builder_handcard_tip;Drag card to play it or \\nRIGHT CLICK to toggle playing it face down\\nDOUBLECLICK to play card without dragging it.;Faites glisser la carte pour la jouer ou CLIQUEZ DROIT pour la jouer face cachée. CLIQUEZ DOUBLEMENT pour jouer la carte sans la faire glisser.;Arrastra la carta para jugarla o haz clic derecho para jugarla boca abajo. Haz doble clic para jugar la carta sin arrastrarla.
+builder_handcard_tip;Drag card to play it or \\nRIGHT CLICK to toggle playing it face down\\nDOUBLECLICK to play card without dragging it.;Faites glisser la carte pour la jouer ou CLIC DROIT pour la jouer face cachée. DOUBLE CLIC pour jouer la carte sans la faire glisser.;Arrastra la carta para jugarla o haz clic derecho para jugarla boca abajo. Haz doble clic para jugar la carta sin arrastrarla.
 builder_yourturn;It is your turn now.;C'est votre tour maintenant.;Ahora te toca a ti.
 builder_whosactive;is the active player.;est le joueur actif.;es el jugador activo.
 builder_chooseavatar;Click to choose this avatar;Cliquez pour choisir cet avatar;Haz clic para elegir este avatar
 builder_chooseavatar_title;Choose your Avatar;Choisissez votre avatar;Elige tu avatar
 builder_chooseavatar_text;Click on your avatar/character or press ESC to close;Cliquez sur votre avatar/personnage ou appuyez sur ESC pour fermer.;Haz clic en tu avatar/personaje o pulsa ESC para cerrar
 builder_nocharsavail;No characters available.;Aucun personnage n'est disponible.;No hay caracteres disponibles.
-loc_site_dest;Click to let player arrive or drop hazards to play onguard.;Cliquez pour laisser le joueur arriver ou laissez tomber les dangers pour jouer en garde.;Haz clic para dejar llegar al jugador o suelta los peligros para jugar en guardia.
-loc_site_player;Click to reveal or tap if already revealed.;Cliquez pour révéler ou tapez si c'est déjà le cas.;Haz clic para revelarlo o toca si ya está revelado.
+loc_site_dest;Click to let player arrive or drop hazards to play onguard.;Cliquez pour laisser le joueur arriver ou pour jouer une carte en sentinelle.;Haz clic para dejar llegar al jugador o suelta los peligros para jugar en guardia.
+loc_site_player;Click to reveal or tap if already revealed.;Cliquez pour révéler ou engager si elle est révélée.;Haz clic para revelarlo o toca si ya está revelado.
 loc_site_org;Site of origin/current site;Site d'origine/site actuel;Lugar de origen/sitio actual
-loc_cancel;Cancel movement and\\nreturn to site of origin;Annulation du mouvement et retour au site d'origine;Cancelar el movimiento y volver al lugar de origen.
-loc_region;Region moved through. Drop hazard creates here;La région a été traversée. Un risque de chute est créé ici;Región atravesada. Peligro de caída crea aquí
-handcards_404sites;Cannot find companies' sites.;Impossible de trouver les sites des entreprises.;No se encuentran los sitios de las empresas.
-handcards_movementfirst;Please organize movement first.;Veuillez d'abord organiser le mouvement.;Por favor, organice primero el movimiento.
+loc_cancel;Cancel movement and\\nreturn to site of origin;Annuler le déplacement et retour au site d'origine;Cancelar el movimiento y volver al lugar de origen.
+loc_region;Region moved through. Drop hazard creates here;La région a été traversée. Placer un péril de créature ici;Región atravesada. Peligro de caída crea aquí
+handcards_404sites;Cannot find companies' sites.;Impossible de trouver les sites des compagnies.;No se encuentran los sitios de las empresas.
+handcards_movementfirst;Please organize movement first.;Veuillez d'abord organiser le déplacement.;Por favor, organice primero el movimiento.
 handcards_movecontainer;Click to drag anywhere.\\nRIGHT click to restore to original position;Cliquez pour faire glisser n'importe où. Cliquez à droite pour rétablir la position d'origine.;Haz clic para arrastrar a cualquier lugar. Haz clic DERECHO para volver a la posición original.
 api_reconnected;Reconnected.;Reconnecté.;Reconectados.
 api_connectionlost;Connection to server lost -;Connexion au serveur perdue -;Conexión con el servidor perdida -
-api_recon;Reconnecting in 1 second;Reconnexion en 1 seconde;Reconexión en 1 segundo
+api_recon;Reconnecting in 1 second;Reconnexion dans 1 seconde;Reconexión en 1 segundo
 api_reconnecting;Reconnecting...;Se reconnecter...;Volver a conectar...
-api_endgame_q;Do you want to end this game?;Voulez-vous mettre fin à ce jeu ?;¿Quieres terminar este juego?
-api_endgame_t;Let's see the final scorings.;Voyons les scores finaux.;Veamos las puntuaciones finales.
-api_endgame_a;End this game;Mettre fin à ce jeu;Termina este juego
-refresh_title;Connectivity Problem;Problème de connectivité;Problema de conectividad
+api_endgame_q;Do you want to end this game?;Voulez-vous mettre fin à cette partie ?;¿Quieres terminar este juego?
+api_endgame_t;Let's see the final scorings.;Voyons les scores totaux.;Veamos las puntuaciones finales.
+api_endgame_a;End this game;Mettre fin à cette partie;Termina este juego
+refresh_title;Connectivity Problem;Problème de connexion;Problema de conectividad
 refresh_reason1;It seems the connection to the server was lost.<br><br>This page will be reloaded in 10 seconds;Il semble que la connexion au serveur ait été perdue.<br><br>Cette page sera rechargée dans 10 secondes;Parece que se ha perdido la conexión con el servidor.<br><br>Esta página se volverá a cargar en 10 segundos
-refresh_reason2;Connection lost due to the reason:;Connexion perdue à cause de la raison :;Conexión perdida debido a la razón:
+refresh_reason2;Connection lost due to the reason:;Connexion perdue à cause de :;Conexión perdida debido a la razón:
 refresh_reason3;This page will be reloaded in 10 seconds;Cette page sera rechargée dans 10 secondes;Esta página se recargará en 10 segundos
 refresh_now;Reload now;Recharger maintenant;Recargar ahora
-refresh_decknote;Deck Notification;Notification de pont;Notificación de cubierta
-refresh_decknote_t;Your deck is about to exhaust. It will be reshuffled automatically if needed. Just keep on drawing.;Votre deck est sur le point de s'épuiser. Il sera remélangé automatiquement si nécessaire. Continuez à piocher.;Tu mazo está a punto de agotarse. Se barajará automáticamente si es necesario. Sigue sacando.
+refresh_decknote;Deck Notification;Annotation du deck;Notificación de cubierta
+refresh_decknote_t;Your deck is about to exhaust. It will be reshuffled automatically if needed. Just keep on drawing.;Votre pioche est sur le point de s'épuiser. Elle sera remélangée automatiquement si nécessaire. Continuez à piocher.;Tu mazo está a punto de agotarse. Se barajará automáticamente si es necesario. Sigue sacando.
 refresh_decknode_ok;Got it.;Je l'ai.;Entendido.
-psaction_toofew;Another player is needed to show cards to;Un autre joueur est nécessaire pour montrer les cartes à;Se necesita otro jugador para mostrar cartas a
+psaction_toofew;Another player is needed to show cards to;Un autre joueur est nécessaire pour montrer les cartes;Se necesita otro jugador para mostrar cartas a
 psaction_choose;Choose player to show cards;Choisir un joueur pour montrer ses cartes;Elegir jugador para mostrar cartas
-psaction_choosetrade;Please choose one player to show cards;Veuillez choisir un joueur pour montrer les cartes;Por favor, elija un jugador para mostrar las cartas
+psaction_choosetrade;Please choose one player to show cards;Veuillez choisir un joueur pour montrer ses cartes;Por favor, elija un jugador para mostrar las cartas
 psaction_clickcancel;Click here to cancel;Cliquez ici pour annuler;Pulse aquí para cancelar
-psaction_allopp;All opponents;Tous les opposants;Todos los opositores
+psaction_allopp;All opponents;Tous les adversaires;Todos los opositores
 psaction_call_choose;Choose player;Choisir le joueur;Elegir jugador
-psaction_call_show;Please choose one player to show cards;Veuillez choisir un joueur pour montrer les cartes;Por favor, elija un jugador para mostrar las cartas
+psaction_call_show;Please choose one player to show cards;Veuillez choisir un joueur pour montrer ses cartes;Por favor, elija un jugador para mostrar las cartas
 psaction_call_needed;Another player is needed.;Un autre joueur est nécessaire.;Se necesita otro jugador.
-prefch_dice;Could not fetch dices.;Impossible d'aller chercher les dés.;No se pueden coger dados.
+prefch_dice;Could not fetch dices.;Impossible de récupérer les dés.;No se pueden coger dados.
 conf_share_copied_ok;Link copied to clipboard.;Lien copié dans le presse-papiers.;Enlace copiado en el portapapeles.
 conf_share_copied_err;Could not copy link to clipboard.;Impossible de copier le lien dans le presse-papiers.;No se ha podido copiar el enlace en el portapapeles.
 conf_h_bgcustomise;Backgrounds / Customise;Arrière-plans / Personnaliser;Fondos / Personalizar
-conf_h_lookfeel;Look & Feel;Aspect et sensation;Aspecto y tacto
+conf_h_lookfeel;Look & Feel;Aspect et apparence;Aspecto y tacto
 conf_h_access;Accessibility / Language;Accessibilité / Langue;Accesibilidad / Idioma
 conf_h_save;Save/Load;Sauvegarder/Charger;Guardar/Cargar
 conf_h_general;General;Général;General
-conf_l_viewpile_open;I can see my own card piles (reavling to opponent...);Je peux voir mes propres piles de cartes (reavling à l'adversaire...);Puedo ver mis propios montones de cartas (reavling al oponente...)
+conf_l_viewpile_open;I can see my own card piles (reavling to opponent...);Je peux voir mes propres piles de cartes (révéler à l'adversaire...);Puedo ver mis propios montones de cartas (reavling al oponente...)
 conf_l_images_errata_dc;Use DC Errata;Utiliser l'Errata DC;Utilizar DC Errata
-conf_l_draw_to_handsize;Draw to hand size if hand is empy;Dessiner à la taille de la main si la main est vide;Dibujar al tamaño de la mano si la mano está vacía
+conf_l_draw_to_handsize;Draw to hand size if hand is empty;Piocher pour retrouver la taille de votre main si elle est vide;Dibujar al tamaño de la mano si la mano está vacía
 conf_l_bg_default;Change background;Modifier l'arrière-plan;Cambiar fondo
 conf_l_game_dices;Change dices;Changer les dés;Cambiar dados
 conf_l_game_sfx;Sound volume;Volume sonore;Volumen del sonido
 conf_l_toggle_phasese;Reduce phase bar to checkered flag only;Réduire la barre de phase au seul drapeau à damier;Reducir la barra de fases a sólo bandera a cuadros
 conf_l_toggle_zoom;Zoom Level;Niveau de zoom;Nivel de zoom
 conf_l_bg_shawod;Reduce background brightness;Réduire la luminosité de l'arrière-plan;Reducir el brillo del fondo
-conf_l_score_double_misc;Double MISC points (DC rules);Doublement des points MISC (règles DC);Doble puntos MISC (reglas DC)
+conf_l_score_double_misc;Double MISC points (DC rules);Doublement des points DIVERS (règles DC);Doble puntos MISC (reglas DC)
 conf_l_toggle_fullscreen;Toggle Fullscreen;Basculer en plein écran;Pantalla completa
-conf_l_toggle_company_help;Add white background to companies when hovering;Ajouter un arrière-plan blanc aux entreprises lors du survol;Añadir fondo blanco a las empresas al pasar el ratón por encima
-conf_l_toggle_company_break;Expand companies over multiple lines;Développer les entreprises sur plusieurs lignes;Ampliar las empresas en varias líneas
-conf_l_toggle_spanishcards;Use Spanish instead of English cards (if available).;Utiliser des cartes en espagnol plutôt qu'en anglais (si disponible).;Utilice tarjetas en español en lugar de en inglés (si está disponible).
-conf_l_game_addcards;Add new cards to sideboard;Ajouter de nouvelles cartes au sideboard;Añadir nuevas cartas al sideboard
-conf_l_game_autosave;Save game at the beginning of a player's turn;Sauvegarde du jeu au début du tour d'un joueur;Guardar partida al principio del turno de un jugador
+conf_l_toggle_company_help;Add white background to companies when hovering;Ajouter un arrière-plan blanc aux compagnies lors du survol;Añadir fondo blanco a las empresas al pasar el ratón por encima
+conf_l_toggle_company_break;Expand companies over multiple lines;Développer les compagnies sur plusieurs lignes;Ampliar las empresas en varias líneas
+conf_l_toggle_spanishcards;Use Spanish instead of English cards (if available).;Utiliser des cartes en espagnol plutôt qu'en anglais (si disponibles).;Utilice tarjetas en español en lugar de en inglés (si está disponible).
+conf_l_game_addcards;Add new cards to sideboard;Ajouter de nouvelles cartes au talon;Añadir nuevas cartas al sideboard
+conf_l_game_autosave;Save game at the beginning of a player's turn;Sauvegarde de la partie au début du tour d'un joueur;Guardar partida al principio del turno de un jugador
 conf_l_change_seats;Change player order;Modifier l'ordre des joueurs;Cambiar el orden de los jugadores
 conf_l_game_save;Save current game;Sauvegarder la partie en cours;Guardar la partida actual
 conf_l_game_load;Restore a saved game;Restaurer une partie sauvegardée;Restaurar una partida guardada
-conf_l_toggle_align_companies_left;Align companies to the left;Aligner les entreprises sur la gauche;Alinear las empresas a la izquierda
+conf_l_toggle_align_companies_left;Align companies to the left;Aligner les compagnies sur la gauche;Alinear las empresas a la izquierda
 conf_l_toggle_zoom_preview;Use smaller card preview;Utiliser un aperçu de carte plus petit;Utilice una vista previa de la tarjeta más pequeña
-conf_l_leave_game;End game now (after confirmation);Fin du jeu maintenant (après confirmation);Final del juego ahora (tras la confirmación)
+conf_l_leave_game;End game now (after confirmation);Fin de la partie maintenant (après confirmation);Final del juego ahora (tras la confirmación)
 conf_l_use_padding_bottom;Add additional space at the bottom for your hand;Ajoutez un espace supplémentaire en bas pour votre main;Añade espacio adicional en la parte inferior para tu mano
-conf_l_share_play;Copy link to join this game to clipboard;Copier le lien pour rejoindre ce jeu dans le presse-papiers;Copiar enlace para unirse a este juego al portapapeles
-conf_l_share_watch;Copy link to watch this game to clipboard;Copier le lien pour regarder ce match dans le presse-papiers;Copiar enlace para ver este partido al portapapeles
+conf_l_share_play;Copy link to join this game to clipboard;Copier le lien pour rejoindre cette partie dans le presse-papiers;Copiar enlace para unirse a este juego al portapapeles
+conf_l_share_watch;Copy link to watch this game to clipboard;Copier le lien pour regarder cette partie dans le presse-papiers;Copiar enlace para ver este partido al portapapeles
 conf_l_toggle_touch_help;Use mobile touch support;Utiliser le support tactile mobile;Utilizar el soporte táctil móvil
 conf_l_change_avatar;Change your avatar icon;Changer l'icône de votre avatar;Cambia el icono de tu avatar
-conf_l_slider_scramble;Jumble company cards;Cartes d'entreprise Jumble;Tarjetas de empresa Jumble
+conf_l_slider_scramble;Jumble company cards;Cartes de compagnies en désordre;Tarjetas de empresa Jumble
 conf_l_settings;Game Settings;Paramètres du jeu;Ajustes del juego
 conf_help;Open help tips;Conseils d'aide à l'ouverture;Abrir consejos de ayuda
-conf_cut_d;draw card to hand;tirer une carte dans la main;robar carta de la mano
+conf_cut_d;draw card to hand;piocher une carte vers la main;robar carta de la mano
 conf_cut_r;roll dice;lancer les dés;tirar dados
 conf_cut_q;end your turn;terminer son tour;finaliza tu turno
 conf_cut_f;flips card currently hovering over;retourne la carte qui se trouve actuellement au-dessus;voltea la tarjeta sobre la que se encuentra
-conf_cut_x;discards card currently hovering over;se débarrasse de la carte qui se trouve actuellement au-dessus de;descarta la carta que se encuentra sobre
+conf_cut_x;discards card currently hovering over;défausse la carte qui se trouve actuellement au-dessus de;descarta la carta que se encuentra sobre
 conf_cut_p1;You can right click on cards and deck icons to open a context menu.;Vous pouvez faire un clic droit sur les cartes et les icônes de jeu pour ouvrir un menu contextuel.;Puedes hacer clic con el botón derecho del ratón sobre las cartas y los iconos de las barajas para abrir un menú contextual.
 conf_cut_p2;You can double click on a hand card to play it (without dragging).;Vous pouvez double-cliquer sur une carte de la main pour la jouer (sans la faire glisser).;Puedes hacer doble clic en una carta de mano para jugarla (sin arrastrarla).
-conf_cut_p3;If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region.;Si vous organisez votre mouvement, vous pouvez toujours ajouter des cartes de région en cliquant sur la carte dans la liste des cartes de site d'une région.;Si organiza su movimiento, siempre puede añadir fichas de región haciendo clic en la ficha de la lista de fichas de sitio de una región.
-conf_cut_p4;Discarding your opponent's card will sort it into their discard pile.;Si vous vous débarrassez d'une carte de votre adversaire, elle sera placée dans sa pile de défausse.;Si descartas la carta de tu oponente, la colocará en su pila de descartes.
+conf_cut_p3;If you organize your movement, you can always add region cards by clicking on the card in the site card list of a region.;Si vous organisez votre déplacment, vous pouvez toujours ajouter des cartes de région en cliquant sur la carte dans la liste des cartes de site d'une région.;Si organiza su movimiento, siempre puede añadir fichas de región haciendo clic en la ficha de la lista de fichas de sitio de una región.
+conf_cut_p4;Discarding your opponent's card will sort it into their discard pile.;Si vous défaussez une carte de votre adversaire, elle sera placée dans sa pile de défausse.;Si descartas la carta de tu oponente, la colocará en su pila de descartes.
 conf_cut_title;Tips & Shortcuts;Conseils et raccourcis;Consejos y atajos
 conf_toggle_zoom_level;Toggle zoom level;Basculer le niveau de zoom;Alternar el nivel de zoom
-resolve_draw;Please draw;Veuillez dessiner;Por favor, dibuje
-resolve_discard;Please discard;A écarter;Descartar
-resolve_inc;Increase hand size;Augmenter la taille des mains;Aumentar el tamaño de la mano
-resolve_dec;Decrease hand size;Diminution de la taille de la main;Disminuir el tamaño de la mano
+resolve_draw;Please draw;Veuillez piocher;Por favor, dibuje
+resolve_discard;Please discard;Veuillez défausser;Descartar
+resolve_inc;Increase hand size;Augmenter la taille de sa main;Aumentar el tamaño de la mano
+resolve_dec;Decrease hand size;Diminuer la taille de sa main;Disminuir el tamaño de la mano
 resolve_handsizeis;Hand size:;Taille de la main :;Tamaño de la mano:
 rvpil_choose;Reordering of cards in;Réorganisation des cartes dans;Reordenación de tarjetas en
-rvpils_text;Card reordering will appear automatically. The left is considered the TOP of the card stack.;Le réarrangement des cartes s'effectue automatiquement. La gauche est considérée comme le sommet de la pile de cartes.;La reordenación de las tarjetas aparecerá automáticamente. La izquierda se considera la parte SUPERIOR de la pila de tarjetas.
-rvpils_text_click;Click on a card to send it to the bottom of this list. Right click on any card send it to the bottom of the deck.;Cliquez sur une carte pour l'envoyer au bas de cette liste. Cliquez avec le bouton droit de la souris sur n'importe quelle carte pour l'envoyer au bas de la liste.;Haga clic en una carta para enviarla al final de la lista. Haga clic con el botón derecho en cualquier carta para enviarla al fondo del mazo.
+rvpils_text;Card reordering will appear automatically. The left is considered the TOP of the card stack.;La réorganisation des cartes s'effectue automatiquement. La gauche est considérée comme le sommet de la pile de cartes.;La reordenación de las tarjetas aparecerá automáticamente. La izquierda se considera la parte SUPERIOR de la pila de tarjetas.
+rvpils_text_click;Click on a card to send it to the bottom of this list. Right click on any card send it to the bottom of the deck.;Cliquez sur une carte pour l'envoyer au bas de cette liste. Cliquez avec le bouton droit de la souris sur n'importe quelle carte pour l'envoyer au bas de la pioche.;Haga clic en una carta para enviarla al final de la lista. Haga clic con el botón derecho en cualquier carta para enviarla al fondo del mazo.
 rvpils_accept;Accept ordering;Accepter la commande;Aceptar pedido
 rvpils_anywhere;Click anywhere to close;Cliquez n'importe où pour fermer;Haz clic en cualquier lugar para cerrar
-rvpils_look_title;Look at your playdeck;Regardez votre playdeck;Mira tu playdeck
+rvpils_look_title;Look at your playdeck;Regardez votre pioche;Mira tu playdeck
 rvpils_look_text;Click anywhere here to close this dialog.;Cliquez n'importe où ici pour fermer cette boîte de dialogue.;Haga clic aquí para cerrar este cuadro de diálogo.
-sv_assign;Assign players first.;Attribuer d'abord les joueurs.;Asigna primero a los jugadores.
-sv_dupl;Duplicate player assignment detected;Détection d'un doublon dans l'affectation d'un joueur;Asignación de jugador duplicada detectada
+sv_assign;Assign players first.;Choisissez d'abord les joueurs.;Asigna primero a los jugadores.
+sv_dupl;Duplicate player assignment detected;Détection d'un doublon dans le choix d'un joueur;Asignación de jugador duplicada detectada
 sv_err;Invalid savegame signature;Signature de sauvegarde invalide;Firma de partida guardada no válida
-sv_err_1;Could not restore game:;Impossible de restaurer le jeu :;No se pudo restaurar el juego:
+sv_err_1;Could not restore game:;Impossible de restaurer la partie :;No se pudo restaurar el juego:
 sv_norestore;Could not restore saved game!;Impossible de restaurer la partie sauvegardée !;No se puede restaurar la partida guardada.
 sv_doautosav;Autosaved current game.;Sauvegarde automatique de la partie en cours.;Guardado automático de la partida actual.
 sv_err_2;Player number missmatch!<br>Saved game:;Le numéro du joueur n'est pas le bon!<br>Mise à jour de la partie :;Jugador número missmatch!<br>Guardado juego:
 sv_click_cancle;Click here to cancel;Cliquez ici pour annuler;Pulse aquí para cancelar
-sv_assign_players;Assign players;Affectation des joueurs;Asignar jugadores
+sv_assign_players;Assign players;Choix des joueurs;Asignar jugadores
 sv_assign_text;Please choose which player from the saved game represents which player at the current table;Veuillez choisir quel joueur de la partie sauvegardée représente quel joueur à la table actuelle.;Por favor, elige qué jugador de la partida guardada representa a qué jugador en la mesa actual
-sv_current;Current Game;Jeu actuel;Juego actual
-sv_saved;Saved Game;Jeu sauvegardé;Partida guardada
+sv_current;Current Game;Partie actuelle;Juego actual
+sv_saved;Saved Game;Partie sauvegardée;Partida guardada
 sv_restore;Restore saved game;Restaurer la partie sauvegardée;Restaurar partida guardada
-sv_dropdown;Assign player from savegame;Affectation d'un joueur à partir d'une sauvegarde;Asignar jugador desde partida guardada
+sv_dropdown;Assign player from savegame;Choix d'un joueur à partir d'une sauvegarde;Asignar jugador desde partida guardada
 sv_invalidfile;Could not load game file.;Impossible de charger le fichier de jeu.;No se ha podido cargar el archivo del juego.
 sv_noautos;No autosave available.;Aucune sauvegarde automatique n'est disponible.;No hay autoguardado disponible.
 sv_noautoload;Could not autosave.;Impossible d'effectuer une sauvegarde automatique.;No se ha podido autoguardar.
-sv_nosave;Could not save game.;Impossible de sauvegarder le jeu.;No se ha podido guardar la partida.
+sv_nosave;Could not save game.;Impossible de sauvegarder la partie.;No se ha podido guardar la partida.
 trade_toofew;Another player is needed to trade cards;Un autre joueur est nécessaire pour échanger des cartes;Se necesita otro jugador para intercambiar cartas
 trade_choosep;Choose player to trade with;Choisir le joueur avec lequel échanger;Elegir jugador con el que comerciar
 trade_chooseone;Please choose one player to trade cards with;Choisissez un joueur avec qui échanger des cartes;Elige un jugador con el que intercambiar cartas
 trade_choosecards;Choose cards to trade;Choisir les cartes à échanger;Elige cartas para intercambiar
 trade_beingoffered;Cards being offered to you will appear automatically.;Les cartes qui vous sont proposées apparaissent automatiquement.;Las tarjetas que se le ofrezcan aparecerán automáticamente.
 trade_selectcards;Select your cards to trade.;Sélectionnez les cartes à échanger.;Selecciona tus cartas para intercambiar.
-trade_accept;Accept trade;Accepter le commerce;Aceptar comercio
-trade_wascanceled;Trade was cancelled;Le commerce a été annulé;El comercio se canceló
-trade_success;Trade completed;Commerce terminé;Comercio completado
+trade_accept;Accept trade;Accepter l'échange;Aceptar comercio
+trade_wascanceled;Trade was cancelled;L'échange a été annulé;El comercio se canceló
+trade_success;Trade completed;Échange terminé;Comercio completado
 trade_noother;Could not get other player to trade with.;Impossible d'échanger avec un autre joueur.;No pude conseguir otro jugador con el que comerciar.
 turnstats_showdur;Show turn duration statistics;Afficher les statistiques sur la durée du tour;Mostrar estadísticas de duración de los turnos
 turnstats_score;Show final scoring table;Afficher le tableau final des scores;Mostrar tabla de puntuación final
 chat_title;Communicate;Communiquer;Comunicar
-chat_placeholder;type message and hit enter to send;tapez le message et appuyez sur la touche "Entrée" pour l'envoyer;escriba el mensaje y pulse intro para enviarlo
+chat_placeholder;type message and hit enter to send;"tapez le message et appuyez sur la touche ""Entrée"" pour l'envoyer";escriba el mensaje y pulse intro para enviarlo
 chat_item_prepare;Prepration;Préparation;Prepración
-chat_item_prepare_1;You can start the draft;Vous pouvez commencer le projet;Puede iniciar el borrador
-chat_item_prepare_2;I will start the draft;Je vais commencer le projet;Empezaré el borrador
-chat_item_prepare_3;Let's roll to see who starts the draft;Voyons voir qui commence le tirage au sort;Rodemos para ver quién empieza el draft
+chat_item_prepare_1;You can start the draft;Vous pouvez commencer la levée des personnages;Puede iniciar el borrador
+chat_item_prepare_2;I will start the draft;Je vais commencer la levée des personnages;Empezaré el borrador
+chat_item_prepare_3;Let's roll to see who starts the draft;Voyons voir qui commence la levée des personnages;Rodemos para ver quién empieza el draft
 chat_item_mh;M/H;M/H;M/H
-chat_item_mh_1;Any (more) hazards?;D'autres risques ?;¿Algún (más) peligro?
-chat_item_mh_2;No more hazards;Plus de risques;No más peligros
-chat_item_mh_3;Which character(s) face attack - please mark;Quel(s) personnage(s) est/sont attaqué(s) - veuillez cocher la case correspondante;Qué personaje(s) se enfrenta(n) al ataque - por favor, marque
-chat_item_mh_4;Roll body check;Vérification de la carrosserie;Comprobación de la carrocería
-chat_item_mh_5;Next company;Entreprise suivante;Próxima empresa
+chat_item_mh_1;Any (more) hazards?;D'autres périls ?;¿Algún (más) peligro?
+chat_item_mh_2;No more hazards;Plus de périls;No más peligros
+chat_item_mh_3;Which character(s) face attack - please mark;Quel(s) personnage(s) est/sont attaqué(s) - veuillez l'indiquer;Qué personaje(s) se enfrenta(n) al ataque - por favor, marque
+chat_item_mh_4;Roll body check;Test d'endurance;Comprobación de la carrocería
+chat_item_mh_5;Next company;Compagnie suivante;Próxima empresa
 chat_item_mh_6;Your points;Vos points;Sus puntos
 chat_item_general;General;Général;General
 chat_item_general_1;Yes;Oui;Sí
@@ -353,26 +353,26 @@ chat_item_general_5;You there?;Vous êtes là ?;¿Estás ahí?
 chat_item_general_6;Hang on;Attendez;Aguanta
 chat_item_general_7;Wait a second;Attendez une seconde;Espera un segundo.
 chat_item_general_8;Card effects;Effets de la carte;Efectos de las cartas
-chat_item_end;End Game;Fin du jeu;Fin del juego
+chat_item_end;End Game;Fin de partie;Fin del juego
 chat_item_end_1;Let's call the council;Appelons le conseil;Llamemos al consejo
-chat_item_end_2;Let's count MPs;Comptons les députés;Contemos diputados
-chat_item_end_3;Ready to end the game;Prêt à mettre fin au jeu;Listo para terminar el juego
+chat_item_end_2;Let's count MPs;Comptons les points de rassemblement;Contemos diputados
+chat_item_end_3;Ready to end the game;Prêt à terminer la partie;Listo para terminar el juego
 chat.icon.title;Messages;Messages;Mensajes
 conf_h_language;Language;Langue;Idioma
 conf_l_lang_en;Switch to English;Passer à l'anglais;Cambiar al inglés
 conf_l_lang_es;Switch to Spanish;Passer à l'espagnol;Cambiar al español
 conf_l_lang_fr;Switch to French;Passer au français;Cambiar al francés
-converter.suitable;This deck is not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Ce deck n'est pas adapté au jeu. Vérifiez que vous avez des cartes pour le pool, les personnages et les dangers/ressources.;Esta baraja no es apta para jugar. Comprueba que tienes cartas para el pool, los personajes y los peligros/recursos.
-converter.deckname;Provide a deck name first;Indiquez d'abord le nom de la plate-forme;Indique primero el nombre de la cubierta
-converter.nostatus;Could not check deck status.;Impossible de vérifier l'état du pont.;No se ha podido comprobar el estado de la cubierta.
-login.hazard;The Hazards are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Les dangers ne sont pas adaptés au jeu. Vérifiez que vous avez des cartes pour la piscine, les personnages et les dangers/ressources.;Los peligros no son aptos para el juego. Verifica que tienes cartas para pool, chars y peligros/recursos.
-login.resources;The Resources are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Les ressources ne sont pas adaptées au jeu. Vérifiez que vous avez des cartes pour la piscine, les personnages et les dangers/ressources.;Los Recursos no son aptos para el juego. Verifica que tienes cartas para pool, chars y peligros/recursos.
+converter.suitable;This deck is not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Ce deck n'est pas adapté au jeu. Vérifiez que vous avez des cartes pour la réserve, les personnages et les périls/ressources.;Esta baraja no es apta para jugar. Comprueba que tienes cartas para el pool, los personajes y los peligros/recursos.
+converter.deckname;Provide a deck name first;Indiquez d'abord le nom du deck;Indique primero el nombre de la cubierta
+converter.nostatus;Could not check deck status.;Impossible de vérifier l'état du deck.;No se ha podido comprobar el estado de la cubierta.
+login.hazard;The Hazards are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Les périls ne sont pas adaptés au jeu. Vérifiez que vous avez des cartes pour la réserve, les personnages et les périls/ressources.;Los peligros no son aptos para el juego. Verifica que tienes cartas para pool, chars y peligros/recursos.
+login.resources;The Resources are not suitable for play. Verify that you have cards for pool, chars, and hazards/resources;Les ressources ne sont pas adaptées au jeu. Vérifiez que vous avez des cartes pour la réserve, les personnages et les périls/ressources.;Los Recursos no son aptos para el juego. Verifica que tienes cartas para pool, chars y peligros/recursos.
 login.choosefile;Please choose a file...;Veuillez choisir un fichier...;Seleccione un archivo
 login.empty;File seems to be empty...;Le fichier semble être vide;El archivo parece estar vacío
-login.nostore;Could not store deck;Impossible de stocker le pont;No se puede almacenar la cubierta
-login.nodownload;Could not download deck;Impossible de télécharger le jeu de cartes;No se ha podido descargar la cubierta
-login.deckneeded;Please choose a deck or add your own.;Veuillez choisir une terrasse ou ajouter la vôtre;Elija una cubierta o añada la suya propia
+login.nostore;Could not store deck;Impossible de stocker le deck;No se puede almacenar la cubierta
+login.nodownload;Could not download deck;Impossible de télécharger le deck;No se ha podido descargar la cubierta
+login.deckneeded;Please choose a deck or add your own.;Veuillez choisir un deck ou ajouter le votre;Elija una cubierta o añada la suya propia
 decklist.choose;Please choose a file...;Veuillez choisir un fichier...;Seleccione un archivo
 viewcards.loaded;Cards loaded;Cartes chargées;Tarjetas cargadas
-preview.active;Game is active again.;Le jeu est à nouveau actif.El juego vuelve a estar activo.
-game.shuffled;Discardpile shuffled.;La pile de rejets est mélangée;Pila de descartes barajada
+preview.active;Game is active again.;La partie est à nouveau active.El juego vuelve a estar activo.;
+game.shuffled;Discardpile shuffled.;La pile de défausse est mélangée;Pila de descartes barajada
