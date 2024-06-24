@@ -427,7 +427,7 @@ class GamePreferences extends Preferences {
     {        
         this.addConfigToggle("viewpile_open", "I can see my own card piles (reavling to opponent...)", true);
         this.addConfigToggle("images_errata_dc", "Use DC Errata", this.getUseDCByDefault());
-        this.addConfigToggle("draw_to_handsize", "Draw to hand size if hand is empy", true);
+        this.addConfigToggle("draw_to_handsize", "Draw to hand size if hand is empty", true);
         
         this.addConfigAction("bg_default", "Change background", false, "fa-picture-o", () => document.body.dispatchEvent(new CustomEvent("meccg-background-chooser")));
         this.addConfigAction("game_dices", "Change dices", false, "fa-cube", this.#dices.bind(this));        

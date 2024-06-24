@@ -901,7 +901,7 @@ const ContextMenu = {
                 return;
 
             ContextMenu.callbacks.queryCardNumer(
-                Dictionary.get("context_shuffle", "Shuffle Top Playdeck"), 
+                Dictionary.get("context_shuffle", "Shuffle Top of Playdeck"), 
                 Dictionary.get("context_shuffle_text", "Please specifiy the number of cards to shuffle."),
                 (count) => {
                     MeccgApi.send("/game/view-cards/shuffle", { target: "playdeck_top", count: count });

@@ -492,7 +492,7 @@ let Arda = {
             container.appendChild(_a);
 
             elem = document.createElement("p");
-            elem.innerText = Dictionary.get("arda_setup_2c", "Recycling will automatically disacrd your current hand and reshuffle everything into the playdeck.");
+            elem.innerText = Dictionary.get("arda_setup_2c", "Recycling will automatically discard your current hand and reshuffle everything into the playdeck.");
             container.appendChild(elem);
 
         }
