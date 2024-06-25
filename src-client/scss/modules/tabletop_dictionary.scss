@@ -194,41 +194,41 @@ body {
         
         .card-bar {
             .icon-shared-out::after {
-                content: 'ES Out';
+                content: 'Eliminado';
             }
         
             .icon-shared-victory::after {
-                content: 'ES Stored';
+                content: 'Guárdelo';
             }
         
             .icon-tooltip-mps::after {
-                content: 'ES Stored';
+                content: 'Guárdelo';
             }
         
             .icon-tooltip-playdeck::after {
-                content: 'ES Deck';
+                content: 'Deck';
             }
         
             .icon-tooltip-discard::after {
-                content: 'ES Discard';
+                content: 'Descartes';
             }
         
             .icon-tooltip-sideboard::after {
-                content: 'ES Sideboard';
+                content: 'El aparador';
             }
         }
 
         .card-hands .playercard_hand_droppable
         { 
             &::before {
-                content: 'ES to hand';
+                content: 'Llévalo a tu mano';
             }
         }
 
         .staging-opponent-dice {
             &:hover:before 
             {
-                content: "ES Last dice roll";
+                content: "Última tirada de dados";
             }
         }
     }
@@ -311,7 +311,7 @@ body {
         
         .card-bar {
             .icon-shared-out::after {
-                content: 'Out';
+                content: 'Supprimée';
             }
         
             .icon-shared-victory::after {
@@ -327,11 +327,11 @@ body {
             }
         
             .icon-tooltip-discard::after {
-                content: 'Discard';
+                content: 'Défausse';
             }
         
             .icon-tooltip-sideboard::after {
-                content: 'Sideboard';
+                content: 'Le talon';
             }
         }
 
@@ -347,6 +347,14 @@ body {
             {
                 content: "Dernier jet de dés";
             }
+        }
+        .challenger-discardpile 
+        { 
+            &::after
+            {
+                content: "Défausse";
+            }
+            
         }
     }
 }
