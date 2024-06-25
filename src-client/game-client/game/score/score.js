@@ -306,7 +306,7 @@ const SCORING_INGAME =
         images.append(document.createElement("td"));
 
         const tdPoints = document.createElement("th");
-        tdPoints.innerText = "Category"
+        tdPoints.innerText = Dictionary.get("score.category", "Category");
         names.append(tdPoints);
         
         for (let id in SCORING_INGAME._scores)

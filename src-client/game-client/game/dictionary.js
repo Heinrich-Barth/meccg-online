@@ -1,6 +1,8 @@
 class Dictionary {
 
     static #instance = new Dictionary();
+    
+    #language = "en";
 
     // this dictionary data will be "replaced" with the correct content during startup
     #data = /*DO NOT CHANGE*/ {} 
@@ -27,11 +29,17 @@ class Dictionary {
             lang = "en";
 
         document.body.classList.add("language-"+ lang);
+        this.#language = lang;
     }
 
     #isValidLang(lang)
     {
         return lang === "es" || lang === "en" || lang === "fr";
+    }
+
+    static currentLangauge()
+    {
+        return Dictionary.#instance.#language;
     }
 
     static create()

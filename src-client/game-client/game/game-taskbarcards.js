@@ -268,7 +268,7 @@ class TaskBarCards
                     return false;
                 };
         
-                dice.setAttribute("title", "Click to roll the dice (press r or w)\nRIGHT CLICK to change dices");
+                dice.setAttribute("title", Dictionary.get("title_dice", "Click to roll the dice (press r or w)\nRIGHT CLICK to change dices"));
             }
         }
         

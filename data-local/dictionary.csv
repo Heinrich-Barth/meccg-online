@@ -376,3 +376,11 @@ decklist.choose;Please choose a file...;Veuillez choisir un fichier...;Seleccion
 viewcards.loaded;Cards loaded;Cartes chargées;Tarjetas cargadas
 preview.active;Game is active again.;La partie est à nouveau active.El juego vuelve a estar activo.;
 game.shuffled;Discardpile shuffled.;La pile de défausse est mélangée;Pila de descartes barajada
+into.howto;How to play;Comment jouer;Cómo jugar
+into.howto.text;Simply drag & drop cards as you would intuitively do. Depending on your card, different targets/options will be made available visually.;Il suffit de glisser-déposer les cartes comme vous le feriez intuitivement. En fonction de la carte, différentes cibles/options seront visuellement disponibles.;Simplemente arrastre y suelte las tarjetas como lo haría intuitivamente. Dependiendo de la tarjeta, se mostrarán diferentes objetivos/opciones.
+into.tips;Tips & Shortcuts;Conseils et raccourcis;Consejos y atajos
+into.tips.text;Click on the help icon at the top bar to access shortcuts and tips.;Cliquez sur l'icône d'aide dans la barre supérieure pour accéder aux raccourcis et aux conseils.;Haz clic en el icono de ayuda de la barra superior para acceder a atajos y consejos.
+into.resume;Resume a saved game;Reprendre une partie sauvegardée;Reanudar una partida guardada
+into.resume.text;Once all players are at the table, access game settings (top, center) and click on Restore a saved game. The players at the table need to match the number of players of your saved game.;Une fois que tous les joueurs sont à la table, accédez aux paramètres du jeu (en haut, au centre) et cliquez sur Restaurer une partie sauvegardée. Le nombre de joueurs à la table doit correspondre au nombre de joueurs de votre partie sauvegardée.;Una vez que todos los jugadores estén en la mesa, accede a la configuración del juego (arriba, centro) y haz clic en Restaurar una partida guardada. Los jugadores de la mesa tienen que coincidir con el número de jugadores de tu partida guardada.
+score.category;Category;la catégorie;la categoría
+title_draw_text;draw;piochez;Roba
