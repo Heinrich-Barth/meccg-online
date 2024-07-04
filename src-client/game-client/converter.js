@@ -15,9 +15,9 @@ const getCardCodeList = function()
         let _code;
         for (_code of document.getElementById(sId).value.split('\n'))
         {
-            let sCode = getCode(_code);
-            if (sCode !== "" && !vsCards.includes(sCode))
-                vsCards.push(sCode);
+            const candidate = createValidCodeEntry(_code);
+            if (candidate.count > 0 && candidate.code !== "")
+                vsCards.push(candidate.code);
         }
 
         return vsCards;
@@ -33,6 +33,33 @@ const getCardCodeList = function()
 
     return _res;
 };
+
+const createValidCodeEntry = function(line)
+{
+    const result = {
+        count: 0,
+        code: ""
+    };
+
+    line = line.trim();
+    if (line.length < 3 || line.indexOf("#") === 0)
+        return result;
+
+    let cand = line.substring(0, 2).trim();
+    const count = parseInt(cand);
+    if (isNaN(count))
+    {
+        result.count = 1;
+        result.code = line.trim();
+    }
+    else
+    {
+        result.count = count;
+        result.code = line.substring(2).trim();
+    }
+
+    return result;
+}
  
 const getCount = function(line)
 {
@@ -61,14 +88,16 @@ const createDeck = function()
 
         for (let _entry of asLines)
         {
-            let sCount = getCount(_entry);
-            let sCode = getCode(_entry);
+            const candidate = createValidCodeEntry(_entry);
+            if (candidate.count < 1 && candidate.code !== "")
+                continue;
 
-            if (sCode !== "" && sCount !== "")
-            {
-                deck[sCode] = parseInt(sCount);
-                count += deck[sCode];
-            }
+            count += candidate.count;
+            
+            if (deck[candidate.code])
+                deck[candidate.code] += candidate.count;
+            else 
+                deck[candidate.code] = candidate.count;
         }
 
         return deck;
@@ -187,10 +216,6 @@ const onProcessDeckCheckResult = function(codes)
     document.getElementById("invalid-cards-info-result").appendChild(ul);
     document.getElementById("invalid-cards-info").classList.remove("hidden");
 };
-
-
-
-
 
 const onCheckCardCodes = function()
 {

@@ -584,20 +584,7 @@ export default class CardRepository {
 
     isCardAvailableGuessed(code:string)
     {
-        if (code === undefined || code === "")
-            return false;
-
-        let sCode = code.toLowerCase();
-        if (this.#types[sCode.replace(" (", " [h] (")] !== undefined)
-            return true;
-        else if (this.#types[sCode.replace(" (", " [m] (")] !== undefined)
-            return true;
-        else if (this.#types[sCode.replace(" [h] (", "( ")] !== undefined)
-            return true;
-        else if (this.#types[sCode.replace(" [m] (", "( ")] !== undefined)
-            return true;
-        else
-            return false;
+        return this.getVerifiedCardCode(code) !== "";
     }
 
     getVerifiedCardCode(code:string)
@@ -612,10 +599,10 @@ export default class CardRepository {
             return sCode.replace(" (", " [h] (");
         else if (this.#types[sCode.replace(" (", " [m] (")] !== undefined)
             return sCode.replace(" (", " [m] (");
-        else if (this.#types[sCode.replace(" [h] (", "( ")] !== undefined)
-            return sCode.replace(" [h] (", "( ");
-        else if (this.#types[sCode.replace(" [m] (", "( ")] !== undefined)
-            return sCode.replace(" [m] (", "( ");
+        else if (this.#types[sCode.replace(" [h] (", " (")] !== undefined)
+            return sCode.replace(" [h] (", " (");
+        else if (this.#types[sCode.replace(" [m] (", " (")] !== undefined)
+            return sCode.replace(" [m] (", " (");
         else
             return "";
     }
