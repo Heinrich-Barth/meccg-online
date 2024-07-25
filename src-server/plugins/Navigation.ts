@@ -64,8 +64,6 @@ const getNavigationJson = function (req: Request, res: Response) {
     targetList.push(navigationEntry("/play", dict, false));
     targetList.push(navigationEntry("/deckbuilder", dict, false));
     targetList.push(navigationEntry("/converter", dict, false));
-    targetList.push(navigationEntry("/map/regions", dict, true));
-    targetList.push(navigationEntry("/map/underdeeps", dict, true));
     targetList.push(navigationEntry("/help", dict, false));
     targetList.push(navigationEntry("/about", dict, false));
 
