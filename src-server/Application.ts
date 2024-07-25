@@ -176,6 +176,22 @@ ServerInstance.getServerInstance().get("/", (req: Request, res: Response, next:N
         res.redirect("/login")
 });
 
+
+ServerInstance.getServerInstance().post("/login", (req: Request, res: Response, next:NextFunction) => {
+    
+    const ref = req.headers.referer;
+    if (typeof ref !== "string" || ref === "")
+    {
+        res.status(401).json({ error: "wrong"});
+        return;
+    }
+
+    if (g_pAuthentication.isSignedIn(req, res, next))
+        res.status(204).send("");
+    else
+        res.status(401).json({ error: "wrong"});
+});
+
 /**
  * Init game routing
  */
