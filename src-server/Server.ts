@@ -204,6 +204,12 @@ export class ServerInstance {
                 res.header('X-Content-Security-Policy', ConfigurationInstance.createContentSecurityPolicySelfOnly());
             }
 
+            if (process.env.MODE !== "production")
+            {
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+            }
+
             next();
         });
 
