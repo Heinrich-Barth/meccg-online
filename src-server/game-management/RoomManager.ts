@@ -226,7 +226,8 @@ export default class RoomManager {
             share: pRoom.getAllowSocialMedia(),
             allowPlayers: pRoom.canJoinPlayer(),
             allowSpectator: pRoom.canJoinVisitor(),
-            avatars: pRoom.getPlayerAvatarsList()
+            avatars: pRoom.getPlayerAvatarsList(),
+            arda: pRoom.isArda()
         }
     }
 

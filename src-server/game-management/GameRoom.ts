@@ -434,6 +434,12 @@ export class GameRoom
         else
             return this.#gameInstance.getPlayerAvatarsList();
     }
+
+    isArda()
+    {
+        return this.#gameInstance !== null && this.#gameInstance.isArda();
+    }
+
     sendSaveOnShutdown()
     {
         let _player;
