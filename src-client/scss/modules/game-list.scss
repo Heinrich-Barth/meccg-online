@@ -60,11 +60,11 @@
     a { 
         display: block; 
         text-transform: uppercase;
-        color: var(--color-yellow);
+        color: var(--color-orange-light);
 
         &:hover
         {
-            color: var(--color-orange-light);
+            color: var(--color-yellow);
         }
     }
 

@@ -39,22 +39,31 @@
 
                 <h1 data-translation="home.startgame">Start a Game</h1>
                 
-                <div class="room-image-wrapper">
+                <div class="room-image-wrapper room-image-wrapper-center">
                     <div class="room-image">
                         <img src="/data/backside" id="enter_room_image" alt="Ambience room">
                         <span class="fa fa-pencil room-image-edit"></span>
                     </div>
                     <div class="room-text">
                         <p class="center padBottom10" data-translation="home.choosegame">Choose your game name and click on <i>Continue &amp; choose deck</i> or <a href="/help">check out how to play</a>.</p>
-                        <input id="enter_room"  placeholder="Your game name here (a-zA-Z0-9)"  type="text" value="">
-                        <button id="start_game" type="button"><i class="fa fa-play-circle" aria-hidden="true"></i> <span data-translation="home.continuestart">Continue &amp; choose deck</span></button>
+                        <div class="room-text-container">
+                            <input id="enter_room"  placeholder="Your game name here (a-zA-Z0-9)"  type="text" value="">
+                            <label class="room-text-container-char" for="enter_room">@</label>
+                        </div>
+                        <div class="room-text-container">
+                            <button id="start_game" type="button"><i class="fa fa-play-circle" aria-hidden="true"></i> <span data-translation="home.continuestart">Continue &amp; choose deck</span></button>
+                        </div>
+
+                        <div class="room-text-container">
+                            <p id="room-text-container-help" class="room-text-container-help"><i class="fa fa-question-circle" aria-hidden="true"></i> Show help</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="game-lists" id="game-list-wrapper">
 
-                <div class="game-lists-intro" id="game-lists-intro">
+                <div class="game-lists-intro home-hide-by-default" id="game-lists-intro">
                     <div class="game-list" id="no_games">
                         <h2><i class="fa fa-question-circle" aria-hidden="true"></i> <span data-translation="home.howtostart">How to start</span></h2>
                         <p class="center" data-translation="home.howtostart.desc">Just choose a game name and invite your friends to join. Lots of decks are available, so just pick your favourite wizard, ringwraith or lord and start playing. You may find other players on the <a href="https://discord.com/invite/EFqBJmT" class="inline" target="_blank">discord server</a>.</p>
@@ -68,7 +77,7 @@
                     <div class="game_list" id="game_list"></div>
                 </div>
 
-                <div class="game-list-tournament hidden" id="game-list-tournament">
+                <div class="game-list-tournament hidden home-hide-by-default" id="game-list-tournament">
                     <h2><i class="fa fa-trophy" aria-hidden="true"></i> <span data-translation="home.currenttournaments">Current Tournaments</span></h2>
                     <p data-translation="home.currenttournaments.desc">Click on any tournament for details.</p>
                 </div>

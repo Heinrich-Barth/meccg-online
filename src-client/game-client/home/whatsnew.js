@@ -54,7 +54,7 @@ const ReleaseNotes = {
             return null;
 
         const div = document.createElement("div");
-        div.setAttribute("class", "game-list");
+        div.setAttribute("class", "game-list home-hide-by-default");
         
         const h2 = document.createElement("h2");
         

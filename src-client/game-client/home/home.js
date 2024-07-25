@@ -541,6 +541,17 @@ const SampleRoomApp =
     .then(SampleRoomApp.load.bind(SampleRoomApp))
     .catch(console.error)
     .finally(fetchAndUpdateGames);
+
+    {
+        const help = document.getElementById("room-text-container-help");
+        if (help !== null)
+        {
+            help.onclick = () => {
+                document.body.classList.add("show-home-hide-by-default");
+                help.parentElement.removeChild(help);
+            }
+        }
+    }
 })();
 
 let g_fetchGamesInterval = setInterval(fetchAndUpdateGames, 10 * 1000);

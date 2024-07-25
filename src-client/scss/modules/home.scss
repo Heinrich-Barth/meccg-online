@@ -1,20 +1,19 @@
 @import "../base.scss";
 @import "forms.scss";
 
-body
-{
-    background-image: url("/media/assets/backgrounds/hill.webp"); 
+body {
+    background-image: url("/media/assets/backgrounds/hill.webp");
     color: var(--color-white);
     text-align: center;
     padding: 2em;
 
 }
 
-body, p
-{
-  font-weight: 300;
-  font-size: 16px;
-  font-stretch: 100%;
+body,
+p {
+    font-weight: 300;
+    font-size: 16px;
+    font-stretch: 100%;
 }
 
 .content {
@@ -24,16 +23,16 @@ body, p
     z-index: 2;
     position: relative;
 
-    
+
     h1 {
         text-align: center;
-      }
+    }
 
     .game-list h2 .fa {
         font-size: 0.7em;
     }
-      
-    input { 
+
+    input {
         width: 60%;
         display: inline-block;
     }
@@ -44,20 +43,27 @@ body, p
         overflow: hidden;
     }
 
-    .join-game 
-    {
+    .join-game {
         padding: 2em;
         margin-top: 0.5em;
         align-items: flex-start;
 
         .meccg-logo {
             padding-bottom: 30px;
-            img { max-width: 150px; }
+
+            img {
+                max-width: 150px;
+            }
         }
 
-        .padBottom10 { padding-bottom: 20px;}
+        .padBottom10 {
+            padding-bottom: 20px;
+        }
 
-        .room-image { cursor: pointer; }
+        .room-image {
+            cursor: pointer;
+        }
+
         .room-image-edit {
             color: var(--color-orange-light);
             padding: 10px;
@@ -70,43 +76,51 @@ body, p
             visibility: hidden;
             background-color: #000;
         }
+
         .room-image img {
             transition: all 0.3s ease-in-out;
+            position: absolute;
+            left: -10px;
+            top: 4px;
+            width: 150px;
+            scale: 1.4;
         }
 
         .room-image-wrapper:hover {
             .room-image-edit {
                 visibility: visible;
             }
-            .room-image img{
+
+            .room-image img {
                 scale: 1.6;
             }
         }
+
     }
 
-    .inline-link { display: inline-block; margin-left: 0.5em;}
+    .inline-link {
+        display: inline-block;
+        margin-left: 0.5em;
+    }
 }
 
 
 @import "./room-image-wrapper.scss";
 @import "./game-list.scss";
 
-.game-list-counter
-{
+.game-list-counter {
     height: 5px;
-    background-color: rgba(255,165,0,0.8);
+    background-color: rgba(255, 165, 0, 0.8);
     width: 1%;
     position: fixed;
     left: 0;
     top: 0;
 
-    &.line-countdown-10s
-    {
+    &.line-countdown-10s {
         animation: gamelist-line-to-refresh 10s infinite forwards;
     }
 
-    &.line-countdown-60s
-    {
+    &.line-countdown-60s {
         animation: gamelist-line-to-refresh 60s infinite forwards;
     }
 }
@@ -130,21 +144,29 @@ body, p
     tr td {
         border-bottom: 1px dotted #fff;
     }
+
     tr:last-of-type td {
         border-bottom: 0;
     }
 
-    tr td:first-of-type { padding-right: 10px; }
+    tr td:first-of-type {
+        padding-right: 10px;
+    }
 }
 
 @keyframes gamelist-line-to-refresh {
-    from { width: 0%; }
-    to { width: 100%; }
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
 }
 
 
-@media (max-width: $md-max) 
-{
+@media (max-width: $md-max) {
+
     input,
     button {
         width: 100% !important;
@@ -152,14 +174,13 @@ body, p
     }
 }
 
-@media (max-width: 600px) 
-{
+@media (max-width: 600px) {
     .content {
         padding-top: 6em;
     }
 }
-@media (max-width: 800px) 
-{
+
+@media (max-width: 800px) {
     .content {
         padding-top: 6em;
     }
@@ -169,6 +190,7 @@ body, p
 footer {
     font-size: 0.8em;
     text-align: center;
+    display: none;
 }
 
 .choose-room-dialog {
@@ -180,14 +202,14 @@ footer {
     div {
         display: inline-block;
         padding: 10px;
-        
+
         position: relative;
         height: 130px;
         width: 130px;
         border-radius: 5%;
         overflow: hidden;
         border: 2px solid #000;
-        
+
         img {
             position: absolute;
             left: -10px;
@@ -203,19 +225,20 @@ footer {
     font-size: 1.3em;
     padding: 5px;
     border-radius: 5px;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     color: red;
     display: inline-block;
 
-    &.time-restart-information-yellow { color: var(--color-orange-light); }
-    
+    &.time-restart-information-yellow {
+        color: var(--color-orange-light);
+    }
+
     i {
         margin-right: 1em;
     }
 }
 
-.game-list-history table
-{
+.game-list-history table {
     display: inline-block;
     width: 600px;
 
@@ -223,7 +246,7 @@ footer {
 
 td.game-log-time {
     width: 300px;
-} 
+}
 
 td.game-log-name {
     width: 300px;
@@ -233,25 +256,38 @@ td.game-log-name {
 
     padding: 2em 0;
 
-    summary { cursor: pointer; text-transform: uppercase;}
+    summary {
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
     .game-list-tournament-participants {
-        
+
         ul {
             list-style-type: decimal;
             padding-left: 3em;
         }
-        li { text-align: left;}
-        
+
+        li {
+            text-align: left;
+        }
+
     }
 
     .tournament-round {
         list-style-type: none;
         padding-left: 0 !important;
         text-align: left;
-        li { display: inline-block; padding-right: 2em; padding-top: 1em;}
+
+        li {
+            display: inline-block;
+            padding-right: 2em;
+            padding-top: 1em;
+        }
     }
 
-    h3, th {
+    h3,
+    th {
         color: var(--color-orange-light);
         font-weight: 300;
         text-decoration: none;
@@ -260,16 +296,37 @@ td.game-log-name {
         padding: 0;
         text-align: left;
     }
-    table { display: inline-block   }
 
-    th { padding-right: 2em;}
+    table {
+        display: inline-block
+    }
 
-    .game-list-tournament-score { max-width: 100px; text-align: center;}
-    .game-list-tournament-name-vs { width: 30px; text-align: center; font-size: 0.8em;}
-    .game-list-tournament-winner { font-weight: bold; font-size: 1.2em; }
+    th {
+        padding-right: 2em;
+    }
+
+    .game-list-tournament-score {
+        max-width: 100px;
+        text-align: center;
+    }
+
+    .game-list-tournament-name-vs {
+        width: 30px;
+        text-align: center;
+        font-size: 0.8em;
+    }
+
+    .game-list-tournament-winner {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
 
     .tournament-round-round {
-        th, td { padding-top: 10px; }
+
+        th,
+        td {
+            padding-top: 10px;
+        }
     }
 }
 
@@ -277,8 +334,52 @@ td.game-log-name {
     display: grid;
     grid-template-columns: 50% 50%;
 
-    > div {
+    >div {
         margin-top: 0.5em;
         padding-top: 0;
+    }
+}
+
+.room-image-wrapper-center {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.home-hide-by-default {
+    display: none !important;
+}
+body.show-home-hide-by-default .home-hide-by-default {
+    display: block !important;
+}
+.room-text-container-help {
+    color: var(--color-orange-light);
+    cursor: pointer;
+
+    &:hover
+    {
+        color: var(--color-yellow);
+    }
+}
+
+.room-text-container {
+    position: relative;
+    margin-bottom: 1em;
+
+    .room-text-container-char {
+        top: 11px;
+        position: absolute;
+        z-index: 2;
+        color: var(--color-near-white);
+        left: 8px;
+        font-weight: bold;
+    }
+
+    input,
+    button {
+        width: 100%;
+    }
+
+    input {
+        padding-left: 30px;
     }
 }
