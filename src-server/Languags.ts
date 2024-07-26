@@ -174,7 +174,7 @@ class Dictionary {
         return res;
     }
 
-    #saveDictionary(lang:string, js:string, fallback = "en")
+    #saveDictionaryJS(lang:string, js:string, fallback = "en")
     {
         const file = getRootFolder() + "/public/media/dictionary-" + lang + ".js";
         let content = this.#createDictionary(lang, fallback);
@@ -186,6 +186,32 @@ class Dictionary {
     
         fs.writeFileSync(file, js.replace("{LANG}", lang).replace("/*DO NOT CHANGE*/", JSON.stringify(content) + "//"))
         console.info("Dictionary created for language " + lang);
+    }
+    
+    #saveDictionaryJson(lang:string)
+    {
+        const file = getRootFolder() + "/public/media/dictionary-" + lang + ".json";
+        const res:any = { }
+
+        let entry:any;
+        for (let key of Object.keys(this.#data))
+        {
+            entry = this.#data[key];
+            const src = entry[lang];
+            if (src && src !== "")
+                res[key] = src;
+            else if (lang !== "en")
+                res[key] = entry["en"]
+        }
+
+        fs.writeFileSync(file, JSON.stringify(res));
+        console.info("Dictionary json created for language " + lang);
+    }
+
+    #saveDictionary(lang:string, js:string, fallback = "en")
+    {
+        this.#saveDictionaryJS(lang, js, fallback);
+        this.#saveDictionaryJson(lang);
     }
 
     #readCSV()
