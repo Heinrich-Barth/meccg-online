@@ -43,6 +43,13 @@ function RedirectToSource(req: any, res: Response, next: NextFunction)
     res.redirect("/media/dictionary-" + getDictionaryFile(req) + ".js?version=" + uptime);
 }
 
+function RedirectToSourceJson(req: any, res: Response, next: NextFunction)
+{
+    res.header("Cache-Control", "no-store");
+    res.redirect("/media/dictionary-" + getDictionaryFile(req) + ".json?version=" + uptime);
+}
+
+
 export function AddLanguageCookieToRequest(req: any, res: Response, next: NextFunction)
 {
     let language = requireLanguageParams(req);
@@ -233,4 +240,7 @@ export default function InitRouteDictionary()
     const server = ServerInstance.getServerInstance();
     if (server !== null)
         server.get("/data/dictionary.js", AddLanguageCookieToRequest, RedirectToSource);
+
+    if (server !== null)
+        server.get("/data/dictionary.json", AddLanguageCookieToRequest, RedirectToSourceJson);
 }
