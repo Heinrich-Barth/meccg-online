@@ -76,10 +76,10 @@ class CardDataProvider extends CardRepository {
 
     getAvatar<T extends DeckValidate>(jDeck:T) : string
     {
-        if (jDeck.pool === undefined || jDeck.chars === undefined)
+        if (jDeck.pool === undefined || jDeck.playdeck === undefined)
             return "";
 
-        const val = this.#getAvatarInDPile(jDeck.chars);
+        const val = this.#getAvatarInDPile(jDeck.playdeck);
         if (val !== "")
             return val;
 

@@ -1,7 +1,6 @@
 import CookiePreferences from "./CookiePreferences";
 import Logger from "../Logger";
 import { CardDataProvider } from "../plugins/CardDataProvider";
-import * as Authentication from "../authentication";
 import express, { Request, Response } from "express";
 import { Caching, ServerInstance } from "../Server";
 import { getRootFolder } from "../Configuration";
@@ -70,9 +69,6 @@ export default function InitRoutingMap()
 {
     /* Map images should be cached */
     ServerInstance.getServerInstance().use("/media/map-black-tile", express.static(getRootFolder() + "/public/media/map-tile.jpg", Caching.headerData.generic));
-
-    ServerInstance.getServerInstance().use("/map/regions", Authentication.signInFromPWA);
-    ServerInstance.getServerInstance().use("/map/underdeeps", Authentication.signInFromPWA);
 
     /**
      * Show Map Pages

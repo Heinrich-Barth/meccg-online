@@ -15,9 +15,9 @@ export default function InitRoutingPlay()
 {
     getServerInstance().use("/play", AddLanguageCookieToRequest);
 
-    new GamePlayRouteHandler("/play", "login.html", "lobby.html").setupRoutes();
-    new GamePlayRouteHandlerArda("/arda", "login-arda.html", "lobby.html").setupRoutes();
-    new GamePlayRouteHandlerSingle("/singleplayer", "login.html", "home.html").setupRoutes();
+    new GamePlayRouteHandler("/play", true).setupRoutes();
+    new GamePlayRouteHandlerArda("/arda").setupRoutes();
+    new GamePlayRouteHandlerSingle("/singleplayer").setupRoutes();
 
     getServerInstance().use("/data-client", express.static(getRootFolder() + "/data-client", { maxAge: '5h' }));
     getServerInstance().get("/data/preferences/game", Caching.expires.jsonCallback, (req, res) => res.send(pCookiePreferences.get(req.cookies)).status(200));

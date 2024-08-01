@@ -1,106 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
-    <title>Start or join a game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <meta name="theme-color" content="#000000" />
-    <link rel="icon" type="image/png" href="/media/assets/favicon.png">
-    <link rel="stylesheet" href="/media/assets/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="/dist-client/css/deckselection.css?version=version" />
-
-    <script src="/dist-client/js/httpsonly.js"></script>
-    <script src="/media/assets/js/jquery.min.js"></script>
-    <script src="/media/assets/js/jquery-ui.min.js"></script>
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Mellon - Join this Standard or DC game">
-    <meta property="og:description"
-        content="Join this MECCG game. Either use your own deck or choose from a wide variety of preselected decks.">
-    <meta property="og:image" content="/pwa/icon-512.png">
-
     <base target="_self">
 </head>
 
 <body class="navigation-full-width game-login" data-navigation-type="open" data-login="login">
-
-    <div class="content sticky" id="login">
-        <form method="post" action="#" id="deckform">
-            <div class="inner-content">
-                <h1 data-translation="home.jointable">Join the table</h1>
-
-                <div class="room-image-wrapper">
-                    <div class="room-image">
-                        <img src="/data/backside" id="enter_room_image" alt="Ambience room image">
-                    </div>
-                    <div class="room-text fields-join">
-                        <input type="text" class="w50" name="user" id="user" data-translation-placeholder="home.yourname" placeholder="Who are you to the others?"
-                            value="{DISPLAYNAME}" maxlength="20"
-                            placeholder="Your Username (a-zA-Z0-9), 2-20 characters*" />
-                        <button type="button" class="button-small" name="start" id="host"><i class="fa fa-check-circle"
-                                aria-hidden="true"></i> <span data-translation="home.creategame">Create Game</span></button>
-
-                        <p class="arda-text arda-text-intro" id="game-type">
-                            <span data-translation="home.gametype">Choose a game type</span> <span class="label-after"></span>
-                            <input type="radio" id="toggle_isarda" value="arda" name="gameType"><label
-                                for="toggle_isarda"><strong>Arda</strong></label><span class="label-after"></span>
-                            <input type="radio" checked="checked" id="toggle_isstandard" value="standard"
-                                name="gameType"><label for="toggle_isstandard"><strong>Standard</strong></label><span
-                                class="label-after"></span>
-                            <input type="radio" id="toggle_issingleplayer" value="singleplayer" name="gameType"><label
-                                for="toggle_issingleplayer"><strong data-translation="home.gametype.solo">Singleplayer / Solitary Mode</strong></label>
-                            <input type="radio" id="toggle_issingleplayer_random" value="singleplayer_ranadom"
-                                name="gameType"><label for="toggle_issingleplayer_random"><strong data-translation="home.gametype.solorandom">Solitary Mode (random hazard deck)</strong></label>
-                            <span class="label-newline"></span>
-                            <input type="checkbox" id="toggle_allow_dce" value="true" checked name="dce_errata"><label
-                                for="toggle_allow_dce" data-translation="home.usedcerrata">Use DC errata</label>
-                            <span class="label-newline"></span>
-                            <input type="checkbox" id="toggle_use_spanish" value="yes" name="cards_spanish"><label
-                                for="toggle_use_spanish" data-translation="home.usespanish">Use Spanish instead of English cards (if available)</label>
-                        </p>
-                    </div>
-                </div>
-
-
-            </div>
-        </form>
-    </div>
-
-    <div class="fields hidden" id="invalid-cards-info">
-        <h2 data-translation="home.invalidcodes">Invalid Codes found</h2>
-        <div id="invalid-cards-info-result"></div>
-    </div>
-
-    <details id="deck-text-fields" class="deck-fields">
-        <summary data-translation="home.editdeck">Click here to edit selected deck or to import your own deck from <a href="https://cardnum.net" target="_blank">Cardnum</a> or other</summary>
-        <div class="fields">&nbsp;</div>
-    </details>
-
-    <div class="deck-grid" id="deck-grid-all">
-        <div class="deck-list">
-            <div class="deck-list-entries"></div>
-        </div>
-    </div>
-
-    <dialog id="deck-view" class="click-to-close deck-view" title="Click to close">
-        <div id="deck-view-cards" class="deck-view-cards"></div>
-        <div id="notes" class="deck-notes"></div>
-    </dialog>
-
-    <p class="cookie_notice center" data-translation="home.cookienotice">By joining, you agree that this site sets <a href="/about"
-            target="_blank">cookies</a> necessary to play a game.</p>
-
-    <script src="/data/dictionary.js?version=version"></script>
-    <script src="/dist-client/js/game/libraries.js?version=version"></script>
-    <script src="/dist-client/js/decktextfields/index.js?version=version"></script>
-    <script defer src="/dist-client/js/notification/notification.js?version=version"></script>
-    <script defer src="/dist-client/js/dropfile-generic.js?version=version"></script>
-    <script defer src="/dist-client/js/deck/read.js?version=version"></script>
-    <script defer src="/dist-client/js/login.js?version=20230305?version=version"></script>
-    <script defer src="/dist-client/js/navigation/navigation.js?version=version"></script>
+    <!-- not needed anymore -->
 </body>
 
 </html>

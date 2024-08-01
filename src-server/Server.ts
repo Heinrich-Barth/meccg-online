@@ -16,7 +16,8 @@ const cspAllowRemoteImages = function (sPath: string = ""): boolean {
         sPath.startsWith("/deckbuilder") ||
         sPath.startsWith("/cards") ||
         sPath.startsWith("/pwa") ||
-        sPath.startsWith("/map/");
+        sPath.startsWith("/map/") ||
+        sPath === "/"
 }
 
 const Caching = {
@@ -137,8 +138,6 @@ export class ServerInstance {
     static readonly #sampleRooms:string[] = RoomNames.createImages();
     static readonly #sampleNames:string[] = RoomNames.readJsonArray(getRootFolder() + '/data-local/namelist.json');
     static #instanceListener:any = null;
-    static #page404 = "";
-    static #page500 = "";
 
     static getServerInstance()
     {
@@ -189,7 +188,6 @@ export class ServerInstance {
     {
         ServerInstance.#instance.disable('x-powered-by');
         ServerInstance.#instance.use(cookieParser());
-        ServerInstance.#instance.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
         ServerInstance.#instance.use(express.json()); // for parsing application/json
         ServerInstance.#instance.use(function (req: Request, res: Response, next: NextFunction) {
             res.header('X-Robots-Tag', 'noindex, nofollow');
@@ -204,10 +202,16 @@ export class ServerInstance {
                 res.header('X-Content-Security-Policy', ConfigurationInstance.createContentSecurityPolicySelfOnly());
             }
 
-            if (process.env.MODE !== "production")
+            if (process.env.ALLOWCORS === "true")
             {
-                res.header("Access-Control-Allow-Origin", "*");
-                res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+                res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+                res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+                res.header("Access-Control-Allow-Credentials", "true");
+                res.header("Access-Control-Allow-Headers", "Content-Type, *");
+
+                if (req.method === "OPTIONS") {
+                    return res.status(200).end();
+                }
             }
 
             next();
@@ -316,39 +320,7 @@ export class ServerInstance {
         socket.on('reconnect', () => ServerInstance.getRoomManager().onReconnected(socket.userid, socket.room));
     }
 
-
-    static getPage500()
-    {
-        return ServerInstance.#page500;
-    }
-
-    static getPage404() {
-        return ServerInstance.#page404;
-    }
-
-    static setErrorPage(s400:string|null, s500:string|null)
-    {
-        if (s400 !== null)
-            ServerInstance.#page404 = s400;
-        if (s500 !== null)
-            ServerInstance.#page500 = s500;
-    }
 }
-
-
-fs.readFile(getRootFolder() + "/pages/error-404.html", 'utf-8', (err, data) => {
-    if (err)
-        Logger.warn(err);
-    else
-        ServerInstance.setErrorPage(data, null);
-});
-
-fs.readFile(getRootFolder() + "/pages/error-500.html", 'utf-8', (err, data) => {
-    if (err)
-        Logger.warn(err);
-    else
-        ServerInstance.setErrorPage(null, data);
-});
 
 
 export function shutdown(): void {
@@ -367,37 +339,7 @@ export function shutdown(): void {
         ServerInstance.doShutdown();
 }
 
-const EndpointVisitsData = {
-    deckbuilder: 0,
-    cards: 0,
-    converter: 0
-}
-
 export { Caching };
-
-export function endpointVisitsResult() 
-{
-    return EndpointVisitsData;
-}
-
-export function endpointVisitsCount(req: Request, _res: Response, next: NextFunction) 
-{
-    switch (decodeURIComponent(req.baseUrl)) {
-        case "/deckbuilder":
-            EndpointVisitsData.deckbuilder++;
-            break;
-        case "/cards":
-            EndpointVisitsData.cards++;
-            break;
-        case "/converter":
-            EndpointVisitsData.converter++;
-            break;
-        default:
-            break;
-    }
-
-    next();
-}
 
 function Init400And500()
 {
@@ -417,7 +359,7 @@ function Init400And500()
         if (!ConfigurationInstance.isProduction())
             console.info("404 ", req.originalUrl);
 
-        res.status(404).send(ServerInstance.getPage404());
+        res.status(404).json({ message: "not found" });
     });
     
     /* 500 - Any server error */
@@ -432,9 +374,8 @@ function Init400And500()
             console.error(err);
         }
 
-        res.status(500).send(ServerInstance.getPage500());
+        res.status(500).json({ message: "Could not process" });
     });
-
 }
 
 export default function getServerInstance()

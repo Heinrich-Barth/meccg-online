@@ -328,7 +328,7 @@ const fetchAndUpdateGames = function()
 {
     g_nCountFechGames++;
     fetch("/data/games").then((response) => response.json()).then(onResult).catch(showFetchError);
-    fetch("/health").then(response => response.json()).then(onAddFooterTime).then(onAddUptimeNotification).catch(showFetchError);
+    fetch("/data/health").then(response => response.json()).then(onAddFooterTime).then(onAddUptimeNotification).catch(showFetchError);
     if (g_nCountFechGames === 60)
     {
         clearInterval(g_fetchGamesInterval);

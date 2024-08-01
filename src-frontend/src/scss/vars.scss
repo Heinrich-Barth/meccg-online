@@ -1,0 +1,100 @@
+
+:root {
+    --color-light-grey: #ebe9df;
+    --color-dark-grey: #7c7c7c;
+    --color-orange : #F0C648;
+    --color-yellow : #ff0;
+    --color-black : #000;
+    --color-white : #fff;
+    --color-near-white: #9aaa9f;
+    --color-orange-light: #f1eb9a;
+    --colog-green-light: #a8e4b1;
+    --color-red: #e36666;
+    --color-pink: #f76b8a;
+    --color-blue: #5585b5;
+    --scale-companycar: 1.02;
+}
+
+html
+{
+    height: 100%;
+    width: 100%;
+}
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    cursor: default;
+
+    background-color: var(--color-black);
+    color: var(--color-white);
+    
+    font-size: 1em;
+    user-select: none;
+    line-height: 1.5em;
+    box-sizing:border-box;
+}
+
+body
+{
+    min-height: 100%;
+    background-image: url("../frontend-media/assets/hill.webp");
+    background-attachment: fixed;
+    background-size: cover;
+    letter-spacing: 0.025em;
+}
+
+.background-shade-overlay {
+    background-color: rgba(30, 23, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+*, *:before, *:after 
+{
+    box-sizing: inherit;
+}
+
+h1, h2 { 
+    color: var(--color-orange-light);
+    font-weight: 300;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 2em; 
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5em; 
+    margin-bottom: 10px; 
+}
+
+a {
+    color: var(--color-orange-light);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul, ol {
+    list-style-type: none;
+    margin: 0 0 1em 0;
+    padding: 0;
+
+    li {
+        text-align: left;
+        margin: 0.5em 0 0 0;
+    }
+}
+
+.hidden { display: none !important;}
+.center { text-align: center;}

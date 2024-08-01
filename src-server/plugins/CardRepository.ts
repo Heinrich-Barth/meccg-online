@@ -200,14 +200,14 @@ export default class CardRepository {
         return quests;
     }
 
-    identifyAvatars()
+    #identifyAvatars()
     {
         let nCount = 0;
         for (let card of this.#raw)
         {
             if (card["Secondary"] === "Avatar")
             {
-                this.#listAvatars.push(card.code);
+                this.#listAvatars.push(card.code.toLowerCase());
                 nCount++;
             }
         }
@@ -447,7 +447,7 @@ export default class CardRepository {
         this.stripQuotes();
         this.codesLowercase();
         this.identifyQuests();
-        this.identifyAvatars();
+        this.#identifyAvatars();
         this.#identifyStageCards();
         this.identifyUnderdeeps();
         this.integrityCheck();
@@ -625,7 +625,7 @@ export default class CardRepository {
 
     isAvatar(code:string)
     {
-        return code !== "" && this.#listAvatars.includes(code);
+        return code !== "" && this.#listAvatars.includes(code.toLowerCase());
     }
 
     createAgentList()

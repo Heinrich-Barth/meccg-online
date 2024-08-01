@@ -199,11 +199,13 @@ const validateDeck = function<T extends DeckValidate>(jDeck: T, pCardRepository:
     
     count += copyGenericCards(res.pool, jDeck.pool, pCardRepository);
     count += copyGenericCards(res.sideboard, jDeck.sideboard, pCardRepository);
+    count += copyGenericCards(res.sites, jDeck.sites, pCardRepository);
+    count += copyGenericCards(res.playdeck, jDeck.deck, pCardRepository);
 
+    /** legacy */
     count += copyGenericCards(res.playdeck, jDeck.chars, pCardRepository);
     count += copyGenericCards(res.playdeck, jDeck.resources, pCardRepository);
     count += copyGenericCards(res.playdeck, jDeck.hazards, pCardRepository);
-    count += copyGenericCards(res.sites, jDeck.sites, pCardRepository);
 
     return count === 0 ? null : res;
 };

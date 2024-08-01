@@ -1,7 +1,7 @@
 import Logger from "../Logger";
 import * as UTILS from "../meccg-utils";
 import * as EventManager from "../EventManager";
-import * as Authentication from "../authentication";
+import * as Authentication from "../Authentication";
 import { CardDataProvider } from "../plugins/CardDataProvider";
 import GamePlayRouteHandlerUtil from "./GamePlayRouteHandlerUtil";
 import { NextFunction, Request, Response } from "express";
@@ -9,48 +9,49 @@ import { join } from "path";
 import { DeckValidate } from "../plugins/Types";
 import { getRootFolder } from "../Configuration";
 
-export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
-{
+export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
     #pAuthentication = Authentication;
 
-    #contextRoot:string;
-    #contextPlay:string;
+    #contextRoot: string;
+    #contextPlay: string;
 
-    #pageHome:string;
-    #pageLogin:string;
-    #pageLobby:string;
-    #pageWatch:string;
+    #pageHome: string;
+    #addwatch: boolean;
+    #pageWatch: string;
+    #pageJoin: string
 
-    constructor(sContext:string, sPageLogin:string, sLobbyPage:string)
-    {
+    constructor(sContext: string, addwatch: boolean = false) {
         super();
 
         this.#contextPlay = sContext + "/";
         this.#contextRoot = sContext;
+        this.#addwatch = addwatch;
 
         this.#pageHome = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/home.html"));
-        this.#pageLogin = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/" + sPageLogin));
-        this.#pageLobby = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/" + sLobbyPage));
-        this.#pageWatch = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/login-watch.html"));
+
+        if (addwatch) {
+            this.#pageWatch = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/watch.html"));;
+            this.#pageJoin = GamePlayRouteHandlerUtil.readFile(join(getRootFolder(), "/pages/join.html"));;
+        }
+        else {
+            this.#pageWatch = "";
+            this.#pageJoin = "";
+        }
     }
 
-    isArda()
-    {
+    isArda() {
         return false;
     }
 
-    isSinglePlayer()
-    {
+    isSinglePlayer() {
         return false;
     }
 
-    onHome(_req:Request, res:Response)
-    {
+    #onHome(_req: Request, res: Response) {
         this.createExpireResponse(res, "text/html").status(200).send(this.#pageHome);
     }
 
-    setupRoutes()
-    {
+    setupRoutes() {
         Logger.info("Setting up routes for " + this.#contextRoot + " and " + this.#contextPlay);
 
         this.getServerRouteInstance().use(this.#contextRoot, this.#pAuthentication.signInFromPWA);
@@ -58,97 +59,54 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         /**
          * Home
          */
-        this.getServerRouteInstance().get(this.#contextRoot, this.onHome.bind(this));
+        this.getServerRouteInstance().get(this.#contextRoot, this.#onHome.bind(this));
 
         /**
          * Verify game room and add to request object
          */
         this.getServerRouteInstance().use(this.#contextPlay + ":room", this.onVerifyGameRoomParam.bind(this));
-        
-        /**
-         * The LOGIN page.
-         * 
-         * Here, the user will provide a display name used in the game and
-         * also upload their deck.
-         * 
-         * The page forwards to a login page which will create all cookies.
-         */
-        this.getServerRouteInstance().get(this.#contextPlay + ":room/login",
-            this.redirectToGameIfMember.bind(this),
-            this.gameJoinSupported.bind(this), 
-            this.onLogin.bind(this)
-        );
-        
-        /**
-         * Perform the login and set all necessary cookies.
-         * 
-         * The room will only allow ALPHANUMERIC characters and the display name will also be
-         * checked to be alphanumeric only to avoid any HTML injection possibilities.
-         * 
-         */
-         this.getServerRouteInstance().post(this.#contextPlay + ":room/login/check", 
-            this.gameJoinSupported.bind(this), 
-            this.onRoomIsTooCrowded.bind(this),
-            this.onLoginCheck.bind(this),
-            this.redirectToRoom.bind(this)
+
+        this.getServerRouteInstance().post(this.#contextPlay + ":room/login",
+            this.#onLoginAlready.bind(this),
+            this.#gameJoinSupported.bind(this),
+            this.#onRoomIsTooCrowded.bind(this),
+            this.#onLoginCheck.bind(this)
         );
 
-        /**
-         * Player enters the lobby to wait until addmitted to the table.
-         * 
-         * If the player entering this lobby is the first player (or allowed to access the table),
-         * the player will be redirected to the game.
-         * 
-         * If the player does not yet have logged in, redirect to login.
-         * Otherwise, simply show the waiting screen
-         */
-         this.getServerRouteInstance().get(this.#contextPlay + ":room/lobby", this.onValidateGameCookies.bind(this), this.onLobby.bind(this));
+        if (this.#addwatch) {
+            this.getServerRouteInstance().post("/watch/:room",
+                this.onVerifyGameRoomParam.bind(this),
+                this.#onWatchRegister.bind(this)
+            );
+            this.getServerRouteInstance().get("/watch/:room",
+                this.#pAuthentication.signInFromPWA,
+                this.onVerifyGameRoomParam.bind(this),
+                this.#onRedirectWatch.bind(this)
+            );
+            this.getServerRouteInstance().get("/join/:room",
+                this.#pAuthentication.signInFromPWA,
+                this.onVerifyGameRoomParam.bind(this),
+                this.#onRedirectJoin.bind(this)
+            );
+        }
 
-        /**
-         * Get a list of players who are waiting to join this game
-         
-         this.getServerRouteInstance().get(this.#contextPlay + ":room/waiting/:token", this.onWaiting.bind(this));
-        */
-        this.getServerRouteInstance().post(this.#contextPlay + ":room/invite/:token/:type/:allow", this.onJoinTable.bind(this));
+        this.getServerRouteInstance().post(this.#contextPlay + ":room/invite/:token/:type/:allow", this.#onJoinTable.bind(this));
 
-        this.getServerRouteInstance().get(this.#contextPlay + ":room/accessibility", this.onSendAccessibility.bind(this));
-
-        /**
-         * Allow player to access the table
-         *
-         this.getServerRouteInstance().post(this.#contextPlay + ":room/invite/:id/:token", this.onJoinTable.bind(this));
-
-        /**
-         * Reject player access to table
-         this.getServerRouteInstance().post(this.#contextPlay + ":room/reject/:id/:token", this.onReqjectEntry.bind(this));
-         */
+        this.getServerRouteInstance().get(this.#contextPlay + ":room/accessibility", this.#onSendAccessibility.bind(this));
 
         /**
          * Reject player access to table
          */
-         this.getServerRouteInstance().post(this.#contextPlay + ":room/remove/:id/:token", this.onRemovePlayer.bind(this));
+        this.getServerRouteInstance().post(this.#contextPlay + ":room/remove/:id/:token", this.#onRemovePlayer.bind(this));
 
-        /**
-         * Get the status of a given player (access denied, waiting, addmitted)
-         */
-        this.getServerRouteInstance().get(this.#contextPlay + ":room/status/:id", this.onPlayerStatus.bind(this));
+        this.getServerRouteInstance().get(this.#contextPlay + ":room/player",
+            this.#onLoginAlready.bind(this),
+            this.#sendIsNotPresent.bind(this)
+        );
 
-        /**
-         * Setup spectator
-         */
-        this.getServerRouteInstance().get(this.#contextPlay + ":room/watch", this.onWatchSupported.bind(this), this.onWatch.bind(this));
-
-        /**
-         * Perform the login and set all necessary cookies.
-         * 
-         * The room will only allow ALPHANUMERIC characters and the display name will also be
-         * checked to be alphanumeric only to avoid any HTML injection possibilities.
-         * 
-         */
-         this.getServerRouteInstance().post(this.#contextPlay + ":room/watch/check", 
-            this.onWatchSupported.bind(this), 
-            this.onWatchCheck.bind(this),
-            this.redirectToLobby.bind(this)
+        this.getServerRouteInstance().get(this.#contextPlay + ":room/watcher",
+            this.#onIsWatching.bind(this),
+            this.#sendIsNotPresent.bind(this)
         );
 
         /**
@@ -156,310 +114,250 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
          * 
          * The room name has to be ALPHANUMERIC. Otherwise, the requets will fail.
          */
-         this.getServerRouteInstance().get(this.#contextPlay + ":room", 
-            this.onValidateGameCookies.bind(this), 
-            this.onPlayAtTable.bind(this), 
-            this.onAfterPlayAtTableSuccessSocial.bind(this),
-            this.onAfterPlayAtTableSuccessCreate.bind(this),
-            this.onAfterPlayAtTableSuccessJoin.bind(this)
+        this.getServerRouteInstance().get(this.#contextPlay + ":room",
+            this.#onValidateGameCookies.bind(this),
+            this.#onPlayAtTable.bind(this),
+            this.#onAfterPlayAtTableSuccessCreate.bind(this),
+            this.#onAfterPlayAtTableSuccessJoin.bind(this)
         );
     }
 
-    onValidateGameCookies(req:any, res:Response, next:NextFunction)
-    {
+    #allowDeckSelection(res: Response, room: string) {
+        res.redirect("/#/play/" + room);
+    }
+
+    #onValidateGameCookies(req: any, res: Response, next: NextFunction) {
         /** 
          * Check if player has never been in this room before.
          * Forward to login page for deck selection and display name
          */
-        if (!this.validateCookies(req)) 
-        {
+        if (!this.validateCookies(req)) {
             /** avoid redirect. We know the user cannot join this room. Hence, remove any room-related cookie */
             this.clearRoomCookies(req, res);
-            res.redirect(this.#contextPlay + req.room + "/login");
+            this.#allowDeckSelection(res, req.room);
         }
         else
-            super.onValidateGameCookies(req, res, next);
+            next();
     }
 
-    onLogin(req:Request, res:Response)
-    {
-        /** no cookies available */
-        if (req.cookies.userId !== undefined && req.cookies.userId !== null && req.cookies.userId.length === UTILS.uuidLength())
-        {
-            /* already in the game. redirect to game room */
-            const status = this.getRoomManager().isAccepted(req.params.room, req.cookies.userId)
-            if (status !== null && status)
-            {
-                res.redirect(this.#contextPlay + req.params.room);
-                return;
-            }
-        }
-
-        const sUser = req.cookies.username === undefined ? "" : this.sanatiseCookieValue(req.cookies.username);
-
-        this.clearCookies(req, res);
-        this.createExpireResponse(res, "text/html").status(200).send(
-            this.#pageLogin
-                .replace("{DISPLAYNAME}", sUser)
-                .replace("/media/assets/favicon.png", "/data/favicon/" + req.params.room)
-                .replace("/pwa/icon-512.png", "/data/favicon/" + req.params.room)
-        );
-    }
-
-    validateDeck(jDeck:DeckValidate, randomHazards:boolean = false)
-    {
+    validateDeck(jDeck: DeckValidate, roomSize: number, randomHazards: boolean = false) {
         /**
          * Validate Deck first
          */
         return CardDataProvider.validateDeck(jDeck);
     }
 
-    getAvatar(jDeck:DeckValidate)
-    {
+    getAvatar(jDeck: DeckValidate) {
         if (this.isArda() || this.isSinglePlayer())
-            return  "";
+            return "";
         else
             return CardDataProvider.getAvatar(jDeck);
     }
 
-    redirectToGameIfMember(req:any, res:Response, next:NextFunction)
-    {
-        if (this.userIsAlreadyInGame(req))
-            this.createExpireResponse(res, 'text/plain').redirect(this.#contextPlay + req.room);
+    #onIsWatching(req: any, res: Response, next: NextFunction) {
+        const room = req.room;
+        const userid = this.#requireUserId(req);
+        if (this.getRoomManager().isActiveWatcher(room, userid))
+            res.status(204).send("");
         else
             next();
     }
 
-    onWatchSupported(req:any, res:Response, next:NextFunction)
-    {
-        if (this.getRoomManager().grantAccess(req.room, false))
-            next();
-        else
-            this.createExpireResponse(res).redirect("/error/denied");
+    #playerIsAlreadyWatching(req: Request, room: string) {
+        const userid = this.#requireUserId(req);
+        return this.getRoomManager().isActiveWatcher(room, userid);
     }
 
-    onWatchCheck(req:any, res:Response, next:NextFunction)
-    {
-        try 
-        {
+    #playerIsAlreadyPlaying(req: Request, room: string) {
+        const userid = this.#requireUserId(req);
+        return this.getRoomManager().isActivePlayer(room, userid);
+    }
+
+    #onRedirectWatch(req: any, res: Response) {
+        res.header("Cache-Control", "no-store");
+        res.status(200).send(this.#pageWatch
+            .replace("{room}", req.room)
+            .replace("{room}", req.room)
+            .replace("{room}", req.room));
+    }
+
+    #onRedirectJoin(req: any, res: Response) {
+        res.header("Cache-Control", "no-store");
+        res.status(200).send(this.#pageJoin
+            .replace("{room}", req.room)
+            .replace("{room}", req.room)
+            .replace("{room}", req.room));
+    }
+
+    #onWatchRegister(req: any, res: Response) {
+        try {
             const room = req.room;
+            if (!this.getRoomManager().roomExists(room))
+                throw new Error("Room does not exist");
 
-            const jData = JSON.parse(req.body.data);
-            const displayname = jData.name;
-            const shareMessage = typeof jData.share === "string" ? jData.share : "";
+            if (this.#playerIsAlreadyPlaying(req, room))
+                throw new Error("You cannot watch a game you are playing");
+
+            if (!this.#playerIsAlreadyWatching(req, room) && !this.getRoomManager().grantAccess(room, false)) {
+                this.#createErrorJsonResponse(403, "Game is locked by host", res);
+                return;
+            }
 
             /**
              * assert the username is alphanumeric only
              */
-            if (!UTILS.isAlphaNumeric(displayname))
-                throw new Error("Invalid data");
-
-            if (!this.getRoomManager().roomExists(room))
-                throw new Error("Room does not exist");
-
-            const userId = this.requireUserId(req);
+            const userId = this.#requireUserId(req);
+            const displayname = "v" + userId;
 
             /** add player to lobby */
             const lNow = this.getRoomManager().addSpectator(room, userId, displayname);
 
             /** proceed to lobby */
-            this.updateCookieUser(res, userId, displayname);
+            this.#updateCookieUser(res, userId, displayname);
 
             const jSecure = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true };
             res.cookie('room', room, jSecure);
             res.cookie('joined', lNow, jSecure);
-            res.cookie('socialMedia', shareMessage, jSecure);
-
-            next();
+            res.status(204).send("");
         }
-        catch (e) 
-        {
-            Logger.error(e);
-            this.createExpireResponse(res).redirect("/error/login");
+        catch (e: any) {
+            Logger.warn(e);
+            console.warn(e);
+            this.#createErrorJsonResponse(500, e.message ?? "Could not watch", res);
         }
     }
 
-    redirectToLobby(req:any, res:Response)
-    {
-        this.createExpireResponse(res, 'text/plain').redirect("/play/" + req.room + "/lobby");
-    }
-
-    gameJoinSupported(req:any, res:Response, next:NextFunction)
-    {
+    #gameJoinSupported(req: any, res: Response, next: NextFunction) {
         const nPlayers = this.getRoomManager().countPlayersInRoom(req.room);
         if (nPlayers < 1)
             next();
         else if (!this.isSinglePlayer() && this.getRoomManager().grantAccess(req.room, true))
             next();
         else
-            this.createExpireResponse(res).redirect("/error/denied");
+            this.#createErrorJsonResponse(400, "Game is locked by host.", res);
     }
 
-    onRoomIsTooCrowded(req:any, res:Response, next:NextFunction)
-    {
+    #createErrorJsonResponse(code: number, message: string, res: Response) {
+        this.createExpireResponse(res).status(code).json({
+            message: message
+        });
+    }
+
+    #onRoomIsTooCrowded(req: any, res: Response, next: NextFunction) {
         const room = req.room;
         if (this.getRoomManager().tooManyRooms() || this.getRoomManager().tooManyPlayers(room))
-        {
-            Logger.info("Too many rooms or too many players in room " + room);
-            this.createExpireResponse(res).redirect("/error/login");
-        }
+            this.#createErrorJsonResponse(400, "Too many rooms or too many players in room " + room, res);
         else
             next();
     }
 
-    onLoginCheck(req:any, res:Response, next:NextFunction)
-    {
-        try 
-        {
+    #onLoginAlready(req: any, res: Response, next: NextFunction) {
+        const userid = this.#requireUserId(req);
+        const room = req.room ?? "";
+        if (this.getRoomManager().isActivePlayer(room, userid))
+            res.status(204).send("");
+        else
+            next();
+    }
+
+    #sendIsNotPresent(_req: Request, res: Response) {
+        this.#createErrorJsonResponse(404, "Player is not pesent.", res);
+    }
+
+    #onLoginCheck(req: any, res: Response) {
+        try {
             const room = req.room;
-            const jData = JSON.parse(req.body.data);
+            const jData = req.body;
             const displayname = jData.name;
             const useDCE = jData.dce === true;
-            const useJitsi = jData.jitsi === true;
-            const shareMessage = typeof jData.share === "string" ? jData.share : "";
             const randomHazardDeck = this.isSinglePlayer() && jData.randomHazards === true;
 
             /**
              * assert the username is alphanumeric only
              */
-            if (!UTILS.isAlphaNumeric(displayname) || jData.deck === undefined)
-                throw new Error("Invalid data");
+            if (!UTILS.isAlphaNumeric(displayname))
+                throw new Error("Your display name is invalid.");
 
             /**
              * Validate Deck first
              */
-            const jDeck = this.validateDeck(jData.deck, randomHazardDeck);
+            const roomSize = this.getRoomManager().countPlayersInRoom(room);
+            const jDeck = jData.deck === undefined ? null : this.validateDeck(jData.deck, roomSize, randomHazardDeck);
             if (jDeck === null)
-                throw new Error("Invalid Deck");
+                throw new Error("Your deck is empty and cannot be used");
 
-            const avatar = this.getAvatar(jData.deck);
+            const avatar = this.getAvatar(jDeck);
 
             /** Now, check if there already is a game for this Room */
-            const userId = this.requireUserId(req);
+            const userId = this.#requireUserId(req);
 
             const roomOptions = {
                 arda: this.isArda(),
                 singleplayer: this.isSinglePlayer(),
                 dce: useDCE,
-                jitsi:  useJitsi,
+                jitsi: false,
                 avatar: avatar
             };
 
             /** add player to lobby */
             const lNow = this.getRoomManager().addToLobby(room, userId, displayname, jDeck, roomOptions);
             if (lNow === -1)
-            {
-                /** ghost game */
-                this.createExpireResponse(res).redirect("/");
-                return;
-            }
+                throw new Error("Empty game");
 
             /** proceed to lobby */
-            this.updateCookieUser(res, userId, displayname);
+            this.#updateCookieUser(res, userId, displayname);
 
-            const jSecure = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true };
+            const jSecure = {
+                maxAge: 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                secure: true,
+            };
+
             res.cookie('room', room, jSecure);
             res.cookie('joined', lNow, jSecure);
-            res.cookie('socialMedia', shareMessage, jSecure);
-
-            next();
+            res.status(204).send("");
         }
-        catch (e) 
-        {
-            Logger.error(e);
-            console.error(e);
-            this.createExpireResponse(res).redirect("/error/login");
+        catch (e: any) {
+            Logger.error(e.message);
+            console.error(e.message);
+
+            this.#createErrorJsonResponse(500, e.message, res);
         }
     }
 
-    redirectToRoom(req:any, res:Response)
-    {
-        this.createExpireResponse(res, 'text/plain').redirect(this.#contextPlay + req.room);
-    }
-
-    hasValidUserId(req:Request)
-    {
+    #hasValidUserId(req: Request) {
         if (req.cookies.userId === undefined || req.cookies.userId === null)
             return false;
         else
             return req.cookies.userId.trim().length === UTILS.uuidLength()
     }
 
-    requireUserId(req:Request)
-    {
-        if (this.hasValidUserId(req))
+    #requireUserId(req: Request) {
+        if (this.#hasValidUserId(req))
             return req.cookies.userId;
-
-        const id = UTILS.generateUuid();
-        Logger.info("No userid set yet. Creating new one; " + id);
-        return id;
+        else
+            return UTILS.generateUuid();
     }
 
-    updateCookieUser(res:Response, userId:string, displayName:string)
-    {
+    #updateCookieUser(res: Response, userId: string, displayName: string) {
         const jSecure = { maxAge: 365 * 60 * 60 * 1000, httpOnly: true, secure: true };
         res.cookie('userId', userId, jSecure);
-    
+
         if (displayName !== undefined && displayName !== "")
             res.cookie('username', displayName.trim(), jSecure);
     }
 
-    onWatch(req:any, res:Response)
-    {
-        this.clearCookies(req, res);
-        
-        if (!this.getRoomManager().roomExists(req.room))
-            res.redirect("/error/nosuchroom");
-        else
-            this.createExpireResponse(res, 'text/html').send(
-                this.#pageWatch
-                    .replace("/media/assets/favicon.png", "/data/favicon/" + req.room)
-                    .replace("/pwa/icon-512.png", "/data/favicon/" + req.room)
-            ).status(200);
-    }
-
-    onLobby(req:any, res:Response)
-    {
-        if (this.getRoomManager().isAccepted(req.room, req.cookies.userId))  /* if player is admin or accepted, simply redirect to game room */
-        {
-            res.redirect(this.#contextPlay + req.room);
-        }
-        else 
-        {
-            this.getRoomManager().sendJoinNotification(req.room);
-            this.createExpireResponse(res, "text/html").send(this.#pageLobby.replace("{room}", this.sanatiseCookieValue(req.room)).replace("{id}", this.sanatiseCookieValue(req.cookies.userId))).status(200);
-        }
-    }
-
-    onWaiting(req:Request, res:Response)
-    {
-        if (this.getRoomManager().isGameHost(req.params.room, req.params.token))
-        {
-            let data = {
-                waiting: this.getRoomManager().getWaitingList(req.params.room),
-                players : this.getRoomManager().getPlayerList(req.params.room)
-            }
-
-            this.createExpireResponse(res, "application/json").send(data).status(200);
-        }
-        else
-            res.sendStatus(401);
-    }
-
-    onSendAccessibility(req:any, res:Response)
-    {
+    #onSendAccessibility(req: any, res: Response) {
         const data = {
             player: this.getRoomManager().grantAccess(req.room, true),
             visitor: this.getRoomManager().grantAccess(req.room, false)
-        } 
+        }
 
         this.createExpireResponse(res, "application/json").send(data).status(200);
     }
 
-    onJoinTable(req:Request, res:Response)
-    {
-        if (!this.getRoomManager().isGameHost(req.params.room, req.params.token))
-        {
+    #onJoinTable(req: Request, res: Response) {
+        if (!this.getRoomManager().isGameHost(req.params.room, req.params.token)) {
             res.sendStatus(401);
             return;
         }
@@ -471,21 +369,8 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         this.createExpireResponse(res).sendStatus(204);
     }
 
-    onReqjectEntry(req:Request, res:Response)
-    {
-        if (this.getRoomManager().isGameHost(req.params.room, req.params.token))
-        {
-            this.getRoomManager().rejectEntry(req.params.room, req.params.id);
-            this.createExpireResponse(res).sendStatus(204);
-        }
-        else
-            res.sendStatus(401);
-    }
-
-    onRemovePlayer(req:Request, res:Response)
-    {
-        if (this.getRoomManager().isGameHost(req.params.room, req.params.token))
-        {
+    #onRemovePlayer(req: Request, res: Response) {
+        if (this.getRoomManager().isGameHost(req.params.room, req.params.token)) {
             this.getRoomManager().removePlayerFromGame(req.params.room, req.params.id);
             this.createExpireResponse(res).sendStatus(204);
         }
@@ -493,83 +378,57 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
             res.sendStatus(401);
     }
 
-    onPlayerStatus(req:Request, res:Response)
-    {
-        let _obj = {
-            status: "denied",
-            room: req.params.room
-        };
-
-        let status = this.getRoomManager().isAccepted(req.params.room, req.params.id);
-        if (status !== null)
-            _obj.status = status ? "ok" : "wait";
-
-        this.createExpireResponse(res, 'application/json').send(_obj).status(200);
-    }
-
-    onPlayAtTable(req:any, res:Response, next:NextFunction)
-    {
+    #onPlayAtTable(req: any, res: Response, next: NextFunction) {
         const room = req.room;
 
         /**
          * Assert that the user really accepted
          */
         const bForwardToGame = this.getRoomManager().isAccepted(room, req.cookies.userId);
-        if (bForwardToGame === null) 
-        {   
-            res.redirect(this.#contextPlay + room + "/login");
-            return;
-        }
-        else if (!bForwardToGame) 
-        {
-            res.redirect(this.#contextPlay + room + "/lobby");
+        if (bForwardToGame !== true) {
+            this.#allowDeckSelection(res, room);
             return;
         }
 
         const dice = req.cookies.dice ?? "";
-        
+
         /**
          * At this point, the user is allowed to enter the room.
          * 
          * The user may have joined with a second window. In that case, they would have 2 active sessions open.
          */
         const lTimeJoined = this.getRoomManager().updateEntryTime(room, req.cookies.userId);
-        if (lTimeJoined === 0) 
+        if (lTimeJoined === 0) // game does not exist
         {
-            res.redirect(this.#contextPlay + room + "/login");
+            this.#allowDeckSelection(res, room);
+            return;
         }
-        else
-        {
-            /* Force close all existing other sessions of this player */
-            res.cookie('joined', lTimeJoined, { httpOnly: true, secure: true });
 
-            req._doShare = typeof req.cookies.socialMedia === "string" ? req.cookies.socialMedia : "";
+        /* Force close all existing other sessions of this player */
+        res.cookie('joined', lTimeJoined, { httpOnly: true, secure: true });
 
-            this.clearSocialMediaCookies(res);
-    
-            this.getRoomManager().updateDice(room, req.cookies.userId, dice);
-            this.createExpireResponse(res, "text/html").status(200);
-            const list = this.getRoomManager().loadGamePage(
-                room, this.sanatiseCookieValue(req.cookies.userId), 
-                this.sanatiseCookieValue(req.cookies.username), 
-                lTimeJoined, 
-                dice,
-                this.#getLanguageParam(req)
-            );
-            
-            for (let part of list)
-                res.write(part);
+        this.clearSocialMediaCookies(res);
 
-            res.end();
-            next();
-        }
+        this.getRoomManager().updateDice(room, req.cookies.userId, dice);
+        this.createExpireResponse(res, "text/html").status(200);
+        const list = this.getRoomManager().loadGamePage(
+            room, this.sanatiseCookieValue(req.cookies.userId),
+            this.sanatiseCookieValue(req.cookies.username),
+            lTimeJoined,
+            dice,
+            this.#getLanguageParam(req)
+        );
+
+        for (let part of list)
+            res.write(part);
+
+        res.end();
+        next();
     }
 
-    #getLanguageParam(req:any)
-    {
+    #getLanguageParam(req: any) {
         const lang = typeof req._langauge === "string" ? req._langauge : "";
-        switch(lang)
-        {
+        switch (lang) {
             case "es":
             case "fr":
             case "en":
@@ -579,45 +438,13 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil
         }
     }
 
-    onAfterPlayAtTableSuccessJoin(req:any, res:Response)
-    {
+    #onAfterPlayAtTableSuccessJoin(req: any, res: Response) {
         EventManager.trigger("game-joined", req._roomName, this.isArda(), req._socialName);
     }
 
-    onAfterPlayAtTableSuccessSocial(req:any, _res:Response, next:NextFunction)
-    {
-        if (this.isSinglePlayer() || !req._doShare)
-            return;
-        
-        /* enforece lowercase room, is always alphanumeric */
-        const room = req.params.room.toLocaleLowerCase();
-        if (!this.getRoomManager().roomExists(room))
-            return;
-
-        const roomCount = this.getRoomManager().countPlayersInRoom(room); 
-        const noSharing = req._doShare !== "openchallenge" && req._doShare !== "visitor";
-
-        let proceedNext = !noSharing;
-        if (roomCount === 1)
-            this.getRoomManager().setAllowSocialMediaShare(room, !noSharing);
-        else 
-            proceedNext = this.getRoomManager().getAllowSocialMediaShare(room) && !noSharing;
-
-        if (proceedNext)
-        {
-            req._roomCount = roomCount;
-            req._roomName = room;
-            req._socialName = this.sanatiseCookieValue(req.cookies.username);
-            next();    
-        }
-    }
-    
-    onAfterPlayAtTableSuccessCreate(req:any, _res:Response, next:NextFunction)
-    {
+    #onAfterPlayAtTableSuccessCreate(req: any, _res: Response, next: NextFunction) {
         if (req._roomCount !== 1)
             next();
-        else if (req._doShare === "openchallenge")
-            EventManager.trigger("game-created-openchallenge", req._roomName, this.isArda(), req._socialName);
         else
             EventManager.trigger("game-created", req._roomName, this.isArda(), req._socialName);
     }

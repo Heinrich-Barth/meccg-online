@@ -74,9 +74,21 @@ export default class RoomManager {
         return pRoom === null ? 0 : pRoom.getPlayerCount();
     }
 
+    isActivePlayer(room:string, userid:string)
+    {
+        const pRoom = this.getRoom(room);
+        return pRoom !== null && pRoom.hasPlayer(userid);
+    }
+    
+    isActiveWatcher(room:string, userid:string)
+    {
+        const pRoom = this.getRoom(room);
+        return pRoom !== null && pRoom.hasVisitor(userid);
+    }
+
     getRoom(room:string):GameRoom|null
     {
-        if (room !== undefined && room !== "" && room.length <= 50 && this.#rooms[room] !== undefined)
+        if (typeof room === "string" && room !== "" && room.length <= 50 && this.#rooms[room] !== undefined)
             return this.#rooms[room];
         else
             return null;
@@ -216,14 +228,14 @@ export default class RoomManager {
 
     getActiveGame(room:string)
     {
-        if (room === undefined || room === null || room === "" || this.#rooms[room] === undefined)
+        const pRoom = this.getRoom(room);
+        if (pRoom === null)
             return { exists: false };
 
-        const pRoom = this.#rooms[room];
         return {
             exists : true,
             players : pRoom.getPlayers().length,
-            share: pRoom.getAllowSocialMedia(),
+            share: false,
             allowPlayers: pRoom.canJoinPlayer(),
             allowSpectator: pRoom.canJoinVisitor(),
             avatars: pRoom.getPlayerAvatarsList(),
@@ -742,7 +754,6 @@ export default class RoomManager {
             return;
 
         let pRoom = this.#rooms[room];
-        const bAllowSocial = pRoom.getAllowSocialMedia();
         const scores = pRoom.getFinalGameScore();
 
         pRoom.sendMessage("Game", "has ended.");
@@ -751,9 +762,6 @@ export default class RoomManager {
         const logfile = pRoom.getGameLog();
 
         delete this.#rooms[room];
-
-        if (scores !== undefined && bAllowSocial)
-            this.#eventManager.trigger("game-finished", room, scores);
 
         this.#eventManager.trigger("game-remove", room, logfile);
         Logger.info("Game " + room + " has ended.");
@@ -838,20 +846,7 @@ export default class RoomManager {
 
     roomExists(room:string)
     {
-        return room !== undefined && room !== "" && this.#rooms[room] !== undefined;
-    }
-
-    setAllowSocialMediaShare(room:string, bAllow:boolean = false)
-    {
-        if (room !== undefined && room !== "" && this.#rooms[room] !== undefined)
-            this.#rooms[room].setAllowSocialMedia(bAllow);
-    }
-
-    getAllowSocialMediaShare(room:string)
-    {
-        return room !== undefined && room !== "" 
-            && this.#rooms[room] !== undefined
-            && this.#rooms[room].getAllowSocialMedia();
+        return this.getRoom(room) !== null;
     }
 
     /**
@@ -875,7 +870,8 @@ export default class RoomManager {
 
     grantAccess(room:string, isPlayer:boolean)
     {
-        return room !== "" && this.#rooms[room] !== undefined && this.#rooms[room].grantAccess(isPlayer);
+        const pRoom = this.getRoom(room);
+        return pRoom !== null && pRoom.grantAccess(isPlayer);
     }
 
     addSpectator (room:string, userId:string, displayname:string) 

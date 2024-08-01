@@ -203,7 +203,7 @@ export default class DeckArda extends DeckDefault {
             const card = cardMap[uuid];
             if (card.unique || card.hoard)
             {
-                console.log("Move minor to discard:", card.code)
+                console.info("Move minor to discard:", card.code)
                 listMove.push(uuid);
             }
         }

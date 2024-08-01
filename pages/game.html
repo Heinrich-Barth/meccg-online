@@ -32,14 +32,14 @@
         </div>
     <!-- CUT -->
         <script type="text/javascript" nonce="START">
-            const g_sDisplayName = "{TPL_DISPLAYNAME}";
+            const g_sDisplayName = `{TPL_DISPLAYNAME}`;
             const g_lTimeJoined = {TPL_TIME};
-            const g_sRoom = "{TPL_ROOM}";
-            const g_sUserId = "{TPL_USER_ID}";
-            const g_sApiKey = "{TPL_API_KEY}";
-            const g_sLobbyToken = "{TPL_LOBBY_TOKEN}";
-            const g_sVersion = "version=version";
-            document.title = g_sRoom.toUpperCase() + " - MECCG Game in progress";
+            const g_sRoom = `{TPL_ROOM}`;
+            const g_sUserId = `{TPL_USER_ID}`;
+            const g_sApiKey = `{TPL_API_KEY}`;
+            const g_sLobbyToken = `{TPL_LOBBY_TOKEN}`;
+            const g_sVersion = `version=version`;
+            document.title = `${g_sRoom.toUpperCase()} - MECCG Game in progress`;
         </script>
     <!-- CUT -->
         <script src="/dist-client/js/socket.io.min.js"></script>

@@ -1,0 +1,332 @@
+.application-home {
+
+  padding: 2em 4em;
+
+
+}
+
+
+
+.avatar-list {
+
+  list-style-type: none;
+  display: block;
+  margin-bottom: 0;
+
+  li {
+    &.label {
+      height: 30px;
+      vertical-align: top;
+    }
+
+    &:not(.label) {
+      width: 30px;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    height: 30px;
+    position: relative;
+    display: inline-block;
+    margin-right: 5px;
+
+    img {
+      position: absolute;
+      width: 100%;
+      top: 7px;
+      scale: 1.6;
+    }
+  }
+
+
+}
+
+.blue-box {
+
+  background: linear-gradient(90deg, rgba(35, 35, 35, 0.7) 0%, rgba(35, 35, 35, 0.3) 100%);
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(35, 35, 35, 0.9);
+  }
+}
+
+.room-image {
+  position: relative;
+  height: 130px;
+  max-width: 130px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 5%;
+  border: 2px solid #000;
+
+  &.room-image-choose img {
+    scale: 1.5;
+    top: 3px;
+  }
+
+  &.room-image-game img {
+    left: -17px;
+    top: 3px;
+    scale: 1.5;
+  }
+
+  img {
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    left: -10px;
+    top: -30px;
+    width: 150px;
+    scale: 1.2;
+  }
+
+  .room-image-edit {
+    color: var(--color-orange-light);
+    padding: 10px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    background-color: #000;
+    cursor: pointer;
+  }
+
+
+  &:hover {
+    img {
+      scale: 1.3
+    }
+
+    &.room-image-choose img {
+      scale: 1.7;
+    }
+
+    .room-image-edit {
+      visibility: visible;
+    }
+  }
+}
+
+.room-game-list {
+  h3 {
+    text-transform: uppercase;
+    margin: 2px 0;
+  }
+
+  &:hover {
+    .room-image-game img {
+      scale: 1.8;
+    }
+  }
+
+  .player-list {
+    list-style-type: none;
+
+    li {
+      display: inline;
+
+      &::before {
+        content: ' | ';
+      }
+
+      &:first-of-type::before {
+        content: '';
+      }
+    }
+  }
+
+  .game-duration {
+    font-size: 0.8em;
+    padding-left: 1em;
+    text-transform: lowercase;
+  }
+}
+
+deck-label {
+  font-size: 0.8em;
+  grid-column: span 3;
+  padding: 0 10px;
+  text-align: right;
+  display: inline-block;
+  transition: all 0.3s ease-in-out;
+}
+
+.deck-label {
+  color: var(--color-white);
+  display: inline-block;
+
+  &:hover {
+    color: var(--color-black);
+  }
+
+  span {
+    padding: 2px 10px;
+    border-radius: 5px;
+  }
+
+  margin-right: 1em;
+
+  :last-of-type {
+    margin-right: 0;
+  }
+}
+
+.deck-label-pink {
+  background-color: var(--color-pink);
+}
+
+.deck-label-red {
+  background-color: var(--color-red);
+}
+
+.deck-label-green {
+  background-color: #61c0bf;
+}
+
+.deck-label-blue {
+  background-color: var(--color-blue);
+}
+
+.deck-label-yellow {
+  background-color: #346357;
+}
+
+.background-gradient {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  padding: 2em;
+  background: linear-gradient(130deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.4) 40%, rgb(0, 0, 0) 60%);
+  z-index: 1;
+}
+
+.application-root {
+  z-index: 2;
+  position: relative;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.padding2em1m {
+  padding: 2em 1em;
+}
+
+.padding1em2m {
+  padding: 1em 2em;
+}
+
+.paddingBottom1em {
+  padding-bottom: 1em
+}
+
+.paddingBottom3em {
+  padding-bottom: 3em
+}
+
+
+.paddingRight1em {
+  padding-right: 1em
+}
+
+.paddingTop1em {
+  padding-top: 1em
+}
+
+.paddingTop4em {
+  padding-top: 4em
+}
+
+.paddingLeft2em {
+  padding-left: 2em;
+}
+
+.paddingRight2em {
+  padding-right: 2em;
+}
+
+.paddingTop10em {
+  padding-top: 10em;
+}
+
+.paddingRight1em {
+  padding-right: 1em
+}
+
+.paddingLeft1em {
+  padding-left: 1em
+}
+
+.displayNone {
+  display: none !important;
+}
+
+.displayInherit {
+  display: inherit;
+}
+
+.flextStart {
+  justify-content: "flex-start !important"
+}
+
+.marginBottom0-5em {
+  margin-bottom: 0.5em
+}
+.marginTop2em {
+  margin-top: 2em;
+}
+
+.marginTop1em {
+  margin-top: 1em;
+}
+
+.meccg-logo img {
+  max-width: 150px;
+}
+
+.custom-deck {
+  padding: 1em 0.5em
+}
+
+.noscript-fullscreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  .noscript-fullscreen-content {
+    left: 0;
+    top: 0;
+    transform: translateX(50%) translateY(50%);
+    width: 50%;
+  }
+}
+.text-center { text-align: center; }
+.view-image { display: inline-block; max-width: 100%;}
+
+table.resultlist {
+  width: 100%;
+  border-spacing: 0;
+  margin: 2em 0;
+  col
+  th, td { 
+    text-align: center;
+    &:first-of-type { text-align: left;}
+  }
+
+  th { border-bottom: 1px solid;}
+}

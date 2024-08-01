@@ -31,7 +31,7 @@ export function generateFlatUuid():string
  */
 export function isAlphaNumeric(sInput:string):boolean
 {
-    return sInput !== undefined && sInput.trim() !== "" && /^[0-9a-zA-Z]{1,}$/.test(sInput);
+    return typeof sInput === "string" && sInput.trim() !== "" && /^[0-9a-zA-Z]{1,}$/.test(sInput);
 };
 
 /**
@@ -75,7 +75,7 @@ export function createContentSecurityPolicyMegaAdditionals(csp_image_domain:stri
 
     const jEntries:ICSPInfo = {
         "default-src" : "'none'",
-        "style-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
         "connect-src": "'self' " + csp_image_domain,
         "font-src": "'self'",
         "script-src": "'self' 'nonce-START'",
@@ -98,7 +98,7 @@ export function createContentSecurityPolicyMegaAdditionals(csp_image_domain:stri
         "font-src": "'self'",
         "script-src": "'self'",
         "connect-src": "'self'",
-        "style-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
         "img-src": "'self'",
         "report-uri": "/csp-violation"
     };

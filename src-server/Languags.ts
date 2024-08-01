@@ -32,7 +32,7 @@ const getDictionaryFile = function(req: any)
     if (typeof req._language !== "string" || req._language === "")
         req._language = "en";
 
-    return req._language + ".js?t=" + Date.now();
+    return req._language;
 }
 
 const uptime = Date.now();

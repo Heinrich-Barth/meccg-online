@@ -102,9 +102,9 @@ const Personalisation:IPersonalisation = {
     Personalisation.background_keys = Object.keys(backgorunds);
     writePersonalisationCss(backgorunds);
 
-    console.log("personalisation information:");
-    console.log("\t - "+Personalisation.dices.length + " dice(s) available");
-    console.log("\t - "+Personalisation.background_keys.length + " background(s) available");
+    console.info("personalisation information:");
+    console.info("\t - "+Personalisation.dices.length + " dice(s) available");
+    console.info("\t - "+Personalisation.background_keys.length + " background(s) available");
 })();
 
 export function InitPersonalisation()

@@ -49,37 +49,6 @@ const processJsonResult = function(json:any)
     return result;
 }
 
-const processParticipants = function(textarea:string)
-{
-    if (typeof textarea !== "string" || textarea === "")
-        return [];
-
-    const list:string[] = [];
-    for (let line of textarea.trim().split("\n"))
-    {
-        if (line.trim() !== "")
-            list.push(line.trim());
-    }
-
-    return list;
-}
-
-const getRteTexts = function(level:any)
-{
-    if (typeof level?.content === "undefined" || !Array.isArray(level.content) || level.content.length === 0)
-        return [];
-
-    const list = [];
-    for (let entry of level.content)
-    {
-        const text = entry.text;
-        if (typeof text === "string" && text !== "")
-            list.push(text);
-    }
-
-    return list;
-}
-
 const rteToStringArray = function(rte:any)
 {
     if (rte?.type !== "doc" || rte?.content === undefined)
@@ -87,48 +56,8 @@ const rteToStringArray = function(rte:any)
 
     const result = [];
     for (let p of rte.content)
-    {
-        const isHeading = p.type !== "paragraph" && p.type !== "bullet_list";
-        const isList = p.type === "bullet_list";
-        if (!isList)
-        {
-            result.push({
-                headline: isHeading,
-                list: [],
-                texts: getRteTexts(p)
-            })
-        }
-        else {
-            result.push({
-                headline: false,
-                list: processListItems(p.content),
-                texts: []
-            })
-        }
-    }
+        result.push(p)
 
-    return result;
-}
-
-const processListItems = function(bulletList:any)
-{
-    if (typeof bulletList === "undefined" || !Array.isArray(bulletList) || bulletList.length === 0)
-        return [];
-
-    const result = []
-    for (let item of bulletList)
-    {
-        if (item.content && item.content.length > 0)
-        {
-            const p = item.content[0];
-            if (p.content && p.content.length > 0)
-            {
-                const value = p.content[0].text;
-                if (typeof value === "string" && value !== "")
-                    result.push(value);
-            }
-        }
-    }
     return result;
 }
 
@@ -137,18 +66,13 @@ const processTournamentEntry = function(id:string, json:any)
     if (typeof json === "undefined" || json.isactive !== true)
         return null;
 
-    const title = json.title;
-    const date = json.startDate;
-    const participants = processParticipants(json.participants);
-
     return {
         id: id,
-        title: title,
-        date: date,
-        participants: participants,
+        title: json.title,
+        date: json.startDate,
+        table: json.table,
+        introduction: json.introduction,
         description: rteToStringArray(json.description),
-        rounds: rteToStringArray(json.rounds),
-        results: rteToStringArray(json.results)
     }
 }
 
@@ -183,14 +107,24 @@ const fetchTournaments = function(_req:Request, _res:Response, next:NextFunction
     .finally(() => next());
 }
 
-const sendData = function(_req:Request, res:Response)  {
-    res.status(200).json(DATA);
+const sendList = function(_req:Request, res:Response)  {
+    res.status(200).json(DATA.names);
 }
+
+const sendById = function(req:Request, res:Response)  {
+    const id = req.params.id;
+    if (typeof id === "string" && id !== "" && DATA.entries[id])
+        res.status(200).json(DATA.entries[id]);
+    else
+        res.status(404).json({ message: "entry not found."});
+}
+
 
 export default function InitTournamentsEndpoints() {
 
     if (token !== "")
         getServerInstance().use("/data/tournaments", fetchTournaments);
 
-    getServerInstance().get("/data/tournaments", sendData);
+    getServerInstance().get("/data/tournaments", sendList);
+    getServerInstance().get("/data/tournaments/:id", sendById);
 }

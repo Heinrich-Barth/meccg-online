@@ -9,18 +9,15 @@ import express, { NextFunction, Request, Response } from "express";
 import Logger from "./Logger";
 
 import { Caching, ServerInstance, shutdown } from "./Server";
-import * as g_pAuthentication from "./authentication";
-
 import { CardDataProvider } from "./plugins/CardDataProvider";
+import InitAuthencation, * as Authentication from "./Authentication";
 import * as ResultToken from "./game-management/ResultToken";
-import InitPWA from "./pwa";
 import setupEvents from "./plugins/events";
 
 import InitDecklistRoutes from "./plugins/Decklist"
 import InitReleaseNotes from "./releasenotes";
 import { InitPersonalisation } from "./Personalisation";
 import InitGameLogs from "./game-logs";
-import InitNavigation from "./plugins/Navigation";
 import InitRouting from "./server/module";
 import { getRootFolder } from "./Configuration";
 import CreateRobotsTxt from "./robotstxt";
@@ -35,9 +32,9 @@ setupEvents();
 /**
  * Create server
  */
-InitPWA();
 CreateRobotsTxt();
 InitRouteDictionary();
+InitAuthencation();
 
 ServerInstance.getServerInstance().use(express.static(getRootFolder() + "/public"));
 ServerInstance.getServerInstance().use("/dist-client", express.static("dist-client"));
@@ -45,7 +42,6 @@ ServerInstance.getServerInstance().use("/dist-client", express.static("dist-clie
 /**
  * Show list of available images. 
  */
-ServerInstance.getServerInstance().use("/data", g_pAuthentication.isSignedInPlay);
 ServerInstance.getServerInstance().get("/data/list/images", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getImageList()).status(200));
 
 /**
@@ -111,37 +107,8 @@ InitFaviconRoutes();
 InitTournamentsEndpoints();
 InitFeedbackEndpoint();
 
-/**
-  * Check if the deck is valid.
-  */
-ServerInstance.getServerInstance().post("/data/decks/check", Caching.expires.jsonCallback, function (req: Request, res: Response) 
-{
-    let bChecked = false;
-    let vsUnknown = [];
-
-    /* Prevents DoS. */
-    const jData = req.body instanceof Array ? req.body : [];
-
-    const nSize = jData.length;
-    for (let i = 0; i < nSize; i++)
-    {
-        const code = jData[i];
-        if (code !== "")
-        {
-            bChecked = true;
-            if (!CardDataProvider.isCardAvailable(code) && !CardDataProvider.isCardAvailableGuessed(code))
-                vsUnknown.push(code);
-        }
-    }
-    
-    res.status(200).json({
-        valid : bChecked && vsUnknown.length === 0,
-        codes : vsUnknown
-    });
-});
-
 ServerInstance.getServerInstance().get("/data/samplerooms", Caching.cache.jsonCallback, (_req: Request, res: Response) => res.json(ServerInstance.getSampleRooms()).status(200));
-ServerInstance.getServerInstance().get("/data/samplenames", Caching.expires.jsonCallback, (_req: Request, res: Response) => res.send(ServerInstance.getSampleNames()).status(200));
+ServerInstance.getServerInstance().get("/data/samplenames", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(ServerInstance.getSampleNames()).status(200));
 ServerInstance.getServerInstance().post("/data/hash", (req: Request, res: Response) =>
 {
     const data = req.body.value;
@@ -162,34 +129,9 @@ ServerInstance.getServerInstance().post("/data/hash", (req: Request, res: Respon
 
 InitGameLogs();
 
-/** load navigation and non-game endpoints */
-InitNavigation();
-
-/**
-  * Home Page redirects to "/play"
-  */
-ServerInstance.getServerInstance().get("/", (req: Request, res: Response, next:NextFunction) => {
+ServerInstance.getServerInstance().get("/", (_req: Request, res: Response) => {
     res.header("Cache-Control", "no-store");
-    if (g_pAuthentication.isSignedIn(req, res, next))
-        res.redirect("/play")
-    else
-        res.redirect("/login")
-});
-
-
-ServerInstance.getServerInstance().post("/login", (req: Request, res: Response, next:NextFunction) => {
-    
-    const ref = req.headers.referer;
-    if (typeof ref !== "string" || ref === "")
-    {
-        res.status(401).json({ error: "wrong"});
-        return;
-    }
-
-    if (g_pAuthentication.isSignedIn(req, res, next))
-        res.status(204).send("");
-    else
-        res.status(401).json({ error: "wrong"});
+    res.sendFile(getRootFolder() + "/pages/home.html")
 });
 
 /**

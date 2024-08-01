@@ -234,7 +234,7 @@ class Configuration
         {
             const jEntries = {
                 "default-src" : "'none'",
-                "style-src": "'self'",
+                "style-src": "'self' 'unsafe-inline'",
                 "connect-src": "'self'",
                 "font-src": "'self'",
                 "media-src": "'self'",
@@ -267,7 +267,7 @@ class Configuration
                 "script-src": "'self'",
                 "connect-src": "'self'",
                 "media-src": "'self'",
-                "style-src": "'self'",
+                "style-src": "'self' 'unsafe-inline' ",
                 "img-src": "'self'",
                 "manifest-src": "'self'",
                 "report-uri": "/csp-violation"

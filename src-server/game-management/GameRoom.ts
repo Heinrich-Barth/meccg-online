@@ -22,7 +22,6 @@ export class GameRoom
 
     #gameInstance : GameStandard|GameArda;
     #reconnectionCounts:{[id:string]:number} = {};
-    #socialMedia = false;
     #allowAccessPlayer = true;
     #allowAccessVisitor = true;
     #useDCEbyDefault = true;
@@ -73,6 +72,7 @@ export class GameRoom
         if (isSinglePlayer)
         {
             gameInstance.setSinglePlayer(true);
+            pGame.#allowAccessPlayer = false;
             pGame.#allowVisitor(false);
         }
 
@@ -142,16 +142,6 @@ export class GameRoom
     grantAccess(isPlayer:boolean)
     {
         return isPlayer ? this.#allowAccessPlayer : this.#allowAccessVisitor;
-    }
-
-    getAllowSocialMedia()
-    {
-        return this.#socialMedia;
-    }
-
-    setAllowSocialMedia(bAllow:boolean)
-    {
-        this.#socialMedia = bAllow === true;
     }
 
     getConnectionCount(userid:string)

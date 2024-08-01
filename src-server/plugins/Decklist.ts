@@ -384,9 +384,8 @@ export default function InitDecklistRoutes()
         return;
     }    
     
-    
-    getServerInstance().get("/data/decks", Caching.expires.jsonCallback, (_req:Request, res:Response) => res.json(g_vpDedckList).status(200));
-    getServerInstance().get("/data/decks/:id", Caching.expires.jsonCallback, (req:Request, res:Response) => 
+    getServerInstance().get("/data/decks", Caching.cache.jsonCallback6hrs, (_req:Request, res:Response) => res.json(g_vpDedckList).status(200));
+    getServerInstance().get("/data/decks/:id", Caching.cache.jsonCallback6hrs, (req:Request, res:Response) => 
     {
         res.status(200);
         if (req.params.id && g_pDeckById[req.params.id])

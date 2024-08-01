@@ -25,26 +25,20 @@ export default class GamePlayRouteHandlerUtil
         res.clearCookie('socialMedia');
     }
 
-    onValidateGameCookies(_req:Request, _res:Response, next:NextFunction)
-    {
-        next();
-    }
-
     userIsAlreadyInGame(req:Request)
     {
         return this.validateCookies(req);
     }
 
-    onVerifyGameRoomParam(req:any, res:Response, next:NextFunction)
+    onVerifyGameRoomParam(req:any, _res:Response, next:NextFunction)
     {
         const room = req.params === undefined || req.params.room === undefined ? "" : req.params.room.toLocaleLowerCase();
         if (UTILS.isAlphaNumeric(room))
-        {
             req.room = room;
-            next();
-        }
-        else
-            this.createExpireResponse(res, "").redirect("/error");
+        else 
+            req.room = "";
+            
+        next();
     }
 
     clearRoomCookies(req:Request, res:Response)
@@ -65,7 +59,7 @@ export default class GamePlayRouteHandlerUtil
         if (req.cookies.userId === undefined ||
             req.cookies.room === undefined ||
             req.cookies.joined === undefined)
-            return false;
+                return false;
 
         try
         {

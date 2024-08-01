@@ -273,15 +273,29 @@ class GamePreferences extends Preferences {
         }}));
     }
 
+    #getRoomUrl()
+    {
+        const url = document.location.href;
+        if (url.length < 12)
+            return "";
+
+        const pos = url.indexOf("/", 10);
+        if (pos === -1)
+            return "";
+        else
+            return url.substring(0, pos);       
+    }
 
     #copySharePlay()
     {
-        this.#copyToClipboard(document.location.href);
+        const url = this.#getRoomUrl() + "/join/" + g_sRoom;
+        this.#copyToClipboard(url);
     }
 
     #copyShareWatch()
     {
-        this.#copyToClipboard(document.location.href + "/watch");
+        const url = this.#getRoomUrl() + "/watch/" + g_sRoom;
+        this.#copyToClipboard(url);
     }
 
     #copyToClipboard(text)

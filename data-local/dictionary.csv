@@ -16,12 +16,15 @@ home.watchgame;Watch the game.;Regarder la partie.;Mira el partido.
 home.joinarda;Join the Arda game.;Rejoindre la partie Arda.;Únete al juego de Arda.
 home.yourname;Who are you to the others?;Quel est votre nom?;¿Quién eres tú para los demás?
 home.creategame;Create Game;Créer une patie;Crear juego
+home.lookatdeck;Look at deck;Regardez pioche;Mira playdeck
+home.choosethisdeck;Choose this deck to play;Choisissez votre jeu de cartes pour jouer;Elige tu baraja para jugar
+home.selectdeck;Choose your deck to play;Choisissez votre jeu de cartes pour jouer;Elige tu baraja para jugar
 home.asktowatch;Ask to watch;Demander à regarder;Pedir ver
 home.gametype.solorandom;Solitary Mode (random hazard deck);Jeu solo (deck de périls aléatoire);Modo solitario (mazo de peligros aleatorios)
 home.usespanish;Use Spanish instead of English cards (if available);Utiliser des cartes en espagnol plutôt qu'en anglais (si disponibles);Utilizar tarjetas en español en lugar de en inglés (si está disponible)
+home.useenglish;Prefer English cards;Utiliser des cartes en anglais;Utilizar tarjetas inglesas
 home.invalidcodes;Invalid Codes found;Codes invalides trouvés;Códigos no válidos encontrados
 home.editdeck;Click here to edit selected deck or to import your own deck from Cardnum or other;Cliquez ici pour modifier le deck sélectionné ou pour importer votre propre deck depuis Cardnum ou un autre logiciel.;Haga clic aquí para editar el mazo seleccionado o para importar su propio mazo de Cardnum u otro
-home.selectdeck;Deck Selection;Sélection du deck;Selección de cubiertas
 home.selectdeck.text;Choose a deck or click here to load/import a deck;Choisissez un deck ou cliquez ici pour charger/importer un deck;Elija un mazo o haga clic aquí para cargar/importar un mazo
 home.clicktojoin;Click to join;Cliquez pour rejoindre;Haz clic para unirte
 home.clicktojoin.play;play;Jouer;jugar
@@ -370,7 +373,7 @@ login.resources;The Resources are not suitable for play. Verify that you have ca
 login.choosefile;Please choose a file...;Veuillez choisir un fichier...;Seleccione un archivo
 login.empty;File seems to be empty...;Le fichier semble être vide;El archivo parece estar vacío
 login.nostore;Could not store deck;Impossible de stocker le deck;No se puede almacenar la cubierta
-login.nodownload;Could not download deck;Impossible de télécharger le deck;No se ha podido descargar la cubierta
+login.nodownload;Could not download deck;Impossible de tablier le deck;No se ha podido descargar la cubierta
 login.deckneeded;Please choose a deck or add your own.;Veuillez choisir un deck ou ajouter le votre;Elija una cubierta o añada la suya propia
 decklist.choose;Please choose a file...;Veuillez choisir un fichier...;Seleccione un archivo
 viewcards.loaded;Cards loaded;Cartes chargées;Tarjetas cargadas
@@ -384,3 +387,20 @@ into.resume;Resume a saved game;Reprendre une partie sauvegardée;Reanudar una p
 into.resume.text;Once all players are at the table, access game settings (top, center) and click on Restore a saved game. The players at the table need to match the number of players of your saved game.;Une fois que tous les joueurs sont à la table, accédez aux paramètres du jeu (en haut, au centre) et cliquez sur Restaurer une partie sauvegardée. Le nombre de joueurs à la table doit correspondre au nombre de joueurs de votre partie sauvegardée.;Una vez que todos los jugadores estén en la mesa, accede a la configuración del juego (arriba, centro) y haz clic en Restaurar una partida guardada. Los jugadores de la mesa tienen que coincidir con el número de jugadores de tu partida guardada.
 score.category;Category;la catégorie;la categoría
 title_draw_text;draw;piochez;Roba
+frontend.language.switched.title;Language changed;Language changed;Idioma modificado
+frontend.language.switched.text;Please reload this page to apply the change.;Veuillez recharger cette page pour appliquer la modification.;Vuelva a cargar esta página para aplicar el cambio.
+frontend.configuration;Settings;Paramètres;Configuración
+frontend.setuser;You can set your display name so other players may recognise you;Vous pouvez définir votre nom d'affichage afin que les autres joueurs puissent vous reconnaître.;Puedes establecer tu nombre para que otros jugadores te reconozcan.
+frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
+frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
+frontend.menu.play;Play a game;Jouer un match;Juega una partida
+frontend.menu.deck;Deckbuilder;Construire;Construir
+frontend.menu.map;Map;Carte Map;Mapa
+frontend.menu.help;Learn to play;Apprendre à jouer;Aprende a jugar
+frontend.menu.about;About;Plus d'informations;Más información
+frontend.menu.resources;Resources;Ressources;Recursos
+frontend.esctoclose;ESC to close;ESC pour fermer;ESC para cerrar
+frontend.loadeck;Load Deck;Tablier le Deck;Cargar mazo
+frontend.importdeck;Import Deck;Importer un deck;Importar un mazo
+frontend.decklist.edit;Edit deck;Modifier le deck;Editar el mazo
+frontend.decklist.view;View Cards;Voir les cartes;Ver las cartas
