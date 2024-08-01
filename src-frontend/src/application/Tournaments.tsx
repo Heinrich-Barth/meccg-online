@@ -133,8 +133,23 @@ const textToParagraphs = function(text:string)
 function printTableHead(row: string): React.ReactNode {
    
     return (
-        <tr>{row.split("\t").map((cell:string, index:number) => <th key={"th" + index}>{cell}</th>)}</tr>
+        <tr>
+            {row.split("\t").map((cell:string, index:number) => <th key={"th" + index}>{cell}</th>)}
+            <th>&sum;</th>
+        </tr>
     );
+}
+
+const calcPointsPerRow = function(rows:any)
+{
+    let sum = 0;
+
+    const pts = [0, 6, 5, 4, 3, 2, 1, 0]
+
+    for (let i = 1; i < rows.length; i++)
+        sum += pts[i] * parseInt(rows[i]);
+
+    return sum;
 }
 
 function printTable(table: string): React.ReactNode {
@@ -154,6 +169,7 @@ function printTable(table: string): React.ReactNode {
             <tbody>
                 {aTable.map((row, index) => <tr key={"tr" + index}>
                     {row.split("\t").map((cell, cindex) => <td key={"tr" + index + "td" + cindex}>{cell}</td>)}
+                    <td>{calcPointsPerRow(row.split("\t"))}</td>
                 </tr>)}
             </tbody>
         </table>
