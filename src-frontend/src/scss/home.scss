@@ -284,6 +284,7 @@ deck-label {
 .marginBottom0-5em {
   margin-bottom: 0.5em
 }
+
 .marginTop2em {
   margin-top: 2em;
 }
@@ -315,18 +316,52 @@ deck-label {
     width: 50%;
   }
 }
-.text-center { text-align: center; }
-.view-image { display: inline-block; max-width: 100%;}
+
+.text-center {
+  text-align: center;
+}
+
+.view-image {
+  display: inline-block;
+  max-width: 100%;
+}
 
 table.resultlist {
   width: 100%;
   border-spacing: 0;
   margin: 2em 0;
-  col
-  th, td { 
+
+  col th,
+  td {
     text-align: center;
-    &:first-of-type { text-align: left;}
+
+    &:first-of-type {
+      text-align: left;
+    }
   }
 
-  th { border-bottom: 1px solid;}
+  th {
+    border-bottom: 1px solid;
+  }
+}
+
+.menu-item {
+  flex-direction: column;
+
+  a {
+    width: 100%;
+    color: #fff;
+  }
+}
+
+.release-notes li {
+  span {
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  &:hover span {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #000;
+  }
 }

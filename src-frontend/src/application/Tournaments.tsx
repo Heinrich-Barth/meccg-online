@@ -5,7 +5,7 @@ import React from "react";
 import FetchTournaments, { FetchTournament, Tournament } from "../operations/FetchTournaments";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 type TournamentEntry = {
     "id": string;
@@ -31,10 +31,10 @@ export default function Tournaments() {
                 <p>&nbsp;</p>
                 <h1>{Dictionary("home.currenttournaments", "Current Tournaments")}</h1>
             </Grid>
-
             {list.map((e: Tournament, index: any) => <Grid item xs={12} key={"t" + index}>
                 <Link to={"/tournaments/" + e.id}><h2 className="text-center"><RemoveRedEyeIcon /> {e.title}</h2></Link>
             </Grid>)}
+            {list.length === 1 && (<Navigate to={"/tournaments/" + list[0].id} />)}
         </Grid>
 
     </div>);

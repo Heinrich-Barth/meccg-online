@@ -399,6 +399,7 @@ frontend.menu.map;Map;Carte Map;Mapa
 frontend.menu.help;Learn to play;Apprendre à jouer;Aprende a jugar
 frontend.menu.about;About;Plus d'informations;Más información
 frontend.menu.resources;Resources;Ressources;Recursos
+frontend.menu.whatsnew;What's new;Les nouvelles;las novedades
 frontend.esctoclose;ESC to close;ESC pour fermer;ESC para cerrar
 frontend.loadeck;Load Deck;Tablier le Deck;Cargar mazo
 frontend.importdeck;Import Deck;Importer un deck;Importar un mazo

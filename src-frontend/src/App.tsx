@@ -14,6 +14,7 @@ import CacheData from './application/CacheData';
 import WatchGame from './application/WatchGame';
 import HomeSelectDeck from './application/HomeSelectDeck';
 import Tournaments, { TournamentDetail } from './application/Tournaments';
+import Whatsnew from './application/Whatsnew';
 
 
 function App({ requireLogin }: { requireLogin: boolean }) {
@@ -49,6 +50,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path='/tournaments' element={<Tournaments />} />
                     <Route path='/tournaments/:id' element={<TournamentDetail />} />
                     <Route path="/caching" element={<CacheData />} />
+                    <Route path="/whatsnew" element={<Whatsnew />} />
                     <Route path="/login" element={<LogIn onLogin={() => setAllowNavigation(true)} requireLogin={requireLogin} />} />
                     <Route
                         path="*"

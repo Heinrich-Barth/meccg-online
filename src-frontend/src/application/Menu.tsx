@@ -10,6 +10,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import StyleIcon from '@mui/icons-material/Style';
 import MapIcon from '@mui/icons-material/Map';
 import InfoIcon from '@mui/icons-material/Info';
@@ -69,20 +70,23 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
     const list = () => (
         <Box sx={{ minWidth: 250 }} role="presentation">
             <List>
-                <ListItem disablePadding>
-                    <Link to="/play"  onClick={collapseMenu}>
+                <ListItem>
+                    <ListItemText
+                        primary="Middle-Earch CCG"
+                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                    />
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/play" onClick={collapseMenu}>
                         <ListItemButton >
-                            <ListItemIcon>
+                            <ListItemIcon >
                                 <MenuOpenIcon />
                             </ListItemIcon>
                             <ListItemText primary={Dictionary("frontend.menu.play", "Play")} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
-            </List>
-            <Divider />
-            <List>
-                <ListItem disablePadding>
+                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/deckbuilder" onClick={collapseMenu}>
                         <ListItemButton>
                             <ListItemIcon>
@@ -92,7 +96,7 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
                         </ListItemButton>
                     </Link>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/map" onClick={collapseMenu}>
                         <ListItemButton >
                             <ListItemIcon>
@@ -111,8 +115,19 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
                         primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
+                
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/whatsnew" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon>
+                                <NewspaperIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={Dictionary("frontend.menu.whatsnew", "What's new")} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
 
-                <ListItem disablePadding>
+                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/learn" onClick={collapseMenu}>
                         <ListItemButton >
                             <ListItemIcon>
@@ -123,7 +138,7 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
                     </Link>
                 </ListItem>
 
-                <ListItem disablePadding>
+                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/about" onClick={collapseMenu}>
                         <ListItemButton>
                             <ListItemIcon>
@@ -142,17 +157,17 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
                         primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem disablePadding dense={true}>
                     <ListItemButton onClick={() => loadDictionary("en")}>
                         <ListItemText inset primary={"English"} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem disablePadding dense={true}>
                     <ListItemButton onClick={() => loadDictionary("fr")}>
                         <ListItemText inset primary={"Francés"} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                <ListItem disablePadding dense={true}>
                     <ListItemButton onClick={() => loadDictionary("es")}>
                         <ListItemText inset primary={"Español"} />
                     </ListItemButton>
@@ -170,7 +185,7 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
         initialized.current = true
 
         FetchTournaments().then((list) => setTournamentCount(list.length));
-        
+
     }, [setTournamentCount]);
 
     return (
