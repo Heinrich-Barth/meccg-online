@@ -38,7 +38,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-export default function Menu(props: { onMenuChange: Function, hasUsername: boolean }) {
+export default function Menu(props: { onMenuChange: Function, username:string, hasUsername: boolean }) {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [openLanguageChanged, setOpenLanguageChanged] = React.useState(false);
@@ -191,6 +191,12 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
     return (
         <>
             <Stack direction="row" spacing={2} justifyContent="flex-end" className="paddingRight1em paddingTop1em">
+                <Button onClick={() => props.onMenuChange(MenuSelection.Preferences)} title={Dictionary("frontend.configuration", "Settings")}>
+                    <Badge badgeContent={props.hasUsername ? "" : "?"}>
+                        <AccountCircleIcon /> 
+                        {props.username === "" ? <>Set your player name</> : <>Welcome, <b>{props.username}</b></>}
+                    </Badge>
+                </Button>
                 {tournamentCount > 0 && (<Link to="/tournaments" onClick={collapseMenu}>
                     <Button title={Dictionary("score_tournament", "Tournament")}>
                         <Badge badgeContent={tournamentCount}>
@@ -206,11 +212,7 @@ export default function Menu(props: { onMenuChange: Function, hasUsername: boole
                         </Badge>
                     </Button>
                 )}
-                <Button onClick={() => props.onMenuChange(MenuSelection.Preferences)} title={Dictionary("frontend.configuration", "Settings")}>
-                    <Badge badgeContent={props.hasUsername ? "" : "?"}>
-                        <AccountCircleIcon />
-                    </Badge>
-                </Button>
+                
                 <Button onClick={toggleDrawer(true)}>
                     <MenuOutlinedIcon />
                 </Button>
