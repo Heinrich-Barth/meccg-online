@@ -3,7 +3,7 @@ import Logger from "../Logger";
 import { CardDataProvider } from "./CardDataProvider";
 import getServerInstance, { Caching } from "../Server";
 import { Request, Response } from "express";
-import { randomUUID } from "crypto";
+import { createHash } from "crypto";
 import { getRootFolder } from "../Configuration";
 
 
@@ -36,12 +36,6 @@ const g_vpDedckList:TDeckGroup[] = [];
 const g_pDeckById:TDeckByIdMap = { };
 
 let g_lId = 0;
-const g_pId = randomUUID().toString();
-
-const requireDeckId = function() :string 
-{
-    return g_pId + "-" + (++g_lId);
-}
 
 /**
  * Replace the givne prefix from a name
@@ -106,18 +100,21 @@ const createDecks = function(_list:string[], sDirectory:string, sReplacePrefix:s
     {
         try
         {
-            const deckid = requireDeckId();
             const content = fs.readFileSync(sDirectory + file, 'utf8');
 
             if (typeof content === "string" && content.indexOf("#") !== -1)
             {
                 const name = stripPrefix(replaceType(file), sReplacePrefix).trim();
+                const hash = createHash('sha256').update(content, 'utf8').digest('hex');
+                const deckid = hash;
                 decks[name] = deckid;
             
                 g_pDeckById[deckid] = {
                     deck: content,
                     images: { }
                 };
+
+                g_lId++;
             }
         }
         catch (err:any)
@@ -378,20 +375,20 @@ export function getDeckList()
 
 export default function InitDecklistRoutes()
 {
-    if (g_lId === 0)
+    if (g_vpDedckList.length === 0)
     {
         getServerInstance().get("/data/decks", (_req:Request, res:Response) => res.json([]).status(200));
         return;
     }    
-    
-    getServerInstance().get("/data/decks", Caching.cache.jsonCallback6hrs, (_req:Request, res:Response) => res.json(g_vpDedckList).status(200));
+
+    getServerInstance().get("/data/decks", Caching.expires.jsonCallback, (_req:Request, res:Response) => res.json(g_vpDedckList).status(200));
     getServerInstance().get("/data/decks/:id", Caching.cache.jsonCallback6hrs, (req:Request, res:Response) => 
     {
         res.status(200);
         if (req.params.id && g_pDeckById[req.params.id])
-            res.json(g_pDeckById[req.params.id]);
+            res.status(200).json(g_pDeckById[req.params.id]);
         else
-            res.json({})
+            res.status(404).json({ message: "could not find deck "});
     });
 }
  
