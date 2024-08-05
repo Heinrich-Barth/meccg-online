@@ -602,11 +602,11 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             <Grid item xs={12}>
                                 <Button disabled={!allowDeckLoading} onClick={() => {
                                     if (!showCustomDeck)
-                                        viewDeckById("custom")
+                                        editDeckById("custom")
                                     else
                                         setShowCustomDeck(false);
                                 }}
-                                    fullWidth startIcon={<BrowserUpdatedIcon />} >{Dictionary("frontend.importdeck", "Import Deck")}</Button>
+                                    fullWidth startIcon={<BrowserUpdatedIcon />} >{Dictionary("frontend.importdeck", "Import / Edit Deck")}</Button>
                             </Grid>
                         </Grid>
                     </Grid>
