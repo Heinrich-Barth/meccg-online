@@ -139,6 +139,13 @@ const map2string = function (input: DeckCardsEntry) {
     return list.join("\n");
 }
 
+const scrollTop = function()
+{
+    const section = document.getElementById("APP_BAR");
+    if (section)
+        section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+}
+
 export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room, deckList, roomImage, roomData }: DeckSelectionProps) {
 
     const handleClose = () => setSelectDeckOpen(false);
@@ -291,6 +298,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         if (val) {
             updateDeckTextdata(val);
             setShowCustomDeck(true);
+            scrollTop();
             return;
         }
 
@@ -303,11 +311,12 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                 CachedDecks[deckid] = deck;
                 updateDeckTextdata(deck);
                 setShowCustomDeck(true);
+                scrollTop();
             }
         });
     }
 
-    const loadDeckById = function (deckid: string) {
+    const loadDeckById = function (deckid: string, group:string = "") {
         setErrorMessageFile("");
         setErrorMessage("");
         if (deckid === "") {
@@ -323,6 +332,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             setCurrentDeckLoaded(val);
             setAllowStart(true);
             updateDeckTextdata(val);
+            updateGameTypeFromDeckGroup(group);
+            scrollTop();
             return;
         }
 
@@ -334,8 +345,10 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             if (deck !== null) {
                 CachedDecks[deckid] = deck;
                 setCurrentDeckId(deckid)
+                updateGameTypeFromDeckGroup(group);
                 setCurrentDeckLoaded(deck);
                 setAllowStart(true);
+                scrollTop();            
             }
         });
     }
@@ -343,6 +356,19 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
     const updateGameType = function (val: string) {
         setGametype(val);
         setGameTypeLabel(getGameTypeLabelButton(val));
+    }
+
+    const updateGameTypeFromDeckGroup = function(group:string)
+    {
+        if (!allowGameTypeSelection)
+            return;
+
+        if (group.toLowerCase().startsWith("arda"))
+            updateGameType(TYPE_ARDA);
+        else if (group.toLowerCase().startsWith("solo"))
+            updateGameType(TYPE_SOLO);
+        else 
+            updateGameType(TYPE_STANDARD);
     }
 
     React.useEffect(() => {
@@ -381,7 +407,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
 
         const imgAvatar = meta.avatar !== "" ? meta.avatar : BACKSIDE_IMAGE;
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
-
+        
         return (
             <Grid item xs={12} md={5} lg={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
@@ -394,8 +420,6 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         <h3>{key}</h3>
                         <Grid container>
                             <Grid item xs={12} md={8}>
-
-
                                 <p>
                                     Deck: {meta?.resources} / {meta?.hazards}
                                     <br />Characters: {meta?.character}
@@ -428,7 +452,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                             fullWidth
                                             title={Dictionary("home.choosethisdeck", "Choose this deck to play")}
                                             variant={currentDeckId === _deckid ? "contained" : "outlined"}
-                                            onClick={() => { currentDeckId === _deckid ? loadDeckById("") : loadDeckById(_deckid) }}
+                                            onClick={() => { currentDeckId === _deckid ? loadDeckById("") : loadDeckById(_deckid, deck.name) }}
                                             startIcon={currentDeckId === _deckid ? <CheckCircle /> : <CheckCircleOutlineIcon />}
                                         >
                                             {currentDeckId === _deckid ? "Selected" : "Select"}
@@ -443,7 +467,6 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         <div className='deck-label'>
                             <span className={'deck-label-' + labelColor}>{deck.name}</span>
                         </div>
-
                     </Grid>
                 </Grid>
             </Grid>
@@ -530,7 +553,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                     onClick={() => setSnachMessage("")}
                     onClose={() => setSnachMessage("")}
                     message={snachMessage} />)}
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar sx={{ position: 'relative' }} id="APP_BAR">
                     <Toolbar>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {getDialogTitle()} @ {room.toUpperCase()}
