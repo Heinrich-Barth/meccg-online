@@ -132,6 +132,9 @@ class Notification {
         wrapper.append(icon, text);
 
         document.getElementById("notifications").appendChild(wrapper);
+
+        /** firefox does not like the animation and blocks the space, so remove it */
+        this.addTimeout(id);
     }
 
     addTimeout(id)
