@@ -16,6 +16,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import { Navigate } from "react-router-dom";
+import FetchServerInfo from "../operations/FetchServerInfo";
 
 const calcDuration = function (time: number) {
     if (time < 1)
@@ -181,6 +182,11 @@ const getInitDeckSelection = function () {
         return "";
 }
 
+type ServerInformation = {
+    message: string;
+    urgent: boolean;
+}
+
 export default function Home() {
 
     const [activeGames, setActiveGames] = React.useState<ActiveGame[]>([]);
@@ -191,6 +197,7 @@ export default function Home() {
     const [deckList, setDeckList] = React.useState<DeckEntry[]>([]);
     const [chooseRoom, setChooseRoom] = React.useState(false);
     const [watchGame, setWatchGame] = React.useState("");
+    const [serverinfo, setServerinfo] = React.useState<ServerInformation>({ message: "", urgent: false });
    
     const onWatch = (room: string) => setWatchGame(room);
     
@@ -279,6 +286,37 @@ export default function Home() {
                 onUpdateRoomName(chooseRandomRoomName(activeGames))
         }));
 
+        FetchServerInfo()
+        .then((data) => {
+            if (typeof data !== "number" || data < 10)
+                return;
+
+            let message = "";
+            let urgent = false;
+            const sHrs = (data / 1000 / 60 / 60).toFixed(2);
+            const hrs = parseFloat(sHrs);
+
+            if (hrs < 22)
+                return;
+
+            if (hrs >= 22 && hrs < 23)
+            {
+                message = "Server restarts approx. every 24hrs and has been up for " + sHrs + "h already. You may start a game at any time, but be aware that a restart will end your game.";
+            }
+            else if (hrs >= 23 && hrs < 23.5)
+            {
+                message = "Server restarts approx. every 24hrs and has been up for " +  hrs + "h already. Unless you want to play a short game, you may want to wait some time.";
+            }
+            else
+            {
+                message = "Server restarts approx. every 24hrs and a reboot is imminent. Please wait a few moments.";
+                urgent = true;
+            }
+
+            setServerinfo({ message: message, urgent: urgent });
+
+        }).catch(console.error);
+
         setInterval(() => FetchActiveGames().then((res) => setActiveGames(res)), 1000 * 10);
         
     }, [activeGames, roomName, setWatchGame, setSelectDeckOpen]);
@@ -326,6 +364,11 @@ export default function Home() {
                                 </Grid>
                             </Grid>
                         </Grid>
+                        {serverinfo.message !== "" && (
+                            <Grid item xs={12} className="paddingTop1em">
+                                <Alert severity={serverinfo.urgent ? "warning" : "info"}>{serverinfo.message}</Alert>
+                            </Grid>
+                        )}
                     </Grid>
                 </Grid>
                 {listActiveGames(activeGames, sampleRooms, onJoin, onWatch)}
