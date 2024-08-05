@@ -9,6 +9,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { grey, blueGrey } from '@mui/material/colors';
 import { SetDefaultUsername } from './components/Preferences';
 import { CheckIfLoggedin } from './operations/SubmitAnswer';
+import { LoadDictionary } from './components/Dictionary';
 
 const darkTheme = createTheme({
     typography: {
@@ -47,6 +48,7 @@ SetDefaultUsername();
 
 CheckIfLoggedin()
 .then(res => g_isLoggedIn = !res)
+.then(() => LoadDictionary(""))
 .catch(console.error)
 .finally(() => {
     root.render(
