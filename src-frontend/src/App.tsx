@@ -3,7 +3,7 @@ import React from 'react';
 import Home from './application/Home';
 import Menu from './application/Menu';
 import { MenuSelection } from './application/Types';
-import Preferences, { HasUserName } from './components/Preferences';
+import Preferences, { GetUserName, HasUserName } from './components/Preferences';
 import MapView from './application/MapView';
 import LogIn from './application/Login';
 import Deckbuilder from './application/Deckbuilder';
@@ -21,6 +21,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
 
     const [openPrefs, setOpenPrefs] = React.useState(false);
     const [hasUsername, setHasUsername] = React.useState(HasUserName());
+    const [username, setUsername] = React.useState(GetUserName());
     const [allowNavigation, setAllowNavigation] = React.useState(!requireLogin);
 
     const onChangeView = function (view: MenuSelection) {
@@ -37,7 +38,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
     return (
         <>
             <HashRouter>
-                {allowNavigation && (<Menu onMenuChange={onChangeView} hasUsername={hasUsername} />)}
+                {allowNavigation && (<Menu onMenuChange={onChangeView} hasUsername={hasUsername} username={username} />)}
                 <Routes>
                     <Route path="/play" element={<Home />} />
                     <Route path="/play/:room" element={<HomeSelectDeck />} />
@@ -58,7 +59,10 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     />
                 </Routes>
             </HashRouter>
-            {openPrefs && (<Preferences onClose={(hasUser: boolean) => { setHasUsername(hasUser); setOpenPrefs(false) }} />)}
+            {openPrefs && (<Preferences 
+                onCallbackUpdate={(name:string) => { setHasUsername(name !== ""); setUsername(name); }} 
+                onClose={() => setOpenPrefs(false)}
+             />)}
         </>
     );
 }
