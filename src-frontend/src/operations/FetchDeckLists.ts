@@ -24,7 +24,9 @@ export async function FetchDeckById(id:string)
             throw new Error("Invalid id");
 
         const response = await fetch(PROXY_URL + "/data/decks/" + id);
-        if (response.status !== 200)
+        if (response.status === 404)
+            throw new Error("Could not find deck by its id.");
+        else if (response.status !== 200)
             throw new Error("Invalid response");
 
         const deck:DeckData = await response.json();
