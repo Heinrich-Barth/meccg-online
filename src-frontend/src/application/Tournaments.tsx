@@ -135,9 +135,39 @@ function printTableHead(row: string): React.ReactNode {
     return (
         <tr>
             {row.split("\t").map((cell:string, index:number) => <th key={"th" + index}>{cell}</th>)}
+            <th>#</th>
             <th>&sum;</th>
         </tr>
     );
+}
+
+const toInteger = function(input:any)
+{
+    if (typeof input !== "string" || input === "")
+        return 0;
+
+    try
+    {
+        const val = parseInt(input);
+        if (!isNaN(val) && val > 0)
+            return val;
+    }
+    catch (exIgnore)
+    {
+        /** ignore */
+    }
+
+    return 0;
+}
+
+const calcGamesPerRow = function(rows:any)
+{
+    let sum = 0;
+
+    for (let i = 1; i < rows.length; i++)
+        sum += toInteger(rows[i]);
+
+    return sum;
 }
 
 const calcPointsPerRow = function(rows:any)
@@ -147,7 +177,7 @@ const calcPointsPerRow = function(rows:any)
     const pts = [0, 6, 5, 4, 3, 2, 1, 0]
 
     for (let i = 1; i < rows.length; i++)
-        sum += pts[i] * parseInt(rows[i]);
+        sum += pts[i] * toInteger(rows[i]);
 
     return sum;
 }
@@ -162,13 +192,13 @@ function printTable(table: string): React.ReactNode {
 
     const head = aTable.shift();
     
-
     return (
         <table className="resultlist">
             <thead>{printTableHead(head ?? "")}</thead>
             <tbody>
                 {aTable.map((row, index) => <tr key={"tr" + index}>
                     {row.split("\t").map((cell, cindex) => <td key={"tr" + index + "td" + cindex}>{cell}</td>)}
+                    <td>{calcGamesPerRow(row.split("\t"))}</td>
                     <td>{calcPointsPerRow(row.split("\t"))}</td>
                 </tr>)}
             </tbody>

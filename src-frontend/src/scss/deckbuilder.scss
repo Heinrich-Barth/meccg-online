@@ -1,0 +1,129 @@
+.application-deckbuilder {
+
+    margin: 0 1em;
+
+    .bgPaperBox {
+        border-bottom: 1px;
+        border-color: 'divider'
+    }
+
+    .deck-part-cation {
+        text-decoration: double;
+        text-transform: uppercase;
+    }
+
+    svg {
+        max-height: 15px;
+    }
+}
+
+.application-deckbuilder-result {
+    position: relative;
+
+    .add-deck-actions {
+        position: absolute;
+        top: 75px;
+        right: 20px;
+        max-width: 130px;
+        display: none;
+
+        button {
+            justify-content: flex-start;
+            margin-top: 0.5em;
+        }
+    }
+
+    .card-count {
+        border-radius: 50%;
+        padding: 5px 10px;
+        color: var(--color-white);
+        background-color: var(--color-dark-grey);
+        position: absolute;
+        top: 2px;
+        right: 9px;
+        line-height: 1.5em;
+    }
+
+    &:hover {
+        .add-deck-actions {
+            display: block;
+        }
+    }
+}
+
+.custom-deck {
+    padding: 1em 0.5em
+}
+
+
+.deck-details {
+    .smallcaps {
+        font-variant: small-caps;
+    }
+
+    .sections-title-specific {
+        color: var(--color-orange-light);
+    }
+
+
+
+    .deck-edit-entry {
+        position: relative;
+
+        .deck-edit-entry-actions {
+            display: none;
+            position: absolute;
+            top: 0px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding-right: 5px;
+            text-align: right;
+
+            span {
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--color-orange-light);
+                }
+            }
+        }
+
+
+        &::before {
+            position: absolute;
+            content: " ";
+            width: 1px;
+            top: 5px;
+            bottom: 5px;
+            left: -4px;
+
+        }
+
+        &:hover {
+            .deck-edit-entry-actions {
+                display: block;
+            }
+        }
+    }
+}
+
+.deck-edit-section-character .deck-edit-entry::before {
+    background-color: #c7c7c7;
+}
+
+.deck-edit-section-hazard .deck-edit-entry::before {
+    background-color: #3b3b3b;
+}
+
+.deck-edit-section-resource .deck-edit-entry::before {
+    background-color: #a07e72;
+}
+
+.deck-edit-section-site .deck-edit-entry::before {
+    background-color: #e0ddca;
+}
+
+.application-deckbuilder-spacer {
+    padding-bottom: 300px;
+}

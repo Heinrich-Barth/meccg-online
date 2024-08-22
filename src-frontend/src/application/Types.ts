@@ -6,3 +6,28 @@ export enum MenuSelection {
 }
 
 export { BACKSIDE as BACKSIDE_IMAGE };
+
+export type Deckentry = {
+    code: string;
+    image: string;
+    count: number;
+}
+
+export type DeckPart = {
+    characters: Deckentry[];
+    resources: Deckentry[];
+    hazards: Deckentry[];
+}
+
+export type DeckCountMap = {
+    [key: string]: number
+};
+
+export type Deck = {
+    pool: DeckPart;
+    playdeck: DeckPart;
+    sideboard: DeckPart;
+    sites: DeckPart;
+    notes: string;
+    counts: DeckCountMap;
+}

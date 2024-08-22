@@ -109,19 +109,19 @@ export default function CustomDeckInput(props:Props)
             <p>If you want to use this deck, please click on the 'apply' button</p>
         </Grid>
         <Grid item xs={12} container rowGap={2}>
-            <Grid xs={6} lg={3} className="custom-deck">
+            <Grid item xs={6} lg={3} className="custom-deck">
                 <TextField rows={defaultRowCount} value={textPool} multiline onChange={(e) => setTextPool(e.target.value)} fullWidth label={"Pool"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid xs={6} lg={3}  className="custom-deck">
+            <Grid item xs={6} lg={3}  className="custom-deck">
                 <TextField rows={defaultRowCount} value={textDeck} multiline onChange={(e) => setTextDeck(e.target.value)} fullWidth label={"Deck"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid xs={6} lg={3}  className="custom-deck">
+            <Grid item xs={6} lg={3}  className="custom-deck">
                 <TextField rows={defaultRowCount} value={textSideboard} multiline onChange={(e) => setTextSideboard(e.target.value)} fullWidth label={"Sideboard"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid xs={6} lg={3}  className="custom-deck">
+            <Grid item xs={6} lg={3}  className="custom-deck">
                 <TextField rows={defaultRowCount} value={textSites} multiline onChange={(e) => setTextSites(e.target.value)} fullWidth label={"Sites"} placeholder={"1 Rivendell [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid xs={12} className="custom-deck">
+            <Grid item xs={12} className="custom-deck">
                 <TextField rows={10} value={textNotes} multiline  onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
             </Grid>
             {errors !== "" && (<Grid xs={12} textAlign={"center"}>

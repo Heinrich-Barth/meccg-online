@@ -395,6 +395,7 @@ frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
 frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
 frontend.menu.play;Play a game;Jouer un match;Juega una partida
 frontend.menu.deck;Deckbuilder;Construire;Construir
+frontend.menu.cardbrowser;View Cards;Voir les cartes;Ver las cartas
 frontend.menu.map;Map;Carte Map;Mapa
 frontend.menu.help;Learn to play;Apprendre à jouer;Aprende a jugar
 frontend.menu.about;About;Plus d'informations;Más información

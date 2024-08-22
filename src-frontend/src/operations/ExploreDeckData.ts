@@ -112,3 +112,28 @@ export default function ExploreDeckData(data:DeckData):DeckCards|null
     else
         return null;
 }
+
+function createCountMapFromPart(map:any, data:DeckCardsEntry)
+{
+    for (let code in data)
+    {
+        const val = data[code];
+        if (val > 0)
+        {
+            if (map[code])
+                map[code] += val;
+            else
+                map[code] = val;
+        }
+    }
+}
+
+export function CreateCountMap(data:DeckCards)
+{
+    const map:any = { };
+    createCountMapFromPart(map, data.deck);
+    createCountMapFromPart(map, data.pool);
+    createCountMapFromPart(map, data.sideboard);
+    createCountMapFromPart(map, data.sites);
+    return map;
+}

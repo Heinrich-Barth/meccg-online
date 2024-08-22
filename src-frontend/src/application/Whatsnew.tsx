@@ -26,7 +26,7 @@ export default function Whatsnew() {
 
     return <>
         <div className={"application-home"}>
-            <h1>{Dictionary("frontend.menu.whatsnew", "What's new)")}</h1>
+            <h1>{Dictionary("frontend.menu.whatsnew", "What's new")}</h1>
             {notes.length === 0 && (<p>Nothing there.</p>)}
             {notes.length > 0 && (<ul className="release-notes">
                 {notes.map((row: any, index: any) => <li key={"r" + index}><span>{row}</span></li>)}

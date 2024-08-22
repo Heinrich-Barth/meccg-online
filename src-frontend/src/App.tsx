@@ -15,6 +15,7 @@ import WatchGame from './application/WatchGame';
 import HomeSelectDeck from './application/HomeSelectDeck';
 import Tournaments, { TournamentDetail } from './application/Tournaments';
 import Whatsnew from './application/Whatsnew';
+import ViewCards from './application/ViewCards';
 
 
 function App({ requireLogin }: { requireLogin: boolean }) {
@@ -43,7 +44,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path="/play" element={<Home />} />
                     <Route path="/play/:room" element={<HomeSelectDeck />} />
                     <Route path="/watch/:room" element={<WatchGame />} />
-                    
+                    <Route path="/cards" element={<ViewCards />} />
                     <Route path="/map" element={<MapView />} />
                     <Route path="/deckbuilder" element={<Deckbuilder />} />
                     <Route path="/about" element={<About />} />

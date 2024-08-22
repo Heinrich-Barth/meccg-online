@@ -2,6 +2,7 @@ import * as React from "react";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Badge, Box, Button, Stack } from "@mui/material";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -72,7 +73,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
             <List>
                 <ListItem>
                     <ListItemText
-                        primary="Middle-Earch CCG"
+                        primary="Middle-Earth CCG"
                         primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
@@ -83,6 +84,16 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                                 <MenuOpenIcon />
                             </ListItemIcon>
                             <ListItemText primary={Dictionary("frontend.menu.play", "Play")} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/cards" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon >
+                                <DashboardIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={Dictionary("frontend.menu.cardbrowser", "View Cards")} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
