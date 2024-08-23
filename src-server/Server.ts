@@ -202,7 +202,7 @@ export class ServerInstance {
                 res.header('X-Content-Security-Policy', ConfigurationInstance.createContentSecurityPolicySelfOnly());
             }
 
-            if (process.env.ALLOWCORS === "true")
+            if (process.env.NODE_ENV === "development")
             {
                 res.header("Access-Control-Allow-Origin", "http://localhost:3000");
                 res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
