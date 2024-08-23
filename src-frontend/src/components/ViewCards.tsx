@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Grid, TextField } from "@mui/material";
+import { Autocomplete, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,11 +14,18 @@ function renderIsLoading() {
     </Backdrop>;
 }
 
+type CardSet = {
+    code: string;
+    name: string;
+}
+
 const g_pCards: CardData[] = [];
 const g_pImages: CardImageMap = {
     fliped: {},
     images: {}
 }
+
+const g_pSets: CardSet[] = [];
 const g_sSkills: string[] = [];
 const g_sKeywords: string[] = [];
 
@@ -26,6 +33,27 @@ let g_pFilters: CardFilters | null = null;
 
 function cacheFilters(filters: CardFilters) {
     g_pFilters = filters;
+}
+
+const buildSetsMap = function (cards: CardData[]) {
+    if (g_pSets.length > 0)
+        return;
+
+    const map: any = {};
+    for (let card of cards) {
+        if (card.set_code && card.set_code !== "" && card.full_set && card.full_set !== "")
+            map[card.set_code] = card.full_set;
+    }
+
+    const codes = Object.keys(map)
+    for (let code of codes) {
+        g_pSets.push({
+            code: code,
+            name: map[code]
+        });
+    }
+
+    g_pSets.sort((a,b) => a.name.localeCompare(b.name));
 }
 
 const cacheCards = function (list: CardData[]) {
@@ -59,8 +87,7 @@ const cacheImages = function (images: CardImageMap) {
         g_pImages.images[code] = images.images[code];
 }
 
-export function GetCardImage(code:string)
-{
+export function GetCardImage(code: string) {
     const img = g_pImages.images[code];
     const flipped = g_pImages.fliped[code];
 
@@ -97,12 +124,34 @@ function CheckboxList(list: string[], label: string, onChange: Function) {
     />
 }
 
+
+function CheckboxListSet(list: CardSet[], label: string, value:string, onChange: Function) {
+
+    return <FormControl fullWidth variant="filled" margin="dense">
+        <InputLabel id="demo-select-small-label">{label}</InputLabel>
+        <Select
+            labelId="demo-select-small-label"
+            value={value}
+            label="Set"
+            onChange={(e) => onChange(e.target.value)}
+        >
+            <MenuItem value="">
+                <em>All sets</em>
+            </MenuItem>
+            {list.map((item, n) => (
+                <MenuItem value={item.code}>{item.name}</MenuItem>
+            ))}
+        </Select>
+    </FormControl>
+}
+
 type SearchParams = {
     alignment: string;
     type: string;
     secondary: string;
     keyword: string;
     skill: string;
+    set: string;
     q: string
 }
 
@@ -121,6 +170,9 @@ const getMatch = function (card: CardData, params: SearchParams) {
     if (params.secondary !== "" && card.Secondary !== params.secondary)
         return 0;
 
+    if (params.set !== "" && card.set_code !== params.set)
+        return 0;
+
     if (params.type !== "" && card.type !== params.type)
         return 0;
 
@@ -132,8 +184,7 @@ const getMatch = function (card: CardData, params: SearchParams) {
 
     let boost = 1;
 
-    if (params.q !== "")
-    {
+    if (params.q !== "") {
         if (card.code.startsWith(params.q))
             boost = 10;
         else if (card.code.indexOf(params.q) > 0)
@@ -151,7 +202,7 @@ const performSearchCards = function (params: SearchParams) {
     const res: SeachResultEntry[] = [];
 
     params.secondary = params.secondary.toLowerCase();
-    
+
     for (let card of g_pCards) {
         const boost = getMatch(card, params);
         if (boost > 0) {
@@ -170,7 +221,7 @@ const performSearchCards = function (params: SearchParams) {
 }
 
 const CARDS_PER_VIEW = 30;
-export default function ViewCardBrowser({ renderCardEntry, subline="" }: { renderCardEntry: Function, subline:string }) {
+export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { renderCardEntry: Function, subline: string }) {
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [searchValue, setSearchValue] = React.useState("");
@@ -182,12 +233,15 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
         q: "",
         secondary: "",
         skill: "",
-        type: ""
+        type: "",
+        set: ""
     });
 
     const performSearch = function () {
         const params = searchParams;
-        if (params.alignment === "" && params.keyword === "" && params.q === "" && params.secondary === "" && params.skill === "" && params.type === "") {
+        if (params.alignment === "" && params.keyword === "" && params.set === ""
+            && params.q === "" && params.secondary === "" 
+            && params.skill === "" && params.type === "") {
             setResultLimit(0);
             setSearchResult([]);
             return;
@@ -220,6 +274,8 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
 
             const filters = await FetchFilters();
             cacheFilters(filters);
+
+            buildSetsMap(cards);
         }
         catch (err) {
             console.error(err);
@@ -229,24 +285,24 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
     const initialized = React.useRef(false)
     React.useEffect(() => {
 
-        if (g_pCards.length > 0)
-        {
+        if (g_pCards.length > 0) {
             setSearchParams({
                 alignment: "",
                 keyword: "",
                 q: "",
                 secondary: "",
                 skill: "",
-                type: ""
+                type: "",
+                set: ""
             });
 
             setIsLoading(false);
             return;
         }
 
-        if (initialized.current) 
+        if (initialized.current)
             return;
-        
+
         initialized.current = true
         loadData().finally(() => setIsLoading(false));
 
@@ -270,6 +326,11 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
         setSearchParams(searchParams);
         performSearch();
     }
+    const onSelectSet = function (val: string) {
+        searchParams.set = val ?? "";
+        setSearchParams(searchParams);
+        performSearch();
+    }
     const onSelectAlignment = function (val: string) {
         searchParams.alignment = val ?? "";
         setSearchParams(searchParams);
@@ -286,12 +347,17 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
         performSearch();
     }
     return <React.Fragment>
-        <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
+        <Grid item xs={12} sm={4} lg={1} textAlign={"center"}>
             <TextField value={searchValue} variant="filled" margin="dense" autoFocus onChange={(e) => updateSearchValue(e.target.value.toLowerCase())} fullWidth label="Search text" placeholder="Seach by title" />
         </Grid>
+        {g_pSets.length > 0 && (
+            <Grid item xs={12} sm={3} lg={2} textAlign={"center"}>
+                {CheckboxListSet(g_pSets, "Set", searchParams.set, (e: string) => onSelectSet(e))}
+            </Grid>
+        )}
         {g_pFilters && (<>
             {g_pFilters.alignment && (
-                <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
+                <Grid item xs={12} sm={3} lg={2} textAlign={"center"}>
                     {CheckboxList(g_pFilters.alignment, "Alignment", (e: string) => onSelectAlignment(e))}
                 </Grid>
             )}
@@ -306,7 +372,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline="" }: { rende
                 </Grid>
             )}
         </>)}
-        <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
+        <Grid item xs={12} sm={3} lg={1} textAlign={"center"}>
             {CheckboxList(g_sSkills, "Skills", (e: string) => onSelectSkill(e))}
         </Grid>
         <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
