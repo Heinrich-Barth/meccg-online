@@ -16,6 +16,8 @@ To develop, you need to execute the following commands concurrently - one will s
 
 ### Start the data server
 
+For development, you will need to set the env variable `NODE_ENV=development` in the `../.env` file.
+
 ```
 cd ..
 npm run dev

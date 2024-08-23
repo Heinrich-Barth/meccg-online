@@ -30,14 +30,17 @@ You can start this app via `node start`, but you will have to set your own ENV v
 
 ## Development
 
-The application consits of 2 general part:
+The application consits of 3 general part:
 
 * Backend Server
 * Frontend Application
+* In-Game UI
 
 The backend application's source can be found in the `./game-server` directory. Additional plugin/customisation code is located in `./plugins`.
 
-The frontend HTML pages are located in the `./pages` folder. The JavaScript files are in the `./game-client` folder.
+The In-Game UI page is located in the `./pages` folder. The JavaScript files are in the `./game-client` folder.
+
+The Frontend Application is a single page react app located in `./src-frontend` with its own readme information for development. For development, you will need to set the env variable `NODE_ENV=development` in the `/.env` file.
 
 ### Understanding Plugins
 
