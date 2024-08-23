@@ -1,5 +1,40 @@
 
-.map-window { z-index: 900; position: fixed; }
+.map-window { 
+    z-index: 900; 
+    position: fixed; 
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .map-view-title {
+        position: fixed; 
+        top: 0px;
+        left: 0;
+        height: 40px;
+        width: 100%;
+        background-color: rgb(39, 56, 76);
+        color: var(--color-white);
+        cursor: pointer;
+
+        .map-iframe-title-title,
+        .map-iframe-title-close {
+            display: inline-block;
+            width: 49%;
+            padding-top: 12px;
+            text-transform: uppercase;
+            
+        }
+
+        .map-iframe-title-title {
+            padding-left: 10px;
+        }
+        .map-iframe-title-close { 
+            padding-right: 10px;
+            text-align: right; 
+        }
+    }
+}
 .map-overlay {
     position: fixed;
     left: 0;
@@ -12,10 +47,10 @@
 
 .map-view {
     position: fixed;
-    left: 2%;
-    top: 2%;
-    width: 96%;
-    height: 96%;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    height: 95%;
 }
 .location-reveal.hide {
     display: none !important;

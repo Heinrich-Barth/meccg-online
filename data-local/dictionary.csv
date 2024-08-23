@@ -406,3 +406,5 @@ frontend.loadeck;Load Deck;Tablier le Deck;Cargar mazo
 frontend.importdeck;Import Deck;Importer un deck;Importar un mazo
 frontend.decklist.edit;Edit deck;Modifier le deck;Editar el mazo
 frontend.decklist.view;View Cards;Voir les cartes;Ver las cartas
+frontend.map.homesite;Choose a home site;Choisir un site d'accueil;Elegir un sitio de inicio
+frontend.map.targetsite;Select target site;sélectionner un site cible;seleccione un sitio de destino

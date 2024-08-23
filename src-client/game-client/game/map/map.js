@@ -154,6 +154,23 @@ const MapWindow = {
         /** show the overlay */
         jWrapper.classList.remove("hide");
 
+        const titleDiv = document.createElement("div");
+        titleDiv.setAttribute("class", "map-view-title");
+        titleDiv.setAttribute("id", "map-iframe-title");
+        titleDiv.onclick = MapWindow.onClose.bind(MapWindow);
+        
+        const divTitle = document.createElement("div");
+        divTitle.setAttribute("class", "map-iframe-title-title");
+        divTitle.setAttribute("id", "map-iframe-title-title");
+        divTitle.innerText = "";
+
+        const divClose = document.createElement("div");
+        divClose.setAttribute("class", "map-iframe-title-close");
+        divClose.innerText = "X " + Dictionary.get("context_anywhere", "Click to close");
+        titleDiv.append(divTitle, divClose);
+
+        jWrapper.append(titleDiv);
+
         /** create iframe and add it to the container. */
         let jFrame = document.createElement("iframe");
         jFrame.setAttribute("src", sUrl);
@@ -198,6 +215,16 @@ const MapWindow = {
         MapWindow.showIframe("/rules/" + sRule, "");
     },
 
+    updateMapTitle : function(code)
+    {
+        const elem = document.getElementById("map-iframe-title-title");
+        if (elem === null)
+            return;
+
+        const title = code === "" ? Dictionary.get("frontend.map.homesite", "Choose a home site") : Dictionary.get("frontend.map.targetsite", "Select target site");
+        elem.innerText = title;
+    },
+
     showMap : function(company, code, messageId, regionMap, revealed)
     {
         if (!this.assertValidMessage(messageId) || company === undefined || company === "" || typeof messageId === "undefined")
@@ -212,6 +239,7 @@ const MapWindow = {
 
             const url = regionMap ? "/map/regions" : "/map/underdeeps";
             this.showIframe(url + "?code=" + code, company, revealed);
+            this.updateMapTitle(code);
         }
     },
 
