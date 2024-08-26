@@ -26,6 +26,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { TransitionProps } from "@mui/material/transitions";
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData, { CreateCountMap, DeckCardsEntry } from "../operations/ExploreDeckData";
+import { InitCustomDeck } from "../components/CustomDeckInput";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -282,9 +283,9 @@ const splitAreaSites = function (text: string): DeckPart {
                 return;
 
             if (map[entry.code])
-                map[entry.code] += entry.count;
+                map[entry.code].count += entry.count;
             else
-                map[entry.code] = entry.count;
+                map[entry.code] = entry;
         })
     }
 
@@ -593,6 +594,8 @@ const loadData = async function () {
         const cards = await FetchCards();
         for (let card of cards)
             g_pCards[card.code] = card;
+
+        InitCustomDeck();
     }
     catch (err) {
         console.error(err);
@@ -773,7 +776,7 @@ export default function Deckbuilder() {
         });
 
         if (deck === null) {
-            console.warn("Could not analse deck");
+            console.warn("Could not analyse deck");
             return;
         }
 
