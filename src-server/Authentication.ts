@@ -12,7 +12,7 @@ const getUserList = function()
 
 const loginlist = getUserList();
 
-const jSecure = { maxAge: 24 * 60 * 60 * 1000 * 365, httpOnly: true, secure: true };
+const jSecure = { maxAge: 24 * 60 * 60 * 1000 * 365, httpOnly: process.env.NODE_ENV === "production", secure: process.env.NODE_ENV === "production" };
 
 function send204Cookie(res:Response)
 {
@@ -37,8 +37,10 @@ function performLogn(req:Request, res:Response)
 
 function isSignedIn(req:Request, res:Response)
 {
-    if (loginlist.length === 0 || hasSession(req))
+    if (hasSession(req))
         res.status(204).send("")
+    else if (loginlist.length === 0)
+        send204Cookie(res);
     else
         res.status(403).json({ message: "Not authenticated "});
 }
@@ -56,13 +58,13 @@ export default function InitAuthencation()
     ServerInstance.getServerInstance().get("/pwa", onPWALogin);
 }
 
-export function signInFromPWA(req:Request, res:Response, next:NextFunction)
+export function signInFromPWA(_req:Request, res:Response, next:NextFunction)
 {
     res.cookie('signedin', "true", jSecure);
     next();
 }
 
-export function hasSession(req:Request)
+function hasSession(req:Request)
 {
-    return req.cookies.signedin !== undefined;
+    return loginlist.length === 0 || req.cookies.signedin !== undefined;
 }
