@@ -24,21 +24,36 @@ const processCardList = function(list:CardData[])
         cards[card.code.toLowerCase()] = card.code;
 }
 
-const verifyCardCode = function(code:string)
+export function verifyCardCode(code:string)
 {
-    const sCode = code.toLowerCase();
+    const sCode = code.toLowerCase().trim();
     if (cards[sCode] !== undefined)
         return sCode;
-    else if (cards[sCode.replace(" (", " [h] (")] !== undefined)
-        return sCode.replace(" (", " [h] (");
-    else if (cards[sCode.replace(" (", " [m] (")] !== undefined)
-        return sCode.replace(" (", " [m] (");
-    else if (cards[sCode.replace(" [h] (", " (")] !== undefined)
-        return sCode.replace(" [h] (", " (");
-    else if (cards[sCode.replace(" [m] (", " (")] !== undefined)
-        return sCode.replace(" [m] (", " (");
-    else
-        return "";
+
+    const map:any = {
+        " (": [" [h] (", " [m] ("],
+        " [h] (": [" ("],
+        " [m] (": [" ("]
+    }
+
+    for (let pattern in map)
+    {
+        for (let rep of map[pattern])
+        {
+            let candidate = sCode.replace(pattern, rep);
+            if (cards[candidate])
+                return candidate;
+        }
+    }
+
+    
+    console.warn("Unknown card code", sCode);
+    return "";
+}
+
+export function InitCustomDeck()
+{
+    FetchCards().then(processCardList);
 }
 
 export default function CustomDeckInput(props:Props)
