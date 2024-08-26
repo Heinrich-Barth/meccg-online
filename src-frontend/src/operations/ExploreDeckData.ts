@@ -1,3 +1,4 @@
+import { verifyCardCode } from "../components/CustomDeckInput";
 import { DeckData, DeckImageMap } from "./FetchDeckLists";
 
 export type DeckCardsEntry = {
@@ -16,14 +17,22 @@ export type DeckCards = {
 
 const getDeckSection = function(text:string, part:string)
 {
+    text = text.replaceAll("\r\n", "\n");
+
     const line = "##\n" + part + "\n##";
     let pos = text.indexOf(line);
     if (pos === -1)
+    {
+        console.warn("Could not find section " + part);
         return "";
+    }
 
     pos = text.indexOf("\n\n", pos);
     if (pos === -1)
+    {
+        console.log("Cannot find end of section")
         return "";
+    }
 
     let end = text.indexOf("\n##", pos)
     if (end === undefined || end < pos)
@@ -34,7 +43,7 @@ const getDeckSection = function(text:string, part:string)
 
 const explodeCode = function(line:string)
 {
-    const result = {
+    const result:any = {
         code: "",
         count: 0
     };
@@ -61,7 +70,8 @@ const explodeCode = function(line:string)
         result.code = line.substring(2).trim();
         result.count = n1 * 10 + n2;
     }
-    
+
+    result.code = verifyCardCode(result.code);
     return result;
 }
 
@@ -69,7 +79,10 @@ export function ConvertCardsStringMap(candidate:string)
 {
     const result:DeckCardsEntry = { };
     if (candidate === "")
+    {
+        console.warn("No input")
         return result;
+    }
 
     for (let line of candidate.split("\n"))
     {
@@ -81,7 +94,13 @@ export function ConvertCardsStringMap(candidate:string)
         if (card.count < 1 || card.code === "")
             continue;
 
-        if (result[card.code])
+        card.code = verifyCardCode(card.code);
+        if (card.code === "")
+        {
+            console.warn("Could not find card by code " + line);
+            continue;
+        }
+        else if (result[card.code])
             result[card.code] += card.count;
         else
             result[card.code] = card.count;
@@ -106,7 +125,7 @@ export default function ExploreDeckData(data:DeckData):DeckCards|null
         notes: getDeckSection(data.deck, "Notes"),
         images: data.images ?? { }
     }
-    
+
     if (Object.keys(result.deck).length > 0 || Object.keys(result.sideboard).length > 0 || Object.keys(result.pool).length > 0)
         return result;
     else
