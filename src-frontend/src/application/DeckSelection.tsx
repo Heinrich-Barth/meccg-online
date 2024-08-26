@@ -485,16 +485,18 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             deck: contents,
             images: {}
         });
-        if (deck !== null) {
-            CachedDecks["custom"] = deck;
-            setCurrentDeckId("custom")
-            setCurrentDeckLoaded(deck);
-            setAllowStart(true);
-            viewDeckById("custom");
-            setSnachMessage("Deck loaded");
-        }
-        else
+
+        if (deck === null) {
             setErrorMessageFile(Dictionary("deck.corrupt", "Could not read the deck file"));
+            return;
+        }
+
+        CachedDecks["custom"] = deck;
+        setCurrentDeckId("custom")
+        setCurrentDeckLoaded(deck);
+        setSnachMessage("Deck loaded");
+        viewDeckById("custom");
+        setAllowStart(true);
     }
 
     const onLoadLocalDeck = function (e: any) {
