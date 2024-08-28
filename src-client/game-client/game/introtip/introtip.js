@@ -23,6 +23,18 @@ setTimeout(() => {
     document.body.querySelector(".player-selector-box").prepend(divParent);
 }, 200);
 
+/** add a second history entry to avoid a "back" mistake */
+(function() {
+
+    try {
+        history.pushState({}, "", new URL(location));
+    }
+    catch (ex)
+    {
+        console.warn(ex);
+    }
+})();
+
 /**
  * Show the intro overlay
  */
