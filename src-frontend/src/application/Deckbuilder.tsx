@@ -1,4 +1,4 @@
-import { AppBar, Button, Dialog, Grid, IconButton, Slide, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Dialog, Grid, IconButton, Slide, Snackbar, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -348,11 +348,14 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
     const [textSideboard, setTextSideboard] = React.useState(deckPartToString(deck.sideboard));
     const [textSites, setTextSites] = React.useState(deckPartToString(deck.sites));
     const [textNotes, setTextNotes] = React.useState(deck.notes);
+    const [message, setMessage] = React.useState("");
+
     const defaultRowCount = 15;
 
     const applyDeckChanges = function () {
         const data = convertToDeck(textPool, textDeck, textSideboard, textSites, textNotes);
         updateDeck(data);
+        setMessage("Applied");
     }
 
     return <React.Fragment>
@@ -511,6 +514,12 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                 </Grid>
             </CustomTabPanel>
         </Grid>
+        <Snackbar
+            open={message !== ""}
+            autoHideDuration={5000}
+            onClick={() => setMessage("")}
+            message={message}
+        />
     </React.Fragment>;
 }
 
@@ -749,6 +758,7 @@ export default function Deckbuilder() {
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
     const [viewDeckData, setViewDeckData] = React.useState(false);
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
+    const [message, setMessage] = React.useState("");
 
     React.useEffect(() => { loadData() }, []);
 
@@ -766,7 +776,7 @@ export default function Deckbuilder() {
     const onDeckFileRead = function (e: any) {
         const contents = e.target?.result;
         if (typeof contents !== "string" || contents === "" || contents.indexOf("#") === -1) {
-            console.warn(Dictionary("login.empty", "File seems to be empty..."));
+            setMessage(Dictionary("login.empty", "File seems to be empty..."));
             return;
         }
 
@@ -776,7 +786,7 @@ export default function Deckbuilder() {
         });
 
         if (deck === null) {
-            console.warn("Could not analyse deck");
+            setMessage("Could not load deck. It seems to be empty.");
             return;
         }
 
@@ -787,7 +797,7 @@ export default function Deckbuilder() {
             deckentryToStringSimple(deck.sites),
             deck.notes
         )
-        
+
         setDeck({
             playdeck: {
                 characters: [...res.playdeck.characters],
@@ -812,7 +822,8 @@ export default function Deckbuilder() {
             notes: res.notes,
             counts: res.counts
         });
-        
+
+        setMessage("Deck loaded.");
     }
 
     const loadDeckFromFile = function (e: any) {
@@ -939,6 +950,12 @@ export default function Deckbuilder() {
     }
 
     return <React.Fragment>
+        <Snackbar
+            open={message !== ""}
+            autoHideDuration={5000}
+            onClick={() => setMessage("")}
+            message={message}
+        />
         <RenderCardPreview image={previewImage.image} left={previewImage.left} />
         <div className={"application-deckbuilder"}>
             <Grid container spacing={2} justifyContent="center">

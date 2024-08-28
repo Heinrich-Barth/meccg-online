@@ -29,10 +29,11 @@ import ExploreDeckData, { ConvertCardsStringMap, DeckCards, DeckCardsEntry } fro
 import { GetUserName } from '../components/Preferences';
 import PROXY_URL from '../operations/Proxy';
 import Dictionary from '../components/Dictionary';
-import CustomDeckInput from '../components/CustomDeckInput';
+import CustomDeckInput, { InitCustomDeck } from '../components/CustomDeckInput';
 import FetchSampleRooms from '../operations/FetchSampleRooms';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import ViewDeckCards from '../components/ViewDeckCards';
+import identifyMapSettings from '../operations/MapSettings';
 
 const TYPE_ARDA = "arda";
 const TYPE_STANDARD = "standard";
@@ -217,6 +218,9 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             deck: deckdata
         }
 
+        if (allowGameChoice)
+            identifyMapSettings(deckdata.deck, deckdata.pool);
+
         fetch(PROXY_URL + "/" + getUrlPathByType(gametype) + "/" + room + "/login", {
             method: "POST",
             credentials: "include",
@@ -385,7 +389,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         setCurrentDeckGroup("");
         setViewDeckId("");
         setCurrentDeckId("");
-
+        InitCustomDeck();   
         FetchSampleRooms().then(list => {
             for (let e of list) {
                 if (e.name.toLowerCase() === room.toLowerCase()) {
