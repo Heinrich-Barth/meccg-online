@@ -27,7 +27,7 @@ export default async function SubmitAnswer(answer:string)
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                data: answer
+                data: answer.toLowerCase()
             })
         });
         
