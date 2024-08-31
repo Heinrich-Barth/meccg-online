@@ -947,7 +947,7 @@ const GameBuilder = {
             GameBuilder.onSetPhase.updateTaskbarTurn(sPhase);
 
             if (bIsMe || GameBuilder.isVisitor())
-                document.body.dispatchEvent(new CustomEvent("meccg-event-phase", { "detail": sPhase }));
+                document.body.dispatchEvent(new CustomEvent("meccg-event-phase", { "detail": { phase: sPhase, visitor: GameBuilder.isVisitor() } }));
 
             if (sPhase === "start" || "organisation" === sPhase)
                 document.body.dispatchEvent(new CustomEvent("meccg-event-turn", { "detail": sCurrent }));
