@@ -121,7 +121,8 @@ class GameEvents
 
             for (let code of codes)
             {
-                if (code === card.getAttribute("data-card-code"))
+                const uuid = card.getAttribute("data-uuid");
+                if (uuid && code === card.getAttribute("data-card-code"))
                     uids.push({ code: code, uuid: uuid });
             }
         });
