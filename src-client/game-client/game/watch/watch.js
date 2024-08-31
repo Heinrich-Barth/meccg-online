@@ -20,7 +20,7 @@ const WatchOnly = {
 
     onProgressToPhase(e)
     {
-        if (e.detail === "organisation")
+        if (e.detail.phase === "organisation")
             return WatchOnly.showHands();
     },
 

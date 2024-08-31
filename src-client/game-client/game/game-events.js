@@ -43,10 +43,12 @@ class GameEvents
         /**
          * Following are organisation phase specific events
          */
-        if (e.detail !== "organisation")
+        if (e.detail.phase !== "organisation")
             return;
             
-        this.autoFlip();
+        if (!e.detail.visitor)
+            this.autoFlip();
+
         this.markNonPermanentEvents();
     }
 
@@ -106,32 +108,32 @@ class GameEvents
 
     autoFlip()
     {
+        const pArea = document.getElementById("staging_area_resources_player");
+        if (pArea === null || !pArea.childNodes || pArea.childNodes.length === 0)
+            return;
+
+        const uids = [];
         const codes = ["kesä (nw)", "talvi (nw)"];
-        this.forEachCardIn(this.#getCardsInStagingArea(true), function(card) 
-        {
+        pArea.childNodes.forEach((card) => {
+            
+            if ("DIV" !== card.nodeName?.toUpperCase())
+                return;
+
             for (let code of codes)
             {
                 if (code === card.getAttribute("data-card-code"))
-                {
-                    let uuid = card.getAttribute("data-uuid");
-                    MeccgApi.send("/game/card/state/reveal", {uuid : uuid, code: code }); 
-                }
+                    uids.push({ code: code, uuid: uuid });
             }
         });
-    }
 
-    #getStagingAreaContainer(isResource = true)
-    {
-        const area = isResource ? document.getElementById("staging_area_resources_longshort_player") : document.getElementById("staging_area_hazards_longshort_player");
-        if (area !== null)
-            return area;
-
-        return document.getElementById("staging-area-player");
+        for (let elem of uids)
+            MeccgApi.send("/game/card/state/reveal", elem);
     }
 
     #getCardsInStagingArea(isResource = true)
     {
-        const pArea = this.#getStagingAreaContainer(isResource);
+        const id = isResource ? "staging_area_resources_longshort_player" : "staging_area_hazards_longshort_player";
+        const pArea = document.getElementById(id);
         const list = pArea === null ? null : pArea.getElementsByClassName("card");
         return list === null || list.length === 0 ? [] : list;
     }
