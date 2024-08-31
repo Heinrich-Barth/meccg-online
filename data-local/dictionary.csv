@@ -62,7 +62,7 @@ importtosb_message_add_list;Please add cards to the list.;Veuillez ajouter des c
 importtosb_message_add_list_ok;Cards were added to your sideboard.;Des cartes ont été ajoutées à votre talon.;Se han añadido cartas a tu sideboard.
 importtosb_title;Add cards to your Sideboard;Ajoutez des cartes à votre Talon;Añade cartas a tu Aparador
 importtosb_p;Please open the deckbuilder and copy the cards to add here.;Veuillez ouvrir la création de deck et copier les cartes à ajouter ici.;Por favor, abre el deckbuilder y copia las cartas para añadirlas aquí.
-importtosb_tip;copy card codes here, e.g. 1 Gandalf [H] (TW);copier les codes des cartes ici, par exemple 1 Gandalf [H] (TW);copiar aquí los códigos de las cartas, por ejemplo 1 Gandalf [H] (TW)
+importtosb_tip;copy card codes here, e.g. 1 Gandalf [H] (TW);copier les codes des cartes ici, par exemple Gandalf [H] (TW);copiar aquí los códigos de las cartas, por ejemplo Gandalf [H] (TW)
 importtosb_button_add;Add to sideboard;Ajouter au talon;Añadir al aparador
 arda_trade_toofew;Another player is needed to trade cards;Un autre joueur est nécessaire pour échanger les cartes;Se necesita otro jugador para intercambiar cartas
 arda_trade_choose;Choose player to trade with;Choisir le joueur avec lequel échanger;Elegir jugador con el que comerciar

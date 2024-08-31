@@ -13,42 +13,58 @@ const AddCardsInGame = {
 
     getCount : function(line)
     {
-        let nPos = line.indexOf(" ");
-        if (nPos === -1)
-            return "";
-        else 
-            return line.toString().substring(0, nPos);
+        const res = {
+            count: 0,
+            code : ""
+        };
+
+        line = line.trim();
+        if (line.length < 3)
+            return res;
+
+        try
+        {
+            const left = line.substring(0, 2);
+            const val = parseInt(left);
+            if (isNaN(val))
+            {
+                res.count = 1;
+                res.code = line;
+            }
+            else if (left > 0)
+            {
+                
+            }
+        }
+        catch(err)
+        {
+            console.warn(err);
+        }
+
+        return 1;
     },
 
     getCode : function(line)
     {
-        let nPos = line.indexOf(" ");
-        if (nPos === -1)
-            return "";
-        else 
-            return this.removeQuotes(line.toString().substring(nPos+1).trim());
+        return this.removeQuotes(line);
     },
 
     toDeck : function(sText)
     {
         try
         {
-            const asLines = sText.trim().split('\n');
-            let jDeck = [];
+            const jDeck = [];
 
-            for (let _entry of asLines)
+            for (let _entry of sText.trim().split('\n'))
             {
-                const sCount = AddCardsInGame.getCount(_entry);
-                const sCode = AddCardsInGame.getCode(_entry);
-                const nCount = sCount !== "" ? parseInt(sCount) : 0;
-              
-                if (sCode !== "" && nCount > 0)
-                {
-                    jDeck.push({
-                        code : sCode,
-                        count : nCount
-                    });
-                }
+                const code = this.removeQuotes(_entry.trim());
+                if (code === "")
+                    continue;
+
+                jDeck.push({
+                    code : code,
+                    count : 1
+                });
             }
 
             if (jDeck.length > 0)
@@ -57,9 +73,9 @@ const AddCardsInGame = {
         catch (err)
         {
             MeccgUtils.logError(err);
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not convert your list to a deck." }));
         }
 
+        document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not convert your list to a deck." }));
         return null;
     },
 
@@ -78,16 +94,15 @@ const AddCardsInGame = {
         if (sText === undefined || sText.trim() === "")
         {
             document.body.dispatchEvent(new CustomEvent("meccg-notify-info", { "detail": Dictionary.get("importtosb_message_add_list", "Please add cards to the list.") }));
+            return false;
         }
-        else
+
+        const jDeck = AddCardsInGame.toDeck(sText);
+        if (jDeck !== null)
         {
-            const jDeck = AddCardsInGame.toDeck(sText);
-            if (jDeck !== null)
-            {
-                AddCardsInGame.onClose();
-                document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("importtosb_message_add_list_ok", "Cards were added to your sideboard.") }));
-                MeccgApi.send("/game/card/add", { cards: jDeck });        
-            }
+            AddCardsInGame.onClose();
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("importtosb_message_add_list_ok", "Cards were added to your sideboard.") }));
+            MeccgApi.send("/game/card/add", { cards: jDeck });        
         }
 
         return false;
@@ -110,7 +125,7 @@ const AddCardsInGame = {
             <div class="add-cards-box blue-box">
                 <h2 data-translate-inner="importtosb_title">${Dictionary.get("importtosb_title", "Add cards to your Sideboard")}</h2>
                 <p data-translate-inner="importtosb_p">${Dictionary.get("importtosb_p", "Please open the deckbuilder and copy the cards to add here.")}</p>
-                <textarea name="cards_to_add" data-translate-placeholder="importtosb_tip" placeholder="${Dictionary.get("importtosb_tip", "copy card codes here, e.g. 1 Gandalf [H] (TW)")}"></textarea>
+                <textarea name="cards_to_add" data-translate-placeholder="importtosb_tip" placeholder="${Dictionary.get("importtosb_tip", "copy card codes here, e.g. Gandalf [H] (TW)")}"></textarea>
                 <p>&nbsp;</p>
             </div>`;
 
