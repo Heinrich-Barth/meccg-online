@@ -270,6 +270,7 @@ export default class RoomManager {
             pGame = pRoom.getGame();
 
             jRoom = {
+                id: pRoom.getGameUid(),
                 room : room,
                 arda : pRoom.getGame().isArda(),
                 single: pRoom.getGame().isSinglePlayer(),
