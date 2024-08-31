@@ -4,6 +4,7 @@ Find the latest feature update information here.
 
 | Area | Description | 
 | --- | --- |
+| | Deckbuilder searches title as well |
 | | New deckbuilder |
 | | Card browser |
 | | Updated platform style based on material ui and react frontend |
