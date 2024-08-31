@@ -33,10 +33,10 @@ const loadFile = function():string
 const splitCells = function(row:string):any
 {
     const cells = row.substring(1, row.length - 1).trim().split("|")
-    return {
-        type: cells[0].trim(),
-        description: cells[1].trim()
-    }
+    if (cells.length > 1)
+        return cells[1].trim();
+
+    return "";
 }
 
 const loadRows = function(data:string):any[]
@@ -48,8 +48,12 @@ const loadRows = function(data:string):any[]
 
     for (let row of data.split("\n"))
     {
-        if (row.indexOf("|") !== -1)
-            list.push(splitCells(row))
+        if (row.indexOf("|") === -1)
+            continue;
+
+        const text = splitCells(row);
+        if (text !== "")
+            list.push(text)
     }
 
     return list;

@@ -14,13 +14,11 @@ export default function Whatsnew() {
 
         isLoading = true;
         fetch(PROXY_URL + "/data/releasenotes").then(res => res.json()).then((json) => {
-            const res: string[] = [];
-            const len = json.length;
-            for (let i = 0; i < len && i < 50; i++)
-                res.push(json[i].description);
-
-            setNotes(res);
-        }).finally(() => isLoading = false);
+            if (json && Array.isArray(json))
+                setNotes(json);
+        })
+        .catch(console.error)
+        .finally(() => isLoading = false);
 
     }, [setNotes]);
 

@@ -22,7 +22,6 @@ public/favicons
 dist-server/
 dist-client/
 
-RELEASENOTES.MD
 deploy.sh
 public/media/dictionary*.js
 public/media/dictionary*.json
