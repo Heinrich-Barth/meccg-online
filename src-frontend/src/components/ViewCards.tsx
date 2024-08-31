@@ -187,7 +187,9 @@ const getMatch = function (card: CardData, params: SearchParams) {
     if (params.q !== "") {
         if (card.code.startsWith(params.q))
             boost = 10;
-        else if (card.code.indexOf(params.q) > 0)
+        else if (card.title.startsWith(params.q))
+            boost = 8;
+        else if (card.code.indexOf(params.q) > 0 || card.title.indexOf(params.q) > 0)
             boost = 5
         else if (card.text && card.text.indexOf(params.q) > 0)
             boost = 4
