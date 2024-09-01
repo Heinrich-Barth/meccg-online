@@ -1,4 +1,4 @@
-import { AppBar, Button, Dialog, Grid, IconButton, Slide, Snackbar, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Grid, Slide, Snackbar, TextField, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -12,9 +12,7 @@ import Paper from '@mui/material/Paper';
 import FetchCards, { CardData } from "../operations/FetchCards";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import BackHandIcon from '@mui/icons-material/BackHand';
-import CloseIcon from '@mui/icons-material/Close';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import MapIcon from '@mui/icons-material/Map';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import SaveIcon from '@mui/icons-material/Save';
@@ -22,7 +20,6 @@ import StyleIcon from '@mui/icons-material/Style';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import RenderCardPreview from "../components/CardZoom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { TransitionProps } from "@mui/material/transitions";
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData, { CreateCountMap, DeckCardsEntry } from "../operations/ExploreDeckData";
@@ -41,6 +38,7 @@ type Deckentry = {
     code: string;
     image: string;
     count: number;
+    type: string;
 }
 
 type DeckPart = {
@@ -120,9 +118,17 @@ const canIncrease = function (entry: Deckentry) {
     return !disableDeckAddingActions(card, entry.count);
 }
 
+const clearCode = function (code: string) {
+    const pos = code.indexOf("(");
+    return pos === -1 ? code : code.substring(0, pos).trim();
+}
+
 function CurrentDeckPartEntry({ entry, keyVal, onIncrease, onDecrease, onPreviewImage, setPreviewImage }: { entry: Deckentry, keyVal: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function }) {
-    return <li key={keyVal} className="deck-edit-entry">
-        {entry.count} {entry.code}
+    return <li key={keyVal} className="deck-edit-entry"
+        onMouseEnter={(e) => onPreviewImage(e.pageX, GetCardImage(entry.code).image)}
+        onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+    >
+        {entry.count} {clearCode(entry.code)}
         <div className="deck-edit-entry-actions">
             {canIncrease(entry) && (<span onClick={() => onIncrease(entry.code)} title="Increase quantity">
                 <AddCircleIcon />
@@ -130,28 +136,61 @@ function CurrentDeckPartEntry({ entry, keyVal, onIncrease, onDecrease, onPreview
             <span onClick={() => onDecrease(entry.code)} title="Decrease quantity">
                 <RemoveCircleIcon />
             </span>
-            <span
-                onMouseEnter={(e) => onPreviewImage(e.pageX, GetCardImage(entry.code).image)}
-                onMouseLeave={() => setPreviewImage({ image: "", left: false })} >
-                <RemoveRedEyeIcon />
-            </span>
         </div>
     </li>
 }
 
-function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function }) {
+const getDeckListPart = function (list: Deckentry[]) {
+    const map: { [key: string]: Deckentry[] } = {};
+    
+    let count = 0;
+    for (let elem of list) {
+        count += elem.count;
+        if (map[elem.type])
+            map[elem.type].push(elem);
+        else
+            map[elem.type] = [elem];
+    }
+
+    return {
+        count: count,
+        map: map
+    };
+}
+
+function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage, sortType = false }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, sortType?: boolean }) {
+
+    if (sortType === false || list.length === 0) {
+        return <>
+            {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({list.length})</Typography>)}
+            {list && list.length === 0 ? <>&ndash;</> : <ul className={"deck-edit-section-" + sectionClassname}>
+                {list.map((entry, idx) => (<CurrentDeckPartEntry
+                    keyVal={pref + idx + entry.code}
+                    entry={entry}
+                    onDecrease={onDecrease}
+                    onIncrease={onIncrease}
+                    onPreviewImage={onPreviewImage}
+                    setPreviewImage={setPreviewImage}
+                />))}
+            </ul>}</>
+    }
+
+    const res = getDeckListPart(list);
+    const map = res.map;
     return <>
-        {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption}</Typography>)}
-        {list && list.length === 0 ? <></> : <ul className={"deck-edit-section-" + sectionClassname}>
-            {list.map((entry, idx) => (<CurrentDeckPartEntry
-                keyVal={pref + idx + entry.code}
-                entry={entry}
-                onDecrease={onDecrease}
-                onIncrease={onIncrease}
-                onPreviewImage={onPreviewImage}
-                setPreviewImage={setPreviewImage}
-            />))}
-        </ul>}
+        {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({res.count})</Typography>)}
+        {Object.keys(map).sort().map((key, index) => <ul className={"deck-edit-section-sorted deck-edit-section-" + sectionClassname} key={"deck-edit-section-" + sectionClassname + index}>
+            <li className="sections-title-specific-sub smallcaps">{key} ({map[key].length})</li>
+            {map[key].map((entry, idx) => <CurrentDeckPartEntry
+                    keyVal={pref + index + "-" + idx + entry.code}
+                    entry={entry}
+                    onDecrease={onDecrease}
+                    onIncrease={onIncrease}
+                    onPreviewImage={onPreviewImage}
+                    setPreviewImage={setPreviewImage}
+                />
+            )}
+        </ul>)}
     </>
 }
 
@@ -198,7 +237,8 @@ const explodeCardLine = function (line: string, fnCallback: Function) {
     const res: Deckentry = {
         count: 0,
         code: "",
-        image: ""
+        image: "",
+        type: ""
     };
 
     line = line.trim().toLowerCase();
@@ -221,8 +261,10 @@ const explodeCardLine = function (line: string, fnCallback: Function) {
     }
 
     const card = getCardByCode(res.code)
-    if (card)
+    if (card) {
+        res.type = card.Secondary;
         fnCallback(res, card.type.toLowerCase());
+    }
 }
 
 
@@ -365,13 +407,12 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor="primary"
                         indicatorColor="primary">
                         <Tab label="Deck List" {...a11yProps(0)} />
-                        <Tab label="Deck Description" {...a11yProps(1)} />
-                        <Tab label="Export/Import" {...a11yProps(2)} />
+                        <Tab label="Export/Import" {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <Grid item xs={12} sm={3} md={2} lg={1} container rowGap={2} alignSelf={"flex-start"} >
+                <Grid item xs={12} sm={3} md={2} container rowGap={2} alignSelf={"flex-start"} >
                     <Grid item xs={12}>
                         <Typography className="smallcaps section-title"><BackHandIcon /> Pool</Typography>
                     </Grid>
@@ -421,6 +462,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                sortType={true}
                             />
                         </Grid>
                         <Grid item xs={12} md={4} rowGap={2}>
@@ -432,18 +474,28 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                sortType={true}
                             />
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={9} md={10} lg={5} container rowGap={2} alignSelf={"flex-start"}>
+                <Grid item xs={12} sm={9} md={10} lg={4} container rowGap={2} alignSelf={"flex-start"}>
                     <Grid item xs={12}>
                         <Typography className="smallcaps section-title">
                             <SpaceDashboardIcon /> Sideboard
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} container rowGap={2}>
-                        <Grid item xs={12} md={4} rowGap={2}>
+                    <Grid item xs={12} md={6} container rowGap={2}>
+                        <Grid item xs={12}>
+                            <CurrentDeckPart
+                                caption="Resources" pref="sbr" list={deck.sideboard.resources} sectionClassname="resource"
+                                onDecrease={(code: string) => onDecrease(code, "sb")}
+                                onIncrease={(code: string) => onIncrease(code, "sb")}
+                                onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                sortType={true}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <CurrentDeckPart
                                 caption="Characters"
                                 pref="sbc"
@@ -454,22 +506,15 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} rowGap={2}>
-                            <CurrentDeckPart
-                                caption="Resources" pref="sbr" list={deck.sideboard.resources} sectionClassname="resource"
-                                onDecrease={(code: string) => onDecrease(code, "sb")}
-                                onIncrease={(code: string) => onIncrease(code, "sb")}
-                                onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4} rowGap={2}>
-                            <CurrentDeckPart
-                                caption="Hazards" pref="sbr" list={deck.sideboard.hazards} sectionClassname="hazard"
-                                onDecrease={(code: string) => onDecrease(code, "sb")}
-                                onIncrease={(code: string) => onIncrease(code, "sb")}
-                                onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
-                            />
-                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <CurrentDeckPart
+                            caption="Hazards" pref="sbr" list={deck.sideboard.hazards} sectionClassname="hazard"
+                            onDecrease={(code: string) => onDecrease(code, "sb")}
+                            onIncrease={(code: string) => onIncrease(code, "sb")}
+                            onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            sortType={true}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sm={3} md={2} lg={1} container rowGap={2} alignSelf={"flex-start"}>
@@ -478,7 +523,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             <MapIcon /> Sites
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={4} rowGap={2}>
+                    <Grid item xs={12}>
                         <CurrentDeckPart
                             caption="Resources" pref="sites" list={deck.sites.resources} sectionClassname="site"
                             onDecrease={(code: string) => onDecrease(code, "deck")}
@@ -487,12 +532,15 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                         />
                     </Grid>
                 </Grid>
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-                <TextField rows={20} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
+                <Grid item xs={12} className="deck-notes">
+                    <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
+                </Grid>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                 <Grid item xs={12} container rowGap={2}>
+                    <Grid item xs={12} className="custom-deck">
+                        <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
+                    </Grid>
                     <Grid item xs={6} lg={3} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textPool} multiline onChange={(e) => setTextPool(e.target.value)} fullWidth label={"Pool"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
                     </Grid>
@@ -507,9 +555,6 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     </Grid>
                     <Grid item xs={12} className="custom-deck">
                         <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
-                    </Grid>
-                    <Grid item xs={12} className="custom-deck">
-                        <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
                     </Grid>
                 </Grid>
             </CustomTabPanel>
@@ -545,7 +590,8 @@ const onAddToDeck = function (card: CardData, playdeck: DeckPart, code: string, 
         list.push({
             code: code,
             image: image,
-            count: 1
+            count: 1,
+            type: card.Secondary
         });
         list.sort((a, b) => a.code.localeCompare(b.code));
     }
@@ -618,58 +664,29 @@ type ImagePreview = {
     left: boolean
 }
 
-function FullScreenDialog({ deck, onClose, updateDeck, onIncrease, onDecrease }: { deck: Deck, onClose: Function, updateDeck: Function, onIncrease: Function, onDecrease: Function }) {
+function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function }) {
 
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
-
-    React.useEffect(() => { loadData() }, []);
-
     const onPreviewImage = function (x: number, src: string) {
         const half = window.innerWidth / 2;
         const left = x < half;
         setPreviewImage({ image: src, left: !left });
     }
 
-    const handleClose = () => {
-        onClose();
-    };
-
     return (
-        <React.Fragment>
-            <Dialog
-                fullScreen
-                open={true}
-                onClose={handleClose}
-                TransitionComponent={Transition}
-            >
-                <RenderCardPreview image={previewImage.image} left={previewImage.left} />
-                <AppBar className="pos-rel">
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography variant="h6" component="div">
-                            Deck Details
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Grid item xs={12} container className="paddingTop4em deck-details">
-                    <CurrentDeck
-                        deck={deck}
-                        updateDeck={updateDeck}
-                        onDecrease={onDecrease}
-                        onIncrease={onIncrease}
-                        onPreviewImage={onPreviewImage}
-                        setPreviewImage={setPreviewImage}
-                    />
-                </Grid>
-            </Dialog>
-        </React.Fragment>
+        <>
+            <RenderCardPreview image={previewImage.image} left={previewImage.left} />
+            <Grid item xs={12} container className="paddingTop4em deck-details">
+                <CurrentDeck
+                    deck={deck}
+                    updateDeck={updateDeck}
+                    onDecrease={onDecrease}
+                    onIncrease={onIncrease}
+                    onPreviewImage={onPreviewImage}
+                    setPreviewImage={setPreviewImage}
+                />
+            </Grid>
+        </>
     );
 }
 
@@ -949,6 +966,59 @@ export default function Deckbuilder() {
         </Grid>
     }
 
+    const DeckSummary = function () {
+        return <Grid container item xs={12} spacing={0} className="deck-summary">
+            <Grid item xs={1} container>
+                <Grid item xs={3}><BackHandIcon /></Grid>
+                <Grid item xs={9}>
+                    Pool<br />
+                    {countDeckEntryCardsTotal(deck.pool)}
+                </Grid>
+            </Grid>
+            <Grid item xs={3}>
+                {countDeckEntryCardsTotalDeckentryS(deck.pool.characters)} Characters
+                <br />{countDeckEntryCardsTotalDeckentryS(deck.pool.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.pool.hazards)} Hazards
+                <br />
+            </Grid>
+            <Grid item xs={1} container>
+                <Grid item xs={3}><StyleIcon /></Grid>
+                <Grid item xs={9}>
+                    Deck<br />
+                    {countDeckEntryCardsTotal(deck.playdeck)}
+                </Grid>
+            </Grid>
+            <Grid item xs={3}>
+                {countDeckEntryCardsTotalDeckentryS(deck.playdeck.characters)} Characters
+                <br />{countDeckEntryCardsTotalDeckentryS(deck.playdeck.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.playdeck.hazards)} Hazards
+                <br />{countDeckEntryCardsTotalDeckentryS(deck.sites.resources)} Sites
+            </Grid>
+            <Grid item xs={1} container>
+                <Grid item xs={3}><SpaceDashboardIcon /></Grid>
+                <Grid item xs={9}>
+                    Sideboard<br />
+                    {countDeckEntryCardsTotal(deck.sideboard)}
+                </Grid>
+            </Grid>
+            <Grid item xs={3}>
+                {countDeckEntryCardsTotalDeckentryS(deck.sideboard.characters)} Characters
+                <br />{countDeckEntryCardsTotalDeckentryS(deck.sideboard.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.sideboard.hazards)} Hazards
+                <br />
+            </Grid>
+            <Grid container item xs={12} textAlign={"center"}>
+                <Grid item xs={4}>
+                    <Button variant="contained" onClick={() => setDeck(createEmptyDeck())} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
+                </Grid>
+                <Grid item xs={4}>
+                    <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
+                    <Button variant="contained" onClick={() => document.getElementById("meccg-open-dialog")?.click()} title="News Deck" startIcon={<FolderOpenIcon />}>Load</Button>
+                </Grid>
+                <Grid item xs={4}>
+                    <Button variant="contained" onClick={saveCurrentDeck} title="Save deck" startIcon={<SaveIcon />}>Save</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    }
+
     return <React.Fragment>
         <Snackbar
             open={message !== ""}
@@ -970,69 +1040,17 @@ export default function Deckbuilder() {
         </div>
         <div className={"application-home application-deckbuilder-spacer"}>
             <Grid container spacing={2} justifyContent="center">
+                <DeckSummary />
                 <ViewCardBrowser renderCardEntry={renderSearchResult} subline="Hover over the card for deck actions" />
             </Grid>
+            <Grid container spacing={2} justifyContent="center">
+                <DeckDetailsSection
+                    deck={deck}
+                    updateDeck={setDeck}
+                    onDecrease={onDecreaseDeckAction}
+                    onIncrease={onIncreaseDeckAction}
+                />
+            </Grid>
         </div>
-        {viewDeckData && (<FullScreenDialog
-            deck={deck}
-            onClose={() => setViewDeckData(false)}
-            updateDeck={setDeck}
-            onDecrease={onDecreaseDeckAction}
-            onIncrease={onIncreaseDeckAction}
-        />)}
-        <AppBar position="fixed" enableColorOnDark={true} className="deckbuilder-toolbar">
-            <Toolbar className="deckbuilder-toolbar-posrel">
-                <div className="deckbuilder-toolbar-icon deckbuilder-toolbar-open">
-                    <Button variant="contained" onClick={() => setViewDeckData(true)} title="Details"><KeyboardDoubleArrowUpIcon /></Button>
-                </div>
-                <div className="deckbuilder-toolbar-icon deckbuilder-toolbar-new">
-                    <Button variant="contained" onClick={() => setDeck(createEmptyDeck())} title="News Deck"><NoteAddIcon /></Button>
-                    &nbsp;
-                    <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
-                    <Button variant="contained" onClick={() => document.getElementById("meccg-open-dialog")?.click()} title="News Deck"><FolderOpenIcon /></Button>
-                </div>
-                <div className="deckbuilder-toolbar-icon deckbuilder-toolbar-save">
-                    <Button variant="contained" onClick={saveCurrentDeck} title="Save deck"><SaveIcon /></Button>
-                </div>
-                <Grid container>
-                    <Grid item xs={1} container>
-                        <Grid item xs={3}><BackHandIcon /></Grid>
-                        <Grid item xs={9}>
-                            Pool<br />
-                            {countDeckEntryCardsTotal(deck.pool)}
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={3}>
-                        {countDeckEntryCardsTotalDeckentryS(deck.pool.characters)} Characters
-                        <br />{countDeckEntryCardsTotalDeckentryS(deck.pool.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.pool.hazards)} Hazards
-                        <br />
-                    </Grid>
-                    <Grid item xs={1} container>
-                        <Grid item xs={3}><StyleIcon /></Grid>
-                        <Grid item xs={9}>
-                            Deck<br />
-                            {countDeckEntryCardsTotal(deck.playdeck)}
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={3}>
-                        {countDeckEntryCardsTotalDeckentryS(deck.playdeck.characters)} Characters
-                        <br />{countDeckEntryCardsTotalDeckentryS(deck.playdeck.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.playdeck.hazards)} Hazards
-                        <br />{countDeckEntryCardsTotalDeckentryS(deck.sites.resources)} Sites
-                    </Grid>
-                    <Grid item xs={1} container>
-                        <Grid item xs={3}><SpaceDashboardIcon /></Grid>
-                        <Grid item xs={9}>
-                            Sideboard<br />
-                            {countDeckEntryCardsTotal(deck.sideboard)}
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={3}>
-                        {countDeckEntryCardsTotalDeckentryS(deck.sideboard.characters)} Characters
-                        <br />{countDeckEntryCardsTotalDeckentryS(deck.sideboard.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.sideboard.hazards)} Hazards
-                        <br />
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
     </React.Fragment>
 }

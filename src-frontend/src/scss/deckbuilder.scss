@@ -65,11 +65,18 @@
         color: var(--color-orange-light);
     }
 
+    .sections-title-specific-sub {
+        color: var(--color-orange-light);
+        font-size: 0.8em;
+    }
 
+    .deck-notes {
+        padding-top: 2em;
+    }
 
     .deck-edit-entry {
         position: relative;
-
+        text-transform: capitalize;
         .deck-edit-entry-actions {
             display: none;
             position: absolute;
@@ -89,41 +96,25 @@
             }
         }
 
-
-        &::before {
-            position: absolute;
-            content: " ";
-            width: 1px;
-            top: 5px;
-            bottom: 5px;
-            left: -4px;
-
-        }
-
         &:hover {
             .deck-edit-entry-actions {
                 display: block;
             }
         }
     }
-}
 
-.deck-edit-section-character .deck-edit-entry::before {
-    background-color: #c7c7c7;
-}
-
-.deck-edit-section-hazard .deck-edit-entry::before {
-    background-color: #3b3b3b;
-}
-
-.deck-edit-section-resource .deck-edit-entry::before {
-    background-color: #a07e72;
-}
-
-.deck-edit-section-site .deck-edit-entry::before {
-    background-color: #e0ddca;
+    .deck-edit-section-sorted .deck-edit-entry:nth-of-type(2){
+        margin-top: 0;
+    }
 }
 
 .application-deckbuilder-spacer {
-    padding-bottom: 300px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+
+    .deck-summary,
+    .view-cards-eol {
+        padding-bottom: 2em;
+    }
 }
+

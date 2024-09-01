@@ -392,7 +392,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
 
             </Grid>
             <Grid container justifyContent="center">
-                <Grid item xs={6} sm={1} justifyContent="center">
+                <Grid item xs={6} sm={1} justifyContent="center" className="view-cards-eol">
                     {searchResult.length > 0 && resultLimit < searchResult.length ?
                         <Button variant="contained" onClick={() => setResultLimit(resultLimit + CARDS_PER_VIEW)}>Load more</Button>
                         :

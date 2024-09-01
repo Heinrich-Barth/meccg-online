@@ -22,34 +22,3 @@
         display: inline-block;
     }
 }
-
-.deckbuilder-toolbar {
-    bottom: 0;
-    top: unset !important;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-
-    .deckbuilder-toolbar-posrel 
-    { 
-        position: relative; 
-        padding-top: 1.5em;
-        padding-bottom: 1em;
-        
-    }
-
-    .deckbuilder-toolbar-icon {
-        position: absolute; 
-        top: -15px;
-        z-index: 200;
-
-        &.deckbuilder-toolbar-open {
-            left: 45%;
-        }
-        &.deckbuilder-toolbar-save {
-            left: 90%;
-        }
-        &.deckbuilder-toolbar-new {
-            left: 10%;
-        }
-    }
-}
