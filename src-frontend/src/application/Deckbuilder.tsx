@@ -1,4 +1,4 @@
-import { AppBar, Button, Grid, Slide, Snackbar, TextField, Typography } from "@mui/material";
+import { AppBar, Button, Grid, Snackbar, TextField, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -20,19 +20,9 @@ import StyleIcon from '@mui/icons-material/Style';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import RenderCardPreview from "../components/CardZoom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { TransitionProps } from "@mui/material/transitions";
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
-import ExploreDeckData, { CreateCountMap, DeckCardsEntry } from "../operations/ExploreDeckData";
+import ExploreDeckData, { DeckCardsEntry } from "../operations/ExploreDeckData";
 import { InitCustomDeck } from "../components/CustomDeckInput";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 type Deckentry = {
     code: string;
