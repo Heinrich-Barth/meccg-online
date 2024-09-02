@@ -219,7 +219,8 @@ const sendList = function(_req:Request, res:Response)  {
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
     <title>Latest News</title>
-    <description>Read all latest updates on the platform</description>`;
+    <description>Read all latest updates on the platform</description>
+    <language>en-US</language>`;
 
     res.status(200);
 
@@ -228,7 +229,7 @@ const sendList = function(_req:Request, res:Response)  {
     if (process.env.PLATFORMURL)
     {
         res.write(`<atom:link href="${process.env.PLATFORMURL}/data/rss" rel="self" type="application/rss+xml" />`);
-        res.write(createRssEntryItem("link", process.env.PLATFORMURL + "/data/rss"));
+        res.write(createRssEntryItem("link", process.env.PLATFORMURL));
     }
 
     const games = ServerInstance.getRoomManager().getActiveGames();
