@@ -15,6 +15,26 @@ export type TRoomOptions = {
     jitsi:  boolean,
     avatar: string
 };
+
+export type ActiveGameDataPlayer = {
+    name: string;
+    score: number;
+}
+
+export type ActiveGameData = {
+    id: string;
+    room : string;
+    arda : boolean;
+    single: boolean;
+    created : string;
+    time: number;
+    visitors: boolean;
+    jitsi: boolean;
+    accessible: boolean;
+    duration: number;
+    players : ActiveGameDataPlayer[],
+    avatars: any;
+}
 const PART_HTML = 0;
 const PART_BODY = 2;
 const PART_JS = 4;
@@ -258,8 +278,8 @@ export default class RoomManager {
     getActiveGames()
     {
         let room, userid, pRoom;
-        let res:any = [];
-        let jRoom:any;
+        let res:ActiveGameData[] = [];
+        let jRoom:ActiveGameData;
         let isValidRoom;
         let pGame;
         const lNow = Date.now();
