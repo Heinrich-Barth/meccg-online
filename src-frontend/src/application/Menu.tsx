@@ -175,7 +175,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 </ListItem>
                 <ListItem disablePadding dense={true}>
                     <ListItemButton onClick={() => loadDictionary("fr")}>
-                        <ListItemText inset primary={"Francés"} />
+                        <ListItemText inset primary={"Français"} />
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding dense={true}>
