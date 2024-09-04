@@ -214,6 +214,9 @@ const getLatestGameTime = function(list:ActiveGameData[])
 
     return latesetTime;
 }
+
+const sendJson = (_req:Request, res:Response) => res.status(200).json(DATA);
+
 const sendList = function(_req:Request, res:Response)  {
     const RSS_OPEN = `<?xml version="1.0" encoding="UTF-8" ?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -233,15 +236,16 @@ const sendList = function(_req:Request, res:Response)  {
     }
 
     const games = ServerInstance.getRoomManager().getActiveGames();
+    /*
     const time = getLatestGameTime(games);
     res.write("<lastBuildDate>" + printGMTDate(time, LAST_UPDATE_DATA) + "</lastBuildDate>")
-
+    */
     sendCurrentGames(res, games);
     for (let entry of DATA)
         res.write(createRssEntry(entry))
 
-    if (time > LAST_UPDATE_DATA)
-        LAST_UPDATE_DATA = time;
+    //if (time > LAST_UPDATE_DATA)
+    //    LAST_UPDATE_DATA = time;
 
     res.write("</channel></rss>");
     res.end();
@@ -250,7 +254,11 @@ const sendList = function(_req:Request, res:Response)  {
 export default function InitBlogEndpoints() {
 
     if (token !== "")
+    {
         getServerInstance().use("/data/rss", fetchBlogs);
+        getServerInstance().use("/data/blog", fetchBlogs);
+    }
 
     getServerInstance().get("/data/rss", sendList);
+    getServerInstance().get("/data/blog", sendJson);
 }

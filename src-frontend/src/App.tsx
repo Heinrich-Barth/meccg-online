@@ -52,7 +52,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path='/tournaments' element={<Tournaments />} />
                     <Route path='/tournaments/:id' element={<TournamentDetail />} />
                     <Route path="/caching" element={<CacheData />} />
-                    <Route path="/whatsnew" element={<Whatsnew />} />
+                    <Route path="/blog" element={<Whatsnew />} />
                     <Route path="/login" element={<LogIn onLogin={() => setAllowNavigation(true)} requireLogin={requireLogin} />} />
                     <Route
                         path="*"

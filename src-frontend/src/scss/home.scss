@@ -1,4 +1,3 @@
-
 .menu-item {
     flex-direction: column;
 
@@ -230,5 +229,17 @@ table.resultlist {
     &:hover span {
         background-color: rgba(255, 255, 255, 0.5);
         color: #000;
+    }
+}
+
+
+.application-news {
+    .application-news-card {
+        border-radius: 5px;
+        background-color: rgba(18, 18, 18, 0.5);
+
+        &:hover {
+            background-color: rgba(18, 18, 18, 1);
+        }
     }
 }

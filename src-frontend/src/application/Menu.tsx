@@ -128,7 +128,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 </ListItem>
                 
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <Link to="/whatsnew" onClick={collapseMenu}>
+                    <Link to="/blog" onClick={collapseMenu}>
                         <ListItemButton >
                             <ListItemIcon>
                                 <NewspaperIcon />
