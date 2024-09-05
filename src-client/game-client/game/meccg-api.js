@@ -454,8 +454,8 @@ const MeccgApi =
             if (sessionStorage.getItem("show_sitemarker"))
                 sessionStorage.removeItem("show_sitemarker");
             
-            if (g_sRoom)
-                sessionStorage.removeItem("meccg_" + g_sRoom);
+            if (sessionStorage.getItem("meccg_autosave"))
+                sessionStorage.removeItem("meccg_autosave");
         }
         catch (errIgnore)
         {

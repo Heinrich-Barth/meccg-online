@@ -62,7 +62,7 @@ const SaveJsonAsDialog = {
 
     onSaveSession: function(data)
     {
-        sessionStorage.setItem("meccg_" + g_sRoom, JSON.stringify(data.detail.data));
+        sessionStorage.setItem("meccg_autosave", JSON.stringify(data.detail.data));
     }
 };
 
