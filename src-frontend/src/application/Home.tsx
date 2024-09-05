@@ -17,6 +17,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import { Navigate } from "react-router-dom";
 import FetchServerInfo from "../operations/FetchServerInfo";
+import Autosave from "../components/Autosave";
 
 const calcDuration = function (time: number) {
     if (time < 1)
@@ -200,7 +201,7 @@ export default function Home() {
     const [serverinfo, setServerinfo] = React.useState<ServerInformation>({ message: "", urgent: false });
    
     const onWatch = (room: string) => setWatchGame(room);
-    
+
     const onJoin = async (room: string) => {
 
         try
@@ -377,5 +378,6 @@ export default function Home() {
         {selectDeckOpen && (<Navigate to={"/play/" + roomName} />)}
         {chooseRoom && (<ChooseGameRoom rooms={sampleRooms} onChosen={onChangeRoomName} />)}
         {watchGame !== "" && (<Navigate to={"/watch/" + watchGame} />)}
+        {<Autosave />}
     </React.Fragment>
 }
