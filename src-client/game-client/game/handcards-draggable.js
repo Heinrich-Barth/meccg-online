@@ -322,14 +322,14 @@ const DropFunctions = {
             const uuid = ui.draggable.attr("data-uuid");
             const source = ui.draggable.attr("data-location");
             
-            if (source === "hand")
-                CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
-
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
             HandCardsDraggable.onCreateNewCompany(uuid, source);
         }
         else if (ui.draggable.attr("data-card-type") === "site")
         {
-            DropFunctions.onDropSiteOnNewCompany(ui.draggable.attr("data-card-code"));
+            const code = ui.draggable.attr("data-card-code");
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
+            DropFunctions.onDropSiteOnNewCompany(code);
         }
 
         return false;
@@ -354,6 +354,8 @@ const DropFunctions = {
             if (source === "hand")
                 DomUtils.removeNode(pCard);
     
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
+
             if (type === "character")
                 HandCardsDraggable.onJoinCompany(uuid, source, companyUuid);
             else
@@ -363,6 +365,7 @@ const DropFunctions = {
         }
         else if (type === "site")
         {
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
             DropFunctions.onDropSiteOnCharacter(pCard.getAttribute("data-code"));
         }
 
