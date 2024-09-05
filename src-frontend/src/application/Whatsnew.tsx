@@ -2,13 +2,20 @@ import * as React from "react";
 import Dictionary from "../components/Dictionary";
 import { useParams } from "react-router-dom";
 import FetchBlog, { StoryData } from "../operations/FetchBlog";
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import CloseIcon from '@mui/icons-material/Close';                    
+
 let isLoading = false;
 
 function NothingThere() {
@@ -18,27 +25,38 @@ function NothingThere() {
     </>
 }
 
+const getStoryById = function (stories: StoryData[], id: string) {
+    if (id === "")
+        return null;
+
+    for (let story of stories) {
+        if (story.id === id)
+            return story;
+    }
+
+    return null;
+}
+
 export default function Whatsnew() {
 
+    const { id } = useParams();
+
     const [stories, setStories] = React.useState<StoryData[]>([]);
-    const [expand, setExpand] = React.useState<any>({});
+    const [viewDetails, setViewDetails] = React.useState(typeof id === "string" ? id : "");
 
-    const setVisibility = function (id: string) {
-        if (expand[id])
-            delete expand[id];
-        else
-            expand[id] = true;
-
-        setExpand({ ...expand });
+    const sortAndUpdateStories = function(list:StoryData[])
+    {
+        setStories(list.sort((a,b) => b.date - a.date));
     }
+
     React.useEffect(() => {
         if (isLoading)
             return;
 
         isLoading = true;
-        FetchBlog().then((res) => setStories(res)).catch(console.error).finally(() => isLoading = false);
+        FetchBlog().then((res) => sortAndUpdateStories(res)).catch(console.error).finally(() => isLoading = false);
 
-    }, [setStories]);
+    }, [sortAndUpdateStories]);
 
     const RenderAll = function () {
         return <>
@@ -55,7 +73,7 @@ export default function Whatsnew() {
                         </CardContent>
                         {story.description !== "" && (
                             <CardActions>
-                                <Button size="small" onClick={() => setVisibility(story.id)}>Toggle Details</Button>
+                                <Button size="small" variant="contained" onClick={() => setViewDetails(story.id)} startIcon={<VisibilityIcon />}>Details</Button>
                             </CardActions>
                         )}
                     </Card>
@@ -64,10 +82,38 @@ export default function Whatsnew() {
         </>
     }
 
+    const RenderDetail = function ({ id, isOpen, onClose }: { id: string, isOpen: boolean, onClose: Function }) {
+        const story = getStoryById(stories, id);
+        if (story === null)
+            return <></>;
+
+        return <Dialog
+            open={isOpen}
+            onClose={() => onClose()}
+            scroll="paper"
+            aria-labelledby="scroll-dialog-title"
+            aria-describedby="scroll-dialog-description"
+        >
+            <DialogTitle id="scroll-dialog-title">{story.title}</DialogTitle>
+            <DialogContent dividers={true}>
+                <DialogContentText
+                    id="scroll-dialog-description"
+                    tabIndex={-1}
+                >
+                    {story.summary.split("\n").map((line, idx) => <Typography variant="body1" key={story.id + "-1-" + idx}>{line}</Typography>)}
+                    {story.description.split("\n").map((line, idx) => <Typography variant="body1" key={story.id + "-1-" + idx}>{line}</Typography>)}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button  variant="contained" startIcon={<CloseIcon />} onClick={() => onClose()}>OK</Button>
+            </DialogActions>
+        </Dialog>
+    }
 
     return <>
         <div className={"application-home application-news"}>
             {stories.length === 0 ? <NothingThere /> : <RenderAll />}
+            {stories.length > 0 && viewDetails !== "" && (<RenderDetail id={viewDetails} isOpen={viewDetails !== ""} onClose={() => setViewDetails("")} />)}
         </div>
     </>;
 }

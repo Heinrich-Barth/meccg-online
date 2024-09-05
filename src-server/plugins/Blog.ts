@@ -1,6 +1,7 @@
 import getServerInstance, { ServerInstance } from "../Server";
 import { Request, Response, NextFunction } from "express";
 import { ActiveGameData } from "../game-management/RoomManager";
+import * as Authentication from "../Authentication";
 
 const token = typeof process.env.SPACE_TOKEN === "string" ? process.env.SPACE_TOKEN : "";
 const url = `${process.env.SPACE_URL}?version=published&token=${token}`;
@@ -137,7 +138,7 @@ const createRssEntry = function(entry:StoryData)
         list.push(createRssEntryItem("description", entry.summary + "\n" + entry.description));
 
     list.push(createRssEntryItem("category", entry.releasenote ? "Release Note" : "Blog"));
-
+    list.push(createRssEntryItem("link", process.env.PLATFORMURL + "/blog/" + entry.id ));
     list.push("</item>");
     return list.join("\n");
 }
@@ -184,7 +185,7 @@ const sendCurrentGames = function(res:Response, list:ActiveGameData[])
 
         if (process.env.PLATFORMURL)
         {
-            if (game.accessible)
+            if (game.visitors)
                 list.push(createRssEntryItem("link", process.env.PLATFORMURL + "/watch/" + game.room ));
             else 
                 list.push(createRssEntryItem("link", process.env.PLATFORMURL));
@@ -228,6 +229,7 @@ const sendList = function(_req:Request, res:Response)  {
     res.status(200);
 
     res.write(RSS_OPEN);
+    res.write("<lastBuildDate>" + printGMTDate(Date.now()) + "</lastBuildDate>")
 
     if (process.env.PLATFORMURL)
     {
@@ -251,6 +253,12 @@ const sendList = function(_req:Request, res:Response)  {
     res.end();
 }
 
+const redirectHome = function(req: Request, res: Response) {
+    res.header("Cache-Control", "no-store");
+    res.redirect("/#/blog/" + req.params.id);
+}
+
+
 export default function InitBlogEndpoints() {
 
     if (token !== "")
@@ -261,4 +269,5 @@ export default function InitBlogEndpoints() {
 
     getServerInstance().get("/data/rss", sendList);
     getServerInstance().get("/data/blog", sendJson);
+    getServerInstance().get("/blog/:id", Authentication.signInFromPWA, redirectHome);
 }
