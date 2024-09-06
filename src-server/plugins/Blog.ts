@@ -11,7 +11,7 @@ const STORY_URL = `${process.env.SPACE_URL}?version=published&token=${token}`;
 const CACHE_FILE_JSON = getRootFolder() + "/data-local/blog.json";
 const CACHE_FILE_RSS = getRootFolder() + "/data-local/blog.xml";
 
-const CACHE_HOURS = 1000 * 60 * 1; // 10; // 10min
+const CACHE_HOURS = 1000 * 60 * 10; // 10min
 let CACHE_EXPIRES = 0;
 
 type EntryData = {
@@ -212,7 +212,7 @@ const createRssFeedGamesSection = function (rss:string[], list:ActiveGameData[])
         const time = new Date(game.created).getTime();
 
         rss.push("<item>");
-        rss.push(createRssEntryItem("guid", game.id))
+        rss.push(createRssEntryItemId(game.id));
         rss.push(createRssEntryItem("pubDate", printGMTDate(time)));
 
         if (game.arda)
