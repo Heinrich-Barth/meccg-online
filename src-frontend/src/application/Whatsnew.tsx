@@ -44,19 +44,14 @@ export default function Whatsnew() {
     const [stories, setStories] = React.useState<StoryData[]>([]);
     const [viewDetails, setViewDetails] = React.useState(typeof id === "string" ? id : "");
 
-    const sortAndUpdateStories = function(list:StoryData[])
-    {
-        setStories(list.sort((a,b) => b.date - a.date));
-    }
-
     React.useEffect(() => {
         if (isLoading)
             return;
 
         isLoading = true;
-        FetchBlog().then((res) => sortAndUpdateStories(res)).catch(console.error).finally(() => isLoading = false);
+        FetchBlog().then((list) => setStories(list.sort((a,b) => b.date - a.date))).catch(console.error).finally(() => isLoading = false);
 
-    }, [sortAndUpdateStories]);
+    }, [setStories]);
 
     const RenderAll = function () {
         return <>
