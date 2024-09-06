@@ -2,12 +2,16 @@ import getServerInstance, { ServerInstance } from "../Server";
 import { Request, Response, NextFunction } from "express";
 import { ActiveGameData } from "../game-management/RoomManager";
 import * as Authentication from "../Authentication";
+import * as fs from "fs";
+import { getRootFolder } from "../Configuration";
 
 const token = typeof process.env.SPACE_TOKEN === "string" ? process.env.SPACE_TOKEN : "";
-const url = `${process.env.SPACE_URL}?version=published&token=${token}`;
-const tournament_url=url + "&per_page=25&content_type=Blog&sort_by=created_at:desc";
+const STORY_URL = `${process.env.SPACE_URL}?version=published&token=${token}`;
 
-const CACHE_HOURS = 1000 * 60 * 10; // 10min
+const CACHE_FILE_JSON = getRootFolder() + "/data-local/blog.json";
+const CACHE_FILE_RSS = getRootFolder() + "/data-local/blog.xml";
+
+const CACHE_HOURS = 1000 * 60 * 1; // 10; // 10min
 let CACHE_EXPIRES = 0;
 
 type EntryData = {
@@ -28,29 +32,40 @@ type StoryData = {
     date: number;
     summary: string;
     description: string;
-    releasenote:boolean;
+    releasenote: boolean;
 }
 
-let DATA:StoryData[] = [];
 let LAST_UPDATE_DATA = 0;
+let LATEST_STORY = 0;
+let LATEST_GAME = 0;
 
-const processJsonResult = function(json:any)
-{
-    const result:StoryData[] = [];
+const createCacheFiles = async function (list: StoryData[], rss: string) {
+    try {
+        if (list.length > 100)
+            list = list.slice(0, 100);
+
+        fs.writeFileSync(CACHE_FILE_JSON, JSON.stringify(list));
+        fs.writeFileSync(CACHE_FILE_RSS, rss);
+    }
+    catch (err) {
+        console.warn(err);
+    }
+}
+
+const processJsonResult = function (json: any) {
+    const result: StoryData[] = [];
     const list = json.stories;
     if (list === undefined || list.length === 0)
         return result;
 
-    
-    for (let entry of list)
-    {
+    for (let entry of list) {
         const time = new Date(entry.created_at).getTime();
         if (LAST_UPDATE_DATA === 0 || LAST_UPDATE_DATA < time)
             LAST_UPDATE_DATA = time;
 
-        const story:EntryData = entry;
+        const story: EntryData = entry;
         const entry_data = story.content;
-        const value:StoryData = {
+        const value: StoryData = {
             id: entry.uuid,
             title: entry_data.title,
             date: time,
@@ -60,73 +75,102 @@ const processJsonResult = function(json:any)
         };
 
         result.push(value);
-        
     }
 
-    return result;
+    return result.sort((a, b) => b.date - a.date);
 }
 
-const rteToStringArray = function(rte:any)
-{
+const rteToStringArray = function (rte: any) {
     if (rte?.type !== "doc" || rte?.content === undefined)
         return "";
 
     const result = [];
-    for (let p of rte.content)
-    {
+    for (let p of rte.content) {
         if (typeof p.text === "string" && p.text !== "")
             result.push(p.text);
     }
-        
+
     return result.join("\n");
 }
 
-const cacheData = function(json:StoryData[])
-{
-    CACHE_EXPIRES = Date.now() + CACHE_HOURS;
-    DATA = json;
+const hasNewStories = function (json: StoryData[]) {
+    if (json.length === 0)
+        return false;
+
+    let oldest = 0;
+    for (let elem of json) {
+        if (elem.date > oldest)
+            oldest = elem.date;
+    }
+
+    if (LATEST_STORY === oldest)
+        return false;
+
+    LATEST_STORY = oldest;
+    return true;
 }
 
-const cacheExpired = function()
+const hasNewGames = function(games:ActiveGameData[])
 {
+    if (games.length === 0)
+        return false;
+
+    let oldest = 0;
+    for (let elem of games) {
+        if (elem.time > oldest)
+            oldest = elem.time;
+    }
+
+    if (LATEST_GAME === oldest)
+        return false;
+
+    LATEST_GAME = oldest;
+    return true;
+}
+
+const cacheData = function (json: StoryData[]) {
+    
+    const games = ServerInstance.getRoomManager().getActiveGames();
+
+    CACHE_EXPIRES = Date.now() + CACHE_HOURS;
+    const newStories = hasNewStories(json);
+    const newGame = hasNewGames(games);
+
+    if (newGame || newStories) {
+        createCacheFiles(json, createRssFeed(json, games));
+        console.info("Updating caches");
+    }
+}
+
+const cacheExpired = function () {
     return CACHE_EXPIRES < Date.now();
 }
 
-const fetchBlogs = function(_req:Request, _res:Response, next:NextFunction)
-{
-    if (!cacheExpired())
-    {
+const fetchBlogs = function (_req: Request, _res: Response, next: NextFunction) {
+    
+    if (!cacheExpired()) {
         next();
         return;
     }
 
-    fetch(tournament_url)    
-    .then(data => data.json())
-    .then(processJsonResult)
-    .then(cacheData)
-    .catch(console.error)
-    .finally(() => next());
+    fetch(STORY_URL + "&per_page=25&content_type=Blog&sort_by=created_at:desc")
+        .then(data => data.json())
+        .then(processJsonResult)
+        .then(cacheData)
+        .catch(console.error)
+        .finally(() => next());
 }
 
-const createRssEntryItemId = function(text:string)
-{
+const createRssEntryItemId = function (text: string) {
     return `<guid isPermaLink="false">${text.replace(/&/g, "&amp;")}</guid>`
 }
-const createRssEntryItem = function(node:string, text:string)
-{
+const createRssEntryItem = function (node: string, text: string) {
 
     return `<${node}>${text.replace(/&/g, "&amp;")}</${node}>`
 }
 
-const parseDateString = function(input:string)
-{
-    const pos = input.indexOf("GMT");
-    return pos === -1 ? input : input.substring(0, pos + 3);
-}
-
-const createRssEntry = function(entry:StoryData)
-{
-    const list:string[] = ["<item>"];
+const createRssEntry = function (entry: StoryData) {
+    const list: string[] = ["<item>"];
 
     list.push(createRssEntryItemId(entry.id))
     list.push(createRssEntryItem("pubDate", printGMTDate(entry.date)))
@@ -134,140 +178,102 @@ const createRssEntry = function(entry:StoryData)
 
     if (entry.description === "")
         list.push(createRssEntryItem("description", entry.summary));
-    else   
+    else
         list.push(createRssEntryItem("description", entry.summary + "\n" + entry.description));
 
     list.push(createRssEntryItem("category", entry.releasenote ? "Release Note" : "Blog"));
-    list.push(createRssEntryItem("link", process.env.PLATFORMURL + "/blog/" + entry.id ));
+    list.push(createRssEntryItem("link", process.env.PLATFORMURL + "/blog/" + entry.id));
     list.push("</item>");
     return list.join("\n");
 }
 
-const printGMTDate = function(date1:number, date2?:number)
-{
+const printGMTDate = function (date1: number, date2?: number) {
     if (date2 !== undefined && date2 > date1)
         date1 = date2;
 
     const s = new Date(date1).toUTCString();
     const pos = s.indexOf("GMT");
-    return pos === -1 ? s : s.substring(0,pos+3);
+    return pos === -1 ? s : s.substring(0, pos + 3);
 }
 
-const sendCurrentGames = function(res:Response, list:ActiveGameData[])
+const createRssFeedGamesSection = function (rss:string[], list:ActiveGameData[]) 
 {
     if (list.length === 0)
-        return;
+        return
 
-    for (let game of list)
-    {
+    for (let game of list) {
         if (game.single)
             continue;
 
-        const players:string[] = []
+        const players: string[] = []
         for (let player of game.players)
             players.push(player.name)
-        
+
         const time = new Date(game.created).getTime();
 
-        const list:string[] = ["<item>"];
-        list.push(createRssEntryItem("guid", game.id))
-        list.push(createRssEntryItem("pubDate", printGMTDate(time)));
+        rss.push("<item>");
+        rss.push(createRssEntryItem("guid", game.id))
+        rss.push(createRssEntryItem("pubDate", printGMTDate(time)));
 
         if (game.arda)
-            list.push(createRssEntryItem("title", "Arda game @ " + game.room.toUpperCase()));
+            rss.push(createRssEntryItem("title", "Arda game @ " + game.room.toUpperCase()));
         else
-            list.push(createRssEntryItem("title", "Game @ " + game.room.toUpperCase()));
+            rss.push(createRssEntryItem("title", "Game @ " + game.room.toUpperCase()));
 
         if (game.accessible && game.visitors)
-            list.push(createRssEntryItem("description", "You can join " + players.join(",") + " to play or watch"));
+            rss.push(createRssEntryItem("description", "You can join " + players.join(",") + " to play or watch"));
         else if (game.visitors)
-            list.push(createRssEntryItem("description", "Watch " + players.join(",") + " playing their game."));
+            rss.push(createRssEntryItem("description", "Watch " + players.join(",") + " playing their game."));
 
-        if (process.env.PLATFORMURL)
-        {
+        if (process.env.PLATFORMURL) {
             if (game.visitors)
-                list.push(createRssEntryItem("link", process.env.PLATFORMURL + "/watch/" + game.room ));
-            else 
-                list.push(createRssEntryItem("link", process.env.PLATFORMURL));
+                rss.push(createRssEntryItem("link", process.env.PLATFORMURL + "/watch/" + game.room));
+            else
+                rss.push(createRssEntryItem("link", process.env.PLATFORMURL));
         }
 
-        list.push("</item>");
-        res.write(list.join(""));
+        rss.push("</item>");
     }
 }
 
-const getLatestGameTime = function(list:ActiveGameData[])
-{
-    if (list.length === 0)
-        return -1;
+const createRssFeed = function (DATA: StoryData[], games:ActiveGameData[]) {
+    const res: string[] = [
+        `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Latest News</title>
+<description>Read all latest updates on the platform</description><language>en-US</language>`];
 
-    let latesetTime = 0;
-
-    for (let game of list)
-    {
-        if (game.single)
-            continue;
-
-        const time = new Date(game.created).getTime();
-        if (latesetTime === 0 || latesetTime < time)
-            latesetTime = time;
+    if (process.env.PLATFORMURL) {
+        res.push(`<atom:link href="${process.env.PLATFORMURL}/data/rss" rel="self" type="application/rss+xml" />`);
+        res.push(createRssEntryItem("link", process.env.PLATFORMURL));
     }
 
-    return latesetTime;
-}
-
-const sendJson = (_req:Request, res:Response) => res.status(200).json(DATA);
-
-const sendList = function(_req:Request, res:Response)  {
-    const RSS_OPEN = `<?xml version="1.0" encoding="UTF-8" ?>
-    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-    <title>Latest News</title>
-    <description>Read all latest updates on the platform</description>
-    <language>en-US</language>`;
-
-    res.status(200);
-
-    res.write(RSS_OPEN);
-    res.write("<lastBuildDate>" + printGMTDate(Date.now()) + "</lastBuildDate>")
-
-    if (process.env.PLATFORMURL)
-    {
-        res.write(`<atom:link href="${process.env.PLATFORMURL}/data/rss" rel="self" type="application/rss+xml" />`);
-        res.write(createRssEntryItem("link", process.env.PLATFORMURL));
-    }
-
-    const games = ServerInstance.getRoomManager().getActiveGames();
-    /*
-    const time = getLatestGameTime(games);
-    res.write("<lastBuildDate>" + printGMTDate(time, LAST_UPDATE_DATA) + "</lastBuildDate>")
-    */
-    sendCurrentGames(res, games);
+    createRssFeedGamesSection(res, games);
+    
     for (let entry of DATA)
-        res.write(createRssEntry(entry))
+        res.push(createRssEntry(entry))
 
-    //if (time > LAST_UPDATE_DATA)
-    //    LAST_UPDATE_DATA = time;
-
-    res.write("</channel></rss>");
-    res.end();
+    res.push("</channel></rss>");
+    return res.join("");
 }
 
-const redirectHome = function(req: Request, res: Response) {
+const redirectHome = function (req: Request, res: Response) {
     res.header("Cache-Control", "no-store");
     res.redirect("/#/blog/" + req.params.id);
 }
 
+const sendJson = (_req: Request, res: Response) => res.sendFile(CACHE_FILE_JSON);
+const sendRSS = (_req: Request, res: Response) => res.sendFile(CACHE_FILE_RSS);
 
 export default function InitBlogEndpoints() {
 
-    if (token !== "")
-    {
+    createCacheFiles([], "");
+
+    if (token !== "") {
         getServerInstance().use("/data/rss", fetchBlogs);
         getServerInstance().use("/data/blog", fetchBlogs);
     }
 
-    getServerInstance().get("/data/rss", sendList);
+    getServerInstance().get("/data/rss", sendRSS);
     getServerInstance().get("/data/blog", sendJson);
     getServerInstance().get("/blog/:id", Authentication.signInFromPWA, redirectHome);
 }
