@@ -23,7 +23,8 @@ const calcDuration = function (time: number) {
     if (time < 1)
         return "now"
 
-    return new Date(time).getUTCMinutes() + "min";
+    const min = Math.round(time / 1000 / 60);
+    return min + "min";
 }
 
 const getGameType = function (game: ActiveGame) {
