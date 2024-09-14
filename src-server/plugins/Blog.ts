@@ -37,7 +37,6 @@ type StoryData = {
 
 let LAST_UPDATE_DATA = 0;
 let LATEST_STORY = 0;
-let LATEST_GAME = 0;
 
 const createCacheFiles = async function (list: StoryData[], rss: string) {
     try {
@@ -110,34 +109,12 @@ const hasNewStories = function (json: StoryData[]) {
     return true;
 }
 
-const hasNewGames = function(games:ActiveGameData[])
-{
-    if (games.length === 0)
-        return false;
-
-    let oldest = 0;
-    for (let elem of games) {
-        if (elem.time > oldest)
-            oldest = elem.time;
-    }
-
-    if (LATEST_GAME === oldest)
-        return false;
-
-    LATEST_GAME = oldest;
-    return true;
-}
-
 const cacheData = function (json: StoryData[]) {
     
-    const games = ServerInstance.getRoomManager().getActiveGames();
-
     CACHE_EXPIRES = Date.now() + CACHE_HOURS;
-    const newStories = hasNewStories(json);
-    const newGame = hasNewGames(games);
 
-    if (newGame || newStories) {
-        createCacheFiles(json, createRssFeed(json, games));
+    if (hasNewStories(json)) {
+        createCacheFiles(json, createRssFeed(json));
         console.info("Updating caches");
     }
 }
@@ -196,11 +173,12 @@ const printGMTDate = function (date1: number, date2?: number) {
     return pos === -1 ? s : s.substring(0, pos + 3);
 }
 
-const createRssFeedGamesSection = function (rss:string[], list:ActiveGameData[]) 
+const createRssFeedGamesSection = function (list:ActiveGameData[]) 
 {
     if (list.length === 0)
-        return
+        return []
 
+    const rss:string[] = [];
     for (let game of list) {
         if (game.single)
             continue;
@@ -238,9 +216,11 @@ const createRssFeedGamesSection = function (rss:string[], list:ActiveGameData[])
 
         rss.push("</item>");
     }
+
+    return rss;
 }
 
-const createRssFeed = function (DATA: StoryData[], games:ActiveGameData[]) {
+const createRssFeed = function (DATA: StoryData[]) {
     const res: string[] = [
         `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Latest News</title>
@@ -250,8 +230,6 @@ const createRssFeed = function (DATA: StoryData[], games:ActiveGameData[]) {
         res.push(`<atom:link href="${process.env.PLATFORMURL}/data/rss" rel="self" type="application/rss+xml" />`);
         res.push(createRssEntryItem("link", process.env.PLATFORMURL));
     }
-
-    createRssFeedGamesSection(res, games);
     
     for (let entry of DATA)
         res.push(createRssEntry(entry))
@@ -268,6 +246,24 @@ const redirectHome = function (req: Request, res: Response) {
 const sendJson = (_req: Request, res: Response) => res.sendFile(CACHE_FILE_JSON);
 const sendRSS = (_req: Request, res: Response) => res.sendFile(CACHE_FILE_RSS);
 
+const sendRSSGames = function(_req: Request, res: Response)
+{
+    res.header("Content-Type", "application/xml");
+    res.status(200);
+    res.write(`<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Latest Games</title>
+<description>Read all latest games on the platform</description><language>en-US</language>`);
+
+    const games = ServerInstance.getRoomManager().getActiveGames();
+    const list = createRssFeedGamesSection(games);
+
+    if (list.length > 0)
+        res.write(list.join(""));
+
+    res.write("</channel></rss>");
+    res.end();
+}
+
 export default function InitBlogEndpoints() {
 
     createCacheFiles([], "");
@@ -278,6 +274,7 @@ export default function InitBlogEndpoints() {
     }
 
     getServerInstance().get("/data/rss", sendRSS);
+    getServerInstance().get("/data/rss/games", sendRSSGames);
     getServerInstance().get("/data/blog", sendJson);
     getServerInstance().get("/blog/:id", Authentication.signInFromPWA, redirectHome);
 }
