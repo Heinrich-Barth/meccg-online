@@ -162,11 +162,11 @@ const fetchBlogs = function (_req: Request, _res: Response, next: NextFunction) 
 }
 
 const createRssEntryItemId = function (text: string) {
-    return `<guid isPermaLink="false">${text.replace(/&/g, "&amp;")}</guid>`
+    return `<guid isPermaLink="false">${text.replace(/&/g, "&amp;").trim()}</guid>`
 }
 const createRssEntryItem = function (node: string, text: string) {
 
-    return `<${node}>${text.replace(/&/g, "&amp;")}</${node}>`
+    return `<${node}>${text.replace(/&/g, "&amp;").trim()}</${node}>`
 }
 
 const createRssEntry = function (entry: StoryData) {
@@ -224,10 +224,14 @@ const createRssFeedGamesSection = function (rss:string[], list:ActiveGameData[])
             rss.push(createRssEntryItem("description", "You can join " + players.join(",") + " to play or watch"));
         else if (game.visitors)
             rss.push(createRssEntryItem("description", "Watch " + players.join(",") + " playing their game."));
+        else
+            rss.push(createRssEntryItem("description", "This game is private, but you can start your own game in a matter of seconds."));
 
         if (process.env.PLATFORMURL) {
             if (game.visitors)
                 rss.push(createRssEntryItem("link", process.env.PLATFORMURL + "/watch/" + game.room));
+            else if (game.arda && game.accessible)
+                rss.push(createRssEntryItem("link", process.env.PLATFORMURL + "/join/" + game.room));
             else
                 rss.push(createRssEntryItem("link", process.env.PLATFORMURL));
         }
