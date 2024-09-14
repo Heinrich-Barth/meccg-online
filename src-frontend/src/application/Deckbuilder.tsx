@@ -388,13 +388,11 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
 
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue);
-
-    const [textPool, setTextPool] = React.useState(deckPartToString(deck.pool));
-    const [textDeck, setTextDeck] = React.useState(deckPartToString(deck.playdeck));
-    const [textSideboard, setTextSideboard] = React.useState(deckPartToString(deck.sideboard));
-    const [textSites, setTextSites] = React.useState(deckPartToString(deck.sites));
-    const [textNotes, setTextNotes] = React.useState(deck.notes);
+    const [textPool, setTextPool] = React.useState("");
+    const [textDeck, setTextDeck] = React.useState("");
+    const [textSideboard, setTextSideboard] = React.useState("");
+    const [textSites, setTextSites] = React.useState("");
+    const [textNotes, setTextNotes] = React.useState("");
     const [message, setMessage] = React.useState("");
 
     const defaultRowCount = 15;
@@ -403,6 +401,18 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         const data = convertToDeck(textPool, textDeck, textSideboard, textSites, textNotes);
         updateDeck(data);
         setMessage("Applied");
+    }
+
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+        if (newValue === 0)
+            return;
+
+        setTextPool(deckPartToString(deck.pool));
+        setTextDeck(deckPartToString(deck.playdeck));
+        setTextSideboard(deckPartToString(deck.sideboard));
+        setTextSites(deckPartToString(deck.sites));
+        setTextNotes(deck.notes);
     }
 
     return <React.Fragment>
