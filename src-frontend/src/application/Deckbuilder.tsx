@@ -113,7 +113,7 @@ const clearCode = function (code: string) {
     return pos === -1 ? code : code.substring(0, pos).trim();
 }
 
-function CurrentDeckPartEntry({ entry, keyVal, onIncrease, onDecrease, onPreviewImage, setPreviewImage }: { entry: Deckentry, keyVal: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function }) {
+function CurrentDeckPartEntry({ entry, keyVal, onIncrease, onDecrease, onPreviewImage, setPreviewImage, type, onMoveCardDeckSection }: { entry: Deckentry, keyVal: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, type: string, onMoveCardDeckSection: Function }) {
     return <li key={keyVal} className="deck-edit-entry"
         onMouseEnter={(e) => onPreviewImage(e.pageX, GetCardImage(entry.code).image)}
         onMouseLeave={() => setPreviewImage({ image: "", left: false })}
@@ -126,13 +126,24 @@ function CurrentDeckPartEntry({ entry, keyVal, onIncrease, onDecrease, onPreview
             <span onClick={() => onDecrease(entry.code)} title="Decrease quantity">
                 <RemoveCircleIcon />
             </span>
+            {type !== "site" && (<>
+                {type !== "pool" && (<span onClick={() => { onMoveCardDeckSection(entry.code, type, "pool"); setPreviewImage({ image: "", left: false })}} title="Transfer 1 card to Pool">
+                    <BackHandIcon />
+                </span>)}
+                {type !== "deck" && (<span onClick={() => { onMoveCardDeckSection(entry.code, type, "deck"); setPreviewImage({ image: "", left: false })}} title="Transfer 1 card to Deck">
+                    <StyleIcon />
+                </span>)}
+                {type !== "sideboard" && (<span onClick={() => { onMoveCardDeckSection(entry.code, type, "sideboard"); setPreviewImage({ image: "", left: false })}} title="Transfer 1 card to Sideboard">
+                    <SpaceDashboardIcon />
+                </span>)}
+            </>)}
         </div>
     </li>
 }
 
 const getDeckListPart = function (list: Deckentry[]) {
     const map: { [key: string]: Deckentry[] } = {};
-    
+
     let count = 0;
     for (let elem of list) {
         count += elem.count;
@@ -148,7 +159,7 @@ const getDeckListPart = function (list: Deckentry[]) {
     };
 }
 
-function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage, sortType = false }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, sortType?: boolean }) {
+function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage, type, onMoveCardDeckSection, sortType = false }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, sortType?: boolean, type: string, onMoveCardDeckSection: Function }) {
 
     if (sortType === false || list.length === 0) {
         return <>
@@ -161,6 +172,8 @@ function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, on
                     onIncrease={onIncrease}
                     onPreviewImage={onPreviewImage}
                     setPreviewImage={setPreviewImage}
+                    type={type}
+                    onMoveCardDeckSection={onMoveCardDeckSection}
                 />))}
             </ul>}</>
     }
@@ -172,13 +185,15 @@ function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, on
         {Object.keys(map).sort().map((key, index) => <ul className={"deck-edit-section-sorted deck-edit-section-" + sectionClassname} key={"deck-edit-section-" + sectionClassname + index}>
             <li className="sections-title-specific-sub smallcaps">{key} ({map[key].length})</li>
             {map[key].map((entry, idx) => <CurrentDeckPartEntry
-                    keyVal={pref + index + "-" + idx + entry.code}
-                    entry={entry}
-                    onDecrease={onDecrease}
-                    onIncrease={onIncrease}
-                    onPreviewImage={onPreviewImage}
-                    setPreviewImage={setPreviewImage}
-                />
+                keyVal={pref + index + "-" + idx + entry.code}
+                entry={entry}
+                onDecrease={onDecrease}
+                onIncrease={onIncrease}
+                onPreviewImage={onPreviewImage}
+                setPreviewImage={setPreviewImage}
+                type={type}
+                onMoveCardDeckSection={onMoveCardDeckSection}
+            />
             )}
         </ul>)}
     </>
@@ -369,7 +384,7 @@ const disableDeckAddingActions = function (card: CardData, count: number) {
 }
 
 
-function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage, setPreviewImage }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function }) {
+function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage, setPreviewImage, onMoveCardDeckSection }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, onMoveCardDeckSection: Function }) {
 
     const [value, setValue] = React.useState(0);
 
@@ -412,6 +427,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             onDecrease={(code: string) => onDecrease(code, "pool")}
                             onIncrease={(code: string) => onIncrease(code, "pool")}
                             onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            onMoveCardDeckSection={onMoveCardDeckSection}
+                            type="pool"
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -419,11 +436,15 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             onDecrease={(code: string) => onDecrease(code, "pool")}
                             onIncrease={(code: string) => onIncrease(code, "pool")}
                             onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            onMoveCardDeckSection={onMoveCardDeckSection}
+                            type="pool"
                         />
                         <CurrentDeckPart caption="" pref="poolh" list={deck.pool.hazards} sectionClassname="hazard"
                             onDecrease={(code: string) => onDecrease(code, "pool")}
                             onIncrease={(code: string) => onIncrease(code, "pool")}
                             onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            onMoveCardDeckSection={onMoveCardDeckSection}
+                            type="pool"
                         />
                     </Grid>
                 </Grid>
@@ -441,6 +462,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                onMoveCardDeckSection={onMoveCardDeckSection}
+                                type="deck"
                             />
                         </Grid>
                         <Grid item xs={12} md={4} rowGap={2}>
@@ -452,6 +475,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                onMoveCardDeckSection={onMoveCardDeckSection}
+                                type="deck"
                                 sortType={true}
                             />
                         </Grid>
@@ -464,6 +489,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                onMoveCardDeckSection={onMoveCardDeckSection}
+                                type="deck"
                                 sortType={true}
                             />
                         </Grid>
@@ -482,6 +509,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "sb")}
                                 onIncrease={(code: string) => onIncrease(code, "sb")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                onMoveCardDeckSection={onMoveCardDeckSection}
+                                type="sideboard"
                                 sortType={true}
                             />
                         </Grid>
@@ -494,6 +523,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 onDecrease={(code: string) => onDecrease(code, "sb")}
                                 onIncrease={(code: string) => onIncrease(code, "sb")}
                                 onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                                onMoveCardDeckSection={onMoveCardDeckSection}
+                                type="sideboard"
                             />
                         </Grid>
                     </Grid>
@@ -503,6 +534,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             onDecrease={(code: string) => onDecrease(code, "sb")}
                             onIncrease={(code: string) => onIncrease(code, "sb")}
                             onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            onMoveCardDeckSection={onMoveCardDeckSection}
+                            type="sideboard"
                             sortType={true}
                         />
                     </Grid>
@@ -519,6 +552,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             onDecrease={(code: string) => onDecrease(code, "deck")}
                             onIncrease={(code: string) => onIncrease(code, "deck")}
                             onPreviewImage={onPreviewImage} setPreviewImage={setPreviewImage}
+                            type="site"
+                            onMoveCardDeckSection={onMoveCardDeckSection}
                         />
                     </Grid>
                 </Grid>
@@ -526,7 +561,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
                 </Grid>
             </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
+            <CustomTabPanel value={value} index={1}>
                 <Grid item xs={12} container rowGap={2}>
                     <Grid item xs={12} className="custom-deck">
                         <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
@@ -654,7 +689,7 @@ type ImagePreview = {
     left: boolean
 }
 
-function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function }) {
+function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCardDeckSection }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onMoveCardDeckSection: Function }) {
 
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
     const onPreviewImage = function (x: number, src: string) {
@@ -674,6 +709,7 @@ function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease }: { deck
                     onIncrease={onIncrease}
                     onPreviewImage={onPreviewImage}
                     setPreviewImage={setPreviewImage}
+                    onMoveCardDeckSection={onMoveCardDeckSection}
                 />
             </Grid>
         </>
@@ -889,6 +925,7 @@ export default function Deckbuilder() {
                 updated = onAddToDeck(card, deck.pool, code, img, deck.counts);
                 break;
             case "sb":
+            case "sideboard":
                 updated = onAddToDeck(card, deck.sideboard, code, img, deck.counts);
                 break;
         }
@@ -897,6 +934,29 @@ export default function Deckbuilder() {
             propagateDeckChanges();
     }
 
+    const onMoveCardDeckSection = function (code: string, from: string, to: string) {
+
+        const card = getCardByCode(code)
+        if (card === null)
+            return;
+
+        let updated = false;
+        switch (from) {
+            case "deck":
+                updated = onRemoveFromDeck(card, deck.playdeck, code, deck.counts);
+                break;
+            case "pool":
+                updated = onRemoveFromDeck(card, deck.pool, code, deck.counts);
+                break;
+            case "sideboard":
+            case "sb":
+                updated = onRemoveFromDeck(card, deck.sideboard, code, deck.counts);
+                break;
+        }
+
+        if (updated)
+            onButtonAddToDeck(code, to)
+    }
 
     const onIncreaseDeckAction = (code: string, which: string) => onButtonAddToDeck(code, which);
 
@@ -913,6 +973,7 @@ export default function Deckbuilder() {
             case "pool":
                 updated = onRemoveFromDeck(card, deck.pool, code, deck.counts);
                 break;
+            case "sideboard":
             case "sb":
                 updated = onRemoveFromDeck(card, deck.sideboard, code, deck.counts);
                 break;
@@ -1039,6 +1100,7 @@ export default function Deckbuilder() {
                     updateDeck={setDeck}
                     onDecrease={onDecreaseDeckAction}
                     onIncrease={onIncreaseDeckAction}
+                    onMoveCardDeckSection={onMoveCardDeckSection}
                 />
             </Grid>
         </div>
