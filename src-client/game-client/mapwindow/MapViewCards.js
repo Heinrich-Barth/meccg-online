@@ -9,7 +9,7 @@ class MapViewCards extends MapView {
         super(assetFolder);
 
         this.CardPreview = CardPreview;
-        this.CardList = new CardList(images, []);
+        this.CardList = CardList.createInstance(images, []);
 
         this._temp = null;
     }

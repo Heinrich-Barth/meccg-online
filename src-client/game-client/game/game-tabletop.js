@@ -4,7 +4,7 @@ const g_Game = { };
 g_Game.onDocumentReady = function()
 {
     g_Game.CardPreview = CardPreview;
-    g_Game.CardList = new CardList();
+    g_Game.CardList = CardList.createInstance();
     g_Game.TaskBarCards = new TaskBarCardsInterface(g_Game.CardList, g_Game.CardPreview);
     g_Game.Scoring = createScoringApp(g_Game.CardList);
     g_Game.HandCardsDraggable = createHandCardsDraggable(g_Game.CardPreview,MeccgApi);
