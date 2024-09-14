@@ -6,7 +6,7 @@
     constructor(jMap, tapped, listPreferredCodes)
     {
         this.CardPreview = CardPreview;
-        this.CardList = new CardList(jMap.images, []);
+        this.CardList = CardList.createInstance(jMap.images, []);
 
         this._temp = null;
         this._preferredSites = MapViewSiteImages.verifySiteList(listPreferredCodes);
