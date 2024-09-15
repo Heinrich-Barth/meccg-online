@@ -240,7 +240,11 @@ const createRssFeed = function (DATA: StoryData[]) {
 
 const redirectHome = function (req: Request, res: Response) {
     res.header("Cache-Control", "no-store");
-    res.redirect("/#/blog/" + req.params.id);
+
+    if (req.params.id)
+        res.redirect("/#/blog/" + req.params.id);
+    else
+        res.redirect("/#/blog");
 }
 
 const sendJson = (_req: Request, res: Response) => res.sendFile(CACHE_FILE_JSON);
@@ -276,5 +280,7 @@ export default function InitBlogEndpoints() {
     getServerInstance().get("/data/rss", sendRSS);
     getServerInstance().get("/data/rss/games", sendRSSGames);
     getServerInstance().get("/data/blog", sendJson);
+    
+    getServerInstance().get("/blog", Authentication.signInFromPWA, redirectHome);
     getServerInstance().get("/blog/:id", Authentication.signInFromPWA, redirectHome);
 }
