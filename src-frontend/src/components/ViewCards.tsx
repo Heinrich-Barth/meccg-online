@@ -217,7 +217,7 @@ const performSearchCards = function (params: SearchParams) {
         }
     }
     if (res.length > 2)
-        res.sort((a, b) => a.boost - b.boost);
+        res.sort((a, b) => b.boost - a.boost);
 
     return res;
 }
