@@ -216,10 +216,15 @@ const performSearchCards = function (params: SearchParams) {
             })
         }
     }
-    if (res.length > 2)
-        res.sort((a, b) => b.boost - a.boost);
 
-    return res;
+    if (res.length <= 2)
+        return res;
+
+    return res.sort((a, b) => {
+        const res = b.boost - a.boost;
+        return res !== 0 ? res : a.code.localeCompare(b.code);
+    });
+
 }
 
 const CARDS_PER_VIEW = 30;
