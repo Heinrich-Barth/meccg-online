@@ -171,35 +171,6 @@ export default class CardRepository {
             this.#cardRepository[card.code] = card;
     }
 
-    buildFlipCardsMap()
-    {
-        const questsB:KeyValuesString = { };
-        const quests:KeyValuesString = { };
-
-        for (let card of this.#raw)
-        {
-            if (card["flip-title"] !== undefined && card["flip-title"] !== card.normalizedtitle)
-                questsB[card["flip-title"]] = card.code;
-        }
-
-        for (let card of this.#raw)
-        {
-            if (questsB[card.normalizedtitle] !== undefined)
-            {
-                const cardCodeA = card.code;
-                const cardCodeB = questsB[card.normalizedtitle];
-                quests[cardCodeA] = cardCodeB;
-                quests[cardCodeB] = cardCodeA;
-            }
-            else if (card.Race === "Quest" && card.normalizedtitle === card["flip-title"])
-            {
-                quests[card.code] = card.code;
-            }
-        }
-
-        return quests;
-    }
-
     #identifyAvatars()
     {
         let nCount = 0;
