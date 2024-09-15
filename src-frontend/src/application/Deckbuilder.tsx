@@ -159,11 +159,19 @@ const getDeckListPart = function (list: Deckentry[]) {
     };
 }
 
+const countDeckSectionCards = function(list: Deckentry[])
+{
+    let count = 0;
+    for (let elem of list)
+        count += elem.count
+
+    return count;
+}
 function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage, type, onMoveCardDeckSection, sortType = false }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, sortType?: boolean, type: string, onMoveCardDeckSection: Function }) {
 
     if (sortType === false || list.length === 0) {
         return <>
-            {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({list.length})</Typography>)}
+            {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({countDeckSectionCards(list)})</Typography>)}
             {list && list.length === 0 ? <>&ndash;</> : <ul className={"deck-edit-section-" + sectionClassname}>
                 {list.map((entry, idx) => (<CurrentDeckPartEntry
                     keyVal={pref + idx + entry.code}
