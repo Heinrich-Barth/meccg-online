@@ -195,6 +195,12 @@ export default class CardRepository {
             {
                 card.isQuest = true;
                 nCount++;
+
+                if (card.keywords === null || !Array.isArray(card.keywords))
+                    card.keywords = [];
+
+                if (!card.keywords.includes("quest"))
+                    card.keywords.push("quest");
             }
             else
                 card.isQuest = false;
