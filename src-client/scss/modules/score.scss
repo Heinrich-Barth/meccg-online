@@ -392,6 +392,8 @@
     bottom: 0;
     z-index: 400;
     padding: 5px;
+    color: var(--color-near-white);
+    text-align: center;
 
     &.scoring-sheet-ingame-collapsed 
     {
@@ -426,8 +428,6 @@
     &.scoring-arda { bottom: 135px; }
     &.scoring-single { display: none; }
 
-    color: var(--color-near-white);
-    text-align: center;
     a { 
         display: none;
         margin: 0 2px;

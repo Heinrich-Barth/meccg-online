@@ -301,12 +301,11 @@ body.arda-draft .arda-actions img:nth-child(2) {
     cursor: pointer;
 
     background: url("/media/assets/images/icons/icon-draw.png") 0 0 no-repeat;
+    background-size: contain;
 
     &:hover {
         background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
     }
-
-    background-size: contain;
 }
 
 .arda-handbar-top {

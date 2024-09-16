@@ -235,10 +235,11 @@
         display: grid;
         gap: 1rem;
         grid-template-columns: repeat(2, 1fr);
-        .preference-section { display: inline-block;}
         color: var(--color-light-grey);
         position: fixed;
         z-index: 502;
+
+        .preference-section { display: inline-block;}
     }
 
     label {
