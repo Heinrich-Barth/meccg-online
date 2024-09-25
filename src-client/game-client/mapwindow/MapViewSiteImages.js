@@ -137,12 +137,51 @@
         document.body.dispatchEvent(new CustomEvent("meccg-map-show-images-done", { "detail":  "found_sites" }));
     }
 
+    #toTogglePreferredSitesContainer(shallOpen)
+    {
+        const elem = document.getElementById("preferred-sites-toggle-toggle");
+        const div = document.getElementById("sites_preferred");
+        if (div === null || elem === null)
+            return;
+
+        if (!shallOpen)
+        {
+            elem.classList.remove("fa-compress");
+            elem.classList.add("fa-expand");
+            div.classList.add("preferred-sites-container-close")
+            localStorage.setItem("map_pref_open", "false");
+        }
+        else 
+        {   
+            elem.classList.remove("fa-expand");
+            elem.classList.add("fa-compress");
+            div.classList.remove("preferred-sites-container-close")
+            localStorage.setItem("map_pref_open", "true");
+        }
+    }
+
+    #togglePreferredSitesContainer()
+    {
+        const elem = document.getElementById("preferred-sites-toggle-toggle");
+        if (elem === null)
+            return;
+
+        const shallOpen = !elem.classList.contains("fa-compress");
+        this.#toTogglePreferredSitesContainer(shallOpen);
+    }
+
+    #isVisible()
+    {
+        return "false" !== localStorage.getItem("map_pref_open");
+    }
+
     createPreferredSitesContainer()
     {
+        const isVisible = this.#isVisible();
+
         const elem = document.createElement("div");
-        elem.setAttribute("class", "preferred-sites-container blue-box");
+        elem.setAttribute("class", "preferred-sites-container blue-box " + (isVisible ? "" : "preferred-sites-container-close"));
         elem.setAttribute("id", "sites_preferred");
-        elem.onclick = () => elem.parentNode.removeChild(elem);
 
         const h2 = document.createElement("h2");
         h2.innerText = "Choose from your preferred sites";
@@ -150,9 +189,17 @@
         const p = document.createElement("p");
         p.innerText = "You can also close this overlay by clicking in the background of this box.";
 
-        elem.append(h2);
-        elem.append(p);
+        const toggleLink = document.createElement("div");
+        toggleLink.setAttribute("id", "preferred-sites-toggle-toggle");
+        toggleLink.setAttribute("class","preferred-sites-toggle-toggle fa " + (isVisible ? "fa-compress" : "fa-expand"));
+        toggleLink.setAttribute("title", "Toggle visibility");
+        toggleLink.onclick = this.#togglePreferredSitesContainer.bind(this);
 
+        const toggle = document.createElement("div")
+        toggle.setAttribute("class", "preferred-sites-toggle");
+        toggle.append(toggleLink);
+
+        elem.append(toggle, h2, p);
         return elem;
     }
 
