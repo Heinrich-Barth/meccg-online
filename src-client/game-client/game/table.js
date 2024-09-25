@@ -132,14 +132,14 @@
                 <div class="blue-box-light playercard-hand-content" id="playercard-hand-content">
                     <div class="card-hand card-draw">
                         <div class="card-hand-eye" id="icon_hand_eye" title="${Dictionary.get("title_icon_hand_eye", "Toggle hand card visibility. RIGHT CLICK to reveal hand cards to opponent")}"><i class="fa fa-eye"></i></div>
-                        <a href="#" class="card-icon smallCaps" id="draw_card" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}">${Dictionary.get("title_draw_text", "draw")}</a><div class="cursor-pointer card-dice-hand" title="${Dictionary.get("title_dice", "Click to roll the dice (press r or w)")}" id="roll_dice_icon_hand"><img src="/dist-client/js/game/dice/dice-1.png"><img src="/dist-client/js/game/dice/dice-1.png"></div><div class="hand-card-sizer"></div>
+                        <a href="#" class="card-icon smallCaps" id="draw_card" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}">${Dictionary.get("title_draw_text", "draw")}</a><div class="cursor-pointer card-dice-hand" title="${Dictionary.get("title_dice", "Click to roll the dice (press r or w)")}" id="roll_dice_icon_hand"><img src="/media/personalisation/dice/default/dice-1.png"><img src="/media/personalisation/dice/default/dice-1.png"></div><div class="hand-card-sizer"></div>
                     </div>
                     <div id="playercard_hand_container" class="playercard-hand-container"></div>
                 </div>
             </div>
             <div class="taskbar pos-rel">
                 <div class="icons blue-box-light taskbar-icons" id="progression-phase-box">
-                    <div class="card-generic pointer-cursor card-dice" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}" id="roll_dice_icons"><img src="/dist-client/js/game/dice/dice-1.png"><img src="/dist-client/js/game/dice/dice-1.png"></div>
+                    <div class="card-generic pointer-cursor card-dice" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}" id="roll_dice_icons"><img src="/media/personalisation/dice/default/dice-1.png"><img src="/media/personalisation/dice/default/dice-1.png"></div>
                     <div class="taskbar-setting fa fa-picture-o" id="taskbar-background" title="${Dictionary.get("title_change_bg", "Change Background")}"></div>
                     <div class="taskbar-setting fa fa-expand" id="taskbar-fullscreen" title="${Dictionary.get("title_fullscreen", "Enter fullscreen")}"></div>
                     <a class="icon taskbar-score" title="Open score sheet">&nbsp;</a>

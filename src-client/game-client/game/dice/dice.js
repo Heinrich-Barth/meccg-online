@@ -6,7 +6,7 @@ class DiceContainer {
     static _count = 1;
     static _timeout = 5500;
     static _folder = "black";
-    static _fallback = "/dist-client/js/game/dice"
+    static _fallback = "/media/personalisation/dice/default"
 
     getPlayerName(id)
     {
