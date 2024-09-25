@@ -335,31 +335,6 @@ export default class GameArda extends GameStandard {
         return true;
     }
 
-    #discardPlayerHand() {
-        let count = 0;
-        const pAdminDeck = this.getDeckManager().getAdminDeck();
-        if (pAdminDeck === null)
-            return;
-
-        const players = this.getDeckManager().getPlayers();
-        for (let userid of players) {
-            const deck = this.getDeckManager().getPlayerDeck(userid);
-            if (deck === null)
-                continue;
-
-            let move = [];
-            for (let uuid of deck.getCardsInHand())
-                move.push(uuid);
-
-            for (let uuid of move) {
-                if (deck.pop().fromAnywhere(uuid))
-                    pAdminDeck.push().toDiscardpile(uuid);
-            }
-        }
-
-        this.publishToPlayers("/game/hand/clear", this.getHost(), {});
-    }
-
     #clearPlayerHand() {
         let count = 0;
         const pAdminDeck = this.getDeckManager().getAdminDeck();
@@ -395,8 +370,6 @@ export default class GameArda extends GameStandard {
     }
 
     onAssignCharacters(userid: string, socket: any, data: any) {
-
-        this.#discardPlayerHand();
 
         this.#assignOpeningChars7();
         this.#assignOpeningChars(this.#getGenericCharacterCount(data?.count));
