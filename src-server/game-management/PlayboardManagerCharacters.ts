@@ -291,8 +291,18 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
     CharacterHostCard(company:string, character:string, uuid:string)
     {
         const pCard = this.GetCardByUuid(uuid);
-        if (pCard === null || this.#characters[character] === undefined)
+        if (pCard === null)
+        {
+            Logger.warn("Cannot find card #" + uuid);
             return false;
+        }
+        
+        if (this.#characters[character] === undefined)
+        {
+            Logger.warn("Cannot find character #" + character);
+            return false;
+        }
+            
 
         const playerId = pCard.owner;
         const pDeck = super.getPlayerDeck(playerId);
