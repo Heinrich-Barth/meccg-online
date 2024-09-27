@@ -220,7 +220,7 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
          return document.createDocumentFragment();
 
     const _backside = GameCompanies.CardList.getFlipSide(card.code);
-    let pImage = document.createElement("img");
+    const pImage = document.createElement("img");
     pImage.setAttribute("class", "card-icon");
     pImage.setAttribute("src", _backside);
     pImage.setAttribute("data-image-backside", _backside);
@@ -242,7 +242,7 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
         pImage.setAttribute("data-is-mine", "false");
     }
                  
-    let pDiv = document.createElement("div");
+    const pDiv = document.createElement("div");
     pDiv.setAttribute("class", "card " + getCardStateCss(card.state));
     pDiv.setAttribute("id", GameCompanies.CARDID_PREFIX + card.uuid);
     pDiv.setAttribute("data-uuid", card.uuid);
@@ -252,7 +252,7 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
     pDiv.setAttribute("data-revealed", card.revealed !== false ? "true" : "false");
 
     if (MeccgPlayers.isMyCard(card.owner))
-    pDiv.classList.add("card-is-mine");
+        pDiv.classList.add("card-is-mine");
 
     if (card.token !== undefined && card.token > 0)
     {
