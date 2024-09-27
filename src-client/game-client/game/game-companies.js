@@ -101,7 +101,8 @@ const createCharacterHtml = function(jsonCard, id)
     pCharDiv.setAttribute("class", "company-character-host company-character-reosurces");
 
     const characterDiv = createNewCard(jsonCard);
-    
+    characterDiv.setAttribute("data-card-type", "character");
+
     const iDice = document.createElement("i");
     iDice.setAttribute("class", "character-card-dice card-dice");
     iDice.setAttribute("data-code", jsonCard.code);
@@ -195,7 +196,7 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
  function insertNewCharacter(jsonCard, pContainer, bInsertBefore, bIsHosting)
  {
      const id = "character_" + jsonCard.uuid;
-     let pHtml = createCharacterHtml(jsonCard, id);
+     const pHtml = createCharacterHtml(jsonCard, id);
      if (pHtml == null)
          return document.getElementById("test");
 
