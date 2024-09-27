@@ -317,7 +317,7 @@ const DropFunctions = {
     
     dropOnAddNew : function( _event, ui ) 
     {
-        if (ui.draggable.attr("data-card-type") === "character")
+        if (ui.draggable.attr("data-card-type") !== "site")
         {
             const uuid = ui.draggable.attr("data-uuid");
             const source = ui.draggable.attr("data-location");
@@ -325,7 +325,7 @@ const DropFunctions = {
             CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
             HandCardsDraggable.onCreateNewCompany(uuid, source);
         }
-        else if (ui.draggable.attr("data-card-type") === "site")
+        else 
         {
             const code = ui.draggable.attr("data-card-code");
             CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
@@ -558,7 +558,7 @@ const HandCardsDraggable = {
             jQuery(e).droppable(
             {
                 classes: HandCardsDraggable.droppableParams,
-                accept: HandCardsDraggable.droppableAcceptCharacterAndResource,
+                accept: () => true,
                 drop: (event, ui) => DropFunctions.dropOnAddCompanyCharacter(event, ui, companyUuid),
                 over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
                 out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
@@ -780,7 +780,7 @@ const HandCardsDraggable = {
             {
                 tolerance: "pointer",
                 classes: HandCardsDraggable.droppableParams,
-                accept: HandCardsDraggable.droppableAccept,
+                accept: () => true,
                 drop: HandCardsDraggable.onCardCharacterHostOnDrop,
                 over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
                 out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
@@ -911,23 +911,7 @@ const HandCardsDraggable = {
             target: bPlayer ? "player" : "opponent"
         });
     },
-    
-
-    onAddResourcesToStagingArea: function (_uuid, bPlayer)
-    {
-        this.onAddGenericCardToStagingArea(_uuid, bPlayer);
-    },
-    
-    /**
-     * Add a hazard to the staging area
-     * @param {String} _uuid card uui
-     * @param {boolean} bPlayer is host_players staging area
-     * @return {void}
-     */
-    onAddHazardsToStagingArea: function (_uuid, bPlayer)
-    {
-        this.onAddGenericCardToStagingArea(_uuid, bPlayer);
-    },
+       
     
     /**
      * Add a resource to a given character
@@ -1054,24 +1038,6 @@ const HandCardsDraggable = {
         return sType === "resource" || sType === "hazard" || sType === "site";
     },
     
-    droppableAcceptCharacter : function(elem)
-    {
-        const sType = elem.attr("data-card-type");
-        return sType === "character" || sType === "site";
-    },
-
-    droppableAcceptCharacterAndResource : function(elem)
-    {
-        const sType = elem.attr("data-card-type");
-        return sType === "character" || sType === "site" || sType === "resource";
-    },
-    
-    droppableAcceptStagingArea : function(elem)
-    {
-        const sAttr = elem.attr("data-card-type");
-        return sAttr === "resource" || sAttr === "hazard";
-    },
-
     setupCardPreviewElement : function(id)
     {
         const elem = document.getElementById(id);
@@ -1206,7 +1172,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnStageArea,
-        accept: HandCardsDraggable.droppableAcceptStagingArea,
+        accept: () => true,
         over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
         out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
@@ -1216,7 +1182,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
         drop: DropFunctions.dropOnAddNew,
-        accept: HandCardsDraggable.droppableAcceptCharacter,
+        accept: () => true,
         over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
         out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
