@@ -14,7 +14,7 @@ export default function InitRoutingGelerals()
      * Simple PING
      */
     getServerInstance().get("/ping", Caching.expires.generic, (_req:Request, res:Response) => res.send("" + Date.now()).status(200));
-    getServerInstance().use("/deckbuilder", Caching.expires.generic, express.static(getRootFolder() + "/pages/deckbuilder.html"));
+    getServerInstance().use("/deckbuilder", Caching.expires.generic, (_req:Request, res:Response) => res.redirect("/"));
 
     getServerInstance().post("/csp-violation", (_req:Request, res:Response) => res.status(204).end());
 }

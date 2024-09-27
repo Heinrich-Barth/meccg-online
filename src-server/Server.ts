@@ -13,7 +13,6 @@ const cspAllowRemoteImages = function (sPath: string = ""): boolean {
     return sPath.startsWith("/play") ||
         sPath.startsWith("/arda") ||
         sPath.startsWith("/singleplayer") ||
-        sPath.startsWith("/deckbuilder") ||
         sPath.startsWith("/cards") ||
         sPath.startsWith("/pwa") ||
         sPath.startsWith("/map/") ||
