@@ -66,10 +66,10 @@ const listActiveGames = function (list: ActiveGame[], sampleRooms: SampleRoom[],
                         <Grid item xs={12} md={2} alignContent={"center"}>
                             <Grid container rowGap={2}>
                                 <Grid item xs={12}>
-                                    <Button disabled={!game.accessible || game.single} startIcon={<AddBoxIcon />} fullWidth variant="contained" onClick={() => onJoin(game.room)}>PLAY</Button>
+                                    <Button disabled={!game.accessible || game.single} startIcon={<AddBoxIcon />} fullWidth variant="contained" onClick={() => onJoin(game.room)}>JOIN</Button>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button disabled={!game.visitors || game.single} startIcon={<RemoveRedEyeIcon />} className="marginTop1em" fullWidth onClick={() => onWatch(game.room)}>WATCH</Button>
+                                    <Button disabled={!game.visitors || game.single} startIcon={<RemoveRedEyeIcon />} className="marginTop1em" variant="outlined" fullWidth onClick={() => onWatch(game.room)}>WATCH</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
