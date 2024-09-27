@@ -80,14 +80,8 @@ let Arda = {
         if (uuid === "")
             return false;
 
-        const isChar = elem.getAttribute("data-card-type") === "character";
         CreateHandCardsDraggableUtils.removeDraggableDomElement(elem);
-
-        if (isChar)
-            HandCardsDraggable.onCreateNewCompany(uuid, "hand");
-        else
-            HandCardsDraggable.onAddGenericCardToStagingArea(uuid, true);
-
+        HandCardsDraggable.onCreateNewCompany(uuid, "hand");
         return false;
     },
 

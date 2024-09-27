@@ -258,21 +258,6 @@ const DropFunctions = {
         return false;
     },
     
-    dropOnStageArea : function( _event, ui ) 
-    {
-        if (DropFunctions.isPrioElement(ui))
-            return false;
-
-        if (ui.draggable.attr("data-location") === "hand")
-        {
-            const uuid = ui.draggable.attr("data-uuid");
-            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
-            HandCardsDraggable.onAddGenericCardToStagingArea(uuid, true);
-        }
-        
-        return false;
-    },
-
     dropOnOutOfPlay : function( _event, ui ) 
     {
         const uuid = ui.draggable.attr("data-uuid");
@@ -898,20 +883,7 @@ const HandCardsDraggable = {
         const pCardContainer = document.getElementById(idPrefix + uuid);
         pCardContainer.setAttribute("data-location", "hand");
         HandCardsDraggable.initDraggableCard(pCardContainer);
-    },
-
-    onAddGenericCardToStagingArea: function (_uuid, bPlayer)
-    {
-        if (_uuid === "")
-            return;
-        
-        HandCardsDraggable.getApi().send("/game/stagingarea/add/card", {
-            uuid: _uuid,
-            resource : true,
-            target: bPlayer ? "player" : "opponent"
-        });
-    },
-       
+    },     
     
     /**
      * Add a resource to a given character
@@ -1165,16 +1137,6 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnHand
-    });
-    
-    jQuery(DropableAreas.stagagingArea()).droppable(
-    {
-        tolerance: "pointer",
-        classes: HandCardsDraggable.droppableParams,
-        drop: DropFunctions.dropOnStageArea,
-        accept: () => true,
-        over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
-        out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
     
     jQuery(DropableAreas.getCompanyAreaPlayerAddNew()).droppable(

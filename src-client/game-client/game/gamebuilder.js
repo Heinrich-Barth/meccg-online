@@ -313,13 +313,8 @@ const GameBuilder = {
         if (uuid === "")
             return;
 
-        const isChar = div.getAttribute("data-card-type") === "character";
-
         CreateHandCardsDraggableUtils.removeDraggableDomElement(div);
-        if (isChar)
-            HandCardsDraggable.onCreateNewCompany(uuid, "hand");
-        else
-            HandCardsDraggable.onAddGenericCardToStagingArea(uuid, true);
+        HandCardsDraggable.onCreateNewCompany(uuid, "hand");
     },
 
     onHandCardContextClick : function(e)
