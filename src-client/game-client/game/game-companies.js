@@ -102,6 +102,7 @@ const createCharacterHtml = function(jsonCard, id)
 
     const characterDiv = createNewCard(jsonCard);
     characterDiv.setAttribute("data-card-type", "character");
+    characterDiv.setAttribute("data-allow-follower", jsonCard.type === "character" ? "true":"false");
 
     const iDice = document.createElement("i");
     iDice.setAttribute("class", "character-card-dice card-dice");
@@ -556,9 +557,7 @@ const GameCompanies = {
 
             const pContainerResources = pCharacter.querySelector(".company-character-reosurces");
             
-            let nAdded = 0;
-            nAdded += this.addResources(jsonCharacter.resources, pContainerResources);
-            nAdded += this.addResources(jsonCharacter.hazards, pContainerResources);
+            const nAdded = this.addResources(jsonCharacter.attached, pContainerResources);
 
             pContainerResources.setAttribute("data-stack-size", nAdded);
 
