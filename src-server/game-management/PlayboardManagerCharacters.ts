@@ -3,46 +3,41 @@ import Logger from "../Logger";
 import { TDeckCard } from "./DeckCommons";
 
 type TCharacter = {
-    companyId : string,
-    character : string,
-    uuid : string,
-    parentUuid : string,
-    resources : string[],
-    hazards : string[]
+    companyId: string,
+    character: string,
+    uuid: string,
+    parentUuid: string,
+    attached: string[]
 }
 
 interface TCharacterMap {
-    [uuid:string]: TCharacter
+    [uuid: string]: TCharacter
 }
 
 export interface TCharacterInGame {
     uuid: string,
-    sourceCompany : string,
-    influenced : string[]
+    sourceCompany: string,
+    influenced: string[]
 }
 
-export default class PlayboardManagerCharacters extends PlayboardManagerDeck
-{
-    #characters:TCharacterMap = { };
+export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
+    #characters: TCharacterMap = {};
 
-    reset()
-    {
+    reset() {
         super.reset();
-        
-        this.#characters = { };
+
+        this.#characters = {};
     }
 
-    #characterExists(uuid:string)
-    {
+    #characterExists(uuid: string) {
         return typeof this.#characters[uuid] !== "undefined";
     }
-    
+
     /**
      * Save current game state
      * @returns Object
      */
-    Save()
-    {
+    Save() {
         let data = super.Save();
         data.characters = this.#characters;
         return data;
@@ -55,38 +50,34 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} uuid
      * @returns {Boolean}
      */
-     removeCardFromDeckOrCompany(playerId:string, uuid:string)
-     {
+    removeCardFromDeckOrCompany(playerId: string, uuid: string) {
         if (super.removeCardFromDeckOrCompany(playerId, uuid))
             return true;
 
-        for (let i in this.#characters)
-        {
-            if (super.removeFromList(uuid, this.#characters[i].resources) || super.removeFromList(uuid, this.#characters[i].hazards))
+        for (let i in this.#characters) {
+            if (super.removeFromList(uuid, this.#characters[i].attached) || super.removeFromList(uuid, this.#characters[i].attached))
                 return true;
         }
- 
+
         return false;
-     }
-     /**
-     * Add a company character to a given target company. It does not check if the company character is already in this company!
-     * 
-     * @param {String} targetCompanyId
-     * @param {String} hostingCharacterUuid ID or empty (=general influence)
-     * @param {JSON} companyCharacter
-     * @returns {Boolean}
-     */
-      doAddCompanyCharacterToCompany(targetCompanyId:string, hostingCharacterUuid:string, listAdded:string[])
-      {
-          for (let _uuid of listAdded)
-          {
-              this.#characters[_uuid].companyId = targetCompanyId;
-              this.#characters[_uuid].parentUuid = hostingCharacterUuid;
-          }
-  
-          return true;
-      }
- 
+    }
+    /**
+    * Add a company character to a given target company. It does not check if the company character is already in this company!
+    * 
+    * @param {String} targetCompanyId
+    * @param {String} hostingCharacterUuid ID or empty (=general influence)
+    * @param {JSON} companyCharacter
+    * @returns {Boolean}
+    */
+    doAddCompanyCharacterToCompany(targetCompanyId: string, hostingCharacterUuid: string, listAdded: string[]) {
+        for (let _uuid of listAdded) {
+            this.#characters[_uuid].companyId = targetCompanyId;
+            this.#characters[_uuid].parentUuid = hostingCharacterUuid;
+        }
+
+        return true;
+    }
+
     /**
      * Create a new character entry
      * 
@@ -94,26 +85,23 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} characterUuid
      * @returns {Object}
      */
-     createNewCharacter(companyId:string, characterUuid:string):TCharacter
-     {
-         return {
-             companyId : companyId,
-             character : characterUuid,
-             uuid : characterUuid,
-             parentUuid : "",
-             resources : [],
-             hazards : []
-         }; 
-     }
-   
-     getOrCreateCharacter(uuid:string, targetCompany:string):TCharacter
-     {
-         /* create character card info if necessary (e.g. if played from hand) */
-         if (typeof this.#characters[uuid] === "undefined")
-             this.#characters[uuid] = this.createNewCharacter(targetCompany, uuid);
+    createNewCharacter(companyId: string, characterUuid: string): TCharacter {
+        return {
+            companyId: companyId,
+            character: characterUuid,
+            uuid: characterUuid,
+            parentUuid: "",
+            attached: []
+        };
+    }
+
+    getOrCreateCharacter(uuid: string, targetCompany: string): TCharacter {
+        /* create character card info if necessary (e.g. if played from hand) */
+        if (typeof this.#characters[uuid] === "undefined")
+            this.#characters[uuid] = this.createNewCharacter(targetCompany, uuid);
 
         return this.#characters[uuid];
-     }
+    }
 
 
     /**
@@ -121,43 +109,38 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} uuid
      * @return {json} json or null
      */
-    getCharacterByUuid(uuid:string):TCharacter|null
-    {
+    getCharacterByUuid(uuid: string): TCharacter | null {
         if (uuid !== "" && this.#characterExists(uuid))
             return this.#characters[uuid];
         else
             return null;
     }
-    
+
     /**
      * Get a character card by its uid
      * @param {String} uuid
      * @return {json} json or null
      */
-     GetCharacterCardByUuid(uuid:string):TDeckCard|null
-     {
-         let pChar = this.getCharacterByUuid(uuid);
-         if (pChar === null || typeof pChar.uuid === "undefined")
-             return null;
-         else
-             return this.GetCardByUuid(pChar.uuid);
-     }
- 
-    Restore(playboard:any)
-    {
+    GetCharacterCardByUuid(uuid: string): TDeckCard | null {
+        let pChar = this.getCharacterByUuid(uuid);
+        if (pChar === null || typeof pChar.uuid === "undefined")
+            return null;
+        else
+            return this.GetCardByUuid(pChar.uuid);
+    }
+
+    Restore(playboard: any) {
         super.Restore(playboard);
 
-        this.#characters = { };
-        for (let characterid in playboard.characters)
-        {
+        this.#characters = {};
+        for (let characterid in playboard.characters) {
             const _source = playboard.characters[characterid];
             this.#characters[characterid] = {
-                companyId : this.AssertString(_source.companyId),
-                character : this.AssertString(_source.character),
-                uuid : this.AssertString(_source.uuid),
-                parentUuid : this.AssertString(_source.parentUuid),
-                resources : this.ArrayUUIDClone(_source.resources),
-                hazards : this.ArrayUUIDClone(_source.hazards)
+                companyId: this.AssertString(_source.companyId),
+                character: this.AssertString(_source.character),
+                uuid: this.AssertString(_source.uuid),
+                parentUuid: this.AssertString(_source.parentUuid),
+                attached: this.ArrayUUIDClone(_source.attached)
             }
         }
     }
@@ -168,20 +151,17 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {type} uuid
      * @param {type} listInfluencedUUids
      */
-    createCompanyCharacter(uuid:string, listInfluencedUUids:string[]):TCharacterInGame
-    {
+    createCompanyCharacter(uuid: string, listInfluencedUUids: string[]): TCharacterInGame {
         return {
-            uuid : uuid,
+            uuid: uuid,
             sourceCompany: "",
-            influenced : [...listInfluencedUUids]
+            influenced: [...listInfluencedUUids]
         };
     }
 
-    popCharacterCards(characterUuid:string) : string[]
-    {
+    popCharacterCards(characterUuid: string): string[] {
         const pCharacter = this.getCharacterByUuid(characterUuid);
-        if (pCharacter === null)
-        {
+        if (pCharacter === null) {
             /** 
              * Character has not been found, i.e. is to be popped from hand.
              * Anyway, we are done here
@@ -189,12 +169,10 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
             return [];
         }
 
-        let vsCards = [...pCharacter.resources, ...pCharacter.hazards];
+        const vsCards = [...pCharacter.attached];
         vsCards.push(characterUuid);
 
-        pCharacter.resources = [];
-        pCharacter.hazards = [];
-
+        pCharacter.attached = [];
         return vsCards;
     }
 
@@ -208,14 +186,12 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {Array} listCharacters List of character uuid
      * @returns 
      */
-    onPopInfluencedCharacters(companyUuid:string, listCharacters:string[]):string[]
-    {
+    onPopInfluencedCharacters(companyUuid: string, listCharacters: string[]): string[] {
         if (companyUuid === undefined || listCharacters === undefined)
             return [];
 
         const cardList = [];
-        for (let charUuid of listCharacters)
-        {
+        for (let charUuid of listCharacters) {
             const list = this.popCharacterCards(charUuid);
             const lenList = list.length;
             if (lenList === 0)
@@ -235,14 +211,12 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * Delete an entry from the characters map if existent
      * @param {String} uuid Character UUID
      */
-    deleteCharacter0(uuid:string)
-    {
+    deleteCharacter0(uuid: string) {
         if (uuid !== undefined && uuid !== "" && this.#characters[uuid] !== undefined)
             delete this.#characters[uuid];
     }
 
-    popCompanyCharacter(uuid:string):TCharacterInGame|null
-    {
+    popCompanyCharacter(uuid: string): TCharacterInGame | null {
         return null;
     }
 
@@ -251,8 +225,7 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} characterUuid 
      * @returns 
      */
-    PopCharacterAndItsCards(characterUuid:string)
-    {
+    PopCharacterAndItsCards(characterUuid: string) {
         /* get the list of affected company characters */
         let character = this.popCompanyCharacter(characterUuid); // { uuid: uuid, sourceCompany : "", influenced : [] }
         if (character === null)
@@ -267,19 +240,16 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
         return [...cardList, ...listRem];
     }
 
-    readyResources(uuid:string)
-    {
-        if (!this.#characterExists(uuid))
-        {
+    readyResources(uuid: string) {
+        if (!this.#characterExists(uuid)) {
             Logger.warn("character does not exist: " + uuid);
         }
-        else
-        {
-            for (let _card of this.#characters[uuid].resources)
+        else {
+            for (let _card of this.#characters[uuid].attached)
                 super.readyCard(_card);
         }
     }
-   
+
     /**
      * Let a character host a card from hand or stage
      * 
@@ -288,45 +258,36 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} uuid Card Uuid
      * @returns {Boolean}
      */
-    CharacterHostCard(company:string, character:string, uuid:string)
-    {
+    CharacterHostCard(company: string, character: string, uuid: string) {
         const pCard = this.GetCardByUuid(uuid);
-        if (pCard === null)
-        {
+        if (pCard === null) {
             Logger.warn("Cannot find card #" + uuid);
             return false;
         }
-        
-        if (this.#characters[character] === undefined)
-        {
+
+        if (this.#characters[character] === undefined) {
             Logger.warn("Cannot find character #" + character);
             return false;
         }
-            
+
 
         const playerId = pCard.owner;
         const pDeck = super.getPlayerDeck(playerId);
-        if (pDeck === null)
-        {
+        if (pDeck === null) {
             Logger.warn("Cannot get player deck " + playerId);
             return false;
         }
 
         // remove chard from deck, character or staging area
-        if (!this.removeCardFromDeckOrCompany(playerId, uuid))
-        {
+        if (!this.removeCardFromDeckOrCompany(playerId, uuid)) {
             Logger.warn("Could not remove card " + uuid);
             return false;
         }
 
-        if (pCard.type === "hazard")
-            this.#characters[character].hazards.push(uuid);
-        else
-            this.#characters[character].resources.push(uuid);
-
+        this.#characters[character].attached.push(uuid);
         return true;
     }
- 
+
     /**
       * Move a CHARACTER card from anywhere to ...
       * 
@@ -335,35 +296,31 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
       * @param {String} target "sideboard, discardpile, playdeck, hand"
       * @returns {List} list of cards moved
       */
-    MoveCardCharacterTo(characterUuid:string, playerId:string, target:string)
-    {
+    MoveCardCharacterTo(characterUuid: string, playerId: string, target: string) {
         if (!super.isValidTarget(target))
             return [];
 
         let list = this.PopCharacterAndItsCards(characterUuid);
         this.MoveCardCharacterTo0(characterUuid, list, target);
-            
-        
-        if (this.PopOnGuardCard(characterUuid))
-        {
+
+
+        if (this.PopOnGuardCard(characterUuid)) {
             super.moveCard(characterUuid, target);
             if (list.length === 0)
                 list = [characterUuid];
             else if (!list.includes(characterUuid))
                 list.push(characterUuid);
         }
-            
+
         return list;
     }
 
-    MoveCardCharacterTo0(characterUuid:string, listUuids:string[], target:string)
-    {
+    MoveCardCharacterTo0(characterUuid: string, listUuids: string[], target: string) {
         const isOutOfPlay = target === "outofplay";
 
         /** if a character is put out of play, its hosted cards are only discarded. */
         const targetOther = isOutOfPlay ? "discardpile" : target;
-        for (let carduuid of listUuids)
-        {
+        for (let carduuid of listUuids) {
             if (carduuid === characterUuid)
                 super.moveCard(carduuid, target);
             else
@@ -371,8 +328,7 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
         }
     }
 
-    PopOnGuardCard(_cardUuid:string)
-    {
+    PopOnGuardCard(_cardUuid: string) {
         return false;
     }
 
@@ -386,44 +342,34 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck
      * @param {String} playerId
      * @returns {Boolean}
      */
-     CharacterTransferCard(_sourceCharacter:string, targetCharacter:string, cardUuid:string, playerId:string)
-     {
-         const pTargetChar = this.#characters[targetCharacter];
-         if (typeof pTargetChar === "undefined")
-         {
-             Logger.warn("Undefinied target character "+ targetCharacter);
-             return false;
-         }
- 
-         const pCard = this.GetCardByUuid(cardUuid);
-         if (pCard === null)
-         {
-             Logger.warn("Cannot find card " + cardUuid);
-             return false;
-         }
-         else if (pCard.type !== "hazard" && pCard.type !== "resource")
-         {
-             Logger.warn("Can only transfer hazards or resources");
-             return false;
-         }
-         else if (!this.removeCardFromDeckOrCompany(playerId, cardUuid))
-         {
-             Logger.warn("Cannot remove card form source owner");
-             return false;
-         }
- 
-         if (pCard.type === "hazard")
-             pTargetChar.hazards.push(cardUuid);
-         else // ist klar wg. IF type check ;; if (pCard.type === "resource")
-             pTargetChar.resources.push(cardUuid);
- 
-         return true;
-     }
- 
-     addNewCharacter(uuid:string, companyId:string)
-     {
+    CharacterTransferCard(_sourceCharacter: string, targetCharacter: string, cardUuid: string, playerId: string) {
+        const pTargetChar = this.#characters[targetCharacter];
+        if (typeof pTargetChar === "undefined") {
+            Logger.warn("Undefinied target character " + targetCharacter);
+            return false;
+        }
+
+        const pCard = this.GetCardByUuid(cardUuid);
+        if (pCard === null) {
+            Logger.warn("Cannot find card " + cardUuid);
+            return false;
+        }
+        else if (pCard.type !== "hazard" && pCard.type !== "resource") {
+            Logger.warn("Can only transfer hazards or resources");
+            return false;
+        }
+        else if (!this.removeCardFromDeckOrCompany(playerId, cardUuid)) {
+            Logger.warn("Cannot remove card form source owner");
+            return false;
+        }
+
+        pTargetChar.attached.push(cardUuid);
+        return true;
+    }
+
+    addNewCharacter(uuid: string, companyId: string) {
         this.#characters[uuid] = this.createNewCharacter(companyId, uuid);
-     }
+    }
 }
 
 module.exports = PlayboardManagerCharacters;

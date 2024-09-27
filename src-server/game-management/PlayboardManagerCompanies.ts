@@ -29,10 +29,8 @@ type TCompany = {
 
 type TCompanyCharacter = {
     character : TDeckCard,
-    resources : TDeckCard[],
-    hazards : TDeckCard[],
+    attached : TDeckCard[]
     influenced : TCompanyCharacter[] // in itself a list of characters (i.e. this elem field)
-
 }
 
 interface ICompanies {
@@ -202,7 +200,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
              return [];
 
         for (let uuid of listCharacters)
-            this.joinCompanyFromBoard(uuid, companyUuid);
+            this.#joinCompanyFromBoard(uuid, companyUuid);
 
         return [];
     }
@@ -317,7 +315,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {String} companyId Company Id to join
      * @returns success state
      */
-    joinCompanyFromBoard(uuid:string, companyId:string)
+    #joinCompanyFromBoard(uuid:string, companyId:string, isResourceAsCharacter = false)
     {
         const card = this.popCompanyCharacter(uuid);
         if (!this.addCompanyCharacterToCompany(companyId, "", card))
@@ -336,14 +334,15 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       * @param {String} source 
       * @param {String} companyId target company
       * @param {String} playerId player id
+      * @param {boolean} isResourceAsCharacter Is a resouce based company
       * @returns {Boolean} Success state
       */
-    JoinCompany(uuid:string, source:string, companyId:string, playerId:string)
+    JoinCompany(uuid:string, source:string, companyId:string, playerId:string, isResourceAsCharacter = false)
     {
         if (source === "hand")
             return this.joinCompanyFromHand(uuid, companyId, playerId);
         else 
-            return this.joinCompanyFromBoard(uuid, companyId);
+            return this.#joinCompanyFromBoard(uuid, companyId, isResourceAsCharacter);
     }
   
       /**
@@ -505,13 +504,13 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         return true;
     }
 
-    popCompanyCharacter0(uuid:string)
+    #popCompanyCharacter0(uuid:string)
     {
-        const card = this.popCompanyCharacterFromList(uuid);
-        return card !== null ? card :  this.popCompanyCharacterAny("", uuid, []);
+        const card = this.#popCompanyCharacterFromList(uuid);
+        return card !== null ? card :  this.#popCompanyCharacterAny("", uuid, []);
     }
 
-    popCompanyCharacterFromList(uuid:string)
+    #popCompanyCharacterFromList(uuid:string)
     {
         for (let companyId in this.#companies)
         {
@@ -521,19 +520,19 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
                 const _companyCharacter = this.#companies[companyId].characters[i];
                 if (_companyCharacter.uuid === uuid) /** target character to is host, so only add its influenced characters */
                 {
-                    const card = this.popCompanyCharacterAny(companyId, _companyCharacter.uuid, _companyCharacter.influenced);
+                    const card = this.#popCompanyCharacterAny(companyId, _companyCharacter.uuid, _companyCharacter.influenced);
                     _list.splice(i, 1);
                     return card;
                 }
-                else if (this.popCompanyInfluencedCharacterAny(_companyCharacter.influenced, uuid)) /* check influenced characters and remove the target character from the list */
-                    return this.popCompanyCharacterAny(companyId, uuid, []);
+                else if (this.#popCompanyInfluencedCharacterAny(_companyCharacter.influenced, uuid)) /* check influenced characters and remove the target character from the list */
+                    return this.#popCompanyCharacterAny(companyId, uuid, []);
             }
         }
 
         return null;
     }
 
-    popCompanyInfluencedCharacterAny(characterList:string[], uuid:string)
+    #popCompanyInfluencedCharacterAny(characterList:string[], uuid:string)
     {
         const len = characterList.length;
         for (let y = 0; y < len; y++)
@@ -548,7 +547,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         return false;
     }
 
-    popCompanyCharacterAny(sourceCompanyId:string, uuid:string, influenced:string[])
+    #popCompanyCharacterAny(sourceCompanyId:string, uuid:string, influenced:string[])
     {
         return {
             uuid: uuid,
@@ -570,7 +569,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
          * @param {String} uuid
          * @returns {json} { uuid: uuid, sourceCompany : "", influenced : [] }
          */
-        return this.popCompanyCharacter0(uuid);
+        return this.#popCompanyCharacter0(uuid);
     }
  
     /**
@@ -758,16 +757,12 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
 
         const elem:TCompanyCharacter = {
             character : _card,
-            resources : [],
-            hazards : [],
+            attached : [],
             influenced : [] // in itself a list of characters (i.e. this elem field)
         };
 
-        if (typeof pChar.resources !== "undefined" && pChar.resources.length > 0)
-            elem.resources = this.toCardList(pChar.resources);
-
-        if (typeof pChar.hazards !== "undefined" && pChar.hazards.length > 0)
-            elem.hazards = this.toCardList(pChar.hazards);
+        if (typeof pChar.attached !== "undefined" && pChar.attached.length > 0)
+            elem.attached = this.toCardList(pChar.attached);
 
         if (typeof jsonChar.influenced !== "undefined")
         {
