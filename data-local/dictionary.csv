@@ -394,6 +394,7 @@ frontend.setuser;You can set your display name so other players may recognise yo
 frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
 frontend.gamename;Your game name;Votre nom de jeu;Nombre del juego;
 frontend.menu.play;Play a game;Jouer un match;Juega una partida
+frontend.menu.join;Join;Rejoindre;Unirse;
 frontend.menu.deck;Deckbuilder;Construire;Construir
 frontend.menu.cardbrowser;View Cards;Voir les cartes;Ver las cartas
 frontend.menu.map;Map;Carte Map;Mapa
@@ -402,8 +403,9 @@ frontend.menu.about;About;Plus d'informations;Más información
 frontend.menu.resources;Resources;Ressources;Recursos
 frontend.menu.whatsnew;What's new;Les nouvelles;las novedades
 frontend.esctoclose;ESC to close;ESC pour fermer;ESC para cerrar
-frontend.loadeck;Load Deck;Tablier le Deck;Cargar mazo
+frontend.loadeck;Load your Deck;Tablier le Deck;Cargar mazo
 frontend.importdeck;Import Deck;Importer un deck;Importar un mazo
+frontend.decklist.preselected;Preselectd Decks;Decks présélectionnés;Mazos preseleccionados
 frontend.decklist.edit;Edit deck;Modifier le deck;Editar el mazo
 frontend.decklist.view;View Cards;Voir les cartes;Ver las cartas
 frontend.map.homesite;Choose a home site;Choisir un site d'accueil;Elegir un sitio de inicio
