@@ -116,10 +116,10 @@ export default class GameStandard extends GamePlayers
     updateHandCountersPlayerAll()
     {
         for (let id of this.getPlayerIds())
-            this.updateHandCounterPlayerOnly(id);
+            this.#updateHandCounterPlayerOnly(id);
     }
 
-    updateHandCounterPlayerOnly(player:string)
+    #updateHandCounterPlayerOnly(player:string)
     {
         const size = this.getPlayboardManager().Size(player);
         if (size === null)
@@ -141,11 +141,11 @@ export default class GameStandard extends GamePlayers
         if (typeof player === "undefined")
             player = this.getCurrentPlayerId();
 
-        this.updateHandCounterPlayerOnly(player);
-        this.updateHandCounterOnlyPlayer(player);
+        this.#updateHandCounterPlayerOnly(player);
+        this.#updateHandCounterOnlyPlayer(player);
     }
 
-    updateHandCounterOnlyPlayer(player:string)
+    #updateHandCounterOnlyPlayer(player:string)
     {
         const size = this.getPlayboardManager().Size(player);
         if (size === null)
@@ -870,7 +870,7 @@ export default class GameStandard extends GamePlayers
         if (isFromHand)
         {
             if (this.getPlayboardManager().removeCardFromDeckOrCompany(userid, cardUuid))
-                this.updateHandCounterOnlyPlayer(userid);
+                this.#updateHandCounterOnlyPlayer(userid);
         }
 
         const sWho = this.getCardCode(cardUuid, "Character") + " ";
@@ -895,7 +895,7 @@ export default class GameStandard extends GamePlayers
 
     #removeCardFromHand(userid:string, uuid:string)
     {
-        this.updateHandCounterOnlyPlayer(userid);
+        this.#updateHandCounterOnlyPlayer(userid);
         this.publishToPlayers("/game/remove-card-from-hand", userid, uuid);
         const _code = this.getCardCode(uuid, "");
         if (_code !== "")
@@ -954,7 +954,7 @@ export default class GameStandard extends GamePlayers
 
         if (_source === "hand")
         {
-            this.updateHandCounterOnlyPlayer(userid);
+            this.#updateHandCounterOnlyPlayer(userid);
             this.publishToPlayers("/game/remove-card-from-hand", userid, _uuid);
 
             const _code = this.getCardCode(_uuid, "");
