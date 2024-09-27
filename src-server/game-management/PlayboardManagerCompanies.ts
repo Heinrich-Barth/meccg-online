@@ -393,7 +393,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {String} uuid
      * @return {String} Location Code
      */
-     getCharactersCurrentLocation(uuid:string)
+     #getCharactersCurrentLocation(uuid:string)
      {
          let _list, _companyCharacter;
          for (let key in this.#companies)
@@ -600,11 +600,11 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         }
         else
         {
-            currentLocation = this.getCharactersCurrentLocation(uuid);
+            currentLocation = this.#getCharactersCurrentLocation(uuid);
             vsInfluenced = this.popCompanyCharacter(uuid).influenced;
         }
 
-        this.createNewCompanyWithCharacter(companyId, playerId, uuid, vsInfluenced, currentLocation);
+        this.#createNewCompanyWithCharacter(companyId, playerId, uuid, vsInfluenced, currentLocation);
        
         const pChar = this.getOrCreateCharacter(uuid, companyId);
         pChar.parentUuid = "";
@@ -614,7 +614,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
     }
 
   
-    createNewCompany(companyId:string, playerId:string, pCharacter:TCharacterInGame, startingLocation:string):TCompany
+    #createNewCompany(companyId:string, playerId:string, pCharacter:TCharacterInGame, startingLocation:string):TCompany
     {
         return {
             id : companyId,
@@ -630,9 +630,15 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         };
     }
   
-    createNewCompanyWithCharacter(companyId:string, playerId:string, hostUuid:string, listInfluencedUUids:string[], startingLocation:string)
+    #createNewCompanyWithCharacter(companyId:string, playerId:string, hostUuid:string, listInfluencedUUids:string[], startingLocation:string)
     {
-        this.#companies[companyId] = this.createNewCompany(companyId, playerId, this.createCompanyCharacter(hostUuid, listInfluencedUUids), startingLocation);
+        this.#companies[companyId] = this.#createNewCompany(
+            companyId, 
+            playerId, 
+            this.createCompanyCharacter(hostUuid, listInfluencedUUids), 
+            startingLocation
+        );
+
         return this.#companies[companyId];
     }
    

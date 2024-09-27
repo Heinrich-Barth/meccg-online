@@ -66,7 +66,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/deck/reveal/self", this.onDeckRevealSelfPerform.bind(this));
         this.getMeccgApi().addListener("/game/deck/discard/playdeck", this.onReshuffleDiscardIntoPlaydeck.bind(this));
 
-        this.getMeccgApi().addListener("/game/company/create", this.onGameCompanyCreate.bind(this));
+        this.getMeccgApi().addListener("/game/company/create", this.#onGameCompanyCreate.bind(this));
         this.getMeccgApi().addListener("/game/company/arrive", this.onGameCompanyArrives.bind(this));
         this.getMeccgApi().addListener("/game/company/returntoorigin", this.onGameCompanyReturnsToOrigin.bind(this));
         this.getMeccgApi().addListener("/game/company/highlight", this.onGameCompanyHighlight.bind(this));
@@ -956,7 +956,7 @@ export default class GameStandard extends GamePlayers
         }
     }
 
-    onGameCompanyCreate(userid:string, _socket:any, data:any)
+    #onGameCompanyCreate(userid:string, _socket:any, data:any)
     {
         const _uuid = data.uuid;
         const _source = data.source;
@@ -1290,7 +1290,7 @@ export default class GameStandard extends GamePlayers
                 uuid: uuid,
                 source: "hand"
             };
-            this.onGameCompanyCreate(userid, null, json);
+            this.#onGameCompanyCreate(userid, null, json);
         }
         else
         {
