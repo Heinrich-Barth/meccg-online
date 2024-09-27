@@ -403,7 +403,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
              {
                 _companyCharacter = this.#companies[key].characters[i];
                 const _found = _companyCharacter.uuid === uuid;
-                if (_found || this.getCharactersCurrentLocationFromCompaniesCharacter(uuid, _companyCharacter.influenced))
+                if (_found || this.#getCharactersCurrentLocationFromCompaniesCharacter(uuid, _companyCharacter.influenced))
                      return this.#companies[key].sites.current;
              }
          }
@@ -411,7 +411,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
          return "";
      }
 
-    getCharactersCurrentLocationFromCompaniesCharacter(uuid:string, influenced:string[])
+    #getCharactersCurrentLocationFromCompaniesCharacter(uuid:string, influenced:string[])
     {
         for (let _infUuid of influenced)
         {
