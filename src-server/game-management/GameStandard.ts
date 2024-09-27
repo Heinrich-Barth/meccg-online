@@ -136,7 +136,7 @@ export default class GameStandard extends GamePlayers
         });
     }
 
-    updateHandCountersPlayer(player:string)
+    #updateHandCountersPlayer(player:string)
     {
         if (typeof player === "undefined")
             player = this.getCurrentPlayerId();
@@ -240,7 +240,7 @@ export default class GameStandard extends GamePlayers
             this.getCurrentBoardCompanies(_dataTarget, _playerId);
             this.getCurrentBoardStaging(_dataTarget.stage_resources, _playerId, true);
             this.getCurrentBoardStaging(_dataTarget.stage_hazards, _playerId, false);
-            this.updateHandCountersPlayer(_playerId);
+            this.#updateHandCountersPlayer(_playerId);
         }
 
         data.scores = this.getScoring().getScoreSheets();
@@ -270,7 +270,7 @@ export default class GameStandard extends GamePlayers
         for (let card of _list)
             this.drawCard(id, card.uuid, card.code, card.type, 1);
 
-        this.updateHandCountersPlayer(id);
+        this.#updateHandCountersPlayer(id);
     }
 
     sendCurrentHandSize()
@@ -390,7 +390,7 @@ export default class GameStandard extends GamePlayers
         for (let card of _list)
             this.drawCard(userid, card.uuid, card.code, card.type, 1);
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         if (_list.length === 1)
             this.publishChat(userid, "drew 1 card", false);
@@ -410,7 +410,7 @@ export default class GameStandard extends GamePlayers
                 this.drawCard(userid, _card.uuid, _card.code, _card.type, 1);
         }
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
         this.publishChat(userid, "drew " + nCards + " card(s)", false);
     }
 
@@ -420,7 +420,7 @@ export default class GameStandard extends GamePlayers
         if (_card === null)
             return;
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
         this.drawCard(userid, _card.uuid, _card.code, _card.type, 1);
         this.publishChat(userid, "drew 1 card", false);
     }
@@ -437,7 +437,7 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, "drew 1 card", false);
         }
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
     }
 
     doStorCard(characterUuid:string, card:TDeckCard)
@@ -610,7 +610,7 @@ export default class GameStandard extends GamePlayers
         const result = this.#onCardMoveDoMove(userid, obj, card);
         if (!result.isEmpty)
         {
-            this.updateHandCountersPlayer(userid);
+            this.#updateHandCountersPlayer(userid);
             this.publishToPlayers("/game/event/cardmoved", userid, {list: result.codes, target: obj.target, source: obj.source});
         }
 
@@ -697,7 +697,7 @@ export default class GameStandard extends GamePlayers
         if (!this.getPlayboardManager().MoveCardTo(data.uuid, card.owner, "discardpile"))
             return false;
 
-        this.updateHandCountersPlayer(card.owner);
+        this.#updateHandCountersPlayer(card.owner);
         this.publishChat(userid, "Discarded 1 card.", true);
         this.onRedrawCompany(userid, affectedCompanyUuid);
         return true;
@@ -839,7 +839,7 @@ export default class GameStandard extends GamePlayers
 
         this.publishToPlayers("/game/remove-card-from-hand", "", uuid);
         this.publishToPlayers("/game/remove-card-from-board", "", uuid);
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         {
             const cardChar = this.getPlayboardManager().GetCardByUuid(character);
@@ -1107,7 +1107,7 @@ export default class GameStandard extends GamePlayers
             owner: card.owner
         });
         
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         if (revealOnDrop)
             this.publishChat(userid, " attached " + card.code + " to site/region", true);
@@ -1311,7 +1311,7 @@ export default class GameStandard extends GamePlayers
         else
             this.publishChat(userid, "just added " + count + " cards to their sideboard", true);
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
     }
 
