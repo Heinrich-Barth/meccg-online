@@ -4,7 +4,6 @@ import { TDeckCard } from "./DeckCommons";
 
 type TCharacter = {
     companyId: string,
-    character: string,
     uuid: string,
     parentUuid: string,
     attached: string[]
@@ -70,9 +69,14 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
     * @returns {Boolean}
     */
     doAddCompanyCharacterToCompany(targetCompanyId: string, hostingCharacterUuid: string, listAdded: string[]) {
+
         for (let _uuid of listAdded) {
-            this.#characters[_uuid].companyId = targetCompanyId;
-            this.#characters[_uuid].parentUuid = hostingCharacterUuid;
+            const character = this.#characters[_uuid];
+            if (character)
+            {
+                character.companyId = targetCompanyId;
+                character.parentUuid = hostingCharacterUuid;
+            }
         }
 
         return true;
@@ -88,7 +92,6 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
     createNewCharacter(companyId: string, characterUuid: string): TCharacter {
         return {
             companyId: companyId,
-            character: characterUuid,
             uuid: characterUuid,
             parentUuid: "",
             attached: []
@@ -137,7 +140,6 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
             const _source = playboard.characters[characterid];
             this.#characters[characterid] = {
                 companyId: this.AssertString(_source.companyId),
-                character: this.AssertString(_source.character),
                 uuid: this.AssertString(_source.uuid),
                 parentUuid: this.AssertString(_source.parentUuid),
                 attached: this.ArrayUUIDClone(_source.attached)
@@ -212,7 +214,7 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
      * @param {String} uuid Character UUID
      */
     deleteCharacter0(uuid: string) {
-        if (uuid !== undefined && uuid !== "" && this.#characters[uuid] !== undefined)
+        if (uuid && this.#characters[uuid] !== undefined)
             delete this.#characters[uuid];
     }
 
@@ -250,6 +252,74 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
         }
     }
 
+    sliceResourceCharacterCompany(playerid:string, uuid:string)
+    {
+        const pCard = this.GetCardByUuid(uuid);
+        if (pCard === null)
+        {
+            Logger.warn("Cannot slice resource cahracter, because card cannot be found by uuid #" + uuid);
+            return null;
+        }
+        const pDeck = super.getPlayerDeck(playerid);
+        if (pDeck === null) {
+            Logger.warn("Cannot get player deck " + playerid);
+            return null;
+        }
+        
+        const character = this.#characters[uuid];
+        if (character === null)
+        {
+            Logger.warn("Cannot find company of card " + pCard.code);
+            return null;
+        }
+        
+        pDeck.push().toOffside(uuid);
+
+        // create new host
+        const newhostuid = character.attached.shift();
+        const followeers = character.attached;
+        const companyid = character.companyId;
+        // character must be deleted
+        this.deleteCharacter0(uuid);
+
+        if (newhostuid)
+        {
+            this.#characters[newhostuid] = this.createNewCharacter(companyid, newhostuid);
+            this.#characters[newhostuid].attached = followeers;
+        }
+        
+        // move remaining followers up as hosts
+        const charsmoved = this.#moveFollowersUnderGI(uuid);
+        
+        return {
+            companyid: companyid,
+            newcharacteruuid: newhostuid ? newhostuid : "",
+            followers: charsmoved
+        }
+    }
+
+    #moveFollowersUnderGI(hostuuid:string)
+    {
+        if (hostuuid === "")
+            return [];
+
+        let moved = []
+        for (let character in this.#characters)
+        {
+            const elem = this.#characters[character];
+            if (elem.parentUuid === hostuuid)
+            {
+                moved.push(elem.uuid);
+                elem.parentUuid = "";
+            }
+        }
+
+        if (moved.length > 0)
+            Logger.info("Moved " + moved.length + " characters under general influence");
+
+        return moved;
+    }
+ 
     /**
      * Let a character host a card from hand or stage
      * 
@@ -258,7 +328,7 @@ export default class PlayboardManagerCharacters extends PlayboardManagerDeck {
      * @param {String} uuid Card Uuid
      * @returns {Boolean}
      */
-    CharacterHostCard(company: string, character: string, uuid: string) {
+    CharacterHostCard(character: string, uuid: string) {
         const pCard = this.GetCardByUuid(uuid);
         if (pCard === null) {
             Logger.warn("Cannot find card #" + uuid);

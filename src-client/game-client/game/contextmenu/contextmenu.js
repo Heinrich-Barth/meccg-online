@@ -129,6 +129,21 @@ const ContextMenu = {
             pContextMenuElement.classList.remove("hide");
     },    
     
+    onMoveCompanyEvent : function(companyid, direction)
+    {
+        const elem = document.getElementById("company_" + companyid);
+        console.log(companyid)
+        if (elem === null)
+            return;
+
+        if (direction === "left")
+            ContextMenu.callbacks.doCompanyMoveLeft(elem, false);
+        else if (direction === "right")
+            ContextMenu.callbacks.doCompanyMoveRight(elem, false);
+        else if (direction === "end")
+            ContextMenu.callbacks.doCompanyMoveRightEnd(elem, false);
+    },
+
     /**
      * Init contextmenu element (Tap site)
      * 
@@ -773,7 +788,7 @@ const ContextMenu = {
 
         _doFlip : function(uuid, code)
         {
-            MeccgApi.send("/game/card/state/reveal", {uuid : uuid, code: code });   
+            MeccgApi.send("/game/card/state/reveal", {uuid : uuid, code: code });
         },
 
         arrive : function(pMenu)
@@ -795,15 +810,28 @@ const ContextMenu = {
         companyMoveLeft: function(pMenu)
         {
             const div = this._getCompanyElement(pMenu);
-            const prev = div === null ? null : div.previousElementSibling;
-
-            if (prev !== null)
-                div.parentElement.insertBefore(div, prev);
+            this.doCompanyMoveLeft(div, true);
         },
 
-        companyMoveRight : function(pMenu)
+        doCompanyMoveLeft: function(div, notifyplayers)
+        {
+            const prev = div === null ? null : div.previousElementSibling;
+            if (prev !== null)
+            {
+                div.parentElement.insertBefore(div, prev);
+                if (notifyplayers)
+                    MeccgApi.send("/game/company/move", { companyid : div.getAttribute("data-company-id"), direction: "left" });
+            }
+        },
+
+        companyMoveRight: function(pMenu)
         {
             const div = this._getCompanyElement(pMenu);
+            this.doCompanyMoveRight(div, true);
+        },
+
+        doCompanyMoveRight : function(div, notifyplayers)
+        {
             const next = div === null ? null : div.nextElementSibling;
             
             if (next === null)
@@ -814,15 +842,26 @@ const ContextMenu = {
                 div.parentElement.insertBefore(div, next2);
             else
                 div.parentElement.append(div);
+
+
+            if (notifyplayers)
+                MeccgApi.send("/game/company/move", { companyid : div.getAttribute("data-company-id"), direction: "right" });
         },
         
         companyMoveRightEnd : function(pMenu)
         {
             const div = this._getCompanyElement(pMenu);
+            this.doCompanyMoveRightEnd(div, true);
+
+        },
+        doCompanyMoveRightEnd : function(div, notifyplayers)
+        {
             if (div?.nextElementSibling)
                 div.parentElement.append(div);
+
+            if (notifyplayers)
+                MeccgApi.send("/game/company/move", { companyid : div.getAttribute("data-company-id"), direction: "end" });
         },
-        
         hide : function()
         {
             const elem = document.getElementById("contextmenu");

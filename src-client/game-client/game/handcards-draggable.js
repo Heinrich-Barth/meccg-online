@@ -191,10 +191,9 @@ const DropFunctions = {
         const uuid = ui.draggable.attr("data-uuid");
         const src = ui.draggable.attr("data-location");
         
+        DropFunctions.sliceResourceCharacter(ui);
         DropFunctions.removeDraggable(ui);
-        
         DropFunctions.getApi().send("/game/card/move", {uuid: uuid, target: "discardpile", source: src, drawTop : false});
-
         return false;
     },
     
@@ -206,6 +205,7 @@ const DropFunctions = {
         const code = elem.attr("data-card-code");
         
         /** remove from screen*/
+        DropFunctions.sliceResourceCharacter(ui);
         CreateHandCardsDraggableUtils.removeDraggable(elem);
         
         DropFunctions.getApi().send("/game/card/store", { uuid: uuid });
@@ -221,6 +221,7 @@ const DropFunctions = {
         const uuid = ui.draggable.attr("data-uuid");
         const src = ui.draggable.attr("data-location");
 
+        DropFunctions.sliceResourceCharacter(ui);
         DropFunctions.removeDraggable(ui);
         DropFunctions.getApi().send("/game/card/move", {uuid: uuid, target: "sideboard", source: src, drawTop : false});
         return false;
@@ -231,6 +232,8 @@ const DropFunctions = {
         const uuid = ui.draggable.attr("data-uuid");
         const src = ui.draggable.attr("data-location");
         
+        DropFunctions.sliceResourceCharacter(ui);
+
         if (ui.draggable.attr("data-location") === "hand" || ui.draggable.attr("data-card-type") !== "character")
             CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
         else
@@ -242,19 +245,37 @@ const DropFunctions = {
     
     dropOnHand : function( _event, ui ) 
     {
-        if (ui.draggable.attr("data-location") !== "hand")
-        {
-            const uuid = ui.draggable.attr("data-uuid");
-            const src = ui.draggable.attr("data-location");
+        if (ui.draggable.attr("data-location") === "hand")
+            return false;
 
-            if (ui.draggable.attr("data-card-type") !== "character")
-                CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
-            else
-                CreateHandCardsDraggableUtils.removeDraggable(ui.draggable.closest(".company-character"));
-            
-            DropFunctions.getApi().send("/game/card/move", {uuid: uuid, target: "hand", source: src, drawTop : true});
-        }
+        DropFunctions.sliceResourceCharacter(ui);
+
+        const uuid = ui.draggable.attr("data-uuid");
+        const src = ui.draggable.attr("data-location");
+
+        if (ui.draggable.attr("data-card-type") !== "character")
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
+        else
+            CreateHandCardsDraggableUtils.removeDraggable(ui.draggable.closest(".company-character"));
         
+        DropFunctions.getApi().send("/game/card/move", {uuid: uuid, target: "hand", source: src, drawTop : true});       
+        return false;
+    },
+
+    sliceResourceCharacter: function(ui)
+    {
+        const type = ui.draggable.attr("data-card-type");
+        const location = ui.draggable.attr("data-location");
+        if (location !== "inplay" || typeof type !== "string" || type !== "character" || ui.draggable.attr("data-allow-follower") === "true")
+            return false;
+
+        const uuid = ui.draggable.attr("data-uuid");
+        if (uuid)
+        {
+            DropFunctions.getApi().send("/game/character/slice-hosting-card", {uuid: uuid });
+            return true;
+        }
+
         return false;
     },
     
@@ -263,6 +284,7 @@ const DropFunctions = {
         const uuid = ui.draggable.attr("data-uuid");
         const src = ui.draggable.attr("data-location");
 
+        DropFunctions.sliceResourceCharacter(ui);
         DropFunctions.removeDraggable(ui);
         DropFunctions.getApi().send("/game/card/move", {uuid: uuid, target: "outofplay", source: src, drawTop : false});
         return false;
@@ -313,6 +335,7 @@ const DropFunctions = {
         else 
         {
             const code = ui.draggable.attr("data-card-code");
+            DropFunctions.sliceResourceCharacter(ui);
             CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
             DropFunctions.onDropSiteOnNewCompany(code);
         }
@@ -330,6 +353,8 @@ const DropFunctions = {
         if (DropFunctions.isPrioElement(ui))
             return false;
 
+        DropFunctions.sliceResourceCharacter(ui);
+
         const pCard = ui.draggable[0];
         const type = pCard.getAttribute("data-card-type");
         if (type === "character" || type === "resource")
@@ -344,7 +369,7 @@ const DropFunctions = {
             if (type === "character")
                 HandCardsDraggable.onJoinCompany(uuid, source, companyUuid);
             else
-                HandCardsDraggable.onPlayOnCompany(uuid, companyUuid);
+                HandCardsDraggable.onPlayOnCompany(uuid, source, companyUuid);
 
             DropFunctions.getApi().send("/game/draw/company", companyUuid);
         }
@@ -631,6 +656,8 @@ const HandCardsDraggable = {
         if (DropFunctions.isPrioElement(ui))
             return false;
 
+        DropFunctions.sliceResourceCharacter(ui);
+
         const elemDraggable = ui.draggable[0];
         const droppableArea = HandCardsDraggable.findFirstCharacterDiv(this);
         const source = elemDraggable.getAttribute("data-location");
@@ -707,6 +734,7 @@ const HandCardsDraggable = {
         if (DropFunctions.isPrioElement(ui))
             return false;
 
+        DropFunctions.sliceResourceCharacter(ui);
         const elemDraggable = ui.draggable[0];
         const source = elemDraggable.getAttribute("data-location");
         const receivingCharacter = HandCardsDraggable.getCompanyPath(this);
@@ -715,7 +743,7 @@ const HandCardsDraggable = {
         let drawReceivingCompanyId = receivingCharacter.company_uuid;
         let drawDonatingCompanyId = "";
         
-        if (elemDraggable.getAttribute("data-card-type") === "character")
+        if (elemDraggable.getAttribute("data-card-type") === "character" && elemDraggable.getAttribute("data-allow-follower") === "true")
             return;
 
         if (source === "hand" || source === "stagingarea")
@@ -733,13 +761,7 @@ const HandCardsDraggable = {
                 drawDonatingCompanyId = donatingCharacter.character_uuid;
 
             const draggableType = elemDraggable.getAttribute("data-card-type");
-            if (draggableType === "resource")
-            {
-                const pThis = this;
-                CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
-                HandCardsDraggable.onAddResourceToCharacter(elemDraggable.getAttribute("data-uuid"), pThis, false);
-            }
-            else if (draggableType === "hazard")
+            if (draggableType === "resource" || draggableType === "hazard" || (elemDraggable.getAttribute("data-card-type") === "character" && elemDraggable.getAttribute("data-allow-follower") === "true"))
             {
                 const pThis = this;
                 CreateHandCardsDraggableUtils.removeDraggable(ui.draggable);
@@ -822,7 +844,7 @@ const HandCardsDraggable = {
             }
         }
 
-        if (pCardContainer.getAttribute("data-card-type") === "character" && pCardContainer.getAttribute("data-location") !== "hand")
+        if (pCardContainer.getAttribute("data-card-type") === "character" && pCardContainer.getAttribute("data-location") !== "hand" && pCardContainer.getAttribute("data-allow-follower") !== "false")
         {
             const thisid = pCardContainer.getAttribute("id");
             const uuid = pCardContainer.getAttribute("data-uuid");
@@ -989,9 +1011,9 @@ const HandCardsDraggable = {
             HandCardsDraggable.getApi().send("/game/character/join/company", {source: source, uuid: _joiningCharacterUuid, companyId: targetCompanyId});
     },
 
-    onPlayOnCompany: function(uuid, companyUuid)
+    onPlayOnCompany: function(uuid, source, companyUuid)
     {
-        MeccgApi.send("/game/company/location/attach", {uuid: uuid, companyUuid: companyUuid, reveal: true});
+        MeccgApi.send("/game/character/join/company", { uuid:uuid, source: source, companyId: companyUuid });
     },
     
     droppableParams : {
@@ -1007,7 +1029,10 @@ const HandCardsDraggable = {
     droppableAcceptResrouceAndHazards : function(elem)
     {
         const sType = elem.attr("data-card-type");
-        return sType === "resource" || sType === "hazard" || sType === "site";
+        if (sType === "resource" || sType === "hazard" || sType === "site")
+            return true;
+        else
+            return sType === "character" && elem.attr("data-allow-follower") === "false"
     },
     
     setupCardPreviewElement : function(id)
@@ -1083,7 +1108,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnDiscard.bind(DropFunctions)
@@ -1093,7 +1118,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnVicotry
@@ -1103,7 +1128,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnSideboard
@@ -1113,7 +1138,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnPlaydeck
@@ -1123,7 +1148,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnHand
@@ -1133,7 +1158,7 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
     {
         tolerance: "pointer",
         classes: HandCardsDraggable.droppableParams,
-        accept: HandCardsDraggable.droppableAccept,
+        accept: () => true,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
         drop: DropFunctions.dropOnHand
@@ -1149,6 +1174,16 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
     });
 
+    jQuery(DropableAreas.stagagingArea()).droppable(
+        {
+            tolerance: "pointer",
+            classes: HandCardsDraggable.droppableParams,
+            drop: DropFunctions.dropOnAddNew,
+            accept: () => true,
+            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
+            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
+        });
+
     jQuery(DropableAreas.outOfPlay()).droppable(
     {
         tolerance: "pointer",
@@ -1156,49 +1191,11 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
         drop: DropFunctions.dropOnOutOfPlay,
         over: HandCardsDraggable.onDroppableHighPrioOver,
         out: HandCardsDraggable.onDroppableHighPrioOut,  
-        accept: function() {
-            return true;
-        }
+        accept: () => true
     });
 
     if (document.body.getAttribute("data-is-watcher") !== "true")
     {
-        let elem = document.createElement("div");
-        elem.setAttribute("id", "mobile-action-area-left");
-        elem.setAttribute("class", "mobile-action-area mobile-action-area-leftclick");
-        document.body.appendChild(elem);
-
-        let icon = document.createElement("i");
-        icon.setAttribute("class", "fa fa-repeat");
-        elem.appendChild(icon);
-
-        jQuery(document.getElementById("mobile-action-area-left")).droppable({
-            tolerance: "pointer",
-            classes: HandCardsDraggable.droppableParams,
-            drop: DropFunctions.dropOnMobileActionAreaLeftClick,
-            accept: () => true,
-            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
-            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
-        });
-
-        elem = document.createElement("div");
-        elem.setAttribute("id", "mobile-action-area-right");
-        elem.setAttribute("class", "mobile-action-area mobile-action-area-rightclick");
-        document.body.appendChild(elem);
-
-        icon = document.createElement("i");
-        icon.setAttribute("class", "fa fa-bars");
-        elem.appendChild(icon);
-
-        jQuery(document.getElementById("mobile-action-area-right")).droppable({
-            tolerance: "pointer",
-            classes: HandCardsDraggable.droppableParams,
-            drop: DropFunctions.dropOnMobileActionAreaLeftClickRight,
-            accept: () => true,
-            over: ( event, ui ) => ui.draggable[0].classList.add("ui-draggable-on-droppable"),
-            out: ( event, ui ) => ui.draggable[0].classList.remove("ui-draggable-on-droppable")
-        });
-
         const bar = document.getElementById("progression-phase-box");
         if (bar !== null)
         {

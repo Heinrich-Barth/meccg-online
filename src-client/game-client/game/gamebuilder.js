@@ -772,6 +772,10 @@ const GameBuilder = {
             }
         });
 
+        MeccgApi.addListener("/game/company/move", (bIsMe, jData) => {
+            if (!bIsMe)
+                ContextMenu.onMoveCompanyEvent(jData.companyid, jData.direction);
+        });
         
 
         MeccgApi.addListener("/game/infobox/card", function(bIsMe, code)

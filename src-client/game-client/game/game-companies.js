@@ -168,19 +168,11 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
     if (pDiv === null)
         return null;
 
-    if (bIsPlayer)
-    {
-        document.getElementById("player_companies").prepend(pDiv);
-    }
-    else
-    {
-        const container = createOpponentContainer(sHexPlayerCode, playerId);
-        if (container !== null)
-            container.prepend(pDiv);
-    }
-
-    if (typeof ContextMenu.contextActions.onContextCompany !== "undefined")
+    if (typeof ContextMenu?.contextActions?.onContextCompany !== "undefined")
         pDiv.oncontextmenu = ContextMenu.contextActions.onContextCompany.bind(ContextMenu.contextActions);
+
+    const targetContainer = bIsPlayer ? document.getElementById("player_companies") : createOpponentContainer(sHexPlayerCode, playerId);
+    targetContainer.prepend(pDiv);
 
     return document.getElementById(id);
 }
@@ -660,27 +652,23 @@ const GameCompanies = {
         {
             pCheckForCardsPlayed.loadBefore(pElemContainer);
             ArrayList(pElemContainer).find(".company-characters").each(DomUtils.removeAllChildNodes);
-
             return pElemContainer;
         }
-        else
+
+        const sHexPlayerCode = this.player2Hex(playerId);
+        if (sHexPlayerCode === "")
+            return null;
+
+        const elemContainer = insertNewcontainer(bIsMe, sHexPlayerCode, compnanyId, playerId);
+        if (document.body.getAttribute("data-is-watcher") === "true")
         {
+            document.body.dispatchEvent(new CustomEvent("meccg-visitor-addname", { "detail": {
+                id: "companies_opponent_" + sHexPlayerCode,
+                player: playerId
+            }}));
+        }
 
-            const sHexPlayerCode = this.player2Hex(playerId);
-            if (sHexPlayerCode === "")
-                return null;
-
-            const elemContainer = insertNewcontainer(bIsMe, sHexPlayerCode, compnanyId, playerId);
-            if (document.body.getAttribute("data-is-watcher") === "true")
-            {
-                document.body.dispatchEvent(new CustomEvent("meccg-visitor-addname", { "detail": {
-                    id: "companies_opponent_" + sHexPlayerCode,
-                    player: playerId
-                }}));
-            }
-
-            return elemContainer;
-        }   
+        return elemContainer;
     },
 
     /**

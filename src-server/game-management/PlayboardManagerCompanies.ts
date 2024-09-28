@@ -137,7 +137,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      */
     discardCompanyOnGuardCards(companyUuid:string)
     {
-        if (!this.companyExists(companyUuid))
+        if (!this.#companyExists(companyUuid))
             return;
 
         let jCard, pDeck;
@@ -160,7 +160,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       */
     discardCompanyOnGuardCard(uuid:string, companyUuid:string)
     {
-        if (!this.companyExists(companyUuid))
+        if (!this.#companyExists(companyUuid))
             return false;
 
         let _uuid, jCard, pDeck;
@@ -247,39 +247,39 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {JSON} companyCharacter
      * @returns {Boolean}
      */
-     addCompanyCharacterToCompany(targetCompanyId:string, hostingCharacterUuid:string, companyCharacter:TCharacterInGame):boolean
-     {
-         let targetCompany = this.#companies[targetCompanyId];
-         if (typeof targetCompany === "undefined")
-         {
+    addCompanyCharacterToCompany(targetCompanyId:string, hostingCharacterUuid:string, companyCharacter:TCharacterInGame):boolean
+    {
+        const targetCompany = this.#companies[targetCompanyId];
+        if (typeof targetCompany === "undefined")
+        {
             Logger.warn("Target company does not exist: " + targetCompanyId);
             return false;
-         }
- 
-         let listAdded = [];
- 
-         if (hostingCharacterUuid === "") /* add to target company list */
-         {
-             targetCompany.characters.push(companyCharacter);
-             listAdded.push(companyCharacter.uuid);
-         }
-         else
-         {
-             listAdded = this.linearizeCompanyCharacter(companyCharacter);
-             for (let _host of targetCompany.characters)
-             {
-                 if (_host.uuid === hostingCharacterUuid)
-                 {
-                    for (let _add of listAdded)
-                        _host.influenced.push(_add);
- 
-                    break;
-                 }
-             }
-         }
- 
-        return super.doAddCompanyCharacterToCompany(targetCompanyId, hostingCharacterUuid, listAdded);
-     }
+        }
+
+        let listAdded = [];
+
+        if (hostingCharacterUuid === "") /* add to target company list */
+        {
+            targetCompany.characters.push(companyCharacter);
+            listAdded.push(companyCharacter.uuid);
+        }
+        else
+        {
+            listAdded = this.linearizeCompanyCharacter(companyCharacter);
+            for (let _host of targetCompany.characters)
+            {
+                if (_host.uuid === hostingCharacterUuid)
+                {
+                for (let _add of listAdded)
+                    _host.influenced.push(_add);
+
+                break;
+                }
+            }
+        }
+
+        return this.doAddCompanyCharacterToCompany(targetCompanyId, hostingCharacterUuid, listAdded);
+    }
 
      /**
       * Let's character join company from hand
@@ -315,7 +315,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {String} companyId Company Id to join
      * @returns success state
      */
-    #joinCompanyFromBoard(uuid:string, companyId:string, isResourceAsCharacter = false)
+    #joinCompanyFromBoard(uuid:string, companyId:string)
     {
         const card = this.popCompanyCharacter(uuid);
         if (!this.addCompanyCharacterToCompany(companyId, "", card))
@@ -337,12 +337,12 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       * @param {boolean} isResourceAsCharacter Is a resouce based company
       * @returns {Boolean} Success state
       */
-    JoinCompany(uuid:string, source:string, companyId:string, playerId:string, isResourceAsCharacter = false)
+    JoinCompany(uuid:string, source:string, companyId:string, playerId:string, isResourceAsCharacter:boolean)
     {
-        if (source === "hand")
+        if (source === "hand" || isResourceAsCharacter)
             return this.joinCompanyFromHand(uuid, companyId, playerId);
-        else 
-            return this.#joinCompanyFromBoard(uuid, companyId, isResourceAsCharacter);
+        else          
+            return this.#joinCompanyFromBoard(uuid, companyId);
     }
   
       /**
@@ -372,7 +372,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
 
     ReadyCompanyCards(companyUuid:string)
     {
-        if (!this.companyExists(companyUuid))
+        if (!this.#companyExists(companyUuid))
             return;
 
         for (let _companyCharacter of this.#companies[companyUuid].characters)
@@ -446,13 +446,13 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       */
       RevealCompanyDestinationSite(companyUuid:string)
       {
-          if (this.companyExists(companyUuid))
+          if (this.#companyExists(companyUuid))
               this.#companies[companyUuid].sites.revealed = true;
       }
   
       CompanyArrivedAtDestination(companyUuid:string)
       {
-          if (!this.companyExists(companyUuid))
+          if (!this.#companyExists(companyUuid))
               return;
           
           const jCompanySites = this.#companies[companyUuid].sites;
@@ -468,7 +468,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
 
       CompanyReturnsToOrigin(companyUuid:string)
       {
-          if (!this.companyExists(companyUuid))
+          if (!this.#companyExists(companyUuid))
               return;
           
           let jCompanySites = this.#companies[companyUuid].sites;
@@ -487,7 +487,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       */
     AddHazardToCompanySite(cardUuid:string, companyUuid:string)
     {
-        if (!this.companyExists(companyUuid))
+        if (!this.#companyExists(companyUuid))
         {
             Logger.warn("Cannot find company " + companyUuid);
             return false;
@@ -571,7 +571,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
          */
         return this.#popCompanyCharacter0(uuid);
     }
- 
+    
     /**
       * Create a new company
       * 
@@ -664,10 +664,10 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
     }
   
  
-     companyExists(uuid:string)
-     {
-         return typeof this.#companies[uuid] !== "undefined";
-     }
+    #companyExists(uuid:string)
+    {
+        return typeof this.#companies[uuid] !== "undefined";
+    }
 
     getCompanyById(companyId:string):TCompany|null
     {
@@ -676,44 +676,88 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         else
             return this.#companies[companyId];
     }
- 
-     GetCompanyAttachedLocationCards(companyId:string) : TCompanyLocationCard
-     {
-         const res:TCompanyLocationCard = {
-             current: "",
-             current_tapped : false,
-             regions: [],
-             target: "",
-             target_tapped : false,
-             attached : [],
-             revealed : false
-         };
 
-         const pCompany = this.getCompanyById(companyId);
-         if (pCompany === null)
-             return res;
+    SliceResourceCharacterCompany(playerid:string, uuid:string)
+    {
+        const res = this.sliceResourceCharacterCompany(playerid, uuid);
+        if (res === null)
+            return "";
+
+        const company = this.getCompanyById(res.companyid);
+        if (company === null)
+            return res.companyid;
+
+        /** followers needing to join the company under direct influence (because host is being) */
+        for (let cuid of res.followers)
+            this.#joinCompanyFromBoard(cuid, res.companyid);
+
+        /** remove given character */
+        if (res.newcharacteruuid === "")
+        {
+            for (let i = 0; i < company.characters.length; i++)
+            {
+                if (company.characters[i].uuid === uuid) /** target character to is host, so only add its influenced characters */
+                {
+                    company.characters.splice(i, 1);
+                    break;
+                }
+            }
+
+            if (company.characters.length === 0)
+                this.removeEmptyCompanies();
+        }
+        else /** update new host character */
+        {
+            for (let character of company.characters)
+            {
+                if (character.uuid === uuid)
+                {
+                    character.uuid = res.newcharacteruuid;
+                    break;
+                }
+            }
+        }
+
+        return res.companyid;
+    }
  
-         let sOwnerId = pCompany.playerId;
-         let jSites = pCompany.sites;
-         let _list = [];
-         
-         for (let siteUuid of jSites.attached)
-         {
+    GetCompanyAttachedLocationCards(companyId:string) : TCompanyLocationCard
+    {
+        const res:TCompanyLocationCard = {
+            current: "",
+            current_tapped : false,
+            regions: [],
+            target: "",
+            target_tapped : false,
+            attached : [],
+            revealed : false
+        };
+
+        const pCompany = this.getCompanyById(companyId);
+        if (pCompany === null)
+            return res;
+
+        let sOwnerId = pCompany.playerId;
+        let jSites = pCompany.sites;
+        let _list = [];
+        
+        for (let siteUuid of jSites.attached)
+        {
             const _card = this.GetCardByUuid(siteUuid);
             if (_card !== null)
                 _list.push(_card);
-         }
- 
-         res.current = jSites.current;
-         res.regions = jSites.regions;
-         res.target = jSites.target;
-         res.revealed = jSites.revealed;
-         res.attached = _list;
-         res.current_tapped = this.IsSiteTapped(sOwnerId, jSites.current);
-         res.target_tapped = this.IsSiteTapped(sOwnerId, jSites.target);
-                 
-         return res;
-     }
+        }
+
+        res.current = jSites.current;
+        res.regions = jSites.regions;
+        res.target = jSites.target;
+        res.revealed = jSites.revealed;
+        res.attached = _list;
+        res.current_tapped = this.IsSiteTapped(sOwnerId, jSites.current);
+        res.target_tapped = this.IsSiteTapped(sOwnerId, jSites.target);
+                
+        return res;
+    }
      
     /**
      * Get the first company character card by company id
@@ -751,7 +795,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         const pChar = this.getCharacterByUuid(jsonChar.uuid);
         if (pChar === null)
         {
-            Logger.warn("Cannot find character by it " + jsonChar.uuid);
+            Logger.warn("Cannot find character by id " + jsonChar.uuid);
             return;
         }
 
@@ -777,6 +821,12 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         targetList.push(elem);
     }
 
+    CompanyExists(id:string)
+    {
+        const pCompany = this.getCompanyById(id);
+        return pCompany !== null;
+    }
+
     /**
      * Obtain the company object by its company id. Returns
      * @param {String} companyId target id
@@ -786,12 +836,9 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
     {
         const pCompany = this.getCompanyById(companyId);
         if (pCompany === null)
-        {
-            Logger.info("Cannot find company by its id " + companyId + " (GetFullCompanyByCompanyId). Probaly removed.");
             return null;
-        }
 
-        let company = {
+        const company = {
             id : companyId,
             characters : [],
             sites : this.GetCompanyAttachedLocationCards(companyId),
