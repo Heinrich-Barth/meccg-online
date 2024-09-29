@@ -848,6 +848,9 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         for (let _char of pCompany.characters)
             this.#addCharacter(_char, company.characters);
 
+        if (company.characters.length === 0)
+            return null;
+        
         return company;
     }
 

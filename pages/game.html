@@ -21,6 +21,8 @@
         <script src="/media/assets/js/jquery.min.js?version=version"></script>
         <script src="/media/assets/js/jquery-ui.min.js?version=version"></script>
         <script src="/media/assets/js/jquery-ui.touch-punch.min.js"></script>
+        <script src="/media/assets/js/socket.io.min.js"></script>
+
         <link rel="icon" type="image/png" href="/media/assets/favicon.png">
         <base target="_self">
     </head>
@@ -42,58 +44,7 @@
             document.title = `${g_sRoom.toUpperCase()} - MECCG Game in progress`;
         </script>
     <!-- CUT -->
-        <script src="/dist-client/js/socket.io.min.js"></script>
         <script src="/data/dictionary.js?version=version"></script>
-        <script src="/dist-client/js/game/table.js?version=version"></script>
-        <script src="/dist-client/js/question/question.js?version=version"></script>
-        <script src="/dist-client/js/game/PageRefreshInfo.js?version=version"></script>
-        <script src="/dist-client/js/game/libraries.js?version=version"></script>
-        <script src="/dist-client/js/game/meccg-api.js?version=version"></script>
-        <script src="/dist-client/js/game/discardpile/discardpile.js"></script>
-        <script src="/dist-client/js/game/map/SiteList.js?version=version"></script>
-        <script src="/dist-client/js/game/game-events.js?version=version"></script>
-        <script src="/dist-client/js/preferences.js?version=version"></script>
-        <script src="/dist-client/js/game/PreferenceChoise.js?version=version"></script>
-        <script src="/dist-client/js/game/added-cards-monitor.js?version=version"></script>
-        <script src="/dist-client/js/game/cardlist.js?version=version"></script>
-        <script src="/dist-client/js/game/score/score.js?version=version"></script>
-        <script src="/dist-client/js/game/playerselector/playerselector.js?version=version"></script>
-        <script src="/dist-client/js/game/contextmenu/contextmenu.js?version=version"></script>
-        <script src="/dist-client/js/game/game-staging-area.js?version=version"></script>
-        <script src="/dist-client/js/game/GameCompanyLocation.js?version=version"></script>
-        <script src="/dist-client/js/game/game-companies.js?version=version"></script>
-        <script src="/dist-client/js/game/card-preview.js?version=version"></script>
-        <script src="/dist-client/js/game/game-taskbarcards.js?version=version"></script>
-        <script src="/dist-client/js/game/handcards-draggable.js?version=version"></script>
-        <script src="/dist-client/js/game/gamebuilder.js?version=version"></script>
-        <script src="/dist-client/js/game/game-tabletop.js?version=version"></script>
-        <script src="/dist-client/js/game/resolvehandsize.js?version=version"></script>
-        <script src="/dist-client/js/game/PlayerSelectorAction.js?version=version"></script>
-        <script src="/dist-client/js/game/TradeCards.js?version=version"></script>
-        <script src="/dist-client/js/game/RevealCardPile.js?version=version"></script>
-        <script src="/dist-client/js/game/arda/exchangebox.js?version=version"></script>
-        <script src="/dist-client/js/game/arda/game-arda.js?version=version"></script>
-        <script src="/dist-client/js/game/savedgame.js?version=version"></script>
-        <script src="/dist-client/js/game/watch/watch.js?version=version"></script>
-
-        <script defer src="/dist-client/js/onready.js?version=version"></script>
-        <script defer src="/dist-client/js/game/dice/dice.js?version=version"></script>
-        <script defer src="/dist-client/js/game/TurnStats.js?version=version"></script>
-        <script defer src="/dist-client/js/game/BackgroundChooser.js?version=version"></script>
-        <script defer src="/dist-client/js/notification/notification.js?version=version"></script>
-        <script defer src="/dist-client/js/game/map/map.js?version=version"></script>
-        <script defer src="/dist-client/js/game/introtip/introtip.js?version=version"></script>
-        <script defer src="/dist-client/js/game/chat/chat.js?version=version"></script>
-        <script defer src="/dist-client/js/game/preferences-game.js?version=version"></script>
-        <script defer src="/dist-client/js/game/highlight/highlight.js?version=version"></script>
-        <script defer src="/dist-client/js/game/DiceChooser.js?version=version"></script>
-        <script defer src="/dist-client/js/game/addcards/addcards.js?version=version"></script>
-        <script defer src="/dist-client/js/game/dicestats.js?version=version"></script>
-        <script defer src="/dist-client/js/game/shortcuts.js?version=version"></script>
-        <script defer src="/dist-client/js/saveas.js?version=version"></script>
-        <script defer src="/dist-client/js/ping.js?version=version"></script>
-        <script defer src="/dist-client/js/game/sfx/sfx.js?version=version"></script>
-        <script defer src="/dist-client/js/game/InfoBoxCard.js?version=version"></script>
-        <script defer src="/dist-client/js/game/ChangeSeating.js?version=version"></script>
+        <script src="/dist-game/game-client.js?version=version"></script>
     </body>
 </html>

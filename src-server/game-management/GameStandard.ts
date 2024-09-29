@@ -817,22 +817,32 @@ export default class GameStandard extends GamePlayers
 
     onGameDrawCompany(userid:any, _socket:any, data:any)
     {
+        if (typeof data !== "string")
+            return;
+        
         const pCompany = this.getPlayboardManager().GetFullCompanyByCompanyId(data);
         if (pCompany !== null)
         {
             this.publishToPlayers("/game/player/draw/company", userid, pCompany);
             this.#removeEmptyCompanies();
         }
+        else 
+            this.#removeCompanyFromBoard(userid, [data]);
     }
 
     onGameDrawCompanies(userid:string, _socket:any, _data:any)
     {
+        const rem:string[] = [];
         for (let _company of this.getPlayboardManager().GetCompanyIds(userid))
         {
             const _temp = this.getPlayboardManager().GetFullCompanyByCompanyId(_company);
             if (_temp !== null)
                 this.publishToPlayers("/game/player/draw/company", userid, _temp);
+            else 
+                rem.push(_company)
         }
+
+        this.#removeCompanyFromBoard(userid, rem);
     }
 
     onCharacterHostCard(userid:string, _socket:any, obj:any)
@@ -1026,7 +1036,14 @@ export default class GameStandard extends GamePlayers
             const _temp = this.getPlayboardManager().GetFullCompanyByCompanyId(companyId);
             if (_temp !== null)
                 this.publishToPlayers("/game/player/draw/company", userid, _temp);
+            else
+                this.#removeCompanyFromBoard(userid, [companyId]);
         }
+    }
+
+    #removeCompanyFromBoard(userid:string, ids:string[])
+    {
+        this.publishToPlayers("/game/player/company/remove", userid, { ids: ids });
     }
 
     onGameCompanyMarkAsCurrent(userid:string, _socket:any, jData:any)
