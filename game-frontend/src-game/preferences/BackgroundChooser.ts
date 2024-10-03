@@ -1,0 +1,56 @@
+import Dictionary from "../utils/dictionary";
+import PreferenceChoise from "./PreferenceChoise";
+
+export default class BackgroundChooser extends PreferenceChoise 
+{
+    getHeadline()
+    {
+        return Dictionary.get("bg_choose", "Choose Background");
+    }
+
+    getDescription()
+    {
+        return Dictionary.get("bg_choose_text", "Click on am image to immediately choose it or click anywhere else to close the panel");
+    }
+
+    insertOption(folder:string)
+    {
+        const elem = document.createElement("div");
+        elem.setAttribute("class", "dice-option image-option " + folder);
+        elem.setAttribute("data-type", folder);
+        elem.setAttribute("title", Dictionary.get("bg_click", "Click to use this background"));
+        elem.onclick = (e) => this.onDiceClick(e.target);
+        elem.innerText = " ";
+
+        return elem;
+    }
+
+    #replaceBackground(sNew:string)
+    {
+        if (sNew === undefined || sNew === "" || document.body.classList.contains(sNew))
+            return false;
+
+        document.body.classList.add(sNew)
+
+        const list:any = document.body.classList;
+        for (let _name of list)
+        {
+            if (_name !== sNew && _name.indexOf("bg-") === 0)
+                document.body.classList.remove(_name);
+        }
+
+        return true;
+    }
+
+    onClickPerformed(elem:string)
+    {
+        this.#replaceBackground(elem);
+        this.updateCookie("background", elem);
+    }
+}
+
+export function InitBackgroundChooser()
+{
+    document.body.addEventListener("meccg-background-chooser", () => new BackgroundChooser().init("/data/backgrounds"), false);
+}
+

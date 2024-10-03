@@ -50,63 +50,7 @@ export default class PlayboardManagerStagingArea extends PlayboardManagerCharact
  
          return data;
      }
-
-
-    /**
-     * Remove a card from the hand/deck or onboard company
-     * 
-     * @param {String} playerId
-     * @param {String} uuid
-     * @returns {Boolean}
-     */
-    removeCardFromDeckOrCompany(playerId:string, uuid:string)
-    {
-        if (super.removeCardFromDeckOrCompany(playerId, uuid))
-            return true;
-
-        for (let i in this.#stagingareas)
-        {
-            if (super.removeFromList(uuid, this.#stagingareas[i].resources) || super.removeFromList(uuid, this.#stagingareas[i].hazards))
-                return true;
-        }
-        
-        /* at last, it might be an onguard card */
-        return false;
-    }
- 
-     
-    /**
-     * Move a card to the staging area from a players HAND
-     * @param {String} uuid
-     * @param {String} playerSourceId
-     * @param {String} playerTagetId
-     * @returns {boolean}
-     */
-     MoveCardToStagingArea(uuid:string, playerSourceId:string, playerTagetId:string)
-     {
-        const pCard = this.GetCardByUuid(uuid);
-        if (pCard === null)
-            return false;
-
-        if (!this.removeCardFromDeckOrCompany(playerSourceId, uuid))
-        {
-            Logger.warn("Could not remove card " + uuid + " from deck of company/staging area");
-            return false;
-        }
-
-        const pStagingArea = typeof this.#stagingareas[playerTagetId] === "undefined" ? null : this.#stagingareas[playerTagetId];
-        if (pStagingArea === null)
-            return false;
-
-        if (pCard.type === "hazard")
-            pStagingArea.hazards.push(uuid);
-        else
-            pStagingArea.resources.push(uuid);
-
-        return true;
-     }
- 
-
+    
     Restore(playboard:any)
     {
         super.Restore(playboard);
@@ -124,14 +68,7 @@ export default class PlayboardManagerStagingArea extends PlayboardManagerCharact
 
     GetStagingCards(playerId:string, isResources:boolean)
     {
-        if (this.#stagingareas[playerId] === undefined)
-            return [];
-        else if (isResources && this.#stagingareas[playerId].resources !== undefined)
-            return this.#stagingareas[playerId].resources;
-        else if (!isResources && this.#stagingareas[playerId].hazards !== undefined)
-            return this.#stagingareas[playerId].hazards;
-        else
-            return [];        
+        return [];        
     }
 
 }

@@ -7,8 +7,7 @@ export type TFullCompanyCharacter = {
     companyId : string
     parent : string,
     character : TDeckCard,
-    resources : TDeckCard[],
-    hazards : TDeckCard[]
+    attached : TDeckCard[]
     influenced : []
 }
 
@@ -17,7 +16,6 @@ export default class PlayboardManager extends PlayboardManagerCompanies
     reset()
     {
         super.reset();
-
         super.triggerEventSetupNewGame();
     }
 
@@ -70,35 +68,6 @@ export default class PlayboardManager extends PlayboardManagerCompanies
         const pCard = this.GetCardByUuid(uuid);
         return pCard === null ? "" : pCard.code;
     }  
-
-    GetFullCompanyCharacter(companyId:string, uuid:string) : TFullCompanyCharacter|null
-    {
-        if (companyId === "" || !this.companyExists(companyId))
-        {
-            Logger.warn("Cannot find company by its id " + companyId + " (GetFullCompanyCharacter)");
-            return null;
-        }
-
-        const pCharacter = this.getCharacterByUuid(uuid);
-        if (pCharacter === null)
-        {
-            Logger.warn("Character " + uuid + " does not exist.");
-            return null;
-        }
-
-        const pCard = this.GetCardByUuid(uuid);
-        if (pCard === null)
-            return null;
-
-        return {
-            companyId : pCharacter.companyId,
-            parent : this.getParent(pCharacter.parentUuid),
-            character : pCard,
-            resources : this.toCardList(pCharacter.resources),
-            hazards : this.toCardList(pCharacter.hazards),
-            influenced : []
-        };
-    }
 
      /**
       * Move a single card from anywhere to ...

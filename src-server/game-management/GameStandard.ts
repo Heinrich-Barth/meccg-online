@@ -66,7 +66,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/deck/reveal/self", this.onDeckRevealSelfPerform.bind(this));
         this.getMeccgApi().addListener("/game/deck/discard/playdeck", this.onReshuffleDiscardIntoPlaydeck.bind(this));
 
-        this.getMeccgApi().addListener("/game/company/create", this.onGameCompanyCreate.bind(this));
+        this.getMeccgApi().addListener("/game/company/create", this.#onGameCompanyCreate.bind(this));
         this.getMeccgApi().addListener("/game/company/arrive", this.onGameCompanyArrives.bind(this));
         this.getMeccgApi().addListener("/game/company/returntoorigin", this.onGameCompanyReturnsToOrigin.bind(this));
         this.getMeccgApi().addListener("/game/company/highlight", this.onGameCompanyHighlight.bind(this));
@@ -75,7 +75,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/company/location/reveal", this.onGameCompanyLocationReveal.bind(this));
         this.getMeccgApi().addListener("/game/company/location/attach", this.onGameCompanyLocationAttach.bind(this));
         this.getMeccgApi().addListener("/game/company/location/choose", this.onGameCompanyLocationChoose.bind(this));
-
+        this.getMeccgApi().addListener("/game/company/move", this.#onCompanyMove.bind(this));
         this.getMeccgApi().addListener("/game/score/show", this.scoreShow.bind(this));
         this.getMeccgApi().addListener("/game/score/update", this.scoreUpdate.bind(this));
         this.getMeccgApi().addListener("/game/score/add", this.scoreAdd.bind(this));
@@ -87,9 +87,10 @@ export default class GameStandard extends GamePlayers
 
         this.getMeccgApi().addListener("/game/character/host-card", this.onCharacterHostCard.bind(this));
         this.getMeccgApi().addListener("/game/character/receive-card", this.onCharacterReceiveCard.bind(this));
-        this.getMeccgApi().addListener("/game/character/join/character", this.onCharacterJoinCharacter.bind(this));
-        this.getMeccgApi().addListener("/game/character/join/company", this.onCharacterJoinCompany.bind(this));
+        this.getMeccgApi().addListener("/game/character/join/character", this.#onCharacterJoinCharacter.bind(this));
+        this.getMeccgApi().addListener("/game/character/join/company", this.#onCharacterJoinCompany.bind(this));
         this.getMeccgApi().addListener("/game/character/list", this.onGetCharacters.bind(this));
+        this.getMeccgApi().addListener("/game/character/slice-hosting-card", this.#onGameCompanySliceResourceCharacter.bind(this));
         
         this.getMeccgApi().addListener("/game/discardopenly", this.onDiscardOpenly.bind(this));
 
@@ -99,6 +100,19 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/avatar/set", this.onAvatarSet.bind(this));
         this.getMeccgApi().addListener("/game/players/reorder", this.onChangePlayerOrder.bind(this));
     }
+
+    #onCompanyMove(userid:string, _socket:any, jData:any)
+    {
+        if (jData.companyid && jData.direction)
+        {
+            this.publishToPlayers("/game/company/move", userid, {
+                companyid: jData.companyid,
+                direction: jData.direction
+            });               
+        }
+    }
+
+
 
     /**
      * Send a new card to the FRONTEND GUI hand list
@@ -116,10 +130,10 @@ export default class GameStandard extends GamePlayers
     updateHandCountersPlayerAll()
     {
         for (let id of this.getPlayerIds())
-            this.updateHandCounterPlayerOnly(id);
+            this.#updateHandCounterPlayerOnly(id);
     }
 
-    updateHandCounterPlayerOnly(player:string)
+    #updateHandCounterPlayerOnly(player:string)
     {
         const size = this.getPlayboardManager().Size(player);
         if (size === null)
@@ -136,18 +150,18 @@ export default class GameStandard extends GamePlayers
         });
     }
 
-    updateHandCountersPlayer(player:string)
+    #updateHandCountersPlayer(player:string)
     {
         if (typeof player === "undefined")
             player = this.getCurrentPlayerId();
 
-        this.updateHandCounterPlayerOnly(player);
-        this.updateHandCounterOnlyPlayer(player);
+        this.#updateHandCounterPlayerOnly(player);
+        this.#updateHandCounterOnlyPlayer(player);
     }
 
-    updateHandCounterOnlyPlayer(player:string)
+    #updateHandCounterOnlyPlayer(player:string)
     {
-        let size = this.getPlayboardManager().Size(player);
+        const size = this.getPlayboardManager().Size(player);
         if (size === null)
             return;
 
@@ -160,15 +174,15 @@ export default class GameStandard extends GamePlayers
         });
     }
 
-    removeEmptyCompanies()
+    #removeEmptyCompanies()
     {
         const keys = this.getPlayboardManager().removeEmptyCompanies();
         if (keys.length === 0)
-            return false;
+            return [];
 
         this.publishToPlayers("/game/remove-empty-companies", "", keys);
         this.updateHandCountersPlayerAll();
-        return true;
+        return keys;
     }
 
     createEmptyBoardData()
@@ -240,7 +254,7 @@ export default class GameStandard extends GamePlayers
             this.getCurrentBoardCompanies(_dataTarget, _playerId);
             this.getCurrentBoardStaging(_dataTarget.stage_resources, _playerId, true);
             this.getCurrentBoardStaging(_dataTarget.stage_hazards, _playerId, false);
-            this.updateHandCountersPlayer(_playerId);
+            this.#updateHandCountersPlayer(_playerId);
         }
 
         data.scores = this.getScoring().getScoreSheets();
@@ -270,7 +284,7 @@ export default class GameStandard extends GamePlayers
         for (let card of _list)
             this.drawCard(id, card.uuid, card.code, card.type, 1);
 
-        this.updateHandCountersPlayer(id);
+        this.#updateHandCountersPlayer(id);
     }
 
     sendCurrentHandSize()
@@ -291,33 +305,8 @@ export default class GameStandard extends GamePlayers
 
     onStagingAreaAddCard(userid:string, _socket:any, data:any)
     {
-        const _uuid = data.uuid;
-        if (!this.getPlayboardManager().MoveCardToStagingArea(_uuid, userid, userid))
-        {
-            this.publishChat(userid, "Cannot move card to staging area", false);
-            return false;
-        }
-
-        const card:TDeckCard|null = this.getPlayboardManager().GetCardByUuid(_uuid);
-        if (card === null)
-            return false;
-        card.turn = this.getCurrentTurn();
-
-        this.publishToPlayers("/game/remove-card-from-hand", "", _uuid);
-        this.publishToPlayers("/game/add-to-staging-area", userid, {
-            uuid: _uuid, 
-            target: "", 
-            code: card.code, 
-            type: card.type, 
-            state: card.state, 
-            revealed: card.revealed !== false, 
-            owner: card.owner, 
-            turn: card.turn,
-            secondary : card.secondary,
-            stage: card.stage === true
-        });
-        this.updateHandCountersPlayer(userid);
-        this.publishChat(userid, "added " + card.code + " to staging area", true);
+        this.publishChat(userid, "Cannot move card to staging area", false);
+        return false;
     }
 
     onGameCardStateReveal(userid:string, _socket:any, data:any)
@@ -415,7 +404,7 @@ export default class GameStandard extends GamePlayers
         for (let card of _list)
             this.drawCard(userid, card.uuid, card.code, card.type, 1);
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         if (_list.length === 1)
             this.publishChat(userid, "drew 1 card", false);
@@ -435,7 +424,7 @@ export default class GameStandard extends GamePlayers
                 this.drawCard(userid, _card.uuid, _card.code, _card.type, 1);
         }
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
         this.publishChat(userid, "drew " + nCards + " card(s)", false);
     }
 
@@ -445,7 +434,7 @@ export default class GameStandard extends GamePlayers
         if (_card === null)
             return;
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
         this.drawCard(userid, _card.uuid, _card.code, _card.type, 1);
         this.publishChat(userid, "drew 1 card", false);
     }
@@ -462,7 +451,7 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, "drew 1 card", false);
         }
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
     }
 
     doStorCard(characterUuid:string, card:TDeckCard)
@@ -635,7 +624,7 @@ export default class GameStandard extends GamePlayers
         const result = this.#onCardMoveDoMove(userid, obj, card);
         if (!result.isEmpty)
         {
-            this.updateHandCountersPlayer(userid);
+            this.#updateHandCountersPlayer(userid);
             this.publishToPlayers("/game/event/cardmoved", userid, {list: result.codes, target: obj.target, source: obj.source});
         }
 
@@ -722,7 +711,7 @@ export default class GameStandard extends GamePlayers
         if (!this.getPlayboardManager().MoveCardTo(data.uuid, card.owner, "discardpile"))
             return false;
 
-        this.updateHandCountersPlayer(card.owner);
+        this.#updateHandCountersPlayer(card.owner);
         this.publishChat(userid, "Discarded 1 card.", true);
         this.onRedrawCompany(userid, affectedCompanyUuid);
         return true;
@@ -828,31 +817,40 @@ export default class GameStandard extends GamePlayers
 
     onGameDrawCompany(userid:any, _socket:any, data:any)
     {
+        if (typeof data !== "string")
+            return;
+        
         const pCompany = this.getPlayboardManager().GetFullCompanyByCompanyId(data);
         if (pCompany !== null)
         {
             this.publishToPlayers("/game/player/draw/company", userid, pCompany);
-            this.removeEmptyCompanies();
+            this.#removeEmptyCompanies();
         }
+        else 
+            this.#removeCompanyFromBoard(userid, [data]);
     }
 
     onGameDrawCompanies(userid:string, _socket:any, _data:any)
     {
+        const rem:string[] = [];
         for (let _company of this.getPlayboardManager().GetCompanyIds(userid))
         {
             const _temp = this.getPlayboardManager().GetFullCompanyByCompanyId(_company);
             if (_temp !== null)
                 this.publishToPlayers("/game/player/draw/company", userid, _temp);
+            else 
+                rem.push(_company)
         }
+
+        this.#removeCompanyFromBoard(userid, rem);
     }
 
     onCharacterHostCard(userid:string, _socket:any, obj:any)
     {
         const uuid = obj.uuid;
-        const company = obj.companyId;
         const character = obj.characterUuid;
 
-        if (!this.getPlayboardManager().CharacterHostCard(company, character, uuid))
+        if (!this.getPlayboardManager().CharacterHostCard(character, uuid))
         {
             Logger.info("character cannot host card.");
             return false;
@@ -864,7 +862,7 @@ export default class GameStandard extends GamePlayers
 
         this.publishToPlayers("/game/remove-card-from-hand", "", uuid);
         this.publishToPlayers("/game/remove-card-from-board", "", uuid);
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         {
             const cardChar = this.getPlayboardManager().GetCardByUuid(character);
@@ -885,7 +883,7 @@ export default class GameStandard extends GamePlayers
         return false;
     }
 
-    onCharacterJoinCharacter(userid:string, _socket:any, data:any)
+    #onCharacterJoinCharacter(userid:string, _socket:any, data:any)
     {
         const cardUuid = data.uuid;
         const targetcharacter = data.targetcharacter;
@@ -895,17 +893,32 @@ export default class GameStandard extends GamePlayers
         if (isFromHand)
         {
             if (this.getPlayboardManager().removeCardFromDeckOrCompany(userid, cardUuid))
-                this.updateHandCounterOnlyPlayer(userid);
+                this.#updateHandCounterOnlyPlayer(userid);
         }
 
         const sWho = this.getCardCode(cardUuid, "Character") + " ";
-        if (!this.getPlayboardManager().JoinCharacter(cardUuid, targetcharacter, targetCompany))
+        const cardChar = this.getPlayboardManager().GetCardByUuid(cardUuid);
+        const isResourceAsCharacter = cardChar !== null && cardChar.type !== "character";
+
+        if (isResourceAsCharacter)
         {
-            this.publishChat(userid, sWho + "cannot join under direct influence", false)
+            const obj = {
+                uuid: cardUuid,
+                companyId: targetCompany,
+                characterUuid: targetcharacter
+            };
+
+            this.onCharacterHostCard(userid, _socket, obj);
+            this.#removeEmptyCompanies();
+        }
+        else if (!this.getPlayboardManager().JoinCharacter(cardUuid, targetcharacter, targetCompany))
+        {
+            this.publishChat(userid, sWho + "cannot join under direct influence", false);
+            return;
         }
         else
         {
-            this.removeEmptyCompanies();
+            this.#removeEmptyCompanies();
             if (isFromHand)
             {
                 const _code = this.getCharacterCode(targetcharacter, "");
@@ -913,12 +926,21 @@ export default class GameStandard extends GamePlayers
                     this.publishToPlayers("/game/event/fromHand", userid, {code: _code, user: userid});
             }
 
-            let sChar = this.getCharacterCode(targetcharacter, "a character");
+            const sChar = this.getCharacterCode(targetcharacter, "a character");
             this.publishChat(userid, sWho + "joined " + sChar + " under direct influence", true);
         }
     }
 
-    onCharacterJoinCompany(userid:string, _socket:any, data:any)
+    #removeCardFromHand(userid:string, uuid:string)
+    {
+        this.#updateHandCounterOnlyPlayer(userid);
+        this.publishToPlayers("/game/remove-card-from-hand", userid, uuid);
+        const _code = this.getCardCode(uuid, "");
+        if (_code !== "")
+            this.publishToPlayers("/game/event/fromHand", userid, {code: _code, user: userid});
+    }
+
+    #onCharacterJoinCompany(userid:string, _socket:any, data:any)
     {
         const _uuid = data.uuid;
         const _source = data.source;
@@ -927,22 +949,23 @@ export default class GameStandard extends GamePlayers
         if (_uuid === "" || _source === "" || _companyId === "")
             return;
 
-        if (!this.getPlayboardManager().JoinCompany(_uuid, _source, _companyId, userid))
+        const isFromHand = _source === "hand";
+        if (isFromHand)
+            this.#removeCardFromHand(userid, _uuid);
+
+        const cardChar = this.getPlayboardManager().GetCardByUuid(_uuid);
+        const isResourceAsCharacter = cardChar !== null && cardChar.type !== "character";
+        if (!this.getPlayboardManager().JoinCompany(_uuid, _source, _companyId, userid, isResourceAsCharacter))
         {
-            Logger.info("Character " + _uuid + " cannot join the company " + _companyId);
+            if (isResourceAsCharacter)
+                Logger.info("Resource character " + _uuid + " cannot join the company " + _companyId);
+            else
+                Logger.info("Character " + _uuid + " cannot join the company " + _companyId);
+
             return;
         }
 
-        if (_source === "hand")
-        {
-            this.updateHandCounterOnlyPlayer(userid);
-            this.publishToPlayers("/game/remove-card-from-hand", userid, _uuid);
-            const _code = this.getCardCode(_uuid, "");
-            if (_code !== "")
-                this.publishToPlayers("/game/event/fromHand", userid, {code: _code, user: userid});
-        }
-
-        this.removeEmptyCompanies();
+        this.#removeEmptyCompanies();    
 
         {
             let sWho = this.getCardCode(_uuid, "Character") + " joined";
@@ -956,7 +979,16 @@ export default class GameStandard extends GamePlayers
         }
     }
 
-    onGameCompanyCreate(userid:string, _socket:any, data:any)
+    #onGameCompanySliceResourceCharacter(userid:string, _socket:any, data:any)
+    {
+        const companyid = this.getPlayboardManager().SliceResourceCharacterCompany(userid, data.uuid);
+        if (!this.getPlayboardManager().CompanyExists(companyid))
+            this.publishToPlayers("/game/remove-empty-companies", "", [companyid]);
+        else
+            this.onRedrawCompany(userid, companyid);
+    }
+
+    #onGameCompanyCreate(userid:string, _socket:any, data:any)
     {
         const _uuid = data.uuid;
         const _source = data.source;
@@ -970,7 +1002,7 @@ export default class GameStandard extends GamePlayers
 
         if (_source === "hand")
         {
-            this.updateHandCounterOnlyPlayer(userid);
+            this.#updateHandCounterOnlyPlayer(userid);
             this.publishToPlayers("/game/remove-card-from-hand", userid, _uuid);
 
             const _code = this.getCardCode(_uuid, "");
@@ -980,7 +1012,7 @@ export default class GameStandard extends GamePlayers
 
         // draw the company
         this.onRedrawCompany(userid, _id);
-        this.removeEmptyCompanies();
+        this.#removeEmptyCompanies();
 
         const card = this.getPlayboardManager().GetCardByUuid(_uuid);
         if (card !== null && card.revealed !== false)
@@ -999,12 +1031,19 @@ export default class GameStandard extends GamePlayers
 
     onRedrawCompany(userid:string, companyId:string)
     {
-        if (userid !== undefined && userid !== "" && companyId !== undefined && companyId !== "")
+        if (userid && companyId)
         {
             const _temp = this.getPlayboardManager().GetFullCompanyByCompanyId(companyId);
             if (_temp !== null)
                 this.publishToPlayers("/game/player/draw/company", userid, _temp);
+            else
+                this.#removeCompanyFromBoard(userid, [companyId]);
         }
+    }
+
+    #removeCompanyFromBoard(userid:string, ids:string[])
+    {
+        this.publishToPlayers("/game/player/company/remove", userid, { ids: ids });
     }
 
     onGameCompanyMarkAsCurrent(userid:string, _socket:any, jData:any)
@@ -1123,7 +1162,7 @@ export default class GameStandard extends GamePlayers
             owner: card.owner
         });
         
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
         if (revealOnDrop)
             this.publishChat(userid, " attached " + card.code + " to site/region", true);
@@ -1290,7 +1329,7 @@ export default class GameStandard extends GamePlayers
                 uuid: uuid,
                 source: "hand"
             };
-            this.onGameCompanyCreate(userid, null, json);
+            this.#onGameCompanyCreate(userid, null, json);
         }
         else
         {
@@ -1327,7 +1366,7 @@ export default class GameStandard extends GamePlayers
         else
             this.publishChat(userid, "just added " + count + " cards to their sideboard", true);
 
-        this.updateHandCountersPlayer(userid);
+        this.#updateHandCountersPlayer(userid);
 
     }
 
