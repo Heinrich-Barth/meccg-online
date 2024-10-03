@@ -256,13 +256,8 @@ const sendRSSGames = function(_req: Request, res: Response)
     res.status(200);
     res.write(`<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Latest Games</title>
-<description>Read all latest games on the platform</description><language>en-US</language>
-<item>
-<guid isPermaLink="false">6e313c08-86a8-4a87-b773-4ce528b53acf</guid>
-<pubDate>Wed, 03 Sep 2024 12:00:00 GMT</pubDate>
-<title>Game @ OLDGREATROAD</title>
-<description>This game is private, but you can start your own game in a matter of seconds.</description>
-</item>`);
+<description>Read all latest games on the platform</description><language>en-US</language>`);
+
     const games = ServerInstance.getRoomManager().getActiveGames();
     const list = createRssFeedGamesSection(games);
 

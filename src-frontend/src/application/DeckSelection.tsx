@@ -595,7 +595,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         <Grid container rowGap={2} >
                             <Grid item xs={12}>
                                 {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
-                                <Button disabled={!allowStart} onClick={onStartGame} fullWidth variant='contained' startIcon={<PlayCircleFilledIcon />} >{allowGameChoice ? Dictionary("frontend.menu.play", "Play") : Dictionary("frontend.menu.join", "Join")} {gameTypeLabel}</Button>
+                                <Button disabled={!allowStart} onClick={onStartGame} fullWidth variant='contained' startIcon={<PlayCircleFilledIcon />} >{Dictionary("frontend.menu.play", "Play")} {gameTypeLabel}</Button>
                             </Grid>
                             <Grid item xs={12}>
                                 {errorMessageFile !== "" && (<Alert severity="error">{errorMessageFile}</Alert>)}
@@ -637,7 +637,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         </> : <>
 
                             <Grid item xs={12} textAlign="center" className='padding2em1m'>
-                                <h3>{Dictionary("frontend.decklist.preselected", "Preselected Decks")}</h3>
+                                <h3>Deck Selection</h3>
                                 <p>Choose a deck or click here to load/import a deck</p>
 
                                 {deckList.map((entry, index) => createLabelDiv(entry, index))}
