@@ -1103,6 +1103,7 @@ export default function Deckbuilder() {
                 </Grid>
                 <Grid item xs={12} textAlign={"center"}>
                     <h1 data-translation="home.startgame">{Dictionary("frontend.menu.deck", "Deckbuilder")}</h1>
+                    <p>The "old" deckbuilder is still available <a href="/deckbuilder">here</a></p>
                 </Grid>
             </Grid>
         </div>

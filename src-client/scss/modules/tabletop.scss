@@ -198,7 +198,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
         &.area-player 
         {
             .row {
-                grid-template-columns: 100px 150px auto;
+                grid-template-columns: 75px 330px auto;
                 grid-template-rows: repeat(1, minmax(300px, auto));
                 grid-gap: 25px;
             }
@@ -211,13 +211,13 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
             @media only screen and (min-width: 2000px) {
 
                 .row {
-                    grid-template-columns: 100px 150px auto;
+                    grid-template-columns: 75px 440px auto;
                 }
             }
         }
 
         &.area-opponent .row {
-            grid-template-columns: 100px 150px auto;
+            grid-template-columns: 75px 330px auto;
             grid-template-rows: repeat(1, minmax(100px, auto));
         }
 

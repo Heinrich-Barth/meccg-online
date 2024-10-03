@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="theme-color" content="#000000"/>
+        <title>Build a Deck</title>
+        <link rel="icon" type="image/png" href="/media/assets/favicon.png">
+        <link rel="stylesheet" href="/media/assets/css/font-awesome.min.css" />
+
+        <link rel="stylesheet" href="/dist-client/css/cards.css?version=240622" />
+        <script src="/dist-client/js/httpsonly.js"></script>
+        <base target="_self">
+    </head>
+    <body class="deckbuilding drop-file navigation-full-width" id="drop_zone" data-image-cdn="">
+
+        <h1 class="on-drag-hide">Displaying <span id="size">0</span> card(s)</h1>
+
+        <div id="deck_container"></div>
+
+        <div id="searchbar"></div>
+        <div id="view-preferences"></div>
+
+        <div class="result_container on-drag-hide" id="result_container">
+
+            <div class="result-container-right">
+                <div id="linklist" class="linklist fl"></div>
+                <div id="result">
+                    <div class="builder-hint bgblue">
+                        <h2><i class="fa fa-info-circle" aria-hidden="true"></i>
+                            Getting Started</h2>
+                        <p>Either use the <span class="builder-white"><i class="fa fa-filter" aria-hidden="true"></i> filters</span> to create your deck<br><br>
+                        or <span class="builder-white"><i class="fa fa-bullseye" aria-hidden="true"></i> drag</span> a previously saved deck and <span class="builder-white">drop it on the decklist at the left</span> to continue editing.</p>
+
+                        <p>You can <i class="fa fa-floppy-o" aria-hidden="true"></i> save anytime and continue later as well.</p>
+                    </div>
+                </div>
+            </div>            
+
+            
+        </div>
+
+        <div id="tpl" class="hidden">
+
+            <div class="characters" id="tplDefault">
+                <div class="fl image" id="{gindex}" >
+                    <div class="image_overlay" >
+                        <img src="/data/card-not-found-generic" data-hide="/data/card-not-found-generic" data-src="{img}" class="preview" alt="card" decoding="async">
+                    </div>
+                    <div class="actions" data-index="{index}" id="count_{cindex}" data-count="{count}">
+                        <a href="#" class="link_add icon_add_pool" title="add to starting pool"  data-target="pool">
+                            &nbsp;
+                        </a>
+                        <a href="#" class="link_add icon_add_deck" title="add to deck"  data-target="{data-target}">
+                            &nbsp;
+                        </a>
+                        <a href="#" class="link_add icon_add_sideboard" title="add to sideboard" data-target="sb">
+                            &nbsp;
+                        </a>
+                    </div>
+                    <div class="count_bubble">{count2}</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/data/dictionary.js??version=240622"></script>
+        <script src="/dist-client/js/game/libraries.js?version=240622"></script>
+        <script src="/dist-client/js/notification/notification.js?version=240622"></script>
+        <script src="/dist-client/js/game/cardlist.js?version=240622"></script>
+        <script src="/dist-client/js/deck/read.js?version=240622"></script>
+        <script src="/dist-client/js/dropfile-generic.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/app.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/quantities.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/decklist.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/cards-meta.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/deckbuilder-api.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/view-cards.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/searchbar.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/searchresult.js?version=240622"></script>
+        <script src="/dist-client/js/deckbuilder/dropfile.js?version=240622"></script>
+        <script src="/dist-client/js/saveas.js?version=240622"></script>
+        <script src="/dist-client/js/onready.js?version=240622"></script>        
+    </body>
+</html>
