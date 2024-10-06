@@ -30,7 +30,6 @@ export default class DeckDefault extends DeckCommons {
     #playdeck:string[] = [];
     #outofplay:string[] = [];
     #sites:string[] = [];
-    #offside:string[] = [];
 
     GetDeckListPile(sType:string):string[]|null
     {
@@ -399,11 +398,6 @@ export default class DeckDefault extends DeckCommons {
                 return true;
             },
 
-            toOffside: function(uuid:string)
-            {
-                return this.to(uuid, deck.#offside);
-            },
-
             /**
              * Add a card to victory
              * @param {type} uuid
@@ -547,19 +541,13 @@ export default class DeckDefault extends DeckCommons {
                 return this.from(uuid, deck.#victory);
             },
 
-            fromOffside: function(uuid:string)
-            {
-                return this.from(uuid, deck.#offside);
-            },
-
             fromAnywhere : function(uuid:string)
             {
                 return this.fromHand(uuid) || 
                        this.fromSideboard(uuid) || 
                        this.fromPlaydeck(uuid) || 
                        this.fromDiscardpile(uuid) ||
-                       this.fromVictory(uuid) ||
-                       this.fromOffside(uuid);
+                       this.fromVictory(uuid);
             }
         }
     }

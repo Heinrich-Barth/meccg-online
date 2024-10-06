@@ -39,7 +39,6 @@ InitAuthencation();
 
 ServerInstance.getServerInstance().use(express.static(getRootFolder() + "/public"));
 ServerInstance.getServerInstance().use("/dist-client", express.static("dist-client"));
-ServerInstance.getServerInstance().use("/dist-game", express.static("game-frontend/game-dist"));
 
 /**
  * Show list of available images. 
