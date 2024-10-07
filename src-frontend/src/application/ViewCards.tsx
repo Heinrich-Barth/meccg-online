@@ -5,6 +5,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
 import ViewCardBrowser, { SearchResult, copyCode } from "../components/ViewCards";
+import RenderCardPreview from "../components/CardZoom";
 
 const swapImage = function (id: string) {
     const elem = document.getElementById(id);
@@ -20,19 +21,40 @@ const swapImage = function (id: string) {
     }
 }
 
-const renderSearchResult = function (img: SearchResult, key: any) {
-    return <Grid item xs={12} sm={6} md={4} lg={3} xl={2} textAlign={"center"} key={img.code} className="cardbrowser-result">
-        <img src={img.image} data-flip={img.flip} alt={img.code} title={img.code} loading="lazy" decoding="async" id={"image-" + key} />
-        <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
-        {img.flip !== "" && (
-            <Button variant="contained" className="button-flip" onClick={() => swapImage("image-" + key)} startIcon={<CachedIcon />}>Flip</Button>
-        )}
-    </Grid>
+type ImagePreview = {
+    image: string;
+    left: boolean
 }
 
 export default function ViewCards() {
+    const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
+
+    const onPreviewImage = function (x: number, src: string) {
+        const half = window.innerWidth / 2;
+        const left = x < half;
+        setPreviewImage({ image: src, left: !left });
+    }
+
+    const renderSearchResult = function (img: SearchResult, key: any) {
+        return <Grid item xs={12} sm={6} md={4} lg={3} xl={2} textAlign={"center"} key={img.code} className="cardbrowser-result">
+            <img src={img.image} 
+                data-flip={img.flip} 
+                alt={img.code} 
+                title={img.code} 
+                loading="lazy" decoding="async" id={"image-" + key}
+                onMouseEnter={(e) => onPreviewImage(e.pageX, img.image)}
+                onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+            />
+            <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
+            {img.flip !== "" && (
+                <Button variant="contained" className="button-flip" onClick={() => swapImage("image-" + key)} startIcon={<CachedIcon />}>Flip</Button>
+            )}
+        </Grid>
+    }
 
     return <React.Fragment>
+        
+        <RenderCardPreview image={previewImage.image} left={previewImage.left} />
         <div className={"application-home "}>
             <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
