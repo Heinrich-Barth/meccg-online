@@ -433,8 +433,21 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             <Grid item xs={12} lg={4} >
                                 <Grid container rowGap={2}>
                                     <Grid item xs={12}>
+                                        <Button
+                                            fullWidth
+                                            className='buttonLeft'
+                                            title={Dictionary("home.choosethisdeck", "Choose this deck to play")}
+                                            variant={currentDeckId === _deckid ? "contained" : "outlined"}
+                                            onClick={() => { currentDeckId === _deckid ? loadDeckById("") : loadDeckById(_deckid, deck.name) }}
+                                            startIcon={currentDeckId === _deckid ? <CheckCircle /> : <CheckCircleOutlineIcon />}
+                                        >
+                                            {currentDeckId === _deckid ? "Selected" : "Select"}
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <Button onClick={() => { viewDeckId === _deckid ? viewDeckById("") : viewDeckById(_deckid) }} title={Dictionary("home.lookatdeck", "Look at deck")}
                                             fullWidth
+                                            className='buttonLeft'
                                             variant='text'
                                             startIcon={viewDeckId === _deckid ? <VisibilityIcon /> : <RemoveRedEyeOutlinedIcon />}
                                         >
@@ -444,22 +457,11 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                     <Grid item xs={12}>
                                         <Button onClick={() => { viewDeckId === _deckid ? editDeckById("") : editDeckById(_deckid) }} title={Dictionary("home.lookatdeck", "Look at deck")}
                                             fullWidth
-
+                                            className='buttonLeft'
                                             variant='text'
                                             startIcon={<BorderColorIcon />}
                                         >
                                             {Dictionary("frontend.decklist.edit", "Edit Deck")}
-                                        </Button>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Button
-                                            fullWidth
-                                            title={Dictionary("home.choosethisdeck", "Choose this deck to play")}
-                                            variant={currentDeckId === _deckid ? "contained" : "outlined"}
-                                            onClick={() => { currentDeckId === _deckid ? loadDeckById("") : loadDeckById(_deckid, deck.name) }}
-                                            startIcon={currentDeckId === _deckid ? <CheckCircle /> : <CheckCircleOutlineIcon />}
-                                        >
-                                            {currentDeckId === _deckid ? "Selected" : "Select"}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -595,12 +597,13 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         <Grid container rowGap={2} >
                             <Grid item xs={12}>
                                 {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
-                                <Button disabled={!allowStart} onClick={onStartGame} fullWidth variant='contained' startIcon={<PlayCircleFilledIcon />} >{Dictionary("frontend.menu.play", "Play")} {gameTypeLabel}</Button>
+                                <Button disabled={!allowStart} onClick={onStartGame} className='buttonLeft' fullWidth variant='contained' startIcon={<PlayCircleFilledIcon />} >{Dictionary("frontend.menu.play", "Play")} {gameTypeLabel}</Button>
                             </Grid>
                             <Grid item xs={12}>
                                 {errorMessageFile !== "" && (<Alert severity="error">{errorMessageFile}</Alert>)}
                                 <input className='displayNone' id="meccg-open-dialog" type="file" onChange={onLoadLocalDeck} />
                                 <Button
+                                    className='buttonLeft'
                                     onClick={() => document.getElementById("meccg-open-dialog")?.click()}
                                     disabled={!allowDeckLoading} fullWidth variant='outlined' startIcon={<ScreenSearchDesktopIcon />} >{Dictionary("frontend.loadeck", "Load Deck")}</Button>
 
@@ -612,7 +615,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                     else
                                         setShowCustomDeck(false);
                                 }}
-                                    fullWidth startIcon={<BrowserUpdatedIcon />} >{Dictionary("frontend.importdeck", "Import / Edit Deck")}</Button>
+                                    fullWidth className='buttonLeft' startIcon={<BrowserUpdatedIcon />} >{Dictionary("frontend.importdeck", "Import / Edit Deck")}</Button>
                             </Grid>
                         </Grid>
                     </Grid>
