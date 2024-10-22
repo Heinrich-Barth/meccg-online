@@ -412,26 +412,38 @@ export default class DeckManager {
         else
             return this.#cardMap[uuid];
     }
+    updateTokenMP(uuid:string, bAdd:boolean)
+    {
+        const card = this.getFullPlayerCard(uuid);
+        if (card === null)
+            return -1;
 
+        if (card.tokenMP === undefined)
+            card.tokenMP = 0;
+
+        if (bAdd)
+            card.tokenMP++;
+        else if (card.tokenMP > 0)
+            card.tokenMP--;
+
+        return card.tokenMP;
+    
+    }
     updateToken(uuid:string, bAdd:boolean)
     {
         const card = this.getFullPlayerCard(uuid);
-        if (card !== null)
-        {
-            if (card.token === undefined)
-            {
-                if (bAdd)
-                    card.token = 1;
-            }
-            else if (bAdd)
-                card.token++;
-            else if (card.token > 0)
-                card.token--;
-
-            return card.token;
-        }
-        else
+        if (card === null)
             return -1;
+
+        if (card.token === undefined)
+            card.token = 0;
+
+        if (bAdd)
+            card.token++;
+        else if (card.token > 0)
+            card.token--;
+
+        return card.token;
     }
 
     dumpCards(_playerId:string)

@@ -26,6 +26,7 @@ export type TDeckCard = {
     hoard: boolean,
     unique: boolean,
     token?:number,
+    tokenMP?:number,
     target?:string,
     status: number
 }

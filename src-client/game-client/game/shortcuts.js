@@ -107,14 +107,23 @@ const ShotcutManager =
 
             case "+":
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
-                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: true });
+                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: true, type: "token" });
                 break;
 
             case "-":
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
-                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: false });
+                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: false, type: "token" });
+                break;
+            case "p":
+                if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
+                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: true, type: "token-mp" });
                 break;
 
+            case "o":
+                if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
+                    MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: false, type: "token-mp" });
+                break;
+            
             case "x":
                 if (CardPreview.currentCardId !== "")
                     ShotcutManager.discardHoveredCard(CardPreview.currentCardId);

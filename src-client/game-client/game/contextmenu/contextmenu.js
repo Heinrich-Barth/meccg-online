@@ -556,14 +556,14 @@ const ContextMenu = {
         MeccgApi.send("/game/card/state/glow", {uuid : uuid, code: code });  
     },
 
-    onToken : function(bAdd)
+    onToken : function(bAdd, isGeneric = true)
     {
         const pMenu = document.getElementById("contextmenu");
         if (pMenu !== null)
         {
             const uuid = ContextMenu.getAttribute(pMenu, "data-card-uuid");
             const code = ContextMenu.getAttribute(pMenu, "data-card-code");
-            MeccgApi.send("/game/card/token", {uuid : uuid, code: code, add: bAdd !== false });
+            MeccgApi.send("/game/card/token", {uuid : uuid, code: code, add: bAdd !== false, type: isGeneric ? "token" : "token-mp" });
         }
     },
 
@@ -578,6 +578,16 @@ const ContextMenu = {
         tokenAdd : function()
         {
             ContextMenu.onToken(true);
+        },
+
+        tokenAddMP : function()
+        {
+            ContextMenu.onToken(true, false);
+        },
+
+        tokenRemoveMP : function()
+        {
+            ContextMenu.onToken(false, false);
         },
 
         viewDeckNotes:function()
@@ -997,6 +1007,11 @@ const ContextMenu = {
         this.addItem("flipcard", "Flip Card", "fa-eye-slash", "context-menu-item-flipcard context-menu-item-generic", ContextMenu.callbacks.flip, "f");
         this.addItem("token_add", "Add token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAdd, "+");
         this.addItem("token_remove", "Remove token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemove, "-");
+
+        this.addItem("tokenmp_add", "Add MP token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAddMP, "p");
+        this.addItem("tokenmp_remove", "Remove MP token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemoveMP, "o");
+
+
         this.addItem("arrive", "Company arrives at destination", "fa-street-view", "context-menu-item-arrive", ContextMenu.callbacks.arrive);
         this.addItem("add_ressource", "Add this site as a ressource", "fa-clipboard", "context-menu-item-arrive", ContextMenu.callbacks.addRessource, "", "Adds this site as RESSOURCE to your hand and will be played facedown.");
         this.addItem("add_character", "Add this site as a character", "fa-user", "context-menu-item-arrive", ContextMenu.callbacks.addCharacter, "", "Adds this site as CHARACTER to your hand.");
@@ -1034,7 +1049,7 @@ const ContextMenu = {
         this.addItem("victory_shared", "Show opponent's stored cards", "fa-thumbs-down", "context-menu-item-generic", ContextMenu.callbacks.showVictoryShared.bind(ContextMenu.callbacks));
 
 
-        this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove"];
+        this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
         this.data.types["arrive"] = ["arrive", "movement_return"];
         this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "view_deck_cards_reveal", "_divider", "reval_cards_number", "reval_cards_number_self", "_divider", "playdeck_choose_site", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];

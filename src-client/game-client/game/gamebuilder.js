@@ -603,12 +603,13 @@ const GameBuilder = {
             const uuid = jData.uuid === undefined ? "" : jData.uuid;
             const count = jData.count === undefined ? 0 : jData.count;
             const elem = document.querySelector('div.card[data-uuid="' + uuid + '"]');
+            const type = jData.type === "token-mp" ? "data-token-mp" : "data-token";
             if (elem !== null)
             {
                 if (count > 0)
-                    elem.setAttribute("data-token", count);
-                else if (elem.hasAttribute("data-token"))
-                    elem.removeAttribute("data-token");
+                    elem.setAttribute(type, count);
+                else if (elem.hasAttribute(type))
+                    elem.removeAttribute(type);
             }
         });
         

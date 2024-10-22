@@ -142,7 +142,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
 }
 
 .location-reveal {
-    bottom: 10px;
+    top: 64px;
 }
 
 .table {
@@ -683,6 +683,7 @@ body.table-companies-breakline .companies {
         }
 
         .company-site-list {
+            height: auto;
             min-height: 80px;
             padding: 5px;
         }
@@ -778,6 +779,15 @@ body.table-companies-breakline .companies {
 .site-onguard .card:nth-child(1) {
     margin-left: 0px;
 }
+
+.site-regions
+{
+    &:not(:empty)
+    {
+        margin-left: -30px;
+    }
+} 
+
 
 .card-highlight-mark img {
     box-shadow: 0px 0px 5px 1px var(--color-orange-light);
@@ -1096,57 +1106,63 @@ div#table-dark {
     }
 }
 
-div.card[data-token]:after {
+
+div.card[data-token]:after,
+div.card[data-token-mp]:before {
     position: absolute;
-    right: 10%;
     top: 10%;
     padding: 5px;
     font-size: 0.8em;
-    background: var(--color-orange-light);
-    border-radius: 50%;
     line-height: 1em;
     content: "10+";
+    z-index: 2;
+}
+div.card[data-token]:after
+{
+    border-radius: 5px;
+}
+div.card[data-token-mp]:before
+{
+    border-radius: 50%;
+}
+div.card[data-token-mp]:before {
+    background: var(--color-light-grey);
+    left: 10%;
+}
+div.card[data-token]:after {
+    background: var(--color-orange-light);
+    right: 10%;
 }
 
-div.card[data-token="1"]:after {
-    content: "1";
-}
+div.card[data-token-mp="1"]:before,
+div.card[data-token="1"]:after { content: "1"; }
 
-div.card[data-token="2"]:after {
-    content: "2";
-}
+div.card[data-token-mp="2"]:before,
+div.card[data-token="2"]:after { content: "2"; }
 
-div.card[data-token="3"]:after {
-    content: "3";
-}
+div.card[data-token-mp="3"]:before,
+div.card[data-token="3"]:after { content: "3"; }
 
-div.card[data-token="4"]:after {
-    content: "4";
-}
+div.card[data-token-mp="4"]:before,
+div.card[data-token="4"]:after { content: "4"; }
 
-div.card[data-token="5"]:after {
-    content: "5";
-}
+div.card[data-token-mp="5"]:before,
+div.card[data-token="5"]:after { content: "5"; }
 
-div.card[data-token="6"]:after {
-    content: "6";
-}
+div.card[data-token-mp="6"]:before,
+div.card[data-token="6"]:after { content: "6"; }
 
-div.card[data-token="7"]:after {
-    content: "7";
-}
+div.card[data-token-mp="7"]:before,
+div.card[data-token="7"]:after { content: "7"; }
 
-div.card[data-token="8"]:after {
-    content: "8";
-}
+div.card[data-token-mp="8"]:before,
+div.card[data-token="8"]:after { content: "8"; }
 
-div.card[data-token="9"]:after {
-    content: "9";
-}
+div.card[data-token-mp="9"]:before,
+div.card[data-token="9"]:after { content: "9"; }
 
-div.card[data-token="10"]:after {
-    content: "10";
-}
+div.card[data-token-mp="10"]:before,
+div.card[data-token="10"]:after { content: "10"; }
 
 @import "./tabletop_changeavatar.scss";
 

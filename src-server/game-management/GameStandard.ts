@@ -216,6 +216,7 @@ export default class GameStandard extends GamePlayers
                     revealed: card.revealed,
                     owner: card.owner,
                     token: card.token ?? 0,
+                    tokenMP: card.tokenMP ?? 0,
                     secondary: card.secondary,
                     stage: card.stage === true,
                     agent: false,
@@ -665,10 +666,19 @@ export default class GameStandard extends GamePlayers
 
     onCardToken(userid:string, _socket:any, data:any)
     {
-        const nCount = data.uuid !== undefined ? this.getPlayboardManager().getDecks().updateToken(data.uuid, data.add !== false) : 0;
+        let nCount = -1
+
+        if (data.uuid)
+        {
+            if (data.type === "token-mp")
+                nCount = this.getPlayboardManager().getDecks().updateTokenMP(data.uuid, data.add !== false);
+            else 
+                nCount = this.getPlayboardManager().getDecks().updateToken(data.uuid, data.add !== false);
+        }
+
         if (nCount != -1)
         {
-            this.publishToPlayers("/game/card/token", userid, {uuid: data.uuid, count: nCount });
+            this.publishToPlayers("/game/card/token", userid, {uuid: data.uuid, count: nCount, type: data.type });
             this.publishChat(userid, "updates token of " + data.code + " to " + nCount, true);
         }
     }

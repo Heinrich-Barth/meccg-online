@@ -253,11 +253,14 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
     if (MeccgPlayers.isMyCard(card.owner))
     pDiv.classList.add("card-is-mine");
 
-    if (card.token !== undefined && card.token > 0)
+    if (card.token && card.token > 0)
     {
         pDiv.setAttribute("data-token", card.token);
         pDiv.setAttribute("title", "Tokens: " + card.token);
     }       
+    
+    if (card.tokenMP && card.tokenMP > 0)
+        pDiv.setAttribute("data-token-mp", card.tokenMP);
 
     pDiv.appendChild(pImage);
     return pDiv;

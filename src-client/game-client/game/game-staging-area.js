@@ -23,7 +23,7 @@ class StagingArea
             return "";
     }
 
-    createNewCard(uuid, code, type, id, cssState = "", turn = 0, token = 0, secondary = "")
+    createNewCard(uuid, code, type, id, cssState = "", turn = 0, token = 0, secondary = "", tokenMP = 0)
     {
         if (uuid === "")
             return null;
@@ -44,6 +44,9 @@ class StagingArea
         jDiv.setAttribute("data-secondary", secondary.toLowerCase());
         if (token > 0)
             jDiv.setAttribute("data-token", token);
+
+        if (tokenMP > 0)
+            jDiv.setAttribute("data-token-mp", tokenMP);
 
         const jImage = document.createElement("img");
         jImage.setAttribute("class", "card-icon");
@@ -114,7 +117,7 @@ class StagingArea
             img.setAttribute("src", img.getAttribute("data-img-image"));
     }
 
-    #insertNewCard(uuid, isPlayer, code, type, state, turn, token, secondary, stage)
+    #insertNewCard(uuid, isPlayer, code, type, state, turn, token, secondary, stage, tokenMP = 0)
     {
         let isResource;
         if (type === "hazard")
@@ -130,7 +133,7 @@ class StagingArea
 
         const isLongOrShort = this.#isLongOrShortEvent(secondary.toLowerCase());
         const css = this.getCardStateCss(state);
-        const res = this.createNewCard(uuid, code, type, id, css, turn, token, secondary);
+        const res = this.createNewCard(uuid, code, type, id, css, turn, token, secondary, tokenMP);
         if (res === null)
             return "";
 
