@@ -114,12 +114,12 @@ const ShotcutManager =
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
                     MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: false, type: "token" });
                 break;
-            case "p":
+            case "m":
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
                     MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: true, type: "token-mp" });
                 break;
 
-            case "o":
+            case "n":
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
                     MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: false, type: "token-mp" });
                 break;

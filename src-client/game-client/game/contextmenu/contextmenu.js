@@ -1008,8 +1008,8 @@ const ContextMenu = {
         this.addItem("token_add", "Add token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAdd, "+");
         this.addItem("token_remove", "Remove token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemove, "-");
 
-        this.addItem("tokenmp_add", "Add MP token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAddMP, "p");
-        this.addItem("tokenmp_remove", "Remove MP token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemoveMP, "o");
+        this.addItem("tokenmp_add", "Add MP token", "fa-plus", "context-menu-item-generic", ContextMenu.callbacks.tokenAddMP, "m");
+        this.addItem("tokenmp_remove", "Remove MP token", "fa-minus", "context-menu-item-generic", ContextMenu.callbacks.tokenRemoveMP, "n");
 
 
         this.addItem("arrive", "Company arrives at destination", "fa-street-view", "context-menu-item-arrive", ContextMenu.callbacks.arrive);
