@@ -197,6 +197,20 @@
     }
 }
 
+.view-image-container {
+    position: relative;
+
+    .view-image-count {
+        position: absolute;
+        top: 10px;
+        right: 10%;
+        border-radius: 5px;
+        background-color: var(--color-orange-light);
+        color: var(--color-black);
+        padding: 0.25em;
+    }
+}
+
 .view-image {
     display: inline-block;
     max-width: 100%;

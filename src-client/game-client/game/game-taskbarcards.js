@@ -350,6 +350,16 @@ class TaskBarCards
 
     static onClickPlaydeck(e)
     {
+        if (localStorage.getItem("draw_onclick_deck"))
+        {
+            const elem = document.getElementById("draw_card");
+            if (elem && elem.click)
+            {
+                elem.click();
+                return false;                
+            }
+        }
+
         TaskBarCards.Show("playdeck", true);
         return false;
     }

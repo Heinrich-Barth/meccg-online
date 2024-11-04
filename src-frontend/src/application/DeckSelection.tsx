@@ -665,7 +665,17 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         </>}
                     </>)}
                 </Grid>
-                {showCardList !== null && (<ViewDeckCards imageMap={showCardList.images} notes={showCardList.notes} onClose={() => setShowCardList(null)} />)}
+                {showCardList !== null && (
+                    <ViewDeckCards 
+                        imageMap={showCardList.images} 
+                        notes={showCardList.notes} 
+                        deck={showCardList.deck}
+                        pool={showCardList.pool}
+                        sideboard={showCardList.sideboard}
+                        sites={showCardList.sites}
+                        onClose={() => setShowCardList(null)} 
+                    />
+                )}
             </Dialog>
         </React.Fragment>
     );

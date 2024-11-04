@@ -37,10 +37,44 @@ const renderNotes = function(text:string)
     return (<Grid item xs={12}>{res}</Grid>);
 }
 
-export default function ViewDeckCards({ imageMap, notes, onClose }: { imageMap: any, notes:string, onClose: Function }) {
-    const list = mapToImages(imageMap);
+const countCards = function(codes:any)
+{
+    if (!codes)
+        return 0;
 
-    if (list.length === 0)
+    let res = 0;
+    for (let code in codes)
+        res += codes[code];
+
+    return res;
+}
+
+const RenderSection = function({ title, codes, images } : { title: string, codes:any, images:any} )
+{
+    if (!codes || !images || Object.keys(codes).length === 0)
+        return <></>;
+
+    return (<>
+        <Grid item xs={12}>
+            <h3>{title} ({countCards(codes)})</h3>
+        </Grid>
+        {Object.keys(codes).sort().map((code, index) => {
+                
+                const img = images[code];
+                if (!img)
+                    return <></>;
+
+                return <Grid item xs={12} sm={6} md={2} key={title + index} className='view-image-container'>
+                    <img src={img} decoding="async" loading="lazy" alt='card' className='view-image'/>
+                    <div className='view-image-count'>{codes[code]}</div>
+                </Grid>
+        })}
+    </>);
+}
+
+export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, sites, onClose }: { imageMap: any, notes:string, deck:any, pool:any, sideboard:any, sites:any, onClose: Function }) {
+
+    if (countCards(imageMap) === 0)
     {
         onClose();
         return <></>;
@@ -57,9 +91,12 @@ export default function ViewDeckCards({ imageMap, notes, onClose }: { imageMap: 
                 <DialogContent>
                     <Grid container>
                         {renderNotes(notes)}
-                        {list.map((image, index) => <Grid item xs={12} sm={6} md={2} key={"i" + index}>
-                            <img src={image} decoding="async" alt='card' className='view-image'/>
-                        </Grid>)}
+
+                        <RenderSection images={imageMap} codes={pool} title="Pool" />
+                        <RenderSection images={imageMap} codes={deck} title="Deck" />
+                        <RenderSection images={imageMap} codes={sideboard} title="Sideboard" />
+                        <RenderSection images={imageMap} codes={sites} title="Sites" />
+
                     </Grid>
                 </DialogContent>
                 <DialogActions>

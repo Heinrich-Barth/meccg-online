@@ -139,6 +139,22 @@ class GamePreferences extends Preferences {
         this.#toggleClass(document.body, isActive, "force-mobile-helper");
     }
 
+    #toogleDrawDeckClick(isActive)
+    {
+        const key = "draw_onclick_deck";
+        if (isActive)
+            localStorage.setItem(key, "1");
+        else if (localStorage.getItem(key))
+            localStorage.removeItem(key);
+        
+        this.#toggleCardPreview(!isActive);
+    }
+
+    #doToggleDrawDeckClick()
+    {
+        return localStorage.getItem("draw_onclick_deck") === "1";
+    }
+
     #togglePaddingBottom(isActive)
     {
         const table = document.querySelector(".area-player");
@@ -366,6 +382,9 @@ class GamePreferences extends Preferences {
             this.createEntry0("toggle_phasese");
 
         this.createEntry0("toggle_zoom_preview");
+
+        if (!bWatcher)
+            this.createEntry0("toggle_drawondeckclick");
             
         this.createSection(Dictionary.get("conf_h_lookfeel", "Look & Feel"));
         this.createEntry0("toggle_zoom");
@@ -488,6 +507,8 @@ class GamePreferences extends Preferences {
         this.addConfigAction("lang_en", "Switch to English", false, "fa-globe", this.#langEN.bind(this));
         this.addConfigAction("lang_es", "Switch to Spanish", false, "fa-globe", this.#langES.bind(this));
         this.addConfigAction("lang_fr", "Switch to French", false, "fa-globe", this.#langFR.bind(this));
+
+        this.addConfigToggle("toggle_drawondeckclick", "Draw cards when clicking on deck", this.#doToggleDrawDeckClick(), this.#toogleDrawDeckClick.bind(this));
 
         this.#insertHelp();
     }
