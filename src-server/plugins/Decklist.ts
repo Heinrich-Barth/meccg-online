@@ -267,6 +267,19 @@ const extractPart = function(content:string, delim:string)
         return content.substring(pos + pattern.length, pos2);
 }
 
+const getType = function(type:string)
+{
+    if (type === "")
+        return "";
+
+    if (type === "Hazard")
+        return "hazards"
+    else if (type === "Character")
+        return "character";
+    else
+        return "resources";
+}
+
 const loadDeckMetadata = function(content:string)
 {
     const result:any = {
@@ -278,41 +291,22 @@ const loadDeckMetadata = function(content:string)
         hazards: 0,
         summary: ""
     }
-
-    const identifiers:any = {
-        "# Hazard": "hazards",
-        "# Character": "character",
-        "# Resource": "resources",
-    }
     
     let key = "";
-
     for (let line of extractPart(content, "Deck").split("\n"))
     {
-        if (line.length < 4)
+        if (line.length < 4 || line.startsWith("#") || line.startsWith("="))
             continue;
-
-        if (line.startsWith("# "))
-        {
-            const pos = line.lastIndexOf(" (");
-            if (pos === -1)
-                key = "";
-            else
-            {
-                const _t = line.substring(0, pos).trim();
-                key = identifiers[_t] === undefined ? "" : identifiers[_t];
-            }
-                
-            continue;
-        }
-
-        if (key === "" || !line.endsWith(")") && !line.endsWith("]") || line.startsWith("="))
-            continue;
-
+        
         const first = line.substring(0,1);
         const val = parseInt(first);
-        if (!isNaN(val))
-            result[key] += val;
+        if (isNaN(val) || val < 1)
+            continue;
+
+        const code = line.substring(1).trim();
+        const type = getType(CardDataProvider.getCardType(code));
+        if (type)
+            result[type] += val;
     }
 
     return result;
@@ -323,7 +317,7 @@ const countDeck = function(data:string)
     let count = 0;
     for (let line of data.split("\n"))
     {
-        if (line.length < 4 || !line.endsWith(")") && !line.endsWith("]"))
+        if (line.length < 4 || (!line.endsWith(")") && !line.endsWith("]")))
             continue;
 
         const first = line.substring(0,1);
