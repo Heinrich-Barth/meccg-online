@@ -13,14 +13,15 @@
         left: 0;
         height: 40px;
         width: 100%;
-        background-color: rgb(39, 56, 76);
+        background-color: rgb(18, 18, 18);
+        background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
         color: var(--color-white);
         cursor: pointer;
 
         .map-iframe-title-title,
         .map-iframe-title-close {
             display: inline-block;
-            width: 49%;
+            width: 48%;
             padding-top: 12px;
             text-transform: uppercase;
             
