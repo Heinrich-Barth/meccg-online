@@ -6,37 +6,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import SaveIcon from '@mui/icons-material/Save';
+import DownloadDialog from "../operations/DownloadDialog";
 
  async function SaveDeckDialog(data: string|null) {
 
     if (data === null || data === "")
         return;
 
-    let writableStream = null;
-    try {
-        const pWindow: any = window;
-        const handle = await pWindow.showSaveFilePicker({
-            suggestedName: 'autosave.meccg-savegame',
-            types: [{
-                description: 'Deck file',
-            }],
-        });
-
-        const blob = new Blob([data]);
-        writableStream = await handle.createWritable();
-        await writableStream.write(blob);
-    }
-    catch (err) {
-        console.error(err);
-    }
-
-    try {
-        if (writableStream !== null)
-            await writableStream.close();
-    }
-    catch (err) {
-        console.error(err);
-    }
+    await DownloadDialog(
+        data, 
+        'autosave.meccg-savegame', 
+        [{
+            description: 'Deck file',
+        }]
+    );
 
 }
 
