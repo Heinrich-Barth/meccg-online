@@ -301,8 +301,12 @@ const GameBuilder = {
         if (elemImage)
         {
             elem.setAttribute("title", Dictionary.get("builder_handcard_tip", "Drag card to play it or \nRIGHT CLICK to toggle playing it face down\nDOUBLECLICK to play card without dragging it."));
-            elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);           
             elemImage.ondblclick = this.onHandCardDoubleClick.bind(this);
+
+            if (ContextMenu)
+                ContextMenu.initHandCard(elem);
+            else
+                elemImage.oncontextmenu = this.onHandCardContextClick.bind(this);           
         }
     },
 
@@ -325,16 +329,10 @@ const GameBuilder = {
     onHandCardContextClick : function(e)
     {
         const div = e.target.parentElement;
-        const uuid = div.hasAttribute("data-uuid") ? div.getAttribute("data-uuid") : "";
-        if (uuid === "")
-            return;
+        const uuid = div && div.hasAttribute("data-uuid") ? div.getAttribute("data-uuid") : "";
+        if (uuid !== "")
+            MeccgApi.send("/game/card/state/hand", { uuid: uuid });
 
-        if (div.classList.contains("card-facedown"))
-            div.classList.remove("card-facedown");
-        else
-            div.classList.add("card-facedown");
-
-        MeccgApi.send("/game/card/state/hand", { uuid: uuid });
         return false;
     },
 
@@ -732,6 +730,27 @@ const GameBuilder = {
                 company = "";
                 
             GameBuilder.CompanyManager.drawLocations(company, start, regions, target, jData.revealed, jData.attached, jData.current_tapped, jData.target_tapped, jData.revealStart);
+        });
+
+        
+        MeccgApi.addListener("/game/card/updatetype", (_bIsMe, data) => {
+
+            const id = "card_icon_nr_" + data.uuid;
+            const div = document.getElementById(id);
+            if (div && data.type)
+                div.setAttribute("data-card-type", data.type);
+        });
+
+        MeccgApi.addListener("/game/card/state/hand", (_bIsMe, data) => {
+            const id = "card_icon_nr_" + data.uuid;
+            const div = document.getElementById(id);
+            if (div === null)
+                return;
+
+            if (div.classList.contains("card-facedown"))
+                div.classList.remove("card-facedown");
+            else
+                div.classList.add("card-facedown");
         });
 
         

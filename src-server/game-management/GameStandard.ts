@@ -37,6 +37,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/card/token", this.onCardToken.bind(this));
         this.getMeccgApi().addListener("/game/card/add", this.onGameAddCardsToGame.bind(this)); /* add a list of cards to the sideboard */
         this.getMeccgApi().addListener("/game/card/import", this.onCardImport.bind(this));
+        this.getMeccgApi().addListener("/game/card/updatetype", this.onCardTypeUpdate.bind(this));
         
         this.getMeccgApi().addListener("/game/stagingarea/add/card", this.onStagingAreaAddCard.bind(this));
 
@@ -336,10 +337,13 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, " reveals a card", true);
     }
 
-    onGameCardStateInHand(userid:string, _socket:any, data:any)
+    onGameCardStateInHand(userid:string, socket:any, data:any)
     {
         const uuid = data.uuid;
         const rev = this.getPlayboardManager().FlipCard(uuid);
+
+        this.replyToPlayer("/game/card/state/hand", socket, { uuid: uuid });
+
         if (!rev)
             this.publishChat(userid, " marks a card in hand to be played face down", false);
         else
@@ -1321,6 +1325,13 @@ export default class GameStandard extends GamePlayers
             this.onCardImportSite(userid, data);
         else if (this.importCardDuringGame(userid, data.code, data.type === "character"))
             this.onGetTopCardFromHand(userid, null, 1);
+    }
+
+    onCardTypeUpdate(userid:string, socket:any, data:any)
+    {
+        const res = this.updateCardType(data.uuid);
+        if (res !== null)
+            this.replyToPlayer("/game/card/updatetype", socket, res);
     }
 
     onGameAddCardsToGame(userid:string, _socket:any, data:any)

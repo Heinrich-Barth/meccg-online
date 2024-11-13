@@ -566,6 +566,11 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
     {
         return this.getDecks().importCardsToGame(playerId, code, bAsCharacter);
     }
+
+    UpdateCardType(uuid:string)
+    {
+        return this.getDecks().updateCardType(uuid);
+    }
     
     isValidTarget(target:string)
     {

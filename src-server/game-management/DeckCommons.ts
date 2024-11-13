@@ -29,6 +29,8 @@ export type TDeckCard = {
     tokenMP?:number,
     target?:string,
     status: number
+    tmpType?: string;
+    tmpSecondary?: string;
 }
 
 /**

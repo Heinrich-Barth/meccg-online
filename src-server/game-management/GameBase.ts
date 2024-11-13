@@ -224,6 +224,11 @@ export default class GameBase {
     {
         return this.getPlayboardManager().ImportCardsToGame(playerId, code, bAsCharacter);
     }
+
+    updateCardType(uuid:string)
+    {
+        return this.getPlayboardManager().UpdateCardType(uuid);
+    }
     
     getDeckManager()
     {

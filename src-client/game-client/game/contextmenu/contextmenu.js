@@ -403,6 +403,24 @@ const ContextMenu = {
             return false;
         },
 
+        onContextHand : function(e)
+        {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!e.target)
+                return false;
+
+            const elem = e.target.nodeName.toLowerCase() === "img" ? e.target.parentElement : e.target;
+            if (elem)
+            {
+                const sUuid = ContextMenu.getAttribute(elem, "data-uuid");
+                ContextMenu.show(e, sUuid, "", "", "hand");
+            }
+
+            return false;
+        },
+
         onContextSite : function(e)
         {
             e.preventDefault();
@@ -675,6 +693,27 @@ const ContextMenu = {
         showVictoryShared : function()
         {
             TaskBarCards.Show("sharedvicotory", true);
+        },
+
+        toggleCharacterPlayability : function(pMenu) 
+        {
+            const uuid = ContextMenu.getAttribute(pMenu, "data-card-uuid");
+            if (uuid)
+                MeccgApi.send("/game/card/updatetype", { uuid: uuid });
+        },
+
+        markFacedown : function(pMenu) 
+        {
+            const uuid = ContextMenu.getAttribute(pMenu, "data-card-uuid");
+            if (uuid)
+                MeccgApi.send("/game/card/state/hand", { uuid: uuid });
+        },
+
+        markAsCharacter : function(pMenu) 
+        {
+            const uuid = ContextMenu.getAttribute(pMenu, "data-card-uuid");
+            if (uuid)
+                MeccgApi.send("/game/card/updatetype", { uuid: uuid });
         },
 
         showVictoryMe : function()
@@ -1044,10 +1083,11 @@ const ContextMenu = {
 
         this.addItem("playdeck_choose_site", "Add a site as a character", "fa-map-signs", "context-menu-item-generic", ContextMenu.callbacks.addSiteCharacter, "", "Adds this site as CHARACTER to your hand.");
 
-
         this.addItem("victory_me", "Show my stored cards", "fa-thumbs-up", "context-menu-item-generic", ContextMenu.callbacks.showVictoryMe.bind(ContextMenu.callbacks));
         this.addItem("victory_shared", "Show opponent's stored cards", "fa-thumbs-down", "context-menu-item-generic", ContextMenu.callbacks.showVictoryShared.bind(ContextMenu.callbacks));
 
+        this.addItem("hand_play_facedown", "Mark to play card facedown", "fa-clipboard", "context-menu-item-generic", ContextMenu.callbacks.markFacedown.bind(ContextMenu.callbacks));
+        this.addItem("hand_play_as_character", "Mark to play card as character", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleCharacterPlayability.bind(ContextMenu.callbacks));
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
@@ -1056,8 +1096,10 @@ const ContextMenu = {
         this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_sites", "_divider", "discardpile_shuffle", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
         this.data.types["victory"] = ["victory_me", "victory_shared"];
+        this.data.types["hand"] = ["hand_play_facedown", "hand_play_as_character"];
 
         this.data.offsets["playdeck_actions"] = -100;
+        this.data.offsets["hand"] = 130;
         this.data.specialClasses["location"] = "context-menu-site";
         this.data.specialClasses["arrive"] = "context-menu-movement";
     },
@@ -1095,6 +1137,13 @@ const ContextMenu = {
     {
         ContextMenu.createContextMenus();
         ContextMenu.insertContainers();
+    },
+
+    initHandCard : function(elem)
+    {
+        if (elem)
+            elem.oncontextmenu = ContextMenu.contextActions.onContextHand;
+
     }
 };
 

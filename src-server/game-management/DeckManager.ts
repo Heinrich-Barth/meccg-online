@@ -238,6 +238,38 @@ export default class DeckManager {
             return this.#deck[playerId].importCardsToDeck(code, bAsCharacter, this.#cardMap);
     }
 
+    updateCardType(uuid:string)
+    {
+        const entry = this.#cardMap[uuid];
+        if (entry === undefined)
+            return null;
+
+        if (entry.type === "character" && !entry.tmpType)
+            return null; 
+        
+        if (entry.type !== "character")
+        {
+            entry.tmpType = entry.type;
+            entry.tmpSecondary = entry.secondary;
+
+            entry.type = "character";
+            entry.secondary = "character";
+        }
+        else if (entry.tmpSecondary && entry.tmpType)
+        {
+            entry.tmpType = entry.type;
+            entry.tmpSecondary = entry.secondary;
+
+            entry.type = entry.tmpType;
+            entry.secondary = entry.tmpSecondary;
+
+            delete entry.tmpType;
+            delete entry.tmpSecondary;
+        }
+
+        return entry;
+    }
+
     getCards() 
     {
         if (this.#handManager === null)
