@@ -178,6 +178,8 @@ class GameCompanyLocation
         ArrayList(jSiteContaienr).find(".site-current .card-icon").each(this.revealCard);
         ArrayList(jSiteContaienr).find(".site-regions .card-icon").each(this.revealCard);
         ArrayList(jSiteContaienr).find(".site-target .card-icon").each(this.revealCard);
+
+        ArrayList(jSiteContaienr).find(".site-regions .card").each((e) => e.classList.remove("hidden"));
         ArrayList(companyElem).find(".location-reveal").each((e) => e.classList.add("hide"));
 
         this.insertTargetReturnAction(company, companyElem);
@@ -365,6 +367,24 @@ class GameCompanyLocation
         }
 
         this.initOnGuards(companyElem, bIsPlayer);
+        this.#removeEmptyCardContainers(companyElem);
+    }
+
+    #removeEmptyCardContainers(container)
+    {
+        const list = container ? container.querySelectorAll("div.card") : null;
+        if (list === null || list.length === 0)
+            return;
+
+        const del = [];
+        for (let elem of list)
+        {
+            if (elem.querySelector("img") === null)
+                del.push(elem);
+        }
+
+        for (let elem of del)
+            elem.parentElement.removeChild(elem);
     }
 
     initOnGuards(companyElem, bIsPlayer)

@@ -737,20 +737,21 @@ const GameBuilder = {
 
             const id = "card_icon_nr_" + data.uuid;
             const div = document.getElementById(id);
-            if (div && data.type)
+            const img = div ? div.querySelector("img") : null;
+            
+            if (div && img && data.type)
+            {
                 div.setAttribute("data-card-type", data.type);
+                img.dispatchEvent(new MouseEvent('dblclick'));
+            }
         });
 
         MeccgApi.addListener("/game/card/state/hand", (_bIsMe, data) => {
-            const id = "card_icon_nr_" + data.uuid;
-            const div = document.getElementById(id);
-            if (div === null)
-                return;
 
-            if (div.classList.contains("card-facedown"))
-                div.classList.remove("card-facedown");
-            else
-                div.classList.add("card-facedown");
+            const div = document.getElementById("card_icon_nr_" + data.uuid);
+            const img = div ? div.querySelector("img") : null;
+            if (img !== null)
+                img.dispatchEvent(new MouseEvent('dblclick'));
         });
 
         

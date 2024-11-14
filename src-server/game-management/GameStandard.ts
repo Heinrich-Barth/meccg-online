@@ -340,14 +340,14 @@ export default class GameStandard extends GamePlayers
     onGameCardStateInHand(userid:string, socket:any, data:any)
     {
         const uuid = data.uuid;
-        const rev = this.getPlayboardManager().FlipCard(uuid);
+        const card = this.getPlayboardManager().GetCardByUuid(data.uuid);
+        if (card == null)
+            return;
+
+        if (card.revealed === true)
+            card.revealed = false;
 
         this.replyToPlayer("/game/card/state/hand", socket, { uuid: uuid });
-
-        if (!rev)
-            this.publishChat(userid, " marks a card in hand to be played face down", false);
-        else
-            this.publishChat(userid, " marks a card in hand to be played face up again", false);
     }
 
     onGetCharacters(userid:string, socket:any)

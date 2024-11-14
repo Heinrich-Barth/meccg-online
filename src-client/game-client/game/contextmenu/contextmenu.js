@@ -1086,8 +1086,8 @@ const ContextMenu = {
         this.addItem("victory_me", "Show my stored cards", "fa-thumbs-up", "context-menu-item-generic", ContextMenu.callbacks.showVictoryMe.bind(ContextMenu.callbacks));
         this.addItem("victory_shared", "Show opponent's stored cards", "fa-thumbs-down", "context-menu-item-generic", ContextMenu.callbacks.showVictoryShared.bind(ContextMenu.callbacks));
 
-        this.addItem("hand_play_facedown", "Mark to play card facedown", "fa-clipboard", "context-menu-item-generic", ContextMenu.callbacks.markFacedown.bind(ContextMenu.callbacks));
-        this.addItem("hand_play_as_character", "Mark to play card as character", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleCharacterPlayability.bind(ContextMenu.callbacks));
+        this.addItem("hand_play_facedown", "Play card facedown", "fa-clipboard", "context-menu-item-generic", ContextMenu.callbacks.markFacedown.bind(ContextMenu.callbacks));
+        this.addItem("hand_play_as_character", "Play card as character", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleCharacterPlayability.bind(ContextMenu.callbacks));
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];

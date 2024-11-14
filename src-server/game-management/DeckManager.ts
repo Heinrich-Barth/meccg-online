@@ -245,7 +245,7 @@ export default class DeckManager {
             return null;
 
         if (entry.type === "character" && !entry.tmpType)
-            return null; 
+            return entry; 
         
         if (entry.type !== "character")
         {
