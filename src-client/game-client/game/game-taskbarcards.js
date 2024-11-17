@@ -162,21 +162,29 @@ class ViewCardListContainer {
 
 class DiceRoller 
 {
-    static getDiceValue()
+    /**
+     * Create random number between [min,max]
+     * @param {Number} min 
+     * @param {Number} max 
+     * @returns number between [min,max]
+     */
+    static #randomRoll(min=1, max=6)
     {
-        let val = Math.trunc(Math.random() * 10) + 1;
-        return val >= 1 && val <= 6 ? val : DiceRoller.getDiceValue();
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
-        
+
+    /**
+     * Roll dice 1-6
+     * @returns Number between [1,6]
+     */
     static rollDice()
     {
-        let val = 0;
+        // create some random rolls first to add extra randomness
+        const n = DiceRoller.#randomRoll(10, 20);
+        for (let i = 0; i < n; i++)
+            DiceRoller.#randomRoll(1, 6);
 
-        const times = 50 + Math.floor(Math.random() * 100);
-        for (let i = 0; i < times; i++)
-            val = DiceRoller.getDiceValue();
-
-        return val;
+        return DiceRoller.#randomRoll(1, 6);
     }
 }
 
