@@ -1294,16 +1294,16 @@ div.card[data-token="10"]:after { content: "10"; }
 {
     display: inline-block;
     position: absolute;
-    width: 100%;
+    width: 70px;
     height: 20px;
-    bottom: 20px;
-    left: 10px;
-
+    bottom: 55px;
+    right: 30%;
+    
     div {
         position: absolute;
         width: 13px;
         height: 13px;
-        border-radius: 50%;
+        border-radius: 5px;
         border: 1px solid #000;
         background: var(--color-orange-light);
         animation-timing-function: cubic-bezier(0, 1, 1, 0);

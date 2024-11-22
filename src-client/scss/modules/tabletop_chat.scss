@@ -141,7 +141,7 @@ body.on-drag-event-generic .chatbox { display: none !important;}
 
     .button {
         border: 0;
-        border-radius: 3.5em;
+        border-radius: 5px;
         color: #ffffff;
         cursor: pointer;
         display: inline-block;
@@ -262,15 +262,15 @@ body.on-drag-event-generic .chatbox { display: none !important;}
 
 @keyframes glowRed {
     0% {
-        box-shadow: 0 0 10px -10px #e36666;
+        box-shadow: 0 0 10px -10px #ef4b4b;
     }
 
     50% {
-        box-shadow: 0 0 10px 10px #e36666;
+        box-shadow: 0 0 10px 10px #ef4b4b;
     }
 
     99% {
-        box-shadow: 0 0 10px -10px #e36666;
+        box-shadow: 0 0 10px -10px #ef4b4b;
     }
 
     100% {

@@ -157,7 +157,7 @@
             }
 
             &.trade-accept {
-                background-color: #98c593;
+                background-color: #7ecfc0;
 
                 &:hover {
                     background-color: #a8cea4;
@@ -198,14 +198,14 @@
                 border: 1px solid transparent;
 
                 &.fa {
-                    border: 1px solid #98c593;
+                    border: 1px solid #7ecfc0;
                 }
 
                 &::before {
                     position: absolute;
                     right: 5px;
                     top: 5px;
-                    background: #98c593;
+                    background: #7ecfc0;
                     border-radius: 3px;
                 }
 
