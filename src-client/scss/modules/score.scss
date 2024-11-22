@@ -206,10 +206,11 @@
         }
 
         td.image {
-            border-radius: 50%;
+            border-radius: 10%;
             overflow: hidden;
             height: 100px;
             width: 100px;
+            border-left: 2px solid transparent;
         }
 
         thead th,
@@ -231,7 +232,7 @@
             font-size: 1.2em;
         }
 
-        .score-is-cut { color: #ed7676; font-style: italic;}
+        .score-is-cut { color: #ef4b4b; font-style: italic;}
 
         tfoot {
             th, td {
@@ -487,7 +488,7 @@
         }
     }
 
-    .score-is-cut { color: #ed7676; font-style: italic;}
+    .score-is-cut { color: #ef4b4b; font-style: italic;}
     
     .avatar {
         position: relative;
