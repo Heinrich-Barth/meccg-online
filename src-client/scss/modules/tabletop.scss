@@ -780,7 +780,19 @@ body.table-companies-breakline .companies {
     margin-left: 0px;
 }
 
-.site-regions
+.area-opponent .companies .sites 
+{
+    .site-onguard,
+    .site-regions
+    {
+        &:not(:empty)
+        {
+            margin-right: -30px;
+            margin-left: 0;
+        }
+    } 
+}
+.area-player .site-regions
 {
     &:not(:empty)
     {
