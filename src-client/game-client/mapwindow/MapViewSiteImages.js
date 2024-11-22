@@ -238,7 +238,7 @@
                 const img = this.createImage(code, true, elem.region, elem.key, this.isSiteTapped(code));
                 img.setAttribute("src", img.getAttribute("data-src"));
                 img.classList.add("card-icon");
-                img.setAttribute("title", "Click to choose this card");
+                img.setAttribute("title", "Click to choose this card " + code);
                 elemList.appendChild(img);   
             }
         }

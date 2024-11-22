@@ -317,7 +317,7 @@ class MapViewMovement extends MapViewMovementSelection {
         
         MapViewMovement._MovementContainerOtherRegions().appendChild(this.createImage(sRegionCode, false));
         jElem = MapViewMovement._MovementContainerOtherRegions().querySelector("[data-code='" + sRegionCode + "']"); 
-        jElem.setAttribute("title", "Click to remove");
+        jElem.setAttribute("title", "Click to remove " + sRegionCode);
         
         this.CardPreview.initMapViewCard(jElem);
         jElem.onclick = (e) => DomUtils.removeNode(e.target);
