@@ -29,10 +29,10 @@
 
         span {
             position: absolute;
-            left: 40px;
+            right: 3px;
             bottom: 8px;
             font-size: 1em;
-            color: var(--color-light-grey);
+            color: var(--color-near-white);
             text-align: right;
             width: 28px;
             margin: 0;
@@ -53,9 +53,10 @@
         position: relative;
 
         i {
-            left: 60px;
+            left: 5px;
             bottom: 5px;
             position: absolute;
+            color: var(--color-near-white);
         }
     }
 
