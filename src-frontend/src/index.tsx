@@ -6,7 +6,7 @@ import './scss/application.scss';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { grey, blueGrey } from '@mui/material/colors';
+import { grey, teal } from '@mui/material/colors';
 import { SetDefaultUsername } from './components/Preferences';
 import { CheckIfLoggedin } from './operations/SubmitAnswer';
 import { LoadDictionary } from './components/Dictionary';
@@ -23,7 +23,7 @@ const darkTheme = createTheme({
         mode: 'dark',
         ...{
             // palette values for dark mode
-            primary: blueGrey,
+            primary: teal,
             text: {
                 primary: '#fff',
                 secondary: grey[500],
