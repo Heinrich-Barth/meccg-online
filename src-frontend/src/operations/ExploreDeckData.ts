@@ -52,8 +52,8 @@ const explodeCode = function(line:string)
         return result;
 
     let val = line.substring(0, 2);
-    let n1 = parseInt(val[0])
-    let n2 = parseInt(val[1]);
+    const n1 = parseInt(val[0])
+    const n2 = parseInt(val[1]);
 
     if (isNaN(n1) && isNaN(n2))
     {
