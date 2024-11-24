@@ -247,7 +247,15 @@ export default class GameArda extends GameStandard {
             }
 
             for (let i = 0; i < trader.mp; i++)
-                deck.drawCardMarshallingPoints();
+            {
+                const uuid = deck.drawCardMarshallingPoints();
+                if (uuid)
+                {
+                    const card = this.getDeckManager().getFullPlayerCard(uuid);
+                    if (card !== null)
+                        this.updateCardOwnership(deck.getPlayerId(), card);
+                }
+            }
 
             for (let i = 0; i < trader.hand; i++)
                 deck.draw();
