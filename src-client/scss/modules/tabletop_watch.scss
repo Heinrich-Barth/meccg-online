@@ -22,7 +22,9 @@
         max-height: 90%;
         display: block;
     }
-
+    .table .opponent-companies {
+        align-content: unset !important;
+    }
     .staging-area {
         width: 100%;
         max-width: 100% !important;
