@@ -12,6 +12,11 @@ Open your terminal and access this project folder. THen run the following comman
 
 ````
 npm install
+
+cd src-fontend
+sh deploy.sh # to build the frontend ui
+
+cd ..
 npm run build #run only once
 npm run dev
 ````

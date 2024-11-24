@@ -83,9 +83,12 @@ Then run the following commands to develop backend or frontend modules:
 
 ````
 npm install
-npm run build #run only once
-npm run dev_server #develop server module
-npm run dev_client #develop client module
+
+cd src-fontend
+sh deploy.sh # to build the frontend ui
+
+cd ..
+npm run dev
 ````
 
 ### Production Mode
