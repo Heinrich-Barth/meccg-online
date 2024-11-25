@@ -23,6 +23,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData, { DeckCardsEntry } from "../operations/ExploreDeckData";
 import { InitCustomDeck } from "../components/CustomDeckInput";
+import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 
 type Deckentry = {
     code: string;
@@ -689,6 +690,8 @@ const loadData = async function () {
 
     g_bLoadCards = true;
     try {
+        await FetchFrenchImageUrl();
+        
         const cards = await FetchCards();
         for (let card of cards)
             g_pCards[card.code] = card;
@@ -1010,15 +1013,16 @@ export default function Deckbuilder() {
         const isRegion = card?.type === "Region";
         const count = deck.counts[img.code] ?? 0;
         const disableAll = disableDeckAddingActions(card, count);
+        const imgSrc = GetImageUri(img.image);
         return <Grid
             item xs={12} sm={6} md={4} lg={3} xl={2}
             textAlign={"center"}
             key={img.code}
             className="application-deckbuilder-result"
         >
-            <img src={img.image} data-flip={img.flip} alt={img.code}
+            <img src={imgSrc} data-flip={GetImageUri(img.flip)} alt={img.code}
                 title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage(e.pageX, img.image)}
+                onMouseEnter={(e) => onPreviewImage(e.pageX, imgSrc)}
                 onMouseLeave={() => setPreviewImage({ image: "", left: false })}
             />
             {count > 0 && (<CardCountBubble count={count} />)}

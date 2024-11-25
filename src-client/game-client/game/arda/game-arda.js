@@ -32,7 +32,8 @@ let Arda = {
         }
 
         const cardImage = document.createElement("img");
-        cardImage.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            cardImage.setAttribute("crossorigin", "anonymous");
         cardImage.setAttribute("data-id", _code);
         cardImage.setAttribute("class", "card-icon");
         cardImage.setAttribute("src", _img);

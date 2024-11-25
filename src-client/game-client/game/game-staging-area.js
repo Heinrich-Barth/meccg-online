@@ -51,7 +51,8 @@ class StagingArea
         const jImage = document.createElement("img");
         jImage.setAttribute("class", "card-icon");
         jImage.setAttribute("src", "/data/backside");
-        jImage.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            jImage.setAttribute("crossorigin", "anonymous");
         jImage.setAttribute("data-image-backside", this.CardList.getFlipSide(code));
         jImage.setAttribute("data-uuid", uuid);
         jImage.setAttribute("decoding", "async");

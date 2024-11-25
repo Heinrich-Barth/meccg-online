@@ -6,6 +6,7 @@ import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
 import ViewCardBrowser, { SearchResult, copyCode } from "../components/ViewCards";
 import RenderCardPreview from "../components/CardZoom";
+import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 
 const swapImage = function (id: string) {
     const elem = document.getElementById(id);
@@ -29,6 +30,8 @@ type ImagePreview = {
 export default function ViewCards() {
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
 
+    React.useEffect(() => { FetchFrenchImageUrl() }, []);
+
     const onPreviewImage = function (x: number, src: string) {
         const half = window.innerWidth / 2;
         const left = x < half;
@@ -36,13 +39,15 @@ export default function ViewCards() {
     }
 
     const renderSearchResult = function (img: SearchResult, key: any) {
+        const imgSrc = GetImageUri(img.image); 
+
         return <Grid item xs={12} sm={6} md={4} lg={3} xl={2} textAlign={"center"} key={img.code} className="cardbrowser-result">
-            <img src={img.image} 
-                data-flip={img.flip} 
+            <img src={imgSrc} 
+                data-flip={GetImageUri(img.flip)} 
                 alt={img.code} 
                 title={img.code} 
                 loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage(e.pageX, img.image)}
+                onMouseEnter={(e) => onPreviewImage(e.pageX, imgSrc)}
                 onMouseLeave={() => setPreviewImage({ image: "", left: false })}
             />
             <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>

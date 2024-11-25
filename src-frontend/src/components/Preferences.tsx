@@ -121,14 +121,15 @@ export default function Preferences(props : { onClose:Function, onCallbackUpdate
                         onChange={(e) => setCardLanguage(e.target.value)}
                     >
                         <FormControlLabel value="" control={<Radio />} label={Dictionary("home.useenglish", "Prefer English cards")} />
+                        <FormControlLabel value="cards-fr" control={<Radio />} label={Dictionary("home.usesfrench", "Prefer French cards (if available)")} />
                         <FormControlLabel value="cards-es" control={<Radio />} label={Dictionary("home.usespanish", "Prefer Spanish cards (if available)")} />
                     </RadioGroup>
                     </FormControl>
             </DialogContent>
             <DialogActions className="padding1em2m">
                 <Button onClick={handleClose}>{Dictionary("cancel", "Cancel")}</Button>
-                <Button onClick={saveChanges} variant='contained'>
-                    <Save /> {Dictionary("seat_save", "Save changes")}
+                <Button onClick={saveChanges} variant='contained' startIcon={<Save />}>
+                    {Dictionary("seat_save", "Save changes")}
                 </Button>
             </DialogActions>
         </Dialog>

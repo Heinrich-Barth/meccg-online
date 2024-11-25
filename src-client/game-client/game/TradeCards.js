@@ -203,7 +203,8 @@ class TradeCards extends PlayerSelectorAction {
 
         const img = document.createElement("img");
         img.setAttribute("src", _img);
-        img.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            img.setAttribute("crossorigin", "anonymous");
         img.setAttribute("data-uuid", uuid);
         img.setAttribute("data-code", sCode);
         img.setAttribute("class", "card-icon");

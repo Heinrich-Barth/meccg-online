@@ -199,16 +199,25 @@ class GamePreferences extends Preferences {
             document.body.classList.remove("company-accessibility");
     }
 
-    #toggleSpanishCards(isActive)
+    #toggleSpanishCards()
     {
-        sessionStorage.setItem("cards_es", isActive ? "yes" : "no");
+        localStorage.setItem("meccg_cards", "cards-es");
+        location.reload();
+    }
 
-        const list = document.body.getElementsByClassName("card-icon");
-        if (list === null || list.length === 0)
-            return;
+    #toggleFrenchCards()
+    {
+        localStorage.setItem("meccg_cards", "cards-fr");
+        location.reload();
+    }
 
-        for (let elem of list)
-            this._replaceImageLanguage(elem, !isActive);
+    #toggleEnglishCards()
+    {
+        if (localStorage.getItem("meccg_cards"))
+        {
+            localStorage.removeItem("meccg_cards");
+            location.reload();
+        }
     }
 
     #toogleCompanyLineBreak(isActive)
@@ -217,28 +226,6 @@ class GamePreferences extends Preferences {
             document.body.classList.add("table-companies-breakline");
         else if (!isActive && document.body.classList.contains("table-companies-breakline"))
             document.body.classList.remove("table-companies-breakline");
-    }
-
-    _replaceImageLanguage(img, useEnglish)
-    {
-        this.#replaceImageLanguageAttribute(img, useEnglish, "src");
-        this.#replaceImageLanguageAttribute(img, useEnglish, "data-image-backside");
-        this.#replaceImageLanguageAttribute(img, useEnglish, "data-img-image");
-    }
-
-    #replaceImageLanguageAttribute(img, useEnglish, attribName)
-    {
-        if (!img.hasAttribute(attribName))
-            return;
-
-        const val = img.getAttribute(attribName);
-        if (useEnglish)
-        {
-            if (val.indexOf("/es-remaster/") !== -1)
-                img.setAttribute(attribName, val.replace("/es-remaster/", "/en-remaster/"));
-        }
-        else if (val.indexOf("/en-remaster/") !== -1)
-            img.setAttribute(attribName, val.replace("/en-remaster/", "/es-remaster/"));
     }
 
     #toggleFullscreen(isActive)
@@ -403,7 +390,16 @@ class GamePreferences extends Preferences {
         this.createEntry0("toggle_fullscreen");
 
         this.createSection(Dictionary.get("conf_h_access", "Accessibility / Language"));
-        this.createEntry0("toggle_spanishcards");
+
+        const lang = localStorage.getItem("meccg_cards");
+        if (lang)
+            this.createEntry0("toggle_englishcards");
+
+        if (lang !== "cards-es")
+            this.createEntry0("toggle_spanishcards");
+
+        if (lang !== "cards-fr")
+            this.createEntry0("toggle_frenchcards");
         
         if (!bWatcher)
         {
@@ -474,7 +470,9 @@ class GamePreferences extends Preferences {
         this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));
 
-        this.addConfigToggle("toggle_spanishcards", "Use Spanish instead of English cards (if available).", sessionStorage.getItem("cards_es") === "yes", this.#toggleSpanishCards.bind(this));
+        this.addConfigAction("toggle_spanishcards", "Use Spanish cards (if available).", false, "fa-globe", this.#toggleSpanishCards.bind(this));
+        this.addConfigAction("toggle_frenchcards", "Use French cards (if available).", false, "fa-globe", this.#toggleFrenchCards.bind(this));
+        this.addConfigAction("toggle_englishcards", "Use English cards", false, "fa-globe", this.#toggleEnglishCards.bind(this));
 
         this.addConfigAction("game_addcards", "Add new cards to sideboard", false, "fa-plus-square", this.#addCardsToDeck);
 

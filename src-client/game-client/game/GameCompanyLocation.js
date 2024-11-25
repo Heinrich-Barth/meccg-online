@@ -30,7 +30,8 @@ class GameCompanyLocation
         pImage.setAttribute("class", "card-icon");
         pImage.setAttribute("data-img-image", img);
         pImage.setAttribute("data-image-backside", "/data/backside");
-        pImage.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            pImage.setAttribute("crossorigin", "anonymous");
         div.appendChild(pImage);
         return div;
     }

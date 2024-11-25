@@ -49,16 +49,17 @@ class DiscardPileAtTable
         if (document.getElementById(contId) !== null)
             return;
 
-        let cont = document.createElement("div");
+        const cont = document.createElement("div");
         cont.setAttribute("class", "challenger-discardpile pos-rel");
         cont.setAttribute("id", contId);
         cont.setAttribute("title", name + "'s discard pile");
         cont.setAttribute("data-player", playerId);
 
-        let img = document.createElement("img");
+        const img = document.createElement("img");
         img.setAttribute("id", this.imgPrefix + playerId);
         img.setAttribute("src", "/data/backside");
-        img.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            img.setAttribute("crossorigin", "anonymous");
         img.setAttribute("class","card-icon discardpile-card-icon");
         img.setAttribute("data-image-backside", "/data/backside");
 

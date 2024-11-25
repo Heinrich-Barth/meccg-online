@@ -224,7 +224,8 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
     pImage.setAttribute("src", _backside);
     pImage.setAttribute("data-image-backside", _backside);
     pImage.setAttribute("decoding", "async");
-    pImage.setAttribute("crossorigin", "anonymous");
+    if (g_bSetImgAnonymous)
+        pImage.setAttribute("crossorigin", "anonymous");
     pImage.setAttribute("data-uuid", card.uuid);
     pImage.setAttribute("data-img-image", GameCompanies.CardList.getImage(card.code));
     pImage.setAttribute("data-revealed", card.revealed !== false ? "true" : "false");

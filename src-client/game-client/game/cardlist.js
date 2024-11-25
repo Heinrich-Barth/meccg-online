@@ -11,6 +11,7 @@ class CardList {
     #imageNotFoundRegion = "/data/card-not-found-region";
     #imageNotFoundSite = "/data/card-not-found-site";
     #isReady = false;
+    static #frUrl = "";
 
     #list;
     #fliped;
@@ -59,11 +60,25 @@ class CardList {
 
         const instance = new CardList(images, quests, useImagesDC, useImagesIC);
         const sVal = "m" + new Date().getMonth();
-        fetch("/data/list/images?t=" + sVal)
-            .then((response) => response.json())
-            .then(instance.#onCardsReceived.bind(instance))
-            .catch(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("warn_fetchimage", "Could not fetch image list.") })))
-            .finally(instance.#onUpdateImagesLoaded.bind(instance));
+        fetch("/data/fr")
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+
+                return { value: "" };
+            })
+            .then((json) => {
+                if (json.value)
+                    CardList.#frUrl = json.value;
+            })
+            .catch(console.warn)
+            .finally(() => {
+                fetch("/data/list/images?t=" + sVal)
+                .then((response) => response.json())
+                .then(instance.#onCardsReceived.bind(instance))
+                .catch(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("warn_fetchimage", "Could not fetch image list.") })))
+                .finally(instance.#onUpdateImagesLoaded.bind(instance));
+            });
 
         return instance;
     }
@@ -160,13 +175,25 @@ class CardList {
     }
 
     getLocalisedImage(image) {
-        if (typeof image !== "string" || image === "" || sessionStorage.getItem("cards_es") !== "yes")
+        
+        if (typeof image !== "string" || image === "" || image.indexOf("/en-remaster/") === -1)
             return image;
 
-        if (image.indexOf("/en-remaster/") === -1)
+        const lang = localStorage.getItem("meccg_cards") ?? "";
+        if (lang === "")
             return image;
-        else
+
+        if (lang === "cards-es")
             return image.replace("/en-remaster/", "/es-remaster/");
+        
+        if (lang === "cards-fr" && CardList.#frUrl)
+        {
+            const parts = image.split("/en-remaster/");
+            if (parts.length === 2)
+                return CardList.#frUrl + "/" + parts[1];
+        }
+        
+        return image;
     }
 
 

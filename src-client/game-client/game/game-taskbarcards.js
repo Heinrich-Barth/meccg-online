@@ -63,7 +63,8 @@ class ViewCardListContainer {
         elem.setAttribute("draggable", "false");
         elem.setAttribute("data-code", sCode);
         elem.setAttribute("data-type", type);
-        elem.innerHTML = `<img src="${_img}" data-id="${uuid}" class="card-icon" crossorigin="anonymous" decoding="async" data-image-backside="/data/backside">
+        const crossOrig = g_bSetImgAnonymous ? 'crossorigin="anonymous"' : ""
+        elem.innerHTML = `<img src="${_img}" data-id="${uuid}" class="card-icon" ${crossOrig} decoding="async" data-image-backside="/data/backside">
             <div class="view-card-list-actions icons">
                 <a href="#" class="icon hand" data-move-to="hand" data-shuffle="false" title="Move to hand">&nbsp;</a>
                 <a href="#" class="icon playdeck playdeck-shuffle" data-move-to="playdeck" data-shuffle="true" title="Shuffle into playdeck">&nbsp;</a>

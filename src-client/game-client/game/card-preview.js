@@ -87,7 +87,8 @@ CardPreview.show = function(img, bLeft, bTop)
 
     const pImage = document.createElement("img");
     pImage.setAttribute("src", img);
-    pImage.setAttribute("crossorigin", "anonymous");
+    if (g_bSetImgAnonymous)
+        pImage.setAttribute("crossorigin", "anonymous");
 
     elem.appendChild(pImage);
     elem.classList.remove("hidden");

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 
 /**
  * Load Cards, prepare image lists etc.
@@ -92,6 +92,9 @@ ServerInstance.getServerInstance().use("/data/card-not-found-generic", express.s
 ServerInstance.getServerInstance().use("/data/card-not-found-region", express.static(getRootFolder() + "/public/media/assets/images/cards/notfound-region.jpg", Caching.headerData.jpeg));
 ServerInstance.getServerInstance().use("/data/card-not-found-site", express.static(getRootFolder() + "/public/media/assets/images/cards/notfound-site.jpg", Caching.headerData.jpeg));
 
+if (process.env["LANG_FR_URL"])
+    ServerInstance.getServerInstance().get("/data/fr", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.json({ value: process.env["LANG_FR_URL"] ?? "" }));
+    
 
 /**
  * Get active games

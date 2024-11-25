@@ -284,7 +284,8 @@ class RevealPlayerDeckSelf
     {
         const img = document.createElement("img");
         img.setAttribute("src", g_Game.CardList.getImage(card.code));
-        img.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            img.setAttribute("crossorigin", "anonymous");
         img.setAttribute("class", "card-icon");
         img.setAttribute("data-image-backside", "/data/backside");
 

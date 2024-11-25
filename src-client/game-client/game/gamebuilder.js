@@ -206,7 +206,8 @@ const GameBuilder = {
 
         const img = document.createElement("img");
         img.setAttribute("decoding", "async");
-        img.setAttribute("crossorigin", "anonymous");
+        if (g_bSetImgAnonymous)
+            img.setAttribute("crossorigin", "anonymous");
         img.setAttribute("src", _img);
         img.setAttribute("data-id", _code);
         img.setAttribute("class", "card-icon");
