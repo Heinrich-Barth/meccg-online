@@ -30,3 +30,4 @@ public/media/dictionary*.json
 public/static
 src-frontend/package-lock.json
 src-frontend/build
+data-local/csp-data.json
