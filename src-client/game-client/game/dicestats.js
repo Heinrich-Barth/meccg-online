@@ -66,7 +66,7 @@ class DiceStats {
             }
 
             DiceStats.addColumnCell(tr, "td", count);
-            DiceStats.addColumnCell(tr, "td", "").innerHTML = DiceStats.toFloat(average / count, 1);
+            DiceStats.addColumnCell(tr, "td", "").innerText = DiceStats.toFloat(average / count, 1);
 
             tBody.appendChild(tr);
         }
