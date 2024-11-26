@@ -57,7 +57,7 @@ class DiceStats {
                     res = "-";
                 else
                 {
-                    let num = DiceStats.toNumber(res);
+                    const num = DiceStats.toNumber(res);
                     count += num;
                     average += (num * i);
                 }
