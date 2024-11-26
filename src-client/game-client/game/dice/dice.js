@@ -127,7 +127,7 @@ class DiceContainer {
 
     show(name, first, second, total, dice, uuid)
     {
-        const pos = this.getPosition(uuid);
+        const pos = this.#getPosition(uuid);
         const nId = ++DiceContainer._count;
 
         const elem = this.appendResult(nId, name, first, second, total, dice);
@@ -222,10 +222,45 @@ class DiceContainer {
         return elem;
     }
 
-    getPosition(uuid)
+    #companyIsHidden(elem)
+    {
+        if (elem === null)
+            return true;
+
+        if (elem.classList.contains("companies"))
+            return elem.classList.contains("hidden");
+        
+        return this.#companyIsHidden(elem.parentNode);
+    }
+
+    #isOutsideOfViewport(elem)
+    {
+        if (elem === null)
+            return true;
+
+        const bounding = elem.getBoundingClientRect();
+        if (bounding.top < 0 || bounding.left < 0) {
+            console.log("outside top or left");
+            return true;
+        }
+        
+        if (bounding.bottom > (window.innerHeight || document.documentElement.clientHeight)) {
+            console.log("outside bottom");
+            return true;
+        }
+        
+        if (bounding.right > (window.innerWidth || document.documentElement.clientWidth)) {
+            console.log("outside right");
+            return true;
+        }
+
+        return false;
+    }
+
+    #getPosition(uuid)
     {
         const elem = document.getElementById("ingamecard_" + uuid);
-        if (elem === null)
+        if (elem === null || this.#companyIsHidden(elem) || this.#isOutsideOfViewport(elem))
             return null;
         
         const pos = elem.getBoundingClientRect();
