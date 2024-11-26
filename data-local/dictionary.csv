@@ -410,3 +410,5 @@ frontend.decklist.edit;Edit deck;Modifier le deck;Editar el mazo
 frontend.decklist.view;View Cards;Voir les cartes;Ver las cartas
 frontend.map.homesite;Choose a home site;Choisir un site d'accueil;Elegir un sitio de inicio
 frontend.map.targetsite;Select target site;sélectionner un site cible;seleccione un sitio de destino
+conf_switch_1;Open this link in the other browser.;Ouvrez ce lien dans l'autre navigateur.;Abra este enlace en el otro navegador.
+conf_switch_t;Switch Browser;Changer de navigateur;Ambiar de Navegador;

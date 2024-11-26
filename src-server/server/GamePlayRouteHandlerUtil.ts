@@ -40,6 +40,35 @@ export default class GamePlayRouteHandlerUtil
             
         next();
     }
+    
+    onVerifyGameRoomParamToken(req:any, _res:Response, next:NextFunction)
+    {
+        const token = req.params === undefined || req.params.token === undefined ? "" : req.params.token.toLocaleLowerCase();
+        req.token = token;
+        next();
+    }
+
+    onAllowTransfer(req:any, res:Response, next:NextFunction)
+    {
+        const room = this.getRoomManager().getRoom(req.room); 
+        if (room === null)
+        {
+            res.status(401).json({ message: "room not found"});
+            return;
+        }
+
+        const data = room.allowSessionTransfer(req.token)
+        if (data === null)
+        {
+            res.status(401).json({ message: "transfer not possible" });
+            return;
+        }
+
+        req.userid = data.id;
+        req.displayname = data.name;
+        req.joined = room.getCreated();
+        next();
+    }
 
     clearRoomCookies(req:Request, res:Response)
     {

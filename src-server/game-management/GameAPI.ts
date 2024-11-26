@@ -43,6 +43,11 @@ export default class GameAPI
                 this.#funcs[sPath].push(func_callback);
         }
     }
+
+    getRoom()
+    {
+        return this.#room;
+    }
     
     /**
      * Execute callback function to handle received path data

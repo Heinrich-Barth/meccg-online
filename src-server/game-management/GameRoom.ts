@@ -86,6 +86,11 @@ export class GameRoom
         return pGame;
     }
 
+    allowSessionTransfer(token:string)
+    {
+        return this.#gameInstance.allowSessionTransfer(token);
+    }
+
     getGameUid()
     {
         return this.#uid;

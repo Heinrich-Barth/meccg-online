@@ -64,6 +64,11 @@ export function signInFromPWA(_req:Request, res:Response, next:NextFunction)
     next();
 }
 
+export function signInFromTransfer(_req:Request, res:Response, next:NextFunction)
+{
+    
+}
+
 function hasSession(req:Request)
 {
     return loginlist.length === 0 || req.cookies.signedin !== undefined;

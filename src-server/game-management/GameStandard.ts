@@ -99,6 +99,18 @@ export default class GameStandard extends GamePlayers
 
         this.getMeccgApi().addListener("/game/avatar/set", this.onAvatarSet.bind(this));
         this.getMeccgApi().addListener("/game/players/reorder", this.onChangePlayerOrder.bind(this));
+        this.getMeccgApi().addListener("/game/changebrowser", this.onChangePlayerBrowser.bind(this));
+    }
+
+    onChangePlayerBrowser(userid: string, socket:any, _obj:any)
+    {
+        const room = this.getMeccgApi().getRoom();
+        const token = this.allowTransferBrowser(userid);
+
+        this.replyToPlayer("/game/changebrowser", socket, {
+            room: room,
+            token: token
+        });        
     }
 
     /**

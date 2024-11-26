@@ -882,6 +882,38 @@ const GameBuilder = {
                 document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "shuffle" }));
         });
         
+        MeccgApi.addListener("/game/changebrowser", (isMe, data) => {
+            const url = location.origin + "/transfer/" + data.room + "/" + data.token;
+    
+            const p1 = document.createElement("p");
+            p1.innerText = Dictionary.get("conf_share_copied_ok", "Link copied to clipboard.")
+
+            const p2 = document.createElement("p");
+            p2.innerText = Dictionary.get("conf_switch_1", "Open this link in the other browser.");
+    
+            const content = document.createElement("div");
+            content.setAttribute("class", "text-left");
+            content.append(
+                p1,
+                p2,
+            );
+
+            if (navigator === undefined || navigator.clipboard === undefined)
+            {
+                console.warn("Cannot acccess clipboard");
+                return;
+            }
+
+            navigator.clipboard.writeText(url)
+            .then(() => document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": Dictionary.get("conf_share_copied_ok", "Link copied to clipboard.")})))
+            .catch((err) => 
+            {
+                document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": Dictionary.get("conf_share_copied_err", "Could not copy link to clipboard.")}));
+                console.error(err);
+            });
+        
+            new Question("fa-sign-out", false).show(Dictionary.get("conf_switch_t", "Switch Browser"), content, Dictionary.get("close", "Close"));
+        });
     },
 
 

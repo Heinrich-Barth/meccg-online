@@ -88,6 +88,14 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
                 this.onVerifyGameRoomParam.bind(this),
                 this.#onRedirectJoin.bind(this)
             );
+
+            this.getServerRouteInstance().get("/transfer/:room/:token",
+                this.onVerifyGameRoomParam.bind(this),
+                this.onVerifyGameRoomParamToken.bind(this),
+                this.#pAuthentication.signInFromPWA,
+                this.onAllowTransfer.bind(this),
+                this.#onTransferAction.bind(this)
+            );
         }
 
         this.getServerRouteInstance().post(this.#contextPlay + ":room/invite/:token/:type/:allow", this.#onJoinTable.bind(this));
@@ -120,6 +128,17 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
             this.#onAfterPlayAtTableSuccessCreate.bind(this),
             this.#onAfterPlayAtTableSuccessJoin.bind(this)
         );
+    }
+
+    #onTransferAction(req: any, res: Response)
+    {
+        this.#updateCookieUser(res, req.userid, req.displayname);
+        const jSecure = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true };
+        
+        res.cookie('joined', req.joined, jSecure);
+        res.cookie('room', req.room, jSecure);
+        res.redirect("/play/" + req.room);
+        console.info("Redirected to game room");
     }
 
     #allowDeckSelection(res: Response, room: string) {

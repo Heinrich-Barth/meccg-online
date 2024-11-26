@@ -155,6 +155,11 @@ class GamePreferences extends Preferences {
         return localStorage.getItem("draw_onclick_deck") === "1";
     }
 
+    #onSwitchBrowser()
+    {
+        MeccgApi.send("/game/changebrowser");
+    }
+
     #togglePaddingBottom(isActive)
     {
         const table = document.querySelector(".area-player");
@@ -406,6 +411,7 @@ class GamePreferences extends Preferences {
             this.createEntry0("use_padding_bottom");
             this.createEntry0("toggle_touch_help");
             this.createEntry0("draw_to_handsize");
+            this.createEntry0("switch_browser");
 
             this.createSection(Dictionary.get("conf_h_save", "Save/Load"));
             this.createEntry0("game_save");
@@ -507,7 +513,8 @@ class GamePreferences extends Preferences {
         this.addConfigAction("lang_fr", "Switch to French", false, "fa-globe", this.#langFR.bind(this));
 
         this.addConfigToggle("toggle_drawondeckclick", "Draw cards when clicking on deck", this.#doToggleDrawDeckClick(), this.#toogleDrawDeckClick.bind(this));
-
+        this.addConfigAction("switch_browser", "Switch Browser", false, "fa-exchange", this.#onSwitchBrowser.bind(this));
+        
         this.#insertHelp();
     }
 

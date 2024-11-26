@@ -10,6 +10,7 @@ import { KeyValuesString } from "../plugins/Types";
 import GameAPI from "./GameAPI";
 import Chat from "./Chat";
 import Player from "./Player";
+import * as crypto from "crypto";
 
 type TPlayers = {
     this_player_name: string,
@@ -27,6 +28,7 @@ export default class GamePlayers extends GameBase
     #avatarImages:KeyValuesString = { };
     #avatarImageList:string[] = []
     #playerDices = new PlayerDices();
+    #allowTransfers:any;
     #scoring;
 
     #players:TPlayers;
@@ -47,7 +49,31 @@ export default class GamePlayers extends GameBase
             turn: 1,
         };
 
+        this.#allowTransfers = { }
+
         this.#scoring = new Scores(this.isArda());
+    }
+
+    allowTransferBrowser(id:string)
+    {
+        const uuid = crypto.randomUUID().toString().toLocaleLowerCase();
+        this.#allowTransfers[uuid] = id;
+        return uuid;
+    }
+
+    allowSessionTransfer(uid:string)
+    {
+        if (!uid || !this.#allowTransfers[uid])
+            return null;
+        
+        const id = this.#allowTransfers[uid];
+        delete this.#allowTransfers[uid];
+
+        const name = this.#players.names[id] ?? uid;
+        return {
+            id: id,
+            name: name
+        }
     }
 
     getPlayers()
