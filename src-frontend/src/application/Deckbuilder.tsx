@@ -824,7 +824,13 @@ export default function Deckbuilder() {
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
     const [message, setMessage] = React.useState("");
 
-    React.useEffect(() => { loadData() }, []);
+    React.useEffect(() => { 
+        loadData().finally(() => {
+            const data = sessionStorage?.getItem("currentdeck") ?? "";
+            if (data)
+                setDeck(JSON.parse(data));
+        })
+    }, [setDeck]);
 
     const onPreviewImage = function (x: number, src: string) {
         const half = window.innerWidth / 2;
@@ -832,11 +838,14 @@ export default function Deckbuilder() {
         setPreviewImage({ image: src, left: !left });
     }
 
-
     const saveCurrentDeck = function () {
         const val = CreateSingleTextFileFromDeck(deck);
         SaveDeckDialog(val);
+        
+        if (sessionStorage?.getItem("currentdeck"))
+            sessionStorage.removeItem("currentdeck");
     }
+
     const onDeckFileRead = function (e: any) {
         const contents = e.target?.result;
         if (typeof contents !== "string" || contents === "" || contents.indexOf("#") === -1) {
@@ -861,8 +870,7 @@ export default function Deckbuilder() {
             deckentryToStringSimple(deck.sites),
             deck.notes
         )
-
-        setDeck({
+        const data = {
             playdeck: {
                 characters: [...res.playdeck.characters],
                 hazards: [...res.playdeck.hazards],
@@ -885,7 +893,11 @@ export default function Deckbuilder() {
             },
             notes: res.notes,
             counts: res.counts
-        });
+        };
+        
+        setDeck(data);
+        if (sessionStorage)
+            sessionStorage.setItem("currentdeck", JSON.stringify(data));
 
         setMessage("Deck loaded.");
     }
@@ -904,7 +916,7 @@ export default function Deckbuilder() {
     }
 
     const propagateDeckChanges = function () {
-        setDeck({
+        const data = {
             playdeck: {
                 characters: [...deck.playdeck.characters],
                 hazards: [...deck.playdeck.hazards],
@@ -927,7 +939,11 @@ export default function Deckbuilder() {
             },
             notes: deck.notes ?? "",
             counts: deck.counts
-        });
+        };
+
+        setDeck(data);
+        if (sessionStorage)
+            sessionStorage.setItem("currentdeck", JSON.stringify(data));
     }
 
     const onButtonAddToDeck = function (code: string, which: string) {
@@ -1079,7 +1095,7 @@ export default function Deckbuilder() {
             </Grid>
             <Grid container item xs={12} textAlign={"center"}>
                 <Grid item xs={4}>
-                    <Button variant="contained" onClick={() => setDeck(createEmptyDeck())} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
+                    <Button variant="contained" onClick={() => { setDeck(createEmptyDeck()); sessionStorage.setItem("currentdeck", ""); }} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
                 </Grid>
                 <Grid item xs={4}>
                     <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
