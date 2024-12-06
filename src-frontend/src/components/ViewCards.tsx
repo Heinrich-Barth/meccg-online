@@ -139,7 +139,7 @@ function CheckboxListSet(list: CardSet[], label: string, value:string, onChange:
                 <em>All sets</em>
             </MenuItem>
             {list.map((item, n) => (
-                <MenuItem value={item.code}>{item.name}</MenuItem>
+                <MenuItem key={n+label} value={item.code}>{item.name}</MenuItem>
             ))}
         </Select>
     </FormControl>
