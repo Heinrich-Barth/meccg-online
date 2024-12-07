@@ -82,7 +82,7 @@ class UptimeNotification {
         .then(res => res.json())
         .then(UptimeNotification.OnServerHealthUpdate)
         .catch(console.error);
-    }, 1000 * 60 * 0.1);
+    }, 1000 * 60 * 5);
 
 })()
 
