@@ -16,7 +16,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import { Navigate } from "react-router-dom";
-import FetchServerInfo from "../operations/FetchServerInfo";
+import FetchServerInfo, { ServerInfo } from "../operations/FetchServerInfo";
 import Autosave from "../components/Autosave";
 
 const calcDuration = function (time: number) {
@@ -289,21 +289,16 @@ export default function Home() {
         }));
 
         FetchServerInfo()
-        .then((data) => {
-            if (typeof data !== "number" || data < 10)
+        .then((data:ServerInfo|null) => {
+            if (data === null || data.uptimeHrs > 24 || data.uptimeHrs < 22)
                 return;
 
             let message = "";
             let urgent = false;
-            const sHrs = (data / 1000 / 60 / 60).toFixed(2);
-            const hrs = parseFloat(sHrs);
-
-            if (hrs < 22)
-                return;
-
+            const hrs = data.uptimeHrs;
             if (hrs >= 22 && hrs < 23)
             {
-                message = "Server restarts approx. every 24hrs and has been up for " + sHrs + "h already. You may start a game at any time, but be aware that a restart will end your game.";
+                message = "Server restarts approx. every 24hrs and has been up for " + hrs + "h already. You may start a game at any time, but be aware that a restart will end your game.";
             }
             else if (hrs >= 23 && hrs < 23.5)
             {

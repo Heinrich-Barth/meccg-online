@@ -22,10 +22,15 @@ const getMemory = function()
 
 const onHealthSmall = function(_req:Request, res:Response)
 {
+    const uptime = Date.now() - lUptime;
+    const sHrs = (uptime / 1000 / 60 / 60).toFixed(2);
+    const hrs = parseFloat(sHrs);
+
     const gameCount = ServerInstance.getRoomManager().getGameCount().length;
     const data = { 
         startup: g_sUptime,
-        uptime : Date.now() - lUptime,
+        uptime : uptime,
+        uptimeHrs: 23.75, //hrs,
         games: gameCount,
         autoRestart: autoRestart
     };
