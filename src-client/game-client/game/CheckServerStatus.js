@@ -74,6 +74,8 @@ class UptimeNotification {
 }
 
 (function() {
+    
+    /** only the game's host should be notified on scheduled restart */
     if (g_sLobbyToken === "")
         return;
 
