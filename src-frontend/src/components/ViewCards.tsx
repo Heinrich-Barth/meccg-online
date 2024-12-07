@@ -1,7 +1,7 @@
 import { Autocomplete, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, FetchFilters } from "../operations/FetchCards";
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 
@@ -10,7 +10,7 @@ function renderIsLoading() {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
     >
-        <CircularProgress color="inherit" />
+        <LinearProgress color="inherit" />
     </Backdrop>;
 }
 

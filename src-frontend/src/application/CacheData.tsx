@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { LinearProgress, Grid, Typography } from "@mui/material";
 import React from "react";
 import MeccgLogo from "../components/MeccgLogo";
 import FetchSampleRooms from "../operations/FetchSampleRooms";
@@ -86,7 +86,7 @@ export default function CacheData() {
                             <Typography variant="body1" component="p" className="paddingBottom1em">Loading {loadingLabel}</Typography>
                         </Grid>
                         <Grid item xs={10} textAlign={"center"}>
-                            <CircularProgress color="inherit" />
+                            <LinearProgress color="inherit" />
                         </Grid>
                         {doRedirect && (<Navigate to="/play" />)}
                     </Grid>
