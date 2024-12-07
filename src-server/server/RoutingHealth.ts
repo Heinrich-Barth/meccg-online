@@ -30,7 +30,7 @@ const onHealthSmall = function(_req:Request, res:Response)
     const data = { 
         startup: g_sUptime,
         uptime : uptime,
-        uptimeHrs: 23.75, //hrs,
+        uptimeHrs: hrs,
         games: gameCount,
         autoRestart: autoRestart
     };
