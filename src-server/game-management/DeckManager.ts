@@ -110,7 +110,7 @@ export default class DeckManager {
         }
     }
 
-    restoreDeck(decks:any, requireAdmin:boolean)
+    #restoreDeck(decks:any, requireAdmin:boolean)
     {
         for (let key of Object.keys(decks.deck))
         {
@@ -123,7 +123,7 @@ export default class DeckManager {
         }
     }
 
-    preprocessRestore(decks:any)
+    #preprocessRestore(decks:any)
     {
         for (let key of Object.keys(decks.deck))
         {
@@ -138,13 +138,13 @@ export default class DeckManager {
         this.restoreCardMap(decks.cardMap);
         this.restoreSiteMap(decks.siteMap);
 
-        this.preprocessRestore(decks);
+        this.#preprocessRestore(decks);
 
         Logger.info("restore HOST deck");
-        this.restoreDeck(decks, true);
+        this.#restoreDeck(decks, true);
 
         Logger.info("restore GUEST deck(s)");
-        this.restoreDeck(decks, false);
+        this.#restoreDeck(decks, false);
 
         this.#uuid_count = Date.now();
         return true;
