@@ -5,9 +5,20 @@ import { BACKSIDE_IMAGE } from "./Types";
 import GetGameData, { GameData } from "../operations/FetchGameData";
 import { Navigate, useParams } from "react-router-dom";
 import { validatRoomName } from "./Home";
+import { Backdrop, LinearProgress } from "@mui/material";
 
 let deckList:DeckEntry[] = [];
 let roomData:GameData = { exists: false }
+
+
+function RenderIsLoading() {
+    return <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+    >
+        <LinearProgress color="inherit" />
+    </Backdrop>;
+}
 
 export default function HomeSelectDeck() {
     const { room } = useParams();
@@ -48,6 +59,7 @@ export default function HomeSelectDeck() {
 
     return <React.Fragment>
         {redirectPlay && (<Navigate to="/play" />)}
+        {!redirectPlay && !selectDeckOpen && (<RenderIsLoading />)}
         {!redirectPlay && (<>
             <DeckSelection
                 selectDeckOpen={selectDeckOpen}
