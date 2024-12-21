@@ -19,7 +19,6 @@ class Configuration
     #maxPlayersPerRoom;    
     #hasLocaLImages:boolean;
     #imageUrl;
-    #hasLocaLCards;
     #cardsUrl;
 
     constructor()
@@ -43,8 +42,7 @@ class Configuration
             this.#imageUrl = Configuration.#assertUrlOrDirectory(process.env.IMAGE_PATH);
         }
         
-        this.#hasLocaLCards = true;
-        this.#cardsUrl = getRootFolder() + "/data-local/cards.json";
+        this.#cardsUrl = getRootFolder() + "/data-local/cards";
     }
 
     getRequestTimeout():number
@@ -107,18 +105,6 @@ class Configuration
     isValid(input:string)
     {
         return typeof input === "string" && input !== "";
-    }
-
-    loadFromJson(json:any)
-    {
-        if (json === null)
-            return;
-
-        if (this.isValid(json.image_path))
-            this.#imageUrl = json.image_path;
-
-        if (this.isValid(json.cardsUrl) && !this.#hasLocaLCards)
-            this.#cardsUrl = json.cardsUrl;
     }
 
     readJson(sFile:string)
