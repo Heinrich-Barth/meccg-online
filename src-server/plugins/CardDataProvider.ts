@@ -8,6 +8,7 @@ import ImageList, { CardImagesMap } from "./ImageList";
 import Logger from "../Logger";
 import ConfigurationInstance from "../Configuration";
 import { IMap } from "./MapData";
+import CardBuilder from "./CardBuilder";
 
 export interface MapData extends IMap {
     images: CardImagesMap
@@ -44,12 +45,18 @@ class CardDataProvider extends CardRepository {
         return this.#filters;    
     }
 
+    #buildCardsData(dir:string)
+    {
+        const builder = new CardBuilder();
+        return builder.fromDirectory(dir);
+    }
+
     load()
     {
         try 
         {
-            Logger.info("Loading local card data from " + this.#cardsFile);
-            this.onCardsReceived(fs.readFileSync(this.#cardsFile, 'utf8'));
+            Logger.info("Loading local card data from directory " + this.#cardsFile);
+            this.onCardsReceived(this.#buildCardsData(this.#cardsFile));
             Logger.info("\t-- successfully loaded card data from local file");
         } 
         catch (error:any) 

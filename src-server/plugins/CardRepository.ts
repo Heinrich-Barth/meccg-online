@@ -657,12 +657,12 @@ export default class CardRepository {
         return cards;
     }
 
-    onCardsReceived(body:string)
+    onCardsReceived(list:ICard[])
     {
         
         try 
         {
-            this.setup(JSON.parse(body));
+            this.setup(list);
             this.onProcessCardData();
         } 
         catch (error) 
