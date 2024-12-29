@@ -11,6 +11,7 @@ export default class CardBuilder
     #loadJsonObject(file:string)
     {
         try {
+            
             const json = JSON.parse(fs.readFileSync(file, "utf-8"));
             if (json && !Array.isArray(json))
                 return json;
@@ -20,6 +21,7 @@ export default class CardBuilder
             console.error(err.message);
         }
 
+        console.warn("Cannot load json file " + file);
         return { }
     }
     #loadJsonArray(file:string)
@@ -34,6 +36,7 @@ export default class CardBuilder
             console.error(err.message);
         }
 
+        console.warn("Cannot load json file " + file);
         return [ ]
     }
 
@@ -46,7 +49,12 @@ export default class CardBuilder
         for (let key in this.#sets)
             this.#setOrder[key] = ++count;
 
-        return Object.keys(this.#sets).length > 0;
+        const size = Object.keys(this.#sets).length;
+        if (size === 0)
+            return false;
+
+        console.info(size + " sets found");
+        return true;
     }
 
     #loadErrata(dir:string)
@@ -186,8 +194,14 @@ export default class CardBuilder
 
     #getFullSetName(code:string)
     {
-        const val = this.#sets[code];
-        return typeof val === "string" ? val : "";
+        const val = this.#sets[code.toLowerCase()];
+        if (typeof val !== "string" || val === "")
+        {
+            console.warn("Cannot find set name by code: " + code);
+            return "";            
+        }
+        
+        return val;
     }
 
     #getErrata(code:string)
