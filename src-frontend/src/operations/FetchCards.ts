@@ -12,7 +12,9 @@ export type CardData = {
     "code": string;
     "uniqueness": boolean;
     "skills": string[]|null,
-    "keywords": string[]|null
+    "keywords": string[]|null,
+    "Site"?: string;
+    "Region"?: string;
 }
 
 export type CardImageMap = {

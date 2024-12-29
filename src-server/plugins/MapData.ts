@@ -330,7 +330,7 @@ export default class MapData
         let count = 0;
         for (let card of jCards) 
         {
-            if (card.type !== "Site")
+            if (card.type !== "Site" || !card.Region)
                 continue;
 
             count++;

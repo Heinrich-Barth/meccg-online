@@ -102,6 +102,7 @@ export default class CardRepository {
 
         let listStrings = ["set_code", "full_set", "Secondary", "alignment", "type",  "code", "uniqueness"]
         let listOther = ["uniqueness", "skills", "keywords"];
+        let listStringsOptional = ["Site", "Region"]
 
         for (let card of this.#raw) 
         {
@@ -117,6 +118,11 @@ export default class CardRepository {
                 candidate[key] = assertString(card[key]);
             for (let key of listOther)
                 candidate[key] = card[key];
+            for (let key of listStringsOptional)
+            {
+                if (typeof card[key] === "string")
+                    candidate[key] = card[key].toLowerCase();
+            }
 
             this.#cardsDeckbuilder.push(candidate);
         }
