@@ -292,7 +292,6 @@ const loadDeckMetadata = function(content:string)
         summary: ""
     }
     
-    let key = "";
     for (let line of extractPart(content, "Deck").split("\n"))
     {
         if (line.length < 4 || line.startsWith("#") || line.startsWith("="))
