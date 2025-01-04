@@ -53,6 +53,8 @@ const convertToAsciCode = function(code:string)
         const num = code.charCodeAt(i);
         if (num === 32) // SPACE
             list.push(code[i]);
+        else if (num === 45) // - (this might be used as a space so we need to handle it)
+            list.push(" ");
         else if (num >= 97 && num <= 122) //a-z
             list.push(code[i]);
         else if (num >= 48 && num <= 57)  // 0-9
