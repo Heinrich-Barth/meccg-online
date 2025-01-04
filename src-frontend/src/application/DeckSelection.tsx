@@ -34,6 +34,7 @@ import FetchSampleRooms from '../operations/FetchSampleRooms';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import ViewDeckCards from '../components/ViewDeckCards';
 import identifyMapSettings from '../operations/MapSettings';
+import { GetCurrentAvatar } from '../components/LoadAvatar';
 
 const TYPE_ARDA = "arda";
 const TYPE_STANDARD = "standard";
@@ -215,7 +216,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             name: GetUserName(),
             dce: true,
             randomHazards: gametype === TYPE_SOLO_HAZ,
-            deck: deckdata
+            deck: deckdata,
+            avatar: GetCurrentAvatar()
         }
 
         if (allowGameChoice)

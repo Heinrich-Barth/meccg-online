@@ -1,7 +1,7 @@
 import * as React from "react";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Badge, Box, Button, Stack } from "@mui/material";
+import { Avatar, Badge, Box, Button, Stack } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -16,7 +16,7 @@ import StyleIcon from '@mui/icons-material/Style';
 import MapIcon from '@mui/icons-material/Map';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-import { MenuSelection } from "./Types";
+import { BACKSIDE_IMAGE, MenuSelection } from "./Types";
 import Dictionary, { LoadDictionary } from "../components/Dictionary";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -39,7 +39,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-export default function Menu(props: { onMenuChange: Function, username:string, hasUsername: boolean }) {
+export default function Menu(props: { onMenuChange: Function, username:string, hasUsername: boolean, avatarCode:string, avatarImage:string }) {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [openLanguageChanged, setOpenLanguageChanged] = React.useState(false);
@@ -204,7 +204,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
             <Stack direction="row" spacing={2} justifyContent="flex-end" className="paddingRight1em paddingTop1em">
                 <Button onClick={() => props.onMenuChange(MenuSelection.Preferences)} title={Dictionary("frontend.configuration", "Settings")}>
                     <Badge badgeContent={props.hasUsername ? "" : "?"}>
-                        <AccountCircleIcon /> 
+                        <Avatar alt={props.avatarCode} src={props.avatarImage ? props.avatarImage : BACKSIDE_IMAGE} className="avatar-container" />
                         {props.username === "" ? <>Set your player name</> : <>Welcome, <b>{props.username}</b></>}
                     </Badge>
                 </Button>

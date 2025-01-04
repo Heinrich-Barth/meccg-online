@@ -184,7 +184,6 @@
     img {
         max-width: 100%;
     }
-
     .cardbrowser-result {
         padding: 0 2px;
         position: relative;
@@ -193,6 +192,14 @@
             position: absolute;
             right: 0px;
             text-transform: uppercase;
+
+            &.button-avatar,
+            &.button-copy {
+                    top: 80px
+            }
+            &.button-flip {
+                top: 150px
+            }
         }
     }
 }
@@ -262,4 +269,12 @@ table.resultlist {
 body div .buttonLeft {
     justify-content: start   !important;
     padding-left: 1em;
+}
+.avatar-container  {
+    margin-right: 1.5em;
+    img {
+        scale: 1.5;
+        margin-top: 25px;
+        margin-left: -7px;
+    }
 }

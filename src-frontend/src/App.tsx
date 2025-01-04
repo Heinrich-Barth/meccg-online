@@ -16,12 +16,15 @@ import HomeSelectDeck from './application/HomeSelectDeck';
 import Tournaments, { TournamentDetail } from './application/Tournaments';
 import Whatsnew from './application/Whatsnew';
 import ViewCards from './application/ViewCards';
+import { GetCurrentAvatar, GetCurrentAvatarImage } from './components/LoadAvatar';
 
 
 function App({ requireLogin }: { requireLogin: boolean }) {
 
     const [openPrefs, setOpenPrefs] = React.useState(false);
     const [hasUsername, setHasUsername] = React.useState(HasUserName());
+    const [avatarImage, setAvatarImage] = React.useState(GetCurrentAvatarImage());
+    const [avatarCode, setAvatarCode] = React.useState(GetCurrentAvatar());
     const [username, setUsername] = React.useState(GetUserName());
     const [allowNavigation, setAllowNavigation] = React.useState(!requireLogin);
 
@@ -39,7 +42,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
     return (
         <>
             <HashRouter>
-                {allowNavigation && (<Menu onMenuChange={onChangeView} hasUsername={hasUsername} username={username} />)}
+                {allowNavigation && (<Menu onMenuChange={onChangeView} hasUsername={hasUsername} username={username} avatarCode={avatarCode} avatarImage={avatarImage} />)}
                 <Routes>
                     <Route path="/play" element={<Home />} />
                     <Route path="/play/:room" element={<HomeSelectDeck />} />
@@ -62,7 +65,12 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                 </Routes>
             </HashRouter>
             {openPrefs && (<Preferences 
-                onCallbackUpdate={(name:string) => { setHasUsername(name !== ""); setUsername(name); }} 
+                onCallbackUpdate={(name:string, avatarCode:string, avatarImage:string) => { 
+                    setHasUsername(name !== ""); 
+                    setUsername(name); 
+                    setAvatarCode(avatarCode);
+                    setAvatarImage(avatarImage);
+                }} 
                 onClose={() => setOpenPrefs(false)}
              />)}
         </>
