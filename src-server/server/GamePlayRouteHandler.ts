@@ -166,11 +166,15 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
         return CardDataProvider.validateDeck(jDeck);
     }
 
-    getAvatar(jDeck: DeckValidate) {
+    #getAvatar(jDeck: DeckValidate, userCode:string) {
         if (this.isArda() || this.isSinglePlayer())
             return "";
-        else
-            return CardDataProvider.getAvatar(jDeck);
+        
+        const card = userCode ? CardDataProvider.getCardByCode(userCode.toLowerCase()) : null;
+        if (card)
+            return card.code
+
+        return CardDataProvider.getAvatar(jDeck);
     }
 
     #onIsWatching(req: any, res: Response, next: NextFunction) {
@@ -288,6 +292,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
             const room = req.room;
             const jData = req.body;
             const displayname = jData.name;
+            const avatarCode = jData.avatar ?? "";
             const useDCE = jData.dce === true;
             const randomHazardDeck = this.isSinglePlayer() && jData.randomHazards === true;
 
@@ -305,7 +310,7 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
             if (jDeck === null)
                 throw new Error("Your deck is empty and cannot be used");
 
-            const avatar = this.getAvatar(jDeck);
+            const avatar = this.#getAvatar(jDeck, avatarCode);
 
             /** Now, check if there already is a game for this Room */
             const userId = this.#requireUserId(req);
