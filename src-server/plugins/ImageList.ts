@@ -71,34 +71,82 @@ export default class ImageList {
         return list;
     }
 
-    identifyQuestImages(cards:ICard[]) : KeyValuesString
+    #findFlippCards(cards:ICard[]) : ICard[]
     {
-        const questsB:any = { };
-        const quests:any = { };
-
+        const quests:ICard[] = [];
+        const flips:any = { };
         for (let card of cards)
         {
-            if (card["flip-title"] === undefined)
+            if (card["flip-title"] === undefined || card["flip-title"] === "")
                 continue;
-                
-            const flipTitle = card["flip-title"].replace(" 2", "").replace(" A", "").replace(" 1", "").replace(" B", "");
-            if (flipTitle!== card.normalizedtitle)
+
+            const flipTitle = this.#removeTitleIndex(card["flip-title"]).toLowerCase();
+            if (flipTitle === card.normalizedtitle)
             {
-                questsB[flipTitle] = card.code;
-                questsB[flipTitle + card.alignment] = card.code;
+                card["flip-title"] = "";
+                continue;
             }
+
+            card["flip-title"] = flipTitle.toLowerCase();
+            flips[card["flip-title"]] = card.normalizedtitle;
+            flips[card.normalizedtitle] = card["flip-title"];
+
+            quests.push(card);
+        }
+    
+        for (let card of cards)
+        {
+            if (card["flip-title"])
+                continue;
+
+            if (flips[card.normalizedtitle])
+                quests.push(card);
         }
 
-        for (let card of cards)
+        return quests;
+    }
+
+    #removeTitleIndex(title:string)
+    {
+        if (title.endsWith(" A") || title.endsWith(" B") || title.endsWith(" 1") || title.endsWith(" 2"))
+            return title.substring(0, title.length - 2).trim();
+
+        return title;
+    }
+
+    identifyQuestImages(cards:ICard[]) : KeyValuesString
+    {
+        const questlist = this.#findFlippCards(cards);
+        const mapByTitle:any = { };
+        const quests:any = { };
+        const questByCodes:any = { }
+
+        for (let card of questlist)
         {
-            const alignTitle = card.normalizedtitle + card.alignment;
-            if (questsB[alignTitle] !== undefined)
+            mapByTitle[card.normalizedtitle] = card.code;
+            questByCodes[card.code.toLowerCase()] = true;
+        }
+
+        for (let card of questlist)
+        {
+            if (quests[card.code])
+                continue;
+
+            const flipTitle = card["flip-title"];
+            const targetCode = mapByTitle[flipTitle]
+            
+            if (targetCode)
             {
-                const cardCodeA = card.code;
-                const cardCodeB = questsB[alignTitle];
-                quests[cardCodeA] = cardCodeB;
-                quests[cardCodeB] = cardCodeA;
+                quests[card.code] = targetCode;
+                quests[targetCode] = card.code;
             }
+            else if (questByCodes[flipTitle])
+            {
+                quests[card.code] = flipTitle;
+                quests[flipTitle] = card.code;
+            }
+            else
+                Logger.warn("\t- Cannot find flip side for " + card.code + " with flip title " + flipTitle);
         }
 
         Logger.info("\t- Flipped cards available: " + Object.keys(quests).length);
