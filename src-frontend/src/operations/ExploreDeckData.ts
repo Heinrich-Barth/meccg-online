@@ -79,10 +79,7 @@ export function ConvertCardsStringMap(candidate:string)
 {
     const result:DeckCardsEntry = { };
     if (candidate === "")
-    {
-        console.warn("No input")
         return result;
-    }
 
     for (let line of candidate.split("\n"))
     {

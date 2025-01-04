@@ -22,9 +22,53 @@ const cardsMap: {[code:string]:CardData} = { };
 const processCardList = function (list: CardData[]) {
     for (let card of list)
     {
+        const lcode = card.code.toLowerCase();
+        const asciicode = convertToAsciCode(lcode);
         cards[card.code.toLowerCase()] = card.code;
+        
+        if (asciicode && asciicode !== lcode)
+            cards[asciicode] = card.code;
+
         cardsMap[card.code.toLowerCase()] = card;
     }
+}
+
+const convertToAsciCode = function(code:string)
+{
+    if (code === "")
+        return "";
+
+    let rcode = "";
+    const rPos = code.lastIndexOf(" (");
+    if (rPos > 0)
+    {
+        rcode = code.substring(rPos);
+        code = code.substring(0, rPos);
+    }
+
+    const list:string[] = [];
+    
+    for (let i = 0; i < code.length; i++)
+    {
+        const num = code.charCodeAt(i);
+        if (num === 32) // SPACE
+            list.push(code[i]);
+        else if (num >= 97 && num <= 122) //a-z
+            list.push(code[i]);
+        else if (num >= 48 && num <= 57)  // 0-9
+            list.push(code[i]);
+        else if (num === 91 || num === 93) // []()
+            list.push(code[i]);
+    }
+
+    if (rcode)
+        list.push(rcode);
+
+    const res = list.join("").replace(/  +/g, ' ');;
+    if (res === code)
+        return "";
+    else
+        return res;
 }
 
 export function GetCardByCode(code:string)
@@ -33,7 +77,7 @@ export function GetCardByCode(code:string)
     const card = code === "" ? null : cardsMap[code];
     if (card)
         return card;
-    else 
+    else
         return null;
 }
 
@@ -45,18 +89,31 @@ export function verifyCardCode(code: string) {
     const map: any = {
         " (": [" [h] (", " [m] ("],
         " [h] (": [" ("],
+        " [d] (": [" ("],
         " [m] (": [" ("]
     }
 
     for (let pattern in map) {
         for (let rep of map[pattern]) {
-            let candidate = sCode.replace(pattern, rep);
+            const candidate = sCode.replace(pattern, rep);
             if (cards[candidate])
                 return candidate;
         }
     }
 
-    console.warn("Unknown card code", sCode);
+    const ascisCode = convertToAsciCode(code.toLowerCase().trim());
+    if (cards[ascisCode] !== undefined)
+        return cards[ascisCode].toLowerCase();
+
+    for (let pattern in map) {
+        for (let rep of map[pattern]) {
+            const candidate = ascisCode.replace(pattern, rep)
+            if (candidate && cards[candidate])
+                return cards[candidate].toLowerCase();
+        }
+    }
+
+    console.warn("Unknown card code", sCode, ascisCode);
     return "";
 }
 
