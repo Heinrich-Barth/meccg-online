@@ -820,7 +820,6 @@ const CreateSingleTextFileFromDeck = function (deck: Deck) {
 export default function Deckbuilder() {
 
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
-    const [viewDeckData, setViewDeckData] = React.useState(false);
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
     const [message, setMessage] = React.useState("");
 
