@@ -11,6 +11,7 @@ export type Deckentry = {
     code: string;
     image: string;
     count: number;
+    type: string;
 }
 
 export type DeckPart = {

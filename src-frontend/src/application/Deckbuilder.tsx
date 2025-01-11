@@ -1,4 +1,4 @@
-import { AppBar, Button, Grid, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, AppBar, Button, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Snackbar, TextField, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -24,33 +24,9 @@ import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData, { DeckCardsEntry } from "../operations/ExploreDeckData";
 import { InitCustomDeck } from "../components/CustomDeckInput";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
-
-type Deckentry = {
-    code: string;
-    image: string;
-    count: number;
-    type: string;
-}
-
-type DeckPart = {
-    characters: Deckentry[];
-    resources: Deckentry[];
-    hazards: Deckentry[];
-}
-
-type DeckCountMap = {
-    [key: string]: number
-};
-
-type Deck = {
-    pool: DeckPart;
-    playdeck: DeckPart;
-    sideboard: DeckPart;
-    sites: DeckPart;
-    notes: string;
-    counts: DeckCountMap;
-}
-
+import { DeckPart, DeckCountMap, Deck, Deckentry } from "./Types";
+import calculateDreamcards from "../components/DeckLagality";
+import { CheckCircle, Help, InfoOutlined, StopCircle } from "@mui/icons-material";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -428,8 +404,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         <Grid item xs={12} className="bgPaper">
             <Box className="bgPaperBox">
                 <AppBar position="static">
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor="primary"
-                        indicatorColor="primary">
+                    <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
                         <Tab label="Deck List" {...a11yProps(0)} />
                         <Tab label="Export/Import" {...a11yProps(1)} />
                     </Tabs>
@@ -822,6 +797,7 @@ export default function Deckbuilder() {
     const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
     const [message, setMessage] = React.useState("");
+    const [showLegalInfo, setShowLegalInfo] = React.useState(false);
 
     React.useEffect(() => { 
         loadData().finally(() => {
@@ -1054,7 +1030,43 @@ export default function Deckbuilder() {
         </Grid>
     }
 
+    const RenderSingleRule = function(props: { text:string, desc?:string, checked:boolean})
+    {
+        return <ListItem disablePadding>
+        <ListItemIcon>
+            {props.checked ? <CheckCircle /> : <StopCircle />}
+        </ListItemIcon>
+        <ListItemText primary={props.text} secondary={props.desc??""} />
+    </ListItem>
+    }
+
+    const ShowLegalInfo = function() {
+        const dcLegalInfo = calculateDreamcards(deck);
+        const ruleTotal = dcLegalInfo.dreamcards.percTotal >= 25;
+        const ruleHaz = dcLegalInfo.dreamcards.percHazards >= 25;
+        const ruleRes = dcLegalInfo.dreamcards.percResources >= 25;
+        const isDCLegal = ruleTotal && ruleHaz && ruleRes;
+
+        return <Grid item xs={12} className="deck-legality">
+            <Alert severity={isDCLegal ? "success" : "warning"}>
+                {isDCLegal ? "This is a legal dream-cards deck." : "This is not a legal dream-cards deck"}
+            </Alert>
+            <List>
+                <RenderSingleRule checked={ruleTotal} text="Overall minimum of 25% dream-cards (round up)." desc={"Dream-cards in deck: " + dcLegalInfo.dreamcards.percTotal + "%"} />
+                <RenderSingleRule checked={ruleRes} text="Resource portion of deck has +25% dream-cards (round up)." desc={"Dream-card resources: " + dcLegalInfo.dreamcards.percResources + "%"} />
+                <RenderSingleRule checked={ruleHaz} text="Hazard portion of deck has +25% dream-cards (round up)." desc={"Dream-card hazards: " + dcLegalInfo.dreamcards.percHazards + "%"} />
+                <ListItem disablePadding>
+                    <ListItemIcon>
+                        <InfoOutlined />
+                    </ListItemIcon>
+                    <ListItemText primary={"You may have up to " + dcLegalInfo.avatars.maximum + " avatar copies"} secondary={"You have " + dcLegalInfo.avatars.count + " avatars in your deck"}  />
+                </ListItem>                
+            </List>
+        </Grid>
+    }
+
     const DeckSummary = function () {
+
         return <Grid container item xs={12} spacing={0} className="deck-summary">
             <Grid item xs={1} container>
                 <Grid item xs={3}><BackHandIcon /></Grid>
@@ -1092,18 +1104,22 @@ export default function Deckbuilder() {
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.sideboard.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.sideboard.hazards)} Hazards
                 <br />
             </Grid>
-            <Grid container item xs={12} textAlign={"center"}>
-                <Grid item xs={4}>
+            <Grid container item xs={12} textAlign={"center"} className="deck-summary-pt1">
+                <Grid item xs={3}>
                     <Button variant="contained" onClick={() => { setDeck(createEmptyDeck()); sessionStorage.setItem("currentdeck", ""); }} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
                     <Button variant="contained" onClick={() => document.getElementById("meccg-open-dialog")?.click()} title="News Deck" startIcon={<FolderOpenIcon />}>Load</Button>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <Button variant="contained" onClick={saveCurrentDeck} title="Save deck" startIcon={<SaveIcon />}>Save</Button>
                 </Grid>
+                <Grid item xs={3}>
+                    <Button variant="contained" onClick={() => setShowLegalInfo(!showLegalInfo)} title="Legality" startIcon={<Help />}>Info</Button>
+                </Grid>
             </Grid>
+            {showLegalInfo && <ShowLegalInfo />}
         </Grid>
     }
 
