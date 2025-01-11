@@ -29,6 +29,9 @@ export type DreamCardsDetails = {
     avatars: {
         count: number;
         maximum: number;
+    },
+    sidebaord: {
+        allowed: number;
     }
 }
 
@@ -170,6 +173,9 @@ export default function calculateDreamcards(deck: Deck):DreamCardsDetails {
             percResources: calculateDCPercentage(play.resources),
             percHazards: calculateDCPercentage(play.hazards),
             percTotal: calculateDCPercentage(total)
+        },
+        sidebaord: {
+            allowed: Math.floor(play.total.total / 2)
         }
     }
 
