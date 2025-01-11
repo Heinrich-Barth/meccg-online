@@ -124,7 +124,7 @@ CachedDecks["custom"] = {
 const getUrlPathByType = function (type: string) {
     if (type === TYPE_ARDA)
         return "arda";
-    else if (type === TYPE_SOLO || type === TYPE_SOLO)
+    else if (type === TYPE_SOLO || type === TYPE_SOLO_HAZ)
         return "singleplayer";
     else
         return "play";
