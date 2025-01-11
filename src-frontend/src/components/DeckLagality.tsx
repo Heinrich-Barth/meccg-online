@@ -177,7 +177,7 @@ export default function calculateDreamcards(deck: Deck):DreamCardsDetails {
      * You may include 1 avatar copy in play deck and pool combined for every 20 cards in your play deck.
      * Characters straight in deck (i.e. not coming from your pool) count towards play deck size.
      */
-    const cardsSemAvatar = result.details.total.total - avatars - result.details.pool.characters.total;
+    const cardsSemAvatar = result.details.playdeck.total.total + result.details.pool.total.total;
     const avMax = Math.floor(cardsSemAvatar / 20);
     if (avMax > 3)
         result.avatars.maximum = avMax;
