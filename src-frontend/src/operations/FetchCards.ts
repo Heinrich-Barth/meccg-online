@@ -15,6 +15,7 @@ export type CardData = {
     "keywords": string[]|null,
     "Site"?: string;
     "Region"?: string;
+    "stage"?: boolean;
 }
 
 export type CardImageMap = {
