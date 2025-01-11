@@ -1,4 +1,4 @@
-import { Alert, AppBar, Button, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, AppBar, Button, Grid, List, ListItem, ListItemIcon, ListItemText, Snackbar, TextField, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -26,7 +26,7 @@ import { InitCustomDeck } from "../components/CustomDeckInput";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 import { DeckPart, DeckCountMap, Deck, Deckentry } from "./Types";
 import calculateDreamcards from "../components/DeckLagality";
-import { CheckCircle, Help, InfoOutlined, StopCircle } from "@mui/icons-material";
+import { CheckCircle, Help, StopCircle } from "@mui/icons-material";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -1032,7 +1032,7 @@ export default function Deckbuilder() {
 
     const RenderSingleRule = function(props: { text:string, desc?:string, checked:boolean})
     {
-        return <ListItem disablePadding>
+        return <ListItem>
         <ListItemIcon>
             {props.checked ? <CheckCircle /> : <StopCircle />}
         </ListItemIcon>
@@ -1045,6 +1045,8 @@ export default function Deckbuilder() {
         const ruleTotal = dcLegalInfo.dreamcards.percTotal >= 25;
         const ruleHaz = dcLegalInfo.dreamcards.percHazards >= 25;
         const ruleRes = dcLegalInfo.dreamcards.percResources >= 25;
+        const rullesSideboard = dcLegalInfo.sidebaord.allowed >= dcLegalInfo.details.sideboard.total.total;
+        const rulesAvatar = dcLegalInfo.avatars.maximum >= dcLegalInfo.avatars.count;
         const isDCLegal = ruleTotal && ruleHaz && ruleRes;
 
         return <Grid item xs={12} className="deck-legality">
@@ -1055,12 +1057,8 @@ export default function Deckbuilder() {
                 <RenderSingleRule checked={ruleTotal} text="Overall minimum of 25% dream-cards (round up)." desc={"Dream-cards in deck: " + dcLegalInfo.dreamcards.percTotal + "%"} />
                 <RenderSingleRule checked={ruleRes} text="Resource portion of deck has +25% dream-cards (round up)." desc={"Dream-card resources: " + dcLegalInfo.dreamcards.percResources + "%"} />
                 <RenderSingleRule checked={ruleHaz} text="Hazard portion of deck has +25% dream-cards (round up)." desc={"Dream-card hazards: " + dcLegalInfo.dreamcards.percHazards + "%"} />
-                <ListItem disablePadding>
-                    <ListItemIcon>
-                        <InfoOutlined />
-                    </ListItemIcon>
-                    <ListItemText primary={"You may have up to " + dcLegalInfo.avatars.maximum + " avatar copies"} secondary={"You have " + dcLegalInfo.avatars.count + " avatars in your deck"}  />
-                </ListItem>                
+                <RenderSingleRule checked={rullesSideboard} text={"Your sideboard may contain up to " + dcLegalInfo.sidebaord.allowed + " cards"} desc={"You have " + dcLegalInfo.details.sideboard.total.total + " cards in your sideboard."} />
+                <RenderSingleRule checked={rulesAvatar} text={"You may have up to " + dcLegalInfo.avatars.maximum + " avatar copies"} desc={"You have " + dcLegalInfo.avatars.count + " avatars in your deck"} />
             </List>
         </Grid>
     }
