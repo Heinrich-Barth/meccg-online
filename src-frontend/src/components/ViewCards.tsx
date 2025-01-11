@@ -4,6 +4,7 @@ import Backdrop from '@mui/material/Backdrop';
 import LinearProgress from '@mui/material/LinearProgress';
 import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, FetchFilters } from "../operations/FetchCards";
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
+import { FetchStageCards } from "../operations/FetchStageCards";
 
 function renderIsLoading() {
     return <Backdrop
@@ -119,7 +120,7 @@ function CheckboxList(list: string[], label: string, onChange: Function) {
     return <Autocomplete
         disablePortal
         onChange={(_evt, value) => onChange(value)}
-        options={list}
+        options={list.sort()}
         renderInput={(params) => <TextField {...params} margin="dense" label={label} variant="filled" />}
     />
 }
@@ -152,7 +153,8 @@ type SearchParams = {
     keyword: string;
     skill: string;
     set: string;
-    q: string
+    q: string,
+    stageOnly?:boolean;
 }
 
 type SeachResultEntry = {
@@ -174,6 +176,9 @@ const getMatch = function (card: CardData, params: SearchParams) {
         return 0;
 
     if (params.type !== "" && card.type !== params.type)
+        return 0;
+
+    if (params.stageOnly === true && !card.stage)
         return 0;
 
     if (params.keyword !== "" && (card.keywords === null || !card.keywords.includes(params.keyword)))
@@ -227,6 +232,15 @@ const performSearchCards = function (params: SearchParams) {
 
 }
 
+const addStageInfo = function(cards:CardData[], stageCodes:string[])
+{
+    for (let card of cards)
+    {
+        if (stageCodes.includes(card.code))
+            card.stage = true;    
+    }
+}
+
 const CARDS_PER_VIEW = 30;
 export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { renderCardEntry: Function, subline: string }) {
 
@@ -241,7 +255,8 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         secondary: "",
         skill: "",
         type: "",
-        set: ""
+        set: "",
+        stageOnly: false,
     });
 
     const performSearch = function () {
@@ -274,6 +289,8 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     const loadData = async function () {
         try {
             const cards = await FetchCards();
+            const stageCodes = await FetchStageCards();
+            addStageInfo(cards, stageCodes);
             cacheCards(cards);
 
             const images = await FetchCardImages();
@@ -329,7 +346,19 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         performSearch();
     }
     const onSelectType = function (val: string) {
-        searchParams.type = val ?? "";
+
+        console.info(val)
+        if (val === "Resource (Stage only)")
+        {
+            searchParams.type = "Resource"
+            searchParams.stageOnly = true; 
+        }
+        else
+        {
+            searchParams.stageOnly = false;
+            searchParams.type = val ?? "";
+        }
+
         setSearchParams(searchParams);
         performSearch();
     }
@@ -370,7 +399,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             )}
             {g_pFilters.type && (
                 <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
-                    {CheckboxList(g_pFilters.type, "Type", (e: string) => onSelectType(e))}
+                    {CheckboxList([...g_pFilters.type, "Resource (Stage only)"], "Type", (e: string) => onSelectType(e))}
                 </Grid>
             )}
             {g_pFilters.secondaries && (
