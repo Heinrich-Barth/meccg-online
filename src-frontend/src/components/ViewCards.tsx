@@ -57,6 +57,19 @@ const buildSetsMap = function (cards: CardData[]) {
     g_pSets.sort((a,b) => a.name.localeCompare(b.name));
 }
 
+const assertArray = function(code:string, name:string, candidate:any)
+{
+    if (candidate)
+    {
+        if (Array.isArray(candidate))
+            return candidate;
+
+        console.warn(code + " - " + name + " is not of type array");
+    }
+
+    return [];
+}
+
 const cacheCards = function (list: CardData[]) {
     if (g_pCards.length > 0)
         return;
@@ -67,9 +80,10 @@ const cacheCards = function (list: CardData[]) {
     const mapSkill: any = {};
     const mapKeyword: any = {};
     for (let card of list) {
-        for (let skill of (card.skills !== null ? card.skills : []))
+        for (let skill of assertArray(card.code, "skill", card.skills))
             mapSkill[skill] = 1;
-        for (let keyword of (card.keywords !== null ? card.keywords : []))
+
+        for (let keyword of assertArray(card.code, "keywords", card.keywords))
             mapKeyword[keyword] = 1;
 
         if (typeof card.Secondary === "string")
@@ -181,10 +195,10 @@ const getMatch = function (card: CardData, params: SearchParams) {
     if (params.stageOnly === true && !card.stage)
         return 0;
 
-    if (params.keyword !== "" && (card.keywords === null || !card.keywords.includes(params.keyword)))
+    if (params.keyword !== "" && (card.keywords === null || (Array.isArray(card.keywords) && !card.keywords.includes(params.keyword))))
         return 0;
 
-    if (params.skill !== "" && (card.skills === null || !card.skills.includes(params.skill)))
+    if (params.skill !== "" && (card.skills === null || (Array.isArray(card.skills) && !card.skills.includes(params.skill))))
         return 0;
 
     let boost = 1;
