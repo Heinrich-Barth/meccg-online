@@ -1,5 +1,13 @@
 @import "../base.scss";
 
+:root {
+    --card-size-def-w: 94px;
+    --card-size-def-h: 130px;
+
+    --card-size-w: 94px;
+    --card-size-h: 130px;
+}
+
 body {
     line-height: 1em;
 }
@@ -50,6 +58,10 @@ a {
 
         &:hover {
             color: var(--color-orange-light);
+        }
+
+        &.space-right {
+            margin-right: 20px;
         }
     }
 
