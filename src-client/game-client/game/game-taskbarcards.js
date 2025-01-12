@@ -199,6 +199,20 @@ class DynamicZoom {
 
     static #RATIO_94 = 130 / 94;
 
+    static #saveChanges(w,h) 
+    {
+        const val = JSON.stringify({
+            w: w, h:h
+        })
+        localStorage.setItem("zoom", val);
+    }
+
+    static #removeChanges()
+    {
+        if (localStorage.getItem("zoom"))
+            localStorage.removeItem("zoom");
+    }
+
     static #onReset()
     {
         const root = document.querySelector(':root');
@@ -206,6 +220,7 @@ class DynamicZoom {
 
         root.style.setProperty(DynamicZoom.#PROP_W, styles.getPropertyValue(DynamicZoom.#PROP_W_DEF));
         root.style.setProperty(DynamicZoom.#PROP_H, styles.getPropertyValue(DynamicZoom.#PROP_H_DEF));
+        DynamicZoom.#removeChanges();
         return false;
     }
 
@@ -221,6 +236,7 @@ class DynamicZoom {
 
         root.style.setProperty(DynamicZoom.#PROP_W, w + "px");
         root.style.setProperty(DynamicZoom.#PROP_H, h + "px");
+        DynamicZoom.#saveChanges(w, h);
     }
 
     static #getPropInt(styles, name)
@@ -233,7 +249,7 @@ class DynamicZoom {
         if (isNaN(val))
             return 0;
 
-        return val;
+        return Math.round(val);
     }
 
     static #onZoomIn()
@@ -252,6 +268,30 @@ class DynamicZoom {
         {
             elem.onclick = bZoomIn ? DynamicZoom.#onZoomIn : DynamicZoom.#onZoomOut;
             elem.oncontextmenu = DynamicZoom.#onReset;
+        }
+    }
+
+    static loadDefaults()
+    {
+        const val = localStorage.getItem("zoom");
+        if (!val)
+            return;
+
+        try {
+            const json = JSON.parse(val);
+            const w = json.w;
+            const h = json.h;
+
+            if (w <= 0 || h <= 0)
+                return;
+
+            const root = document.querySelector(':root');
+            root.style.setProperty(DynamicZoom.#PROP_W, w + "px");
+            root.style.setProperty(DynamicZoom.#PROP_H, h + "px");
+        }
+        catch (err)
+        {
+            console.error(err);
         }
     }
 }
@@ -356,6 +396,7 @@ class TaskBarCards
 
             DynamicZoom.init(true, document.getElementById("taskbar-zoom-in"));
             DynamicZoom.init(false, document.getElementById("taskbar-zoom-out"));
+            DynamicZoom.loadDefaults();
         }
 
         {
