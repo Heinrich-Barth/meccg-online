@@ -142,6 +142,8 @@
                     <div class="card-generic pointer-cursor card-dice" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}" id="roll_dice_icons"><img src="/media/personalisation/dice/default/dice-1.png"><img src="/media/personalisation/dice/default/dice-1.png"></div>
                     <div class="taskbar-setting fa fa-picture-o" id="taskbar-background" title="${Dictionary.get("title_change_bg", "Change Background")}"></div>
                     <div class="taskbar-setting fa fa-expand" id="taskbar-fullscreen" title="${Dictionary.get("title_fullscreen", "Enter fullscreen")}"></div>
+                    <div class="taskbar-setting fa fa-search-plus" id="taskbar-zoom-in" title="Click to zoom IN or right click to restore default"></div>
+                    <div class="taskbar-setting space-right fa fa-search-minus" id="taskbar-zoom-out" title="Click to zoom OUT or right click to restore default"></div>
                     <a class="icon taskbar-score" title="Open score sheet">&nbsp;</a>
                     <a class="icon taskbar-turn orga" data-phase="organisation" title="${Dictionary.get("title_orga", "Organisation Phase")}">&nbsp;</a>
                     <a class="icon taskbar-turn longevent" data-phase="longevent" title="${Dictionary.get("title_longevent", "Long Event Phase")}">&nbsp;</a>

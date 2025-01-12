@@ -81,38 +81,6 @@ class GamePreferences extends Preferences {
         }
     }
 
-    #zoomChange(val)
-    {
-        const rem = [];
-        let add = "";
-
-        const num = parseInt(val);
-        if (num === 2)
-        {
-            rem.push("zoom-1");
-            add = "zoom-2";
-        }
-        else if (num === 1)
-        {
-            rem.push("zoom-2");
-            add = "zoom-1";
-        }
-        else 
-        {
-            rem.push("zoom-1");
-            rem.push("zoom-2");
-        }
-
-        if (add !== "")
-            document.body.classList.add(add);
-
-        for (let elem of rem)
-        {
-            if (document.body.classList.contains(elem))
-                document.body.classList.remove(elem)
-        }
-    }
-
     #toggleStackStage(isActive)
     {
         this.#toggleClass(document.querySelector(".table"), isActive, "table-stage-stacking");
@@ -379,7 +347,6 @@ class GamePreferences extends Preferences {
             this.createEntry0("toggle_drawondeckclick");
             
         this.createSection(Dictionary.get("conf_h_lookfeel", "Look & Feel"));
-        this.createEntry0("toggle_zoom");
         if (!bWatcher)
         {
             this.createEntry0("slider_scramble");
@@ -469,7 +436,6 @@ class GamePreferences extends Preferences {
         this.addConfigSlider("game_sfx", "Sound volume", 100, 20, "fa-volume-up", this.#volumeChange.bind(this));
         
         this.addConfigToggle("toggle_phasese", "Reduce phase bar to checkered flag only", false, this.#togglePhases.bind(this));
-        this.addConfigSlider("toggle_zoom", "Zoom Level", 2, 1, "fa-search-plus slider-short", this.#zoomChange.bind(this));
         this.addConfigToggle("bg_shawod", "Reduce background brightness", true, this.#backgroundDarkness);
         this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
         this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen.bind(this), "fa-compress", "fa-expand");
@@ -615,21 +581,6 @@ class GamePreferences extends Preferences {
     init()
     {
         super.init();
-
-        const div = document.createElement("div");
-        div.setAttribute("class", "config-zoom " + this.getGameCss());
-
-        const icons = document.createElement("div");
-        icons.setAttribute("class", "icons cursor-pointer");
-        icons.setAttribute("data-level", "0");
-        icons.setAttribute("id", "zoom-level");
-        icons.setAttribute("title", Dictionary.get("conf_toggle_zoom_level", "Toggle zoom level"))
-        icons.innerHTML = '<i class="fa fa-search-plus" aria-hidden="true" title="'+Dictionary.get("conf_l_toggle_zoom", "Zoom Level") + '"></i>';
-
-        icons.onclick = this.toggleZoom.bind(this);
-        div.appendChild(icons);
-
-        this.appendContainer(div);
 
         if (this.data.background !== undefined)
             this.setBackgroundImage(this.data.background);

@@ -189,6 +189,73 @@ class DiceRoller
     }
 }
 
+class DynamicZoom {
+
+    static #PROP_W = "--card-size-w";
+    static #PROP_W_DEF = "--card-size-def-w";
+
+    static #PROP_H = "--card-size-h";
+    static #PROP_H_DEF = "--card-size-def-h";
+
+    static #RATIO_94 = 130 / 94;
+
+    static #onReset()
+    {
+        const root = document.querySelector(':root');
+        const styles = getComputedStyle(root);
+
+        root.style.setProperty(DynamicZoom.#PROP_W, styles.getPropertyValue(DynamicZoom.#PROP_W_DEF));
+        root.style.setProperty(DynamicZoom.#PROP_H, styles.getPropertyValue(DynamicZoom.#PROP_H_DEF));
+        return false;
+    }
+
+    static #inOrOut(val)
+    {
+        const root = document.querySelector(':root');
+        const styles = getComputedStyle(root);
+        const w = DynamicZoom.#getPropInt(styles, DynamicZoom.#PROP_W) + (val * DynamicZoom.#RATIO_94);
+        const h = DynamicZoom.#getPropInt(styles, DynamicZoom.#PROP_H) + val;
+
+        if (w <= 0 || h <= 0)
+            return;
+
+        root.style.setProperty(DynamicZoom.#PROP_W, w + "px");
+        root.style.setProperty(DynamicZoom.#PROP_H, h + "px");
+    }
+
+    static #getPropInt(styles, name)
+    {
+        let w = styles.getPropertyValue(name);
+        if (typeof w !== "string" || w === "")
+            return 0;
+
+        const val = parseInt(w.replace("px", ""));
+        if (isNaN(val))
+            return 0;
+
+        return val;
+    }
+
+    static #onZoomIn()
+    {
+        DynamicZoom.#inOrOut(5);
+    }
+
+    static #onZoomOut()
+    {
+        DynamicZoom.#inOrOut(-5);
+    }
+
+    static init(bZoomIn, elem)
+    {
+        if (elem)
+        {
+            elem.onclick = bZoomIn ? DynamicZoom.#onZoomIn : DynamicZoom.#onZoomOut;
+            elem.oncontextmenu = DynamicZoom.#onReset;
+        }
+    }
+}
+
 class TaskBarCards 
 {
     static #cardPreview = null;
@@ -286,6 +353,9 @@ class TaskBarCards
             const img = document.getElementById("taskbar-background");
             if (img !== null)
                 img.onclick = (e) => document.body.dispatchEvent(new CustomEvent("meccg-background-chooser"));
+
+            DynamicZoom.init(true, document.getElementById("taskbar-zoom-in"));
+            DynamicZoom.init(false, document.getElementById("taskbar-zoom-out"));
         }
 
         {
