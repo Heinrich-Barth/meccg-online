@@ -17,7 +17,7 @@ class CardList {
     #fliped;
     #useImagesDC;
     #useImagesIC;
-
+    #keys = null;
     
     constructor(images = {}, quests = [], useImagesDC = true, useImagesIC = true) {
         this.#list = images === undefined ? {} : images;
@@ -130,6 +130,51 @@ class CardList {
 
     getImageRegion(code) {
         return this.getImageByCode(code, this.#imageNotFoundRegion);
+    }
+
+    #prepareSearchCodes()
+    {
+        if (this.#keys !== null)
+            return;
+
+        const res = { };
+        for (let code of Object.keys(this.#list))
+        {
+            let name = code;
+            let pos = name.lastIndexOf(" [");
+            let posEnd = pos === -1 ? -1 : name.lastIndexOf("]")
+            if (posEnd > 0)
+            {
+                const left = name.substring(0, pos);
+                const right = name.substring(posEnd+1);
+                name = left + right;
+            }
+
+            res[name] = true;
+        }
+        
+        this.#keys = Object.keys(res);
+    }
+
+    searchByName(name)
+    {
+        if (name === "")
+            return [];
+
+        this.#prepareSearchCodes();
+
+        const listStart = [];
+        const listMid = []
+
+        for (let code of this.#keys)
+        {
+            if (code.startsWith(name))
+                listStart.push({ code: code, image: this.#list[code].image })
+            else if (code.includes(name))
+                listMid.push({ code: code, image: this.#list[code].image })
+        }
+
+        return listStart.concat(listMid);
     }
 
     getBackside() {
