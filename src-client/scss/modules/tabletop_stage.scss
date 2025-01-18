@@ -49,7 +49,7 @@
     }
   
     .staging-area-area {
-        max-width: 95px;
+        max-width: var(--card-size-w);
         display: inline-block;
         vertical-align: top;
 
