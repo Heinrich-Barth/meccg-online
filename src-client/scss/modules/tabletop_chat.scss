@@ -114,18 +114,44 @@ body.on-drag-event-generic .chatbox { display: none !important;}
     position: fixed;
     left: 20%;
     width: 60%;
-    top: 10%;
+    top: 5%;
     padding: 20px;
     color: #fff;
     text-align: center;
     z-index: 402;
+    bottom: 5%;
 
-    textarea {
+    .config-panel-text  {
+        background: rgba(255, 255, 255, 0.8);
+        border: 0;
+        border-radius: 5px;
+        border-bottom: 2px solid #e5e6e7;
+        margin: 10px 0;
+        display: inline-block;
         width: 100%;
-        height: 100px;
-
+        font-size: 1.5em;
+        color: #000;
     }
 
+    .result {
+    
+        max-height: 75% !important;
+        display: block;
+        overflow-y: auto;
+        position: relative;
+        height: 100%;
+        margin-bottom: 10px;
+
+        img { 
+            cursor: pointer;
+        }
+
+        .added {
+            opacity: 0.5;
+            transform: rotate(180deg);
+        }
+    }
+    
     input.buttonCancel {
         background-color: #c32222;
     }
