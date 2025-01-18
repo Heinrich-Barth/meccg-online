@@ -7,13 +7,10 @@ export type SampleRoom = {
 
 export type ServerInfo = {
     autoRestart:boolean;
-    games:number;
     startup:string;
     uptime:number;
     uptimeHrs:number;
 }
-
-let DATA:ServerInfo|null = null;
 
 export default async function FetchServerInfo()
 {

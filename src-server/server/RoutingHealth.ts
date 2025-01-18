@@ -26,12 +26,10 @@ const onHealthSmall = function(_req:Request, res:Response)
     const sHrs = (uptime / 1000 / 60 / 60).toFixed(2);
     const hrs = parseFloat(sHrs);
 
-    const gameCount = ServerInstance.getRoomManager().getGameCount().length;
     const data = { 
         startup: g_sUptime,
         uptime : uptime,
         uptimeHrs: hrs,
-        games: gameCount,
         autoRestart: autoRestart
     };
 
