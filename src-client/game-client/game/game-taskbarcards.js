@@ -197,7 +197,7 @@ class DynamicZoom {
     static #PROP_H = "--card-size-h";
     static #PROP_H_DEF = "--card-size-def-h";
 
-    static #RATIO_94 = 130 / 94;
+    static #RATIO_94 = 94/130;
 
     static #saveChanges(w,h) 
     {
