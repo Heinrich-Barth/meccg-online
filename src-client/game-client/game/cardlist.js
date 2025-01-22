@@ -1,4 +1,138 @@
 
+class UnknownCardsUpdate {
+
+    #queriesImages = { }
+    #refreshTimer = null;
+    #counter = 0;
+
+    static #instance = new UnknownCardsUpdate();
+
+    static get()
+    {
+        return UnknownCardsUpdate.#instance;
+    }
+
+    async register(code)
+    {
+        try
+        {
+            if (typeof g_sApiKey !== "string" || typeof g_sRoom !== "string")
+                throw new Error("Invalid quirements");
+
+            const res = await fetch("/data/list/image", {
+                headers: {
+                    "X-api-key": g_sApiKey,
+                    "X-api-room": g_sRoom,
+                    "X-api-code": code
+                }
+            });
+
+            if (!res.ok)
+                throw new Error("Could not fetch image");
+
+            const json = await res.json();
+            if (!json.image)
+                throw new Error("Could not get image by code");
+            
+            this.#queriesImages[code] = json.image;
+            
+            this.#counter = 0;
+            if (!this.#refreshTimer)
+                this.#refreshTimer = setInterval(this.#onRefreshImages.bind(this), 1000);
+
+            return {
+                code: code,
+                image: json.image
+            }
+        }
+        catch (err)
+        {
+            console.warn(err);
+        }
+
+        return {
+            code: code,
+            image: ""
+        }
+    }
+
+    #onRefreshImages()
+    {
+        const images = document.body.getElementsByTagName("img");
+        if (images === null || images.length === 0)
+        {
+            this.#clearTimeout(true);
+            return;
+        }
+
+        const found = [];
+        for (let image of images)
+            this.#updateImageSrc(image, found);
+
+        for (let key of found)
+        {
+            if (this.#queriesImages[key])
+                delete this.#queriesImages[key];
+        }
+
+        this.#clearTimeout(Object.keys(this.#queriesImages).length === 0);
+    }
+
+    #getCodeFromImage(image)
+    {
+        const code = image.parentElement?.getAttribute("data-card-code");
+        if (code)
+            return code;
+
+        return image.getAttribute("data-id") ?? "";
+    }
+
+    #updateImageSrc(image, found)
+    {
+        const code = this.#getCodeFromImage(image);
+        if (!code)
+            return;
+
+        const val = this.#queriesImages[code];
+        if (!val)
+            return;
+
+        let remove = false;
+        const src = image.getAttribute("src");
+        if (src && (src === "/data/backside" || src.startsWith("/data/card-")))
+        {
+            remove = true;
+            image.setAttribute("src", val);
+        }
+        
+        const backside = image.getAttribute("data-image-backside");
+        if (backside && (backside === "/data/backside" || backside.startsWith("/data/card-")))
+        {
+            remove = true;
+            image.setAttribute("data-image-backside", val);
+        }
+
+        if (remove)
+            found.push(code);
+    }
+
+    #clearTimeout(force = true)
+    {
+        if (force)
+            this.#counter = 10;
+        else
+            this.#counter++;
+
+        if (this.#counter >= 10)
+        {
+            clearInterval(this.#refreshTimer);
+            this.#refreshTimer = null;
+            this.#counter = 0;
+        }
+    }
+
+}
+
 /**
  * Card Image Files
  * 
@@ -6,13 +140,13 @@
  */
 class CardList {
 
-    #imageBacksideDefault = "/data/backside";
-    #imageNotFound = "/data/card-not-found-generic";
-    #imageNotFoundRegion = "/data/card-not-found-region";
-    #imageNotFoundSite = "/data/card-not-found-site";
-    #isReady = false;
+    static #imageBacksideDefault = "/data/backside";
+    static #imageNotFound = "/data/card-not-found-generic";
+    static #imageNotFoundRegion = "/data/card-not-found-region";
+    static #imageNotFoundSite = "/data/card-not-found-site";
     static #frUrl = "";
 
+    #isReady = false;
     #list;
     #fliped;
     #useImagesDC;
@@ -46,7 +180,7 @@ class CardList {
             return instance;
         }
         catch (err) {
-            console.error(err);
+            console.warn(err);
         }
     
         return null;
@@ -121,15 +255,15 @@ class CardList {
     }
 
     getImage(code) {
-        return this.getImageByCode(code, this.#imageNotFound);
+        return this.getImageByCode(code, CardList.#imageNotFound);
     }
 
     getImageSite(code) {
-        return this.getImageByCode(code, this.#imageNotFoundSite);
+        return this.getImageByCode(code, CardList.#imageNotFoundSite);
     }
 
     getImageRegion(code) {
-        return this.getImageByCode(code, this.#imageNotFoundRegion);
+        return this.getImageByCode(code, CardList.#imageNotFoundRegion);
     }
 
     #prepareSearchCodes()
@@ -178,14 +312,14 @@ class CardList {
     }
 
     getBackside() {
-        return this.#imageBacksideDefault;
+        return CardList.#imageBacksideDefault;
     }
 
     getFlipSide(code) {
         code = this.removeQuotes(code);
         let sBacksideCode = this.#fliped[code];
         if (sBacksideCode === undefined)
-            return this.#imageBacksideDefault;
+            return CardList.#imageBacksideDefault;
         else
             return this.getImage(sBacksideCode);
     }
@@ -201,11 +335,27 @@ class CardList {
         return typeof GamePreferences === "undefined" ? this.#useImagesIC : GamePreferences.useImagesIC();
     }
 
+    #registerUnknownCode(code)
+    {
+        UnknownCardsUpdate.get().register(code).then(data => 
+        {
+            if (data?.code && data?.image && !this.#list[data.code])
+            {
+                this.#list[data.code] = {
+                    image: data.image
+                }
+            }
+        });
+    }
+
     getImageByCode(code, sDefault) {
         code = this.removeQuotes(code);
 
         if (code === "" || typeof this.#list[code] === "undefined" || typeof this.#list[code].image === "undefined")
+        {
+            this.#registerUnknownCode(code);
             return sDefault;
+        }
 
         const image = this.#list[code];
         if (this.useImagesDC()) {

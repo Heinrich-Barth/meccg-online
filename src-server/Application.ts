@@ -44,6 +44,27 @@ ServerInstance.getServerInstance().use("/dist-client", express.static("dist-clie
  * Show list of available images. 
  */
 ServerInstance.getServerInstance().get("/data/list/images", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getImageList()).status(200));
+ServerInstance.getServerInstance().get("/data/list/image", Caching.expires.jsonCallback, (req: Request, res: Response) => {
+    const key = req.get("X-api-key");
+    const room = req.get("X-api-room");
+    const code = req.get("X-api-code");
+
+    if (!key || !room || !code)
+    {
+        res.json({ message: "invalid header" }).status(404);
+        return;
+    }
+
+    const pRoom = ServerInstance.getRoomManager().getRoom(room);
+    if (pRoom === null || key !== pRoom.getSecret())
+    {
+        res.json({ message: "invalid api key" }).status(404);
+        return;
+    }
+
+    const image = CardDataProvider.getImageByCode(code);
+    res.json({ image: image }).status(200)
+});
 
 /**
  * Show list of available sites
