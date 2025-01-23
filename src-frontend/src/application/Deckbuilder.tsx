@@ -807,12 +807,18 @@ export default function Deckbuilder() {
         })
     }, [setDeck]);
 
-    const onPreviewImage = function (x: number, src: string) {
+    const onPreviewImage = function (id:string, x: number) {
+        const img = document.getElementById(id);
+        if (img === null)
+            return;
+
+        const src = img.getAttribute("src");
         const half = window.innerWidth / 2;
         const left = x < half;
-        setPreviewImage({ image: src, left: !left });
+        if (src)
+            setPreviewImage({ image: src, left: !left });
     }
-
+    
     const saveCurrentDeck = function () {
         const val = CreateSingleTextFileFromDeck(deck);
         SaveDeckDialog(val);
@@ -1013,7 +1019,7 @@ export default function Deckbuilder() {
         >
             <img src={imgSrc} data-flip={GetImageUri(img.flip)} alt={img.code}
                 title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage(e.pageX, imgSrc)}
+                onMouseEnter={(e) => onPreviewImage("image-"+key, e.pageX)}
                 onMouseLeave={() => setPreviewImage({ image: "", left: false })}
             />
             {count > 0 && (<CardCountBubble count={count} />)}

@@ -32,10 +32,16 @@ export default function ViewCards() {
 
     React.useEffect(() => { FetchFrenchImageUrl() }, []);
 
-    const onPreviewImage = function (x: number, src: string) {
+    const onPreviewImage = function (id:any, x: number) {
+        const img = document.getElementById(id);
+        if (img === null)
+            return;
+
+        const src = img.getAttribute("src");
         const half = window.innerWidth / 2;
         const left = x < half;
-        setPreviewImage({ image: src, left: !left });
+        if (src)
+            setPreviewImage({ image: src, left: !left });
     }
 
     const renderSearchResult = function (img: SearchResult, key: any) {
@@ -47,7 +53,7 @@ export default function ViewCards() {
                 alt={img.code} 
                 title={img.code} 
                 loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage(e.pageX, imgSrc)}
+                onMouseEnter={(e) => onPreviewImage("image-" + key, e.pageX)}
                 onMouseLeave={() => setPreviewImage({ image: "", left: false })}
             />
             <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
