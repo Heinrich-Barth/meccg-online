@@ -6,20 +6,6 @@ import DialogContent from '@mui/material/DialogContent';
 import { Grid } from '@mui/material';
 import Dictionary from './Dictionary';
 
-const mapToImages = function(map:any)
-{
-    const list:string[] = [];
-    const keys = Object.keys(map);
-    for (let code of keys.sort())
-    {
-        const image = map[code];
-        if (typeof image === "string" && image !== "")
-            list.push(image);
-    }
-
-    return list;
-}
-
 const renderNotes = function(text:string)
 {
     if (text.trim() === "")
