@@ -1,4 +1,5 @@
 import Logger from "../Logger";
+import CardRepository from "./CardRepository";
 import getRandomHazardDeck from "./RandomHazardDeck";
 import { DeckValidate, DeckValidateArda, DeckValidateSection, ICard } from "./Types";
 
@@ -19,7 +20,7 @@ const isEmpty = function(_deck:DeckValidateSection|DeckValidate)
  * @param {Function} isMatcher Match Function
  * @returns 
  */
-const extractBySecondary = function(jDeck:DeckValidateSection, pCardRepository:any, isMatcher:Function):DeckValidateSection
+const extractBySecondary = function(jDeck:DeckValidateSection, pCardRepository:CardRepository, isMatcher:Function):DeckValidateSection
 {
     let res:DeckValidateSection = { };
 
@@ -45,7 +46,7 @@ const extractBySecondary = function(jDeck:DeckValidateSection, pCardRepository:a
  * @param {Object} pCardRepository Repository
  * @returns 
  */
-const extractMinorItems = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractMinorItems = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -59,7 +60,7 @@ const extractMinorItems = function(jDeck:DeckValidateSection, pCardRepository:an
  * @param {Object} pCardRepository Repository
  * @returns 
  */
-const extractHazards = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractHazards = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -73,7 +74,7 @@ const extractHazards = function(jDeck:DeckValidateSection, pCardRepository:any)
  * @param {Object} pCardRepository Repository
  * @returns 
  */
- const removeAvatars = function(jDeck:DeckValidateSection, pCardRepository:any)
+ const removeAvatars = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -88,7 +89,7 @@ const extractHazards = function(jDeck:DeckValidateSection, pCardRepository:any)
  * @param {Object} pCardRepository Repository
  * @returns 
  */
- const extractMarshallingPoints = function(jDeck:DeckValidateSection, pCardRepository:any)
+ const extractMarshallingPoints = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -103,7 +104,7 @@ const extractHazards = function(jDeck:DeckValidateSection, pCardRepository:any)
  * @param {Object} pCardRepository Repository
  * @returns 
  */
-const extractCharacters = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractCharacters = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -111,11 +112,11 @@ const extractCharacters = function(jDeck:DeckValidateSection, pCardRepository:an
     });
 };
 
-const extractStageResources = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractStageOrMinionModeResources = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
-        return pCardRepository.isStageCard(card.code);
+        return pCardRepository.isStageCard(card.code) || pCardRepository.isMinionModeCard(card.code);
     });
 };
 
@@ -126,7 +127,7 @@ const extractStageResources = function(jDeck:DeckValidateSection, pCardRepositor
  * @param {Object} pCardRepository Repository
  * @returns 
  */
-const extractCharactersSpecial = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractCharactersSpecial = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -141,7 +142,7 @@ const extractCharactersSpecial = function(jDeck:DeckValidateSection, pCardReposi
  * @param {Object} pCardRepository Repository
  * @returns 
  */
-const extractCharactersMindMin7 = function(jDeck:DeckValidateSection, pCardRepository:any)
+const extractCharactersMindMin7 = function(jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     return extractBySecondary(jDeck, pCardRepository, function(card:ICard) 
     {
@@ -149,7 +150,7 @@ const extractCharactersMindMin7 = function(jDeck:DeckValidateSection, pCardRepos
     });
 };
 
-const copyGenericCards = function(res:{[key:string]:number}, jDeck:DeckValidateSection, pCardRepository:any)
+const copyGenericCards = function(res:{[key:string]:number}, jDeck:DeckValidateSection, pCardRepository:CardRepository)
 {
     if (isEmpty(jDeck) || res === undefined || pCardRepository === undefined)
         return 0;
@@ -183,7 +184,7 @@ const copyGenericCards = function(res:{[key:string]:number}, jDeck:DeckValidateS
  * @param {Object} jDeck 
  * @returns Object or NULL
  */
-const validateDeck = function<T extends DeckValidate>(jDeck: T, pCardRepository:any):T|null
+const validateDeck = function<T extends DeckValidate>(jDeck: T, pCardRepository:CardRepository):T|null
 {
     if (isEmpty(jDeck))
         return null;
@@ -224,7 +225,7 @@ export { validateDeck as validate };
  * @param {Object} pCardRepository 
  * @returns Deck or NULL
  */
-export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:any):DeckValidateArda|null
+export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:CardRepository):DeckValidateArda|null
 {
     jDeck = jDeck === null ? null : validateDeck(jDeck, pCardRepository);
     if (jDeck !== null)
@@ -232,7 +233,7 @@ export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:any):D
         /** make sure there are no avatars in the playdeck anymore */
         removeAvatars(jDeck.playdeck, pCardRepository);
 
-        jDeck.stage = extractStageResources(jDeck.playdeck, pCardRepository);
+        jDeck.stage = extractStageOrMinionModeResources(jDeck.playdeck, pCardRepository);
         jDeck.minors = extractMinorItems(jDeck.playdeck, pCardRepository);
         jDeck.mps = extractMarshallingPoints(jDeck.playdeck, pCardRepository);
         jDeck.chars_special = extractCharactersSpecial(jDeck.playdeck, pCardRepository);
@@ -251,7 +252,7 @@ export function validateArda(jDeck:DeckValidateArda|null, pCardRepository:any):D
     return jDeck;
 };
 
-const assignRandomHazardDeck = function(pCardRepository:any):DeckValidateSection
+const assignRandomHazardDeck = function(pCardRepository:CardRepository):DeckValidateSection
 {
     const data = getRandomHazardDeck();
     return extractHazards(data, pCardRepository);
@@ -264,7 +265,7 @@ const assignRandomHazardDeck = function(pCardRepository:any):DeckValidateSection
  * @param {Object} pCardRepository 
  * @returns Deck or NULL
  */
-export function validateSingleplayer(jDeck:DeckValidateArda|null, randomHazards:boolean, pCardRepository:any):DeckValidateArda|null
+export function validateSingleplayer(jDeck:DeckValidateArda|null, randomHazards:boolean, pCardRepository:CardRepository):DeckValidateArda|null
 {
     jDeck = jDeck === null ? null : validateDeck(jDeck, pCardRepository);
     if (jDeck !== null)
