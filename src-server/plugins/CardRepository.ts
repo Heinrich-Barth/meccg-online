@@ -40,6 +40,23 @@ const getStageCodes = function():string[]
     return [];
 };
 
+const getMinonModeCodesArda = function():string[]
+{
+    try
+    {
+        const data = fs.readFileSync(getRootFolder() + "/data-local/minion-mode-codes.json", 'utf8');
+        if (data !== "")
+            return JSON.parse(data.toLowerCase());
+    }
+    catch (errIgnore)
+    {
+        /** ignore */
+    }
+
+    return [];
+};
+
+
 interface TCardDeckbuilder {
     title: string,
     text: string
@@ -67,6 +84,7 @@ export default class CardRepository {
     #types:KeyValuesString = {};
     #stageList:string[] = [];
     #cardRepository:ICardMapCard = {};
+    #minionModeCodes:string[] = [];
 
     getCards()
     {
@@ -446,14 +464,40 @@ export default class CardRepository {
         this.createCardNameCodeSuggestionsList();
 
         this.#loadStageCodes();
+        this.#loadMinionModeCodes();
 
         Logger.info("\t- " + this.#raw.length + " cards available in total.");
         return this.#raw;
     }    
 
+    #verifyCodeList(list:string[], log:string)
+    {
+        if (list.length === 0)
+        {
+            Logger.warn("\t " + log + " resource list is empty.");
+            return [];
+        }
+        
+        const result:string[] = [];
+        for (let code of list)
+        {
+            if (this.getCardByCode(code))
+                result.push(code);
+            else
+                Logger.warn("\t " + log + " resource not found by its code: " + code);
+        }
+
+        return result;
+    }
+
     #loadStageCodes()
     {
-        this.#stageList = getStageCodes();
+        this.#stageList = this.#verifyCodeList(getStageCodes(), "stage");
+    }
+
+    #loadMinionModeCodes()
+    {
+        this.#minionModeCodes = this.#verifyCodeList(getMinonModeCodesArda(), "minion");
     }
 
     createTypes()
@@ -520,6 +564,11 @@ export default class CardRepository {
             return false;
         else
             return Array.isArray(card.keywords) && card.keywords.includes("stage resource");
+    }
+
+    isMinionModeCard(code:string)
+    {
+        return code && this.#minionModeCodes.includes(code.toLowerCase());
     }
 
     getMarshallingPoints(code:string)
