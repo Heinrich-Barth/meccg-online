@@ -279,10 +279,14 @@ div#arda_mps_hand {
 .arda-actions img:nth-child(2) {
     display: none;
 }
-
 body.arda-draft .arda-actions img:nth-child(2) {
     display: none;
     top: 15px;
+}
+
+body .arda-card-hand-charackters .arda-actions img:nth-child(2) {
+    bottom: 10px;
+    right: 30px;
 }
 
 .arda-pile-action:hover img,
