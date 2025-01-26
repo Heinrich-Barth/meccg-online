@@ -138,6 +138,9 @@ const getDeckListPart = function (list: Deckentry[]) {
 
 const countDeckSectionCards = function(list: Deckentry[])
 {
+    if (list.length === 0)
+        return 0;
+
     let count = 0;
     for (let elem of list)
         count += elem.count
@@ -168,7 +171,7 @@ function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, on
     return <>
         {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({res.count})</Typography>)}
         {Object.keys(map).sort().map((key, index) => <ul className={"deck-edit-section-sorted deck-edit-section-" + sectionClassname} key={"deck-edit-section-" + sectionClassname + index}>
-            <li className="sections-title-specific-sub smallcaps">{key} ({map[key].length})</li>
+            <li className="sections-title-specific-sub smallcaps">{key} ({countDeckSectionCards(map[key])})</li>
             {map[key].map((entry, idx) => <CurrentDeckPartEntry
                 keyVal={pref + index + "-" + idx + entry.code}
                 entry={entry}
