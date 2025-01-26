@@ -437,7 +437,7 @@ class GamePreferences extends Preferences {
         
         this.addConfigToggle("toggle_phasese", "Reduce phase bar to checkered flag only", false, this.#togglePhases.bind(this));
         this.addConfigToggle("bg_shawod", "Reduce background brightness", true, this.#backgroundDarkness);
-        this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", false, this.#doubleMiscPoints);
+        this.addConfigToggle("score_double_misc", "Double MISC points (DC rules)", true, this.#doubleMiscPoints);
         this.addConfigToggle("toggle_fullscreen", "Toggle Fullscreen", false, this.#toggleFullscreen.bind(this), "fa-compress", "fa-expand");
         this.addConfigToggle("toggle_company_help", "Add white background to companies when hovering", sessionStorage.getItem("toggle_white") === "yes", this.#toggleCompanyHoverBackground.bind(this));
         this.addConfigToggle("toggle_company_break", "Expand companies over multiple lines", false, this.#toogleCompanyLineBreak.bind(this));

@@ -213,7 +213,7 @@ const SCORING_INGAME =
     _scores: { },
     _hexIdMap : {},
     _names : {},
-    _doubleMisc : false,
+    _doubleMisc : true,
 
     removeInGame : function(sHexId)
     {
