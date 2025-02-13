@@ -28,6 +28,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Link } from "react-router-dom";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FetchTournaments from "../operations/FetchTournaments";
+import { CalculateOutlined } from "@mui/icons-material";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -104,6 +105,16 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                                 <StyleIcon />
                             </ListItemIcon>
                             <ListItemText primary={Dictionary("frontend.menu.deck", "Deckbuilder")} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/points" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon >
+                                <CalculateOutlined />
+                            </ListItemIcon>
+                            <ListItemText primary={Dictionary("frontend.menu.calculator", "MP Calculator")} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
