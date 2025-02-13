@@ -158,7 +158,7 @@ export default function MPCalculator() {
                             }
                         />
                     </Grid>                    {categories.map((category, i) =>
-                        <Grid item key={"cat" + i} xs={12}>
+                        <Grid item key={"cat" + i} xs={12}  style={{ paddingTop: "1em"}}>
                             <h2>{category.name}</h2>
                             <Typography component={"p"} variant="body1">Score: {getHeadlinePoints(category)}</Typography>
                             <br />
