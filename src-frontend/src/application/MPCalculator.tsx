@@ -51,7 +51,7 @@ const loadFromSession = function () {
 
     return [
         createEmptySheet("My Scores"),
-        createEmptySheet("My Scores2")
+        createEmptySheet("Opponent")
     ];
 }
 
