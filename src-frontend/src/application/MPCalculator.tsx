@@ -1,11 +1,12 @@
-import { Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
 import React from "react";
 import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
+import { AddCircleOutline, CreateRounded, DeleteOutline } from "@mui/icons-material";
 
 type Categories = {
     name: string;
@@ -42,6 +43,14 @@ function createEmptySheet(name: string): Categories {
     }
 }
 
+const createEmptySheets = function()
+{
+    return [
+        createEmptySheet("My Scores"),
+        createEmptySheet("Opponent")
+    ];
+}
+
 const loadFromSession = function () {
     const data = sessionStorage.getItem("mp_data") ?? "";
     if (data) {
@@ -49,10 +58,7 @@ const loadFromSession = function () {
         return json;
     }
 
-    return [
-        createEmptySheet("My Scores"),
-        createEmptySheet("Opponent")
-    ];
+    return createEmptySheets();
 }
 
 const stringToInt = function (input: any) {
@@ -121,9 +127,25 @@ export default function MPCalculator() {
     function updateCategory(category: Categories, prop: string, number: number) {
         if (typeof (category as any)[prop] === "number") {
             (category as any)[prop] = number;
-            category.total = calcSimple(category)
+            category.total = calcSimple(category);
             setCategories([...categories]);
+            sessionStorage.setItem("mp_data", JSON.stringify(categories));
         }
+    }
+
+    const onResetSheet = function()
+    {
+        if (sessionStorage.getItem("mp_data"))
+            sessionStorage.removeItem("mp_data")
+            
+        setCategories(createEmptySheets());
+    }
+
+    const onAddPlayer = function()
+    {
+        const len = categories.length;
+        setCategories([...categories, createEmptySheet("Opponent " + len)]); 
+        sessionStorage.setItem("mp_data", JSON.stringify(categories));
     }
 
     return <React.Fragment>
@@ -137,7 +159,7 @@ export default function MPCalculator() {
                     <h1>{Dictionary("frontend.menu.calculator2", "Track Marshalling Points")}</h1>
                 </Grid>
 
-                <Grid item xs={12} style={{ background: "rgba(0,0,0,0.8)", borderRadius: "5px", padding: "1em" }}>
+                <Grid container item xs={12} style={{ background: "rgba(0,0,0,0.8)", borderRadius: "5px", padding: "1em" }}>
                     <Grid item xs={12} textAlign={"center"}>
                         <FormControlLabel
                             label="Arda"
@@ -148,6 +170,7 @@ export default function MPCalculator() {
                                 />
                             }
                         />
+                        <br/>
                         <FormControlLabel
                             label="Double Misc. Points"
                             control={
@@ -157,7 +180,14 @@ export default function MPCalculator() {
                                 />
                             }
                         />
-                    </Grid>                    {categories.map((category, i) =>
+                    </Grid>  
+                    <Grid item xs={6} textAlign={"center"}>
+                        <Button variant="contained" onClick={onResetSheet} startIcon={<DeleteOutline />}>Reset sheet</Button>
+                    </Grid>                  
+                    <Grid item xs={6} textAlign={"center"}>
+                        <Button variant="contained" onClick={onAddPlayer} startIcon={<AddCircleOutline />}>Add another player</Button>
+                    </Grid>                  
+                    {categories.map((category, i) =>
                         <Grid item key={"cat" + i} xs={12}  style={{ paddingTop: "1em"}}>
                             <h2>{category.name}</h2>
                             <Typography component={"p"} variant="body1">Score: {getHeadlinePoints(category)}</Typography>
