@@ -1,10 +1,11 @@
-import { Autocomplete, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Autocomplete, Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
 import LinearProgress from '@mui/material/LinearProgress';
 import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, FetchFilters } from "../operations/FetchCards";
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import { FetchStageCards } from "../operations/FetchStageCards";
+import Dictionary from "./Dictionary";
 
 function renderIsLoading() {
     return <Backdrop
@@ -35,6 +36,7 @@ let g_pFilters: CardFilters | null = null;
 function cacheFilters(filters: CardFilters) {
     g_pFilters = filters;
 }
+
 
 const buildSetsMap = function (cards: CardData[]) {
     if (g_pSets.length > 0)
@@ -68,6 +70,16 @@ const assertArray = function(code:string, name:string, candidate:any)
     }
 
     return [];
+}
+
+const containsDreamcards = function (list: CardData[]) {
+    for (let card of list)
+    {
+        if (card.dreamcard === true)
+            return true;
+    }
+
+    return false;
 }
 
 const cacheCards = function (list: CardData[]) {
@@ -169,6 +181,7 @@ type SearchParams = {
     set: string;
     q: string,
     stageOnly?:boolean;
+    dreamcards:number;
 }
 
 type SeachResultEntry = {
@@ -178,7 +191,19 @@ type SeachResultEntry = {
     flip: string;
 }
 
+const DC_ONLY = 1;
+const REGULAR_ONLY = 2;
+
 const getMatch = function (card: CardData, params: SearchParams) {
+
+    if (params.dreamcards !== 0)
+    {
+        if (params.dreamcards === DC_ONLY && !card.dreamcard)
+            return 0;
+
+        if (params.dreamcards === REGULAR_ONLY && card.dreamcard === true)
+            return 0;
+    }
 
     if (params.alignment !== "" && card.alignment !== params.alignment)
         return 0;
@@ -262,6 +287,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     const [searchValue, setSearchValue] = React.useState("");
     const [searchResult, setSearchResult] = React.useState<SearchResult[]>([]);
     const [resultLimit, setResultLimit] = React.useState(0);
+    const [hasDreamcards, setDreamcards] = React.useState(false);
     const [searchParams, setSearchParams] = React.useState<SearchParams>({
         alignment: "",
         keyword: "",
@@ -271,6 +297,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         type: "",
         set: "",
         stageOnly: false,
+        dreamcards: 0
     });
 
     const performSearch = function () {
@@ -314,6 +341,9 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             cacheFilters(filters);
 
             buildSetsMap(cards);
+
+            if (containsDreamcards(g_pCards))
+                setDreamcards(true);
         }
         catch (err) {
             console.error(err);
@@ -331,7 +361,8 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 secondary: "",
                 skill: "",
                 type: "",
-                set: ""
+                set: "",
+                dreamcards: 0
             });
 
             setIsLoading(false);
@@ -344,7 +375,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         initialized.current = true
         loadData().finally(() => setIsLoading(false));
 
-    }, [setIsLoading]);
+    }, [setIsLoading, setSearchParams, setDreamcards]);
 
     if (isLoading)
         return renderIsLoading();
@@ -391,6 +422,17 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         setSearchParams(searchParams);
         performSearch();
     }
+    const onSelectDreamcards = function (val: string) {
+        if (val === "" + DC_ONLY)
+            searchParams.dreamcards = DC_ONLY;
+        else if (val === "" + REGULAR_ONLY)
+            searchParams.dreamcards = REGULAR_ONLY;
+        else
+            searchParams.dreamcards = 0;
+
+        setSearchParams(searchParams);
+        performSearch();
+    }
     const onSelectSkill = function (val: string) {
         searchParams.skill = val ?? "";
         setSearchParams(searchParams);
@@ -428,6 +470,20 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         <Grid item xs={12} sm={4} lg={2} textAlign={"center"}>
             {CheckboxList(g_sKeywords, "Keywords", (e: string) => onSelectKeywords(e))}
         </Grid>
+
+        {hasDreamcards && (<Grid item xs={12} textAlign={"center"}>
+            <FormControl>
+                <RadioGroup
+                    name="radio-buttons-group"
+                    value={searchParams.dreamcards + ""}
+                    onChange={(e) => onSelectDreamcards(e.target.value)}
+                >
+                    <FormControlLabel value={"0"} control={<Radio />} label="Show all cards" />
+                    <FormControlLabel value={"" + DC_ONLY} control={<Radio />} label="Only show DC cards" />
+                    <FormControlLabel value={"" + REGULAR_ONLY} control={<Radio />} label={"Only show regular cards" } />
+                </RadioGroup>
+            </FormControl>
+        </Grid>)}
 
         <Grid item xs={12}>
             <Grid container spacing={2} className="cardbrowser" justifyContent="center">

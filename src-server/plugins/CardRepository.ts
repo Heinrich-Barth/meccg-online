@@ -69,6 +69,7 @@ interface TCardDeckbuilder {
     uniqueness?:boolean,
     skills?:string[],
     keyword?:string[],
+    dreamcard?:boolean;
     [key:string]:any
 }
 
@@ -141,6 +142,9 @@ export default class CardRepository {
                 if (typeof card[key] === "string")
                     candidate[key] = card[key].toLowerCase();
             }
+
+            if (card.dreamcard === true)
+                candidate.dreamcard = true;
 
             this.#cardsDeckbuilder.push(candidate);
         }
