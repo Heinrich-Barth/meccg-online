@@ -72,6 +72,14 @@
             "label": "Misc. Points",
             "default": true,
             "extended": false
+        },
+        {
+            "id": "score_malus",
+            "value":  "malus",
+            "label": "Malus",
+            "default": false,
+            "extended": false,
+            "ignorecount": true
         }
     ],
 

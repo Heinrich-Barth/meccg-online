@@ -337,7 +337,7 @@ const SCORING_INGAME =
         {
             for (let category in SCORING_INGAME._scores[id])
             {
-                if (SCORING.ignoreCategory(category))
+                if ("malus" !== category && SCORING.ignoreCategory(category))
                     continue;
                 
                 const tr = document.createElement("tr");
@@ -382,21 +382,37 @@ const SCORING_INGAME =
 
             let total = 0;
             let totalUsed = 0;
+            let totalMalus = 0;
 
             for (let category in score)
             {
-                if (SCORING.ignoreCategory(category))
-                    continue;
+                let thisMalus = 0;
 
                 const _score = score[category];
-                const usable = _score.double ? _score.usable * 2 : _score.usable;
-                const isCut = _score.value !== usable;
+                if (category === "malus" && _score.value)
+                {
+                    thisMalus = parseInt(_score.value);
+                    totalMalus = thisMalus;
+                }
 
-                map[category].append(this.buildFinalScores_tableRows_cell(_score.value, usable, isCut, true));
+                if (thisMalus === 0 && SCORING.ignoreCategory(category))
+                    continue;
 
-                total += parseInt(_score.value);
-                totalUsed += parseInt(usable);
+                if (thisMalus === 0)
+                {
+                    const usable = _score.double ? _score.usable * 2 : _score.usable;
+                    const isCut = _score.value !== usable;
+                    map[category].append(this.buildFinalScores_tableRows_cell(_score.value, usable, isCut, true));
+
+                    total += parseInt(_score.value);
+                    totalUsed += parseInt(usable);
+                }
+                else
+                    map[category].append(this.buildFinalScores_tableRows_cell(-1 * thisMalus, -1 * thisMalus, false, true));
             }
+
+            total -= totalMalus;
+            totalUsed -= totalMalus;
 
             listPoints.push(totalUsed);
             totalsRow.appendChild(this.buildFinalScores_tableRows_cell(total, totalUsed, total !== totalUsed, false));
@@ -544,6 +560,7 @@ const SCORING_INGAME =
         
         let total = 0;
         let totalUsed = 0;
+        let totalMalus = 0;
 
         for (let id in score)
         {
@@ -554,7 +571,10 @@ const SCORING_INGAME =
                 continue;
             }
 
-            const _score = score[id] ;
+            const _score = score[id];
+            if (id === "malus" && _score.value)
+                totalMalus = _score.value;   
+
             const ignoreCount = SCORING.ignoreCategory(id);
             const usable = _score.double && !ignoreCount ? _score.usable * 2 : _score.usable;
             const isCut = _score.value !== usable || _score.double;
@@ -574,10 +594,10 @@ const SCORING_INGAME =
             }
         }
 
-        this.updateInGameScoreCutsFinal(tr, totalUsed, total);
+        this.updateInGameScoreCutsFinal(tr, totalUsed, total, totalMalus);
     },
 
-    updateInGameScoreCutsFinal : function(tr, totalUsed, total)
+    updateInGameScoreCutsFinal : function(tr, totalUsed, total, malus = 0)
     {
         const vpClasses = tr.getElementsByClassName("final-score");
         if (vpClasses === null || vpClasses.length === 0)
@@ -587,11 +607,11 @@ const SCORING_INGAME =
         
         const _span = th.querySelector("span");
         if (_span != null)
-            _span.innerText = total;
+            _span.innerText = total - malus;
 
         const _strong = th.querySelector("strong");
         if (_strong != null)
-            _strong.innerText = totalUsed;
+            _strong.innerText = totalUsed - malus;
         
         if (totalUsed != total)
             th.classList.add("score-is-cut");
