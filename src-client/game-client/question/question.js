@@ -49,9 +49,6 @@ class Question {
         res.setAttribute("class", "question-question");
         res.append(this.#createTitle(title));
 
-        if (typeof message === "undefined")
-            message = "";
-
         if (typeof message === "string")
         {
             const p = document.createElement("p");
@@ -59,10 +56,8 @@ class Question {
             p.innerText = message;
             res.append(p);
         }
-        else
-        {
+        else if (message)
             res.append(message);
-        }
 
         return res;
     }
@@ -116,6 +111,7 @@ class Question {
         const innerDiv = document.createElement("div");
         innerDiv.setAttribute("class", "blue-box question-game ");
         innerDiv.append(tplContent);
+        innerDiv.onclick = (e) => { if (e.stopPropagation) e.stopPropagation(); }
 
         if (this.#css !== "")
         {

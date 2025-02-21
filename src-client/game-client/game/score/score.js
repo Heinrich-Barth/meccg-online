@@ -214,6 +214,7 @@ const SCORING_INGAME =
     _hexIdMap : {},
     _names : {},
     _doubleMisc : true,
+    oneRingUserid: "",
 
     removeInGame : function(sHexId)
     {
@@ -318,6 +319,9 @@ const SCORING_INGAME =
             td1.setAttribute("class", "image");
             td1.append(img);
             images.append(td1);
+
+            if (id === this.oneRingUserid)
+                td1.classList.add("one-ring-victory");
 
             const td2 = document.createElement("th");
             td2.innerText = SCORING_INGAME._names[id] ? SCORING_INGAME._names[id] : "";
@@ -427,7 +431,7 @@ const SCORING_INGAME =
 
     calculateTournamentPoints : function(list)
     {
-        if (list.length !== 2)
+        if (list.length !== 2 || SCORING.oneRingWinnerUserid)
             return [];
 
         const a = list[0];
@@ -461,8 +465,11 @@ const SCORING_INGAME =
             return [2, 4];
     },
 
-    buildFinalScores : function()
+    buildFinalScores : function(oneRingWinnerUserid = "")
     {
+        if (oneRingWinnerUserid)
+            this.oneRingUserid = oneRingWinnerUserid;
+
         const list = this.buildFinalScores_tableHead();
         const map = this.buildFinalScores_tableRows();
 
@@ -1066,6 +1073,7 @@ const SCORING = {
     stats : { },
     ignore: [],
     cardList : null,
+    oneRingWinnerUserid: "",
     
     _resetStats : function()
     {
@@ -1375,6 +1383,12 @@ const SCORING = {
     {
         this._showScoreSheet(jData, true, "");
     },
+
+    setOneRingWinnder : function(userid)
+    {
+        if (userid)
+            SCORING.oneRingWinnerUserid = userid;
+    },
     
     showFinalScore : function(stats, automaticShutdown)
     {
@@ -1384,7 +1398,7 @@ const SCORING = {
 
         const jTable = div.querySelector(".view-score-container");
         DomUtils.empty(jTable);
-        jTable.appendChild(SCORING_INGAME.buildFinalScores());
+        jTable.appendChild(SCORING_INGAME.buildFinalScores(SCORING.oneRingWinnerUserid));
 
         this.removeUpdateFunctionality();
 
@@ -1556,6 +1570,11 @@ const SCORE_API = {
     showFinalScore: function(stats, automaticShutdown)
     {
         SCORING.showFinalScore(stats, automaticShutdown);
+    },
+
+    setOneRingWinnder: function(userid)
+    {
+        SCORING.setOneRingWinnder(userid);
     }
 };
 

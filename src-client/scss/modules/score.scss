@@ -199,6 +199,21 @@
             object-position: 0px 12px;
         }
 
+        .one-ring-victory {
+            position: relative;
+
+            &::after {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                padding: 5px;
+                font-size: 0.6em;
+                background: var(--color-near-white);
+                color: #000;
+                content: "One Ring Victory";
+            }
+        }
 
 
         th {

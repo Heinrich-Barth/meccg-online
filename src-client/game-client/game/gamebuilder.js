@@ -835,6 +835,8 @@ const GameBuilder = {
             JumbleCards.update(2);
         });
 
+        MeccgApi.addListener("/game/score/onering", (_bIsMe, jData) => GameBuilder.Scoring.setOneRingWinnder(jData.userid));
+
         MeccgApi.addListener("/game/score/final-only", function(_bIsMe, jData)
         {
             GameBuilder.Scoring.showFinalScore(jData.stats, true);

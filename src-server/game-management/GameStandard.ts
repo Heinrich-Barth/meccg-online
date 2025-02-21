@@ -82,6 +82,8 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/score/add", this.scoreAdd.bind(this));
         this.getMeccgApi().addListener("/game/score/set", this.scoreSet.bind(this));
         this.getMeccgApi().addListener("/game/score/doublemisc", this.scoreDoubleMisc.bind(this));
+        this.getMeccgApi().addListener("/game/score/onering", this.scoreDecisiveVictory.bind(this));
+        
 
         this.getMeccgApi().addListener("/game/draw/company", this.onGameDrawCompany.bind(this)); /* draw a single company by its id */
         this.getMeccgApi().addListener("/game/draw/companies", this.onGameDrawCompanies.bind(this));
@@ -827,6 +829,11 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, " sets " + data.type + " score to " + data.points + " point(s)", true);
             this.sendCurrentScores(userid);
         }
+    }
+
+    scoreDecisiveVictory(userid:any, _socket:any, data:any)
+    {
+        this.publishToPlayers("/game/score/onering", userid, { "userid": userid });
     }
 
     scoreDoubleMisc(userid:any, _socket:any, data:any)

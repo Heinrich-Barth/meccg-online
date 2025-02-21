@@ -30,6 +30,28 @@
         line-height: 1.7em;
         margin-right: 10px;
     }
+
+    .one-ring-victory-mark {
+        display: inline-block;
+        padding: 0.5em;
+ 
+        label {
+            cursor: pointer;
+            padding: 0.3em;
+
+            &:hover {
+                background: var(--color-orange-light);
+                border-radius: 5px;
+                color: #000;
+            }
+        }
+    
+    }
+}
+
+.question-game input[type="checkbox"] {
+    border-radius: 5px;
+    margin-right: 1em;
 }
 
 .question-game input[type="button"] {

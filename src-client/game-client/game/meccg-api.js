@@ -499,17 +499,51 @@ const MeccgApi =
 
     forceEndGame : function()
     {
+        if (MeccgApi.ONE_RING_VICTORY)
+            MeccgApi.send("/game/score/onering", {});
+        
         MeccgApi.expectDisconnect();
         MeccgApi.send("/game/finalscore", {});
     },
+
+    ONE_RING_VICTORY: false,
+
+    createQuestionEndGame()
+    {
+        const input = document.createElement("input");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("id", "one-ring-victory");
+        input.onchange = (e) => MeccgApi.ONE_RING_VICTORY =  e.target.checked === true;
+        
+        const label = document.createElement("label");
+        label.setAttribute("for", "one-ring-victory");
+        label.innerText = "Declare 'One Ring Victory'";
+
+        const div = document.createElement("div");
+        div.setAttribute("class", "one-ring-victory-mark");
+        div.append(input, label);
     
+        const p = document.createElement("p");
+        p.innerText = Dictionary.get("api_endgame_t", "Let's see the final scorings.");
+
+        const content = document.createElement("div");
+        content.append(
+            div,
+            p
+        );
+
+        return content;
+    },
+
     queryEndGame : function()
     {
+        MeccgApi.ONE_RING_VICTORY = false;
+
         new Question("fa-sign-out")
             .onOk(MeccgApi.forceEndGame)
             .show(
                 Dictionary.get("api_endgame_q", "Do you want to end this game?"), 
-                Dictionary.get("api_endgame_t", "Let's see the final scorings."), 
+                MeccgApi.createQuestionEndGame(),
                 Dictionary.get("api_endgame_a", "End this game")
             );
     },
