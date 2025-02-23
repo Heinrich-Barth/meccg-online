@@ -454,5 +454,8 @@
                 codes.push(_card.code);
             }
         }
+
+        if (jTarget.classList.contains("hidden"))
+            jTarget.classList.remove("hidden")
     }
 }

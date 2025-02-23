@@ -49,7 +49,8 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path="/play/:room" element={<HomeSelectDeck />} />
                     <Route path="/watch/:room" element={<WatchGame />} />
                     <Route path="/cards" element={<ViewCards />} />
-                    <Route path="/map" element={<MapView />} />
+                    <Route path="/map" element={<MapView app={false} />} />
+                    <Route path="/mapApp" element={<MapView app={true} />} />
                     <Route path="/deckbuilder" element={<Deckbuilder />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/learn" element={<Help />} />

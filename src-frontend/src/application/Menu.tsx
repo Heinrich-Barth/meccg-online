@@ -128,6 +128,16 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/mapApp" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon>
+                                <MapIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Map App"} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
             </List>
             <Divider />
             <List>

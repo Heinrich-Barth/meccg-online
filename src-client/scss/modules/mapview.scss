@@ -300,3 +300,56 @@ body.remove-site-autoclose .accept_on_selection
 {
     display: none;
 }
+
+.maps-app-mode {
+    #found_sites:empty,
+    .config-wrapper-map,
+    .map-view-switcher,
+    .preview-container,
+    .map-search {
+        display: none;
+    }
+
+    .side-panel-sites-in-region {
+        position: fixed;
+        left: 0;
+        width: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        z-index: 2000;
+        background-color: rgba(0,0,0,0.9);
+    }
+    #found_sites {
+        padding: 0.5em;
+        text-align: center;
+
+        img:first-of-type  {
+            display: none;
+        }
+
+        @media (orientation: landscape) and  (max-height: 420px)
+        {
+            img {
+                width: auto;
+                max-height: 400px;
+                max-width: unset;
+            }            
+        }
+        @media (orientation: landscape) and (min-height: 421px)
+        {
+            img {
+                width: auto;
+                max-height: 700px;
+                max-width: unset;
+            }            
+        }
+        @media (orientation: portrait) {
+            img {
+                width: auto;
+                max-width: 95%;
+                max-height: 700px;
+            }
+        }
+    }
+     
+}

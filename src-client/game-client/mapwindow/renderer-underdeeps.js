@@ -30,7 +30,11 @@ const MapInstanceRendererUd = {
     {
         parent.postMessage("cancel", {});
     },
-
+    getIsShownOnly : function()
+    {
+        const query = window.location.search;
+        return typeof query !== "undefined" && query.indexOf("only=true") !== -1;
+    },
     getStartCode: function () {
         let query = window.location.search;
         let pos = typeof query === "undefined" ? -1 : query.indexOf("=");
@@ -44,6 +48,11 @@ const MapInstanceRendererUd = {
     onInitDefault: function (data, tapped) {
         const sCode = MapInstanceRendererUd.getStartCode();
         MapInstanceRendererUd._isMovementSelection = sCode !== "";
+
+        const ignoreSelection = MapInstanceRendererUd.getIsShownOnly();
+        if (ignoreSelection)
+            document.body.classList.add("maps-app-mode");
+
 
         const pMap = new MapViewUnderdeeps(data, tapped);
         pMap.createInstance(sCode);

@@ -57,6 +57,11 @@ const MapInstanceRenderer = {
         const query = window.location.search;
         return typeof query !== "undefined" && query.indexOf("only=true") !== -1;
     },
+    getIsAppOnly : function()
+    {
+        const query = window.location.search;
+        return typeof query !== "undefined" && query.indexOf("app=true") !== -1;
+    },
 
     onInitEditor: function (data) {
 
@@ -101,9 +106,18 @@ const MapInstanceRenderer = {
 
     onInitDefault: function (data, tapped, listPreferredCodes) {
         
-        const ignoreSelection = MapInstanceRenderer.getIsShownOnly();
+        const isAppOnly = MapInstanceRenderer.getIsAppOnly();
+        const ignoreSelection = isAppOnly || MapInstanceRenderer.getIsShownOnly();
         const sCode = ignoreSelection ? "" : MapInstanceRenderer.getStartCode();
-        
+
+        if (isAppOnly)
+        {
+            document.body.classList.add("maps-app-mode");
+            const foundSites = document.getElementById("found_sites");
+            if (foundSites)
+                foundSites.onclick = () => document.getElementById("found_sites").classList.add("hidden")
+        }
+
         MapInstanceRenderer._isMovementSelection = sCode !== "";
 
         new MapViewRegionsFilterable().createInstance(data.map);
