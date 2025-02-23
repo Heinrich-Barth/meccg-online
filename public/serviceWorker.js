@@ -2,8 +2,7 @@
  * This code is heavily influenced by 
  * https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
  */
-
-const CACHE_NAME = "v3";
+const CACHE_NAME = "v4";
 
 /**
  * List of urls to cache
@@ -15,9 +14,9 @@ const assets = []
  * @param {String} url 
  * @returns success state
  */
-const cacheRequestPath = function(url)
+const cacheRequestPath = function (url) 
 {
-  return url.startsWith("/data/images") || url.startsWith("/media/maps");
+    return url.startsWith("/data/images") || url.startsWith("/media/maps");
 }
 
 /**
@@ -25,12 +24,12 @@ const cacheRequestPath = function(url)
  * @param {Object} event 
  * @returns success state
  */
-const cacheRequest = function(event)
+const cacheRequest = function (event) 
 {
-  if (!event.request.url.startsWith(self.location.origin))
-    return false;
-  else
-    return cacheRequestPath(event.request.url.substring(self.location.origin.length));
+    if (!event.request.url.startsWith(self.location.origin))
+        return false;
+    else
+        return cacheRequestPath(event.request.url.substring(self.location.origin.length));
 }
 
 /**
@@ -38,9 +37,10 @@ const cacheRequest = function(event)
  * @param {Object} request 
  * @param {Object} response 
  */
-const putInCache = async (request, response) => {
-  const cache = await caches.open(CACHE_NAME);
-  await cache.put(request, response);
+const putInCache = async (request, response) => 
+{
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response);
 };
 
 /**
@@ -49,62 +49,65 @@ const putInCache = async (request, response) => {
  * @returns Response
  */
 const cacheFirst = async ({ request, preloadResponsePromise, fallbackUrl }) => 
-{  
-  /* Check cache first */
-  const responseFromCache = await caches.match(request);
-  if (responseFromCache) 
-    return responseFromCache;
-  
+{
+    /* Check cache first */
+    const responseFromCache = await caches.match(request);
+    if (responseFromCache)
+        return responseFromCache;
 
-  /* Try to use and cache the preloaded response, if it's there */
-  const preloadResponse = await preloadResponsePromise;
-  if (preloadResponse) 
-  {
-    putInCache(request, preloadResponse.clone());
-    return preloadResponse;
-  }
 
-  /* Try to fetch the element */
-  try {
-    const responseFromNetwork = await fetch(request.clone(), {mode: 'cors'});
+    /* Try to use and cache the preloaded response, if it's there */
+    const preloadResponse = await preloadResponsePromise;
+    if (preloadResponse) 
+    {
+        putInCache(request, preloadResponse.clone());
+        return preloadResponse;
+    }
 
-    /* response may be used only once we need to save clone to put one copy in cache and serve second one*/
-    putInCache(request, responseFromNetwork.clone());
-    return responseFromNetwork;
-  } 
-  catch (error) 
-  {
-    console.warn(error.message);
-  }
+    /* Try to fetch the element */
+    try 
+    {
+        const responseFromNetwork = await fetch(request.clone(), { mode: 'cors' });
+        if (responseFromNetwork.ok) 
+        {
+            /* response may be used only once we need to save clone to put one copy in cache and serve second one*/
+            putInCache(request, responseFromNetwork.clone());
+            return responseFromNetwork;
+        }
+    }
+    catch (error) 
+    {
+        console.warn(error.message);
+    }
 
-  /* Fetch impossible. Use fallback  */
-  const fallbackResponse = await caches.match(fallbackUrl);
-  if (fallbackResponse) 
-    return fallbackResponse;
+    /* Fetch impossible. Use fallback  */
+    const fallbackResponse = await caches.match(fallbackUrl);
+    if (fallbackResponse)
+        return fallbackResponse;
 
-  /* generic error. we cannot do anything */
-  return new Response("Network error happened", {
-    status: 408,
-    headers: { "Content-Type": "text/plain" },
-  });
+    /* generic error. we cannot do anything */
+    return new Response("Network error happened", {
+        status: 408,
+        headers: { "Content-Type": "text/plain" },
+    });
 };
 
 /**
  * Fetch Handler
  * @param {Event} event 
  */
-const fetchListener = function(event) 
+const fetchListener = function (event) 
 {
-  if (cacheRequest(event)) 
-  {
-    event.respondWith(
-      cacheFirst({
-        request: event.request,
-        preloadResponsePromise: event.preloadResponse,
-        fallbackUrl: "/data/card-not-found-generic",
-      })
-    );
-  }
+    if (cacheRequest(event)) 
+    {
+        event.respondWith(
+            cacheFirst({
+                request: event.request,
+                preloadResponsePromise: event.preloadResponse,
+                fallbackUrl: "/data/card-not-found-generic",
+            })
+        );
+    }
 }
 
 /**
