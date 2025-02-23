@@ -16,7 +16,9 @@ const assets = []
  */
 const cacheRequestPath = function (url) 
 {
-    return url.startsWith("/data/images") || url.startsWith("/media/maps");
+    return url.startsWith("/data/images") 
+        || url.startsWith("/media/maps")
+        || url.startsWith("/media/assets");
 }
 
 /**
