@@ -45,25 +45,28 @@ const listActiveGames = function (list: ActiveGame[], sampleRooms: SampleRoom[],
             <h2><span data-translation="home.currentgames">Current Games</span></h2>
             <p className="center" data-translation="home.clickongame">Click on a game to join or watch</p>
         </Grid>
-        {list.map((game, key) => <Grid item xs={12} md={5} className="room-game-list blue-box paddingRight1em" key={"room" + key} >
+        {list.map((game, key) => <Grid item xs={12} lg={5} className="room-game-list blue-box paddingRight1em" key={"room" + key} >
             <Grid container>
                 <Grid item xs={4} md={3}>
                     <div className="room-image room-image-game">
                         <img src={getRoomImage(game.room, sampleRooms)} decoding="async" alt="ambience" />
+                        <div className="room-image-game-type">{getGameType(game)}</div>
                     </div>
                 </Grid>
-                <Grid item xs={8} md={9}>
+                <Grid item xs={8} md={9} className="room-game-list-details">
                     <h3>{game.room} <span className="game-duration fa fa-clock-o"> {calcDuration(game.duration)}</span></h3>
                     <Grid container>
-                        <Grid item xs={12} md={10}>
+                        <Grid item xs={12} md={6}>
                             <ul className="player-list">
                                 {game.players.map((player, key) => <li key={key}> {player.name} ({player.score < 0 ? 0 : player.score})</li>)}
                             </ul>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
                             <ul className="avatar-list">
                                 {game.avatars.map((src, key) => <li key={key}><img decoding="async" src={src} alt="avatar" /></li>)}
                             </ul>
                         </Grid>
-                        <Grid item xs={12} md={2} alignContent={"center"}>
+                        <Grid item xs={12} md={4} alignContent={"center"}>
                             <Grid container rowGap={2}>
                                 <Grid item xs={12}>
                                     <Button disabled={!game.accessible || game.single} startIcon={<AddBoxIcon />} fullWidth variant="contained" onClick={() => onJoin(game.room)}>PLAY</Button>
@@ -74,7 +77,6 @@ const listActiveGames = function (list: ActiveGame[], sampleRooms: SampleRoom[],
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div>{getGameType(game)}</div>
                 </Grid>
             </Grid>
         </Grid>

@@ -56,6 +56,17 @@
         top: 3px;
     }
 
+    .room-image-game-type
+    {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0,0,0,0.8)
+    }
+
+
+
     &.room-image-game img {
         left: -17px;
         top: 3px;
@@ -100,6 +111,12 @@
 }
 
 .room-game-list {
+
+    .room-game-list-details
+    {
+        padding-left: 1em;
+
+    }
     h3 {
         text-transform: uppercase;
         margin: 2px 0;
@@ -115,15 +132,7 @@
         list-style-type: none;
 
         li {
-            display: inline;
-
-            &::before {
-                content: ' | ';
-            }
-
-            &:first-of-type::before {
-                content: '';
-            }
+            display: block;
         }
     }
 
