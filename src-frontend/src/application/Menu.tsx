@@ -109,22 +109,31 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                     </Link>
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <Link to="/points" onClick={collapseMenu}>
-                        <ListItemButton >
-                            <ListItemIcon >
-                                <CalculateOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary={Dictionary("frontend.menu.calculator", "MP Calculator")} />
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/map" onClick={collapseMenu}>
                         <ListItemButton >
                             <ListItemIcon>
                                 <MapIcon />
                             </ListItemIcon>
                             <ListItemText primary={Dictionary("frontend.menu.map", "Map")} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+            </List>
+            <Divider />
+            <List>
+            <ListItem>
+                    <ListItemText
+                        primary="Tools"
+                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                    />
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/points" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon >
+                                <CalculateOutlined />
+                            </ListItemIcon>
+                            <ListItemText primary={Dictionary("frontend.menu.calculator", "Score Sheet")} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
