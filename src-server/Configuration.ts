@@ -221,7 +221,7 @@ class Configuration
             const jEntries = {
                 "default-src" : "'none'",
                 "style-src": "'self' 'unsafe-inline'",
-                "connect-src": "'self'",
+                "connect-src": this.imageDomain() + " 'self'",
                 "font-src": "'self'",
                 "media-src": "'self'",
                 "script-src": "'self' 'nonce-START'",
