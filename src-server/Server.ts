@@ -16,6 +16,9 @@ const cspAllowRemoteImages = function (sPath: string = ""): boolean {
         sPath.startsWith("/cards") ||
         sPath.startsWith("/pwa") ||
         sPath.startsWith("/map/") ||
+        sPath.startsWith("/serviceWorker.js") ||
+        sPath.startsWith("/registerServiceworker.js") ||
+        sPath.startsWith("/data") ||
         sPath === "/"
 }
 
