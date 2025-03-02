@@ -19,4 +19,6 @@ const doRegister = async () =>
 }
 
 if (navigator.serviceWorker) 
-    doRegister();
+  doRegister();
+else 
+  console.info("Service worker not available");
