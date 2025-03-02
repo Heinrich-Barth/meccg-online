@@ -250,7 +250,6 @@ const fetchListener = function (event)
     const strategy = identifyCacheStrategy(event);
     if (strategy === STRATEGY_CACHEFIRST_LOCAL)
     {
-        console.info("Cached data", event.request.url)
         event.respondWith(
             cacheFirst({
                 request: event.request,
