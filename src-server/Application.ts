@@ -43,6 +43,7 @@ ServerInstance.getServerInstance().use("/dist-client", express.static("dist-clie
 /**
  * Show list of available images. 
  */
+ServerInstance.getServerInstance().get("/data/clearcache", Caching.expires.generic, (_req: Request, res: Response) => res.status(204).send(""));
 ServerInstance.getServerInstance().get("/data/list/images", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getImageList()).status(200));
 ServerInstance.getServerInstance().get("/data/list/image", Caching.expires.jsonCallback, (req: Request, res: Response) => {
     const key = req.get("X-api-key");
