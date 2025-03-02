@@ -1,6 +1,5 @@
 import * as React from "react";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Avatar, Badge, Box, Button, Stack } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Drawer from '@mui/material/Drawer';
@@ -29,6 +28,7 @@ import { Link } from "react-router-dom";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FetchTournaments from "../operations/FetchTournaments";
 import { CalculateOutlined } from "@mui/icons-material";
+import LaunchIcon from '@mui/icons-material/Launch';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -188,6 +188,36 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                             <ListItemText primary={Dictionary("frontend.menu.about", "About")} />
                         </ListItemButton>
                     </Link>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <a href="https://discord.com/invite/EFqBJmT" target="_blank" onClick={collapseMenu}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <LaunchIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Discord" />
+                        </ListItemButton>
+                    </a>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <a href="https://councilofelrond.org" target="_blank" onClick={collapseMenu}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <LaunchIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Council of Elrond" />
+                        </ListItemButton>
+                    </a>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <a href="https://meccg.com" target="_blank" onClick={collapseMenu}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <LaunchIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="MECCG.com" />
+                        </ListItemButton>
+                    </a>
                 </ListItem>
             </List>
             <Divider />
