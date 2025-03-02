@@ -8,13 +8,23 @@ const CACHE_CARDS = "v4Images";
 /**
  * List of urls to cache
  */
-const assets = []
-
+const assets = [
+    "/data/samplerooms",
+    "/data/backside",
+    "/data/list/map",
+    "/data/list/underdeeps",
+    "/data/list/cards",
+    "/data/list/avatars",
+    "/data/list/gamedata",
+    "/data/list/sites",
+    "/data/list/images",
+]
 
 const STRATEGY_CACHEFIRST_IMAGE = 1;
 const STRATEGY_CACHEFIRST_LOCAL = 2;
 const STRATEGY_NETWORKFIRST = 3;
 const STRATEGY_IGNORE = 4;
+const STRATEGY_CLEAR = -5;
 
 const getUri = function(url)
 {
@@ -48,31 +58,39 @@ const URIS_IMAGE_LOCAL = [
     "/media/personalisation/sounds",
     "/data/samplerooms",
     "/data/backside",
-    "/data/card-not-found-"
-];
-
-const URIS_NETWORK_FIRST = [
-    /*
-    "/data/decks",
+    "/data/card-not-found-",
     "/data/list/map",
     "/data/list/underdeeps",
     "/data/list/cards",
-    "/data/list/stages",
-    "/data/list/filters",
     "/data/list/avatars",
+    "/data/list/gamedata",
+    "/data/list/sites",
     "/data/list/images",
+];
+
+const URIS_NETWORK_FIRST = [
     "/static/frontend",
-    */
+    "/static/media",
 ]
 
 const identifyCacheStrategy = function(event)
 {
-    //if (event.request.url.startsWith("https://raw.githubusercontent.com") && event.request.url.endsWith(".jpg"))
-    //    return STRATEGY_CACHEFIRST_IMAGE;
+    /*
+        This would be awesome, but the cache is limited so we cannot cache all images.
+        Hence, do not cache at all, because there is no benefit...
+        if (event.request.url.startsWith("https://raw.githubusercontent.com") && event.request.url.endsWith(".jpg"))
+            return STRATEGY_CACHEFIRST_IMAGE;
+    */
     
     const uri = getUri(event.request.url);
-    if (uri.startsWith("/cards"))
-        return STRATEGY_CACHEFIRST_IMAGE;
+    /*
+        This would be awesome, but the cache is limited so we cannot cache all images.
+        Hence, do not cache at all, because there is no benefit...
+        if (uri.startsWith("/cards"))
+            return STRATEGY_CACHEFIRST_IMAGE;
+    */
+    if (uri === "/data/clearcache")
+        return STRATEGY_CLEAR;
 
     if (uriStartsWith(uri, URIS_IMAGE_LOCAL))
         return STRATEGY_CACHEFIRST_LOCAL;
@@ -236,7 +254,6 @@ const cacheFirst = async ({ request, preloadResponsePromise }) =>
 const fetchListener = function (event) 
 {
     const strategy = identifyCacheStrategy(event);
-
     if (strategy === STRATEGY_CACHEFIRST_LOCAL)
     {
         event.respondWith(
@@ -262,11 +279,34 @@ const fetchListener = function (event)
             networkFirst(event.request, event.preloadResponse)
         );
     }
+    else if (strategy === STRATEGY_CLEAR)
+    {
+        event.respondWith(clearAllCaches());
+    }
 }
 
 const isValidCache = function(name)
 {
     return name === CACHE_CARDS || name === CACHE_NAME;
+}
+
+async function clearAllCaches()
+{
+    const keys = await caches.keys();
+    for (let key of keys)
+    {
+        try
+        {
+            await caches.delete(key);
+            console.info("Cleared chache " + key);
+        }
+        catch (err)
+        {
+            console.error(err.message);
+        }
+    }
+
+    return new Response(null, { status: 204 });
 }
 
 /**
@@ -279,9 +319,8 @@ async function clearObsoleteCaches( caches )
 {
     let removed = 0;
     const keys = await caches.keys();
-    for (let key in keys)
+    for (let key of keys)
     {
-        continue;
         if (!isValidCache(key))
         {
             console.info("Clearing obsolete cache", key);
@@ -299,13 +338,16 @@ const prepareCaches = async function(caches)
     const cardCache = await caches.open(CACHE_CARDS);
 
     if (assets.length > 0)
+    {
+        console.info("Caching assets");
         await regularCache.addAll(assets);
+    }
 }
 /**
  * Register listeners
  */
 self.addEventListener("install", installEvent => {
-    // installEvent.waitUntil(prepareCaches(caches).catch(console.warn));
+    installEvent.waitUntil(prepareCaches(caches).catch(console.warn));
 });
 
 /** remove old caches */
