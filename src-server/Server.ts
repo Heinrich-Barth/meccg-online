@@ -53,6 +53,12 @@ const Caching = {
             next();
         },
 
+        jsonCallback1hrs: function (_req: Request, res: Response, next: NextFunction) {
+            res.header("Cache-Control", "public, max-age=3600");
+            res.header('Content-Type', "application/json");
+            next();
+        },
+
         cache6hrsOnly: function (_req: Request, res: Response, next: NextFunction) {
             res.header("Cache-Control", "public, max-age=21600");
             next();

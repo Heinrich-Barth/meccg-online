@@ -44,7 +44,7 @@ ServerInstance.getServerInstance().use("/dist-client", express.static("dist-clie
  * Show list of available images. 
  */
 ServerInstance.getServerInstance().get("/data/clearcache", Caching.expires.generic, (_req: Request, res: Response) => res.status(204).send(""));
-ServerInstance.getServerInstance().get("/data/list/images", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getImageList()).status(200));
+ServerInstance.getServerInstance().get("/data/list/images", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getImageList()).status(200));
 ServerInstance.getServerInstance().get("/data/list/image", Caching.expires.jsonCallback, (req: Request, res: Response) => {
     const key = req.get("X-api-key");
     const room = req.get("X-api-room");
@@ -70,8 +70,8 @@ ServerInstance.getServerInstance().get("/data/list/image", Caching.expires.jsonC
 /**
  * Show list of available sites
  */
-ServerInstance.getServerInstance().get("/data/list/sites", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getSiteList()).status(200));
-ServerInstance.getServerInstance().get("/data/list/gamedata", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => {
+ServerInstance.getServerInstance().get("/data/list/sites", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getSiteList()).status(200));
+ServerInstance.getServerInstance().get("/data/list/gamedata", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => {
 
     res.status(200).json({
         images: CardDataProvider.getImageList(),
@@ -80,8 +80,8 @@ ServerInstance.getServerInstance().get("/data/list/gamedata", Caching.cache.json
     });
 });
 
-ServerInstance.getServerInstance().get("/data/list/map", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getMapdata()).status(200));
-ServerInstance.getServerInstance().get("/data/list/underdeeps", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getUnderdeepMapdata()).status(200));
+ServerInstance.getServerInstance().get("/data/list/map", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getMapdata()).status(200));
+ServerInstance.getServerInstance().get("/data/list/underdeeps", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getUnderdeepMapdata()).status(200));
 
 
 /** Suggestions for code/name resolving */
@@ -103,10 +103,10 @@ ServerInstance.getServerInstance().get("/data/marshallingpoints", Caching.expire
 /**
  * Provide the cards
  */
-ServerInstance.getServerInstance().get("/data/list/cards", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getCardsDeckbuilder()).status(200));
-ServerInstance.getServerInstance().get("/data/list/stages", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getStageCards()).status(200));
-ServerInstance.getServerInstance().get("/data/list/avatars", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getAvatarCodes()).status(200));
-ServerInstance.getServerInstance().get("/data/list/filters", Caching.expires.jsonCallback, (_req: Request, res: Response) => res.send(CardDataProvider.getFilters()).status(200));
+ServerInstance.getServerInstance().get("/data/list/cards", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getCardsDeckbuilder()).status(200));
+ServerInstance.getServerInstance().get("/data/list/stages", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getStageCards()).status(200));
+ServerInstance.getServerInstance().get("/data/list/avatars", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getAvatarCodes()).status(200));
+ServerInstance.getServerInstance().get("/data/list/filters", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getFilters()).status(200));
 
 ServerInstance.getServerInstance().use("/data/backside", express.static(getRootFolder() + "/public/media/assets/images/cards/backside.jpg", Caching.headerData.jpeg));
 ServerInstance.getServerInstance().use("/data/backside-region", express.static(getRootFolder() + "/public/media/assets/images/cards/backside-region.jpg", Caching.headerData.jpeg));
@@ -115,7 +115,7 @@ ServerInstance.getServerInstance().use("/data/card-not-found-region", express.st
 ServerInstance.getServerInstance().use("/data/card-not-found-site", express.static(getRootFolder() + "/public/media/assets/images/cards/notfound-site.jpg", Caching.headerData.jpeg));
 
 if (process.env["LANG_FR_URL"])
-    ServerInstance.getServerInstance().get("/data/fr", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.json({ value: process.env["LANG_FR_URL"] ?? "" }));
+    ServerInstance.getServerInstance().get("/data/fr", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.json({ value: process.env["LANG_FR_URL"] ?? "" }));
     
 
 /**

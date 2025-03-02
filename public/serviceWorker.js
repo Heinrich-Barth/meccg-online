@@ -8,17 +8,7 @@ const CACHE_CARDS = "v4Images";
 /**
  * List of urls to cache
  */
-const assets = [
-    "/data/samplerooms",
-    "/data/backside",
-    "/data/list/map",
-    "/data/list/underdeeps",
-    "/data/list/cards",
-    "/data/list/avatars",
-    "/data/list/gamedata",
-    "/data/list/sites",
-    "/data/list/images",
-]
+const assets = []
 
 const STRATEGY_CACHEFIRST_IMAGE = 1;
 const STRATEGY_CACHEFIRST_LOCAL = 2;
@@ -57,6 +47,7 @@ const URIS_IMAGE_LOCAL = [
     "/media/personalisation/backgrounds",
     "/media/personalisation/sounds",
     "/data/samplerooms",
+    "/data/samplenames",
     "/data/backside",
     "/data/card-not-found-",
     "/data/list/map",
@@ -66,6 +57,7 @@ const URIS_IMAGE_LOCAL = [
     "/data/list/gamedata",
     "/data/list/sites",
     "/data/list/images",
+    "/data/list/name-code-suggestions"
 ];
 
 const URIS_NETWORK_FIRST = [
