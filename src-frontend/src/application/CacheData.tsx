@@ -23,7 +23,6 @@ const Prefetch:any = {
     "/media/assets/js/jquery-ui.touch-punch.min.js": "Mobile drag and drop module",
     "/media/assets/js/leaflet.js": "Map Framework",
     "/media/assets/js/leaflet.js.map": "Map Framework",
-    "/media/assets/js/socket.io.min.js": "Socket.io"
 };
 
 let isCaching = false;
