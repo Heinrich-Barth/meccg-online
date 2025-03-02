@@ -16,6 +16,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Dictionary from './Dictionary';
 import FetchSampleName from '../operations/FetchSampleNames';
 import LoadAvatar, { SetCurrentAvatar } from './LoadAvatar';
+import { DeleteForeverOutlined } from '@mui/icons-material';
 
 const saveLocalStorageUsername = function (val: string) {
     if (val !== "")
@@ -60,6 +61,7 @@ export default function Preferences(props: { onClose: Function, onCallbackUpdate
     const [username, setUsername] = React.useState(getLocalStorageUsername());
     const [cardLanguage, setCardLanguage] = React.useState(getLocalStorageCardLanguage());
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [cacheCleared, setCacheCleared] = React.useState(false);
 
     const handleClose = () => props.onClose(username !== "");
 
@@ -73,6 +75,15 @@ export default function Preferences(props: { onClose: Function, onCallbackUpdate
         else
             return "";
     };
+
+    const deleteCache = function() {
+
+        fetch("/data/clearcache").then((res) => {
+            if (res.ok)
+                setCacheCleared(true);
+        })
+        .catch(console.error);
+    }
 
     const saveChanges = function () {
         const msg = validateUsername(username);
@@ -127,6 +138,12 @@ export default function Preferences(props: { onClose: Function, onCallbackUpdate
                                 <FormControlLabel value="cards-es" control={<Radio />} label={Dictionary("home.usespanish", "Prefer Spanish cards (if available)")} />
                             </RadioGroup>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={12} textAlign={"center"}>
+                        {!cacheCleared && (<>
+                            This app uses caching. Click <Button variant='text' startIcon={<DeleteForeverOutlined />} onClick={deleteCache}>here</Button> to clear caches and reload.
+                        </>)}
+                        {cacheCleared && (<Alert severity='success'>Cache cleared. Please refresh your screen.</Alert>)}
                     </Grid>
                 </Grid>
             </DialogContent>
