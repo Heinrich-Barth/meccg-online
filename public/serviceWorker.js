@@ -55,7 +55,9 @@ const URIS_IMAGE_LOCAL = [
     "/data/list/cards",
     "/data/list/avatars",
     "/data/list/gamedata",
+    "/data/list/stages",
     "/data/list/sites",
+    "/data/list/filters",
     "/data/list/images",
     "/data/list/name-code-suggestions"
 ];
@@ -248,6 +250,7 @@ const fetchListener = function (event)
     const strategy = identifyCacheStrategy(event);
     if (strategy === STRATEGY_CACHEFIRST_LOCAL)
     {
+        console.info("Cached data", event.request.url)
         event.respondWith(
             cacheFirst({
                 request: event.request,

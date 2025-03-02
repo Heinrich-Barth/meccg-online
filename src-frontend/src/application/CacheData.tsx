@@ -18,6 +18,12 @@ const Prefetch:any = {
     "/data/list/underdeeps": "Underdeeps",
     "/data/list/map": "Map data",
     "/data/list/cards": "Cards",
+    "/media/assets/js/jquery.min.js": "Drag and Drop Module Framework",
+    "/media/assets/js/jquery-ui.min.js": "Drag and Drop Module",
+    "/media/assets/js/jquery-ui.touch-punch.min.js": "Mobile drag and drop module",
+    "/media/assets/js/leaflet.js": "Map Framework",
+    "/media/assets/js/leaflet.js.map": "Map Framework",
+    "/media/assets/js/socket.io.min.js": "Socket.io"
 };
 
 let isCaching = false;
