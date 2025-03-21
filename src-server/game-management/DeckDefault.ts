@@ -1,6 +1,7 @@
 import DeckCommons, { TDeckCardMap, TSaveGameComons } from "./DeckCommons";
 import Logger from "../Logger";
 import { PlaydeckStandard } from "../plugins/Types";
+import { randomUUID } from "crypto";
 
 export interface IRegisterGameCard {
     code: string,
@@ -278,6 +279,13 @@ export default class DeckDefault extends DeckCommons {
             _entry.type = "resource";
             _entry.secondary = "permanent event";
             _entry.revealed = false;
+        }
+
+        /** theoretically, this should never be necessary. Yet, apparently, there can be an issue where a code is already taken */
+        if (_cardMap[_entry.uuid])
+        {
+            console.warn("Duplicate card uuid detected.");
+            _entry.uuid = randomUUID().toString().toLowerCase();
         }
 
         _cardMap[_entry.uuid] = _entry;
