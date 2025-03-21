@@ -65,7 +65,7 @@ const isStandardSet = function(set:string)
 const calculateDreamcardsSectionList = function(list:Deckentry[])
 {
     const res:DreamCardsLegalInfo = {
-        total: list.length,
+        total: 0,
         dreamcards: 0,
         standard: 0
     };
@@ -73,9 +73,12 @@ const calculateDreamcardsSectionList = function(list:Deckentry[])
     for (let card of list)
     {
         if (isStandardSet(getCardCode(card.code)))
-            res.standard++
+            res.standard += card.count;
         else
-            res.dreamcards++;
+            res.dreamcards += card.count;
+
+        if (card.count > 0)
+            res.total += card.count;
     }
 
     return res;
