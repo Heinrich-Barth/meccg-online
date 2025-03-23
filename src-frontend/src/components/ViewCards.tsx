@@ -1,4 +1,4 @@
-import { Autocomplete, Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
+import { Autocomplete, Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material";
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -279,6 +279,21 @@ const addStageInfo = function(cards:CardData[], stageCodes:string[])
     }
 }
 
+const ViewCardCountIndicator = function(props:{ max:number, current:number})
+{
+    if (props.max === 0)
+        return <></>;
+
+    const current = props.current > props.max ? props.max : props.current;
+
+    const progress = (current / props.max) * 100
+    return <>
+        <Typography component={"p"} textAlign={"center"} style={{paddingBottom: "5px"}}>{current} of {props.max}</Typography>
+        <LinearProgress variant="buffer" value={progress} />
+        <br/>
+    </>
+}
+ 
 const CARDS_PER_VIEW = 30;
 export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { renderCardEntry: Function, subline: string }) {
 
@@ -495,12 +510,11 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
 
             </Grid>
             <Grid container justifyContent="center">
-                <Grid item xs={6} sm={1} justifyContent="center" className="view-cards-eol">
-                    {searchResult.length > 0 && resultLimit < searchResult.length ?
-                        <Button variant="contained" onClick={() => setResultLimit(resultLimit + CARDS_PER_VIEW)}>Load more</Button>
-                        :
-                        <PanToolAltIcon />
-                    }
+                <Grid item xs={6} sm={1} justifyContent="center" justifyItems={"center"} className="view-cards-eol">
+                    <ViewCardCountIndicator max={searchResult.length} current={resultLimit} />
+                    {searchResult.length > 0 && resultLimit < searchResult.length && (
+                        <Button variant="contained" fullWidth onClick={() => setResultLimit(resultLimit + CARDS_PER_VIEW)}>Load more</Button>
+                    )}
                 </Grid>
             </Grid>
         </Grid>
