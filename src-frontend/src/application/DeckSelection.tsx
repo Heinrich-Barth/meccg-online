@@ -234,7 +234,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             .then(res => {
                 sessionStorage.setItem("deck-notes", deckdata.notes);
 
-                if (res.status === 204)
+                if (res.ok)
                     window.location.href = PROXY_URL + "/play/" + room;
                 else
                     return res.json();
