@@ -93,6 +93,7 @@ class RegionMapPreferences extends Preferences {
     toggleLord(isActive)
     {
         this.updateCookie("lord", isActive);
+        this.updateCookie("show_fallenlord", isActive);
     }
     toggleFallenlord(isActive)
     {
@@ -168,11 +169,6 @@ class RegionMapPreferences extends Preferences {
         this.addConfigToggle("show_balrog", "Balrog", this.isTrue("balrog"), this.toggleBalrog.bind(this));
         this.addConfigToggle("show_dreamcards", "Show Dreamcards", this.isTrue("dreamcards"), this.toggleDreamcards.bind(this));
         this.addConfigToggle("show_lord", "Shared Lord Sites (Elves, Dwarfs, ...)", this.isTrue("lord"), this.toggleLord.bind(this));
-        this.addConfigToggle("show_fallenlord", "Shared Fallen Wizard and Lord Sites", this.isTrue("fallenlord"), this.toggleFallenlord.bind(this));
-        
-        this.addConfigToggle("show_elf", "Elf Lords (Heavens)", this.isTrue("elf"), this.toggleElf.bind(this));
-        this.addConfigToggle("show_dwarf", "Dwarf Lords (Heavens)", this.isTrue("dwarf"), this.toggleDwarf.bind(this));
-        
         this.addConfigToggle("show_dragon", "Dragon Lords", this.isTrue("dragon"), this.toggleDragon.bind(this));
         
         this.addConfigToggle("show_set_METW", "The Wizards", this.isTrue("METW"), this.toggleSet_METW.bind(this));
