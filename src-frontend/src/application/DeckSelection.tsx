@@ -223,8 +223,11 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         if (allowGameChoice)
             identifyMapSettings(deckdata.deck, deckdata.pool);
 
-        sessionStorage.setItem("deck-notes", deckdata.notes);
-
+        if (deckdata.notes)
+            sessionStorage.setItem("deck-notes", deckdata.notes);
+        else if (sessionStorage.getItem("deck-notes"))
+            sessionStorage.removeItem("deck-notes");
+        
         fetch(PROXY_URL + "/" + getUrlPathByType(gametype) + "/" + room + "/login", {
             method: "POST",
             credentials: "include",
