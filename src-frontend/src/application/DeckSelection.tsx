@@ -223,6 +223,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         if (allowGameChoice)
             identifyMapSettings(deckdata.deck, deckdata.pool);
 
+        sessionStorage.setItem("deck-notes", deckdata.notes);
+
         fetch(PROXY_URL + "/" + getUrlPathByType(gametype) + "/" + room + "/login", {
             method: "POST",
             credentials: "include",
@@ -232,8 +234,6 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             body: JSON.stringify(bodyData)
         })
             .then(res => {
-                sessionStorage.setItem("deck-notes", deckdata.notes);
-
                 if (res.ok)
                     window.location.href = PROXY_URL + "/play/" + room;
                 else
@@ -247,7 +247,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                 if (err) {
                     console.error(err);
                     setErrorMessage("Failed");
-
+                    if (sessionStorage.getItem("deck-notes"))
+                        sessionStorage.removeItem("deck-notes")
                 }
             })
     }

@@ -1070,8 +1070,7 @@ const ContextMenu = {
         this.addItem("move_company_right", "Move company one position to the right", "fa-arrow-right", "context-menu-item-generic", ContextMenu.callbacks.companyMoveRight.bind(ContextMenu.callbacks));
         this.addItem("move_company_end", "Move company to the end", "fa-long-arrow-right", "context-menu-item-generic", ContextMenu.callbacks.companyMoveRightEnd.bind(ContextMenu.callbacks));
 
-        if (sessionStorage.getItem("deck-notes"))
-            this.addItem("view_deck_notes", "View deck notes", "fa-info-circle", "context-menu-item-generic", ContextMenu.callbacks.viewDeckNotes, "");
+        this.addItem("view_deck_notes", "View deck notes", "fa-info-circle", "context-menu-item-generic", ContextMenu.callbacks.viewDeckNotes, "");
         
         this.addItem("reval_cards_number", "Reveal X cards to your opponent (I will not see them)", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.reveal5CardsToOpponent, "");
         this.addItem("reval_cards_number_self", "Look at your top X cards", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.reveal5CardsToSelf, "");
