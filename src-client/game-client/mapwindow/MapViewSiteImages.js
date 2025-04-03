@@ -52,11 +52,12 @@
         return code !== undefined && code !== "" && this.tapped[code] !== undefined;
     }
 
-    createEntry(jEntry, isSite, region, siteSitle, setCode)
+    createEntry(jEntry, isSite, region, siteSitle = "", alignment = "")
     {
         this._temp.push({ 
             code: jEntry["code"], 
             site: isSite === true, 
+            isHero: alignment !== "minion",
             region: region,
             set_code: jEntry.set_code === undefined ? "" : jEntry.set_code,
             siteSitle : siteSitle === undefined ? "" : siteSitle,
@@ -356,17 +357,40 @@
     
         /** first element is always the region */
         const _region = this._temp[0].site === false ? this._temp.shift() : null;
-        const _res = this._temp;
-
+        const _res = this.#sortSiteResult(this._temp);
         this._temp = null;
-          
-        _res.sort((a, b) => a.code < b.code ? -1 : 1);
 
         /** add region if available */
         if (_region !== null)
             _res.unshift(_region);
 
         return _res;
+    }
+
+    #sortSiteResult(list)
+    {
+        list.sort((a, b) => a.code < b.code ? -1 : 1);
+
+        const type = sessionStorage.getItem("site_order");
+        if (type !== "hero" && type !== "minion")
+            return list;
+
+        const listHero = [];
+        const listMinion = [];
+
+        const prefHero = type === "hero";
+        for (let card of list)
+        {
+            if (card.isHero)
+                listHero.push(card);
+            else
+                listMinion.push(card);
+        }
+
+        if (prefHero)
+            return [...listHero, ...listMinion]
+        else
+            return [...listMinion, ...listHero]
     }
 
     pushRegion(j, region)
@@ -392,7 +416,7 @@
             this.createEntry(j.hero, true, region, site);
 
         if (typeof j.minion !== "undefined" && showAlignment.minion && (showDC || !j.minion.dreamcard))
-            this.createEntry(j.minion, true, region, site);
+            this.createEntry(j.minion, true, region, site, "minion");
 
         if (typeof j.balrog !== "undefined" && showAlignment.balrog && (showDC || !j.balrog.dreamcard))
             this.createEntry(j.balrog, true, region, site);

@@ -24,16 +24,16 @@ class RegionMapPreferences extends Preferences {
         this.createEntry0("show_balrog");
         this.createEntry0("show_dreamcards");
 
-        this.createSection("Fallen Wizard / Lord Specific Sites");
+        this.createSection("Sorting Preferences");
+        this.createEntry0("show_hero_first");
+        this.createEntry0("show_minion_first");
+        
+        this.createSection("Fallen Wizard / Other Sites");
         this.createEntry0("show_fallenwizard");
         this.createEntry0("show_elf");
         this.createEntry0("show_dwarf");
-
-        this.createSection("Shared Fallen Wizard / Lords Sites");
         this.createEntry0("show_fallenlord");
         this.createEntry0("show_lord");
-
-        this.createSection("Other Sites");
         this.createEntry0("show_dragon");
 
         this.createSection("Show Standard Sites");
@@ -57,6 +57,34 @@ class RegionMapPreferences extends Preferences {
 
         this.createSection("Map Settinge");
         this.createEntry0("show_site_marker");
+    }
+
+    #prefereHero()
+    {
+        const type = sessionStorage.getItem("site_order");
+        return type === "hero";
+    }
+
+    #preferMinion()
+    {
+        const type = sessionStorage.getItem("site_order");
+        return type === "minion" && type !== "none";
+    }
+
+    #toggleMinion(isActive)
+    {
+        if (isActive)
+            sessionStorage.setItem("site_order", "minion");
+        else if (sessionStorage.getItem("site_order"))
+            sessionStorage.removeItem("site_order")
+    }
+
+    #toggleHero(isActive)
+    {
+        if (isActive)
+            sessionStorage.setItem("site_order", "hero");
+        else if (sessionStorage.getItem("site_order"))
+            sessionStorage.removeItem("site_order")
     }
 
     toggleHero(isActive)
@@ -170,6 +198,8 @@ class RegionMapPreferences extends Preferences {
         this.addConfigToggle("show_dreamcards", "Show Dreamcards", this.isTrue("dreamcards"), this.toggleDreamcards.bind(this));
         this.addConfigToggle("show_lord", "Shared Lord Sites (Elves, Dwarfs, ...)", this.isTrue("lord"), this.toggleLord.bind(this));
         this.addConfigToggle("show_dragon", "Dragon Lords", this.isTrue("dragon"), this.toggleDragon.bind(this));
+        this.addConfigToggle("show_hero_first", "Show hero sites at the top", this.#prefereHero(), this.#toggleHero.bind(this));
+        this.addConfigToggle("show_minion_first", "Show minion sites at the top", this.#preferMinion(), this.#toggleMinion.bind(this));
         
         this.addConfigToggle("show_set_METW", "The Wizards", this.isTrue("METW"), this.toggleSet_METW.bind(this));
         this.addConfigToggle("show_set_METD", "The Dragons", this.isTrue("METD"), this.toggleSet_METD.bind(this));
