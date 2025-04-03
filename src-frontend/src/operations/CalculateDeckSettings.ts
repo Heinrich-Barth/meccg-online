@@ -19,12 +19,23 @@ const hasLordAvatar = function(deck:DeckCards, avatars:string[])
             return true;
     }
     
+    for (let code of Object.keys(deck.deck))
+    {
+        if (avatars.includes(code) && (code.endsWith("(fb)") || code.endsWith("(df)")))
+            return true;
+    }
     return false;
 }
 
 const hasFallenWizard = function(deck:DeckCards, avatars:string[])
 {
     for (let code of Object.keys(deck.pool))
+    {
+        if (avatars.includes(code) && code.endsWith("(wh)"))
+            return true;
+    }
+
+    for (let code of Object.keys(deck.deck))
     {
         if (avatars.includes(code) && code.endsWith("(wh)"))
             return true;
@@ -44,11 +55,7 @@ const hasOnlyCardsOfSet = function(section:DeckCardsEntry, sets:string[])
 
         const set = code.substring(pos);
         if (!sets.includes(set))
-            {
-                console.log(code, set)
-                return false;
-            }
-            
+            return false;
     }
     return true;
 }
@@ -63,15 +70,14 @@ const hasNonStandardSites = function(deck:DeckCards)
 
 export function updateMapSettingsStorage(settings:MapSettings)
 {
-   const data:any = {
+    const data:any = {
         fallenwizard: settings.fallen,
-        lords: settings.lords
-   }
-
-    if (settings.standardOnly)
-        data.dreamcards = false;
+        lords: settings.lords,
+        dreamcards: !settings.standardOnly
+    }
     
-    sessionStorage.setItem("meccg_map_settings", JSON.stringify(settings));
+    sessionStorage.setItem("meccg_map_settings", JSON.stringify(data));
+    sessionStorage.setItem("site_order", settings.prefer);
 }
 
 export default function CalculateMapSettings(deck:DeckCards, avatars:string[], defaults:MapSettings):MapSettings

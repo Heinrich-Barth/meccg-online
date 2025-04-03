@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { DeckData, DeckEntry, DeckEntryMeta, FetchDeckById } from '../operations/FetchDeckLists';
-import { Alert, Grid, Snackbar } from '@mui/material';
+import { Alert, Checkbox, FormGroup, Grid, Snackbar } from '@mui/material';
 import { BACKSIDE_IMAGE } from './Types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
@@ -35,6 +35,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import ViewDeckCards from '../components/ViewDeckCards';
 import identifyMapSettings from '../operations/MapSettings';
 import { GetCurrentAvatar } from '../components/LoadAvatar';
+import CalculateMapSettings, { MapSettings, updateMapSettingsStorage } from '../operations/CalculateDeckSettings';
+import { FetchAvatars } from '../operations/FetchAvatars';
 
 const TYPE_ARDA = "arda";
 const TYPE_STANDARD = "standard";
@@ -148,6 +150,8 @@ const scrollTop = function()
         section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
 }
 
+let g_vsAvatars:string[] = []
+
 export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room, deckList, roomImage, roomData }: DeckSelectionProps) {
 
     const handleClose = () => setSelectDeckOpen(false);
@@ -177,6 +181,13 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
     const [errorMessageFile, setErrorMessageFile] = React.useState("");
     const [roomImageUri, setRoomImageUri] = React.useState(roomImage);
 
+    const [mapSettings, setMapSettings] = React.useState<MapSettings>({
+        prefer: "hero",
+        standardOnly: false,
+        fallen: false,
+        lords: false
+    });
+
     const onApplyCustomDeck = function (pool: string, deck: string, sideboard: string, sites: string, notes: string) {
         setCurrentDeckId("custom");
         CachedDecks["custom"] = {
@@ -190,6 +201,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         setShowCustomDeck(false);
         loadDeckById("custom");
         setSnachMessage("Deck loaded.");
+        setMapSettings(CalculateMapSettings(CachedDecks["custom"], g_vsAvatars, mapSettings))
     }
 
     const onCancelCustomDeck = function () {
@@ -227,6 +239,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             sessionStorage.setItem("deck-notes", deckdata.notes);
         else if (sessionStorage.getItem("deck-notes"))
             sessionStorage.removeItem("deck-notes");
+
+        updateMapSettingsStorage(mapSettings);
         
         fetch(PROXY_URL + "/" + getUrlPathByType(gametype) + "/" + room + "/login", {
             method: "POST",
@@ -358,7 +372,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                 updateGameTypeFromDeckGroup(group);
                 setCurrentDeckLoaded(deck);
                 setAllowStart(true);
-                scrollTop();            
+                scrollTop();
+                setMapSettings(CalculateMapSettings(deck, g_vsAvatars, mapSettings))
             }
         });
     }
@@ -366,6 +381,13 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
     const updateGameType = function (val: string) {
         setGametype(val);
         setGameTypeLabel(getGameTypeLabelButton(val));
+    }
+
+    const updateMapSettingsPrefere = function(val:string)
+    {
+        const data = { ...mapSettings }
+        data.prefer = val;
+        setMapSettings(data);
     }
 
     const updateGameTypeFromDeckGroup = function(group:string)
@@ -405,6 +427,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             }
         })
 
+        FetchAvatars().then((list) => g_vsAvatars = list);
+
     }, [roomData, room]);
 
     const createChallengeDeckCard = function (deck: DeckEntry, key: string, meta: DeckEntryMeta, labelColor: string, indexKey: string) {
@@ -413,13 +437,11 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         if (_deckid === undefined || (currentDeckGroup !== "" && currentDeckGroup !== deck.name.toLowerCase()))
             return <></>;
 
-        //divDeck.oncontextmenu = (e) => onDownloadDeck(e, _deckid, key);
-
         const imgAvatar = meta.avatar !== "" ? meta.avatar : BACKSIDE_IMAGE;
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
         
         return (
-            <Grid item xs={12} md={5} lg={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
+            <Grid item xs={12} md={6} lg={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
                     <Grid item xs={4} md={3}>
                         <div className="room-image room-image-game">
@@ -429,14 +451,14 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                     <Grid item xs={8} md={9} className='paddingBottom1em paddingLeft1em'>
                         <h3>{key}</h3>
                         <Grid container>
-                            <Grid item xs={12} md={8}>
+                            <Grid item xs={12} md={7}>
                                 <p>
                                     Deck: {meta?.resources} / {meta?.hazards}
                                     <br />Characters: {meta?.character}
                                     <br />Sideboard: {meta?.sideboard}
                                 </p>
                             </Grid>
-                            <Grid item xs={12} lg={4} >
+                            <Grid item xs={12} md={5} >
                                 <Grid container rowGap={2}>
                                     <Grid item xs={12}>
                                         <Button
@@ -457,7 +479,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                             variant='text'
                                             startIcon={viewDeckId === _deckid ? <VisibilityIcon /> : <RemoveRedEyeOutlinedIcon />}
                                         >
-                                            {Dictionary("frontend.decklist.view", "View Deck")}
+                                            {Dictionary("frontend.decklist.view", "View")}
                                         </Button>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -467,7 +489,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                             variant='text'
                                             startIcon={<BorderColorIcon />}
                                         >
-                                            {Dictionary("frontend.decklist.edit", "Edit Deck")}
+                                            {Dictionary("frontend.decklist.edit", "Edit")}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -578,14 +600,14 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                     </Toolbar>
                 </AppBar>
                 <Grid container className='padding2em1m' rowGap={1}>
-                    {roomImage !== "" && (<Grid item xs={3} sm={2} className="paddingRight1em">
+                    {roomImage !== "" && (<Grid item xs={4} sm={2} className="paddingRight1em">
                         <div className="room-image room-image-choose">
                             <img src={roomImageUri} alt="Ambience room" decoding="async" />
                         </div>
                     </Grid>)}
-                    <Grid item xs={8} sm={6}>
+                    <Grid item xs={8} sm={5} md={2} lg={3}>
                         <FormControl disabled={!allowGameChoice}>
-                            <FormLabel id="demo-radio-buttons-group-label">{Dictionary("home.gametype", "Choose a game")}</FormLabel>
+                            <FormLabel id="demo-radio-buttons-group-label">{Dictionary("home.gametype", "Choose a game type")}</FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 name="radio-buttons-group"
@@ -599,7 +621,62 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={3} alignContent={"center"}>
+                    <Grid item xs={8} sm={4} md={3} lg={2}>
+                        <FormGroup>
+                            <FormLabel>{Dictionary("home.maptype", "Sites used")}</FormLabel>
+                            <FormControlLabel
+                                label="Standard sites only"
+                                control={
+                                    <Checkbox
+                                        checked={mapSettings.standardOnly}
+                                        onChange={(e) => {
+                                            mapSettings.standardOnly = e.target.checked;
+                                            setMapSettings({ ...mapSettings });
+                                        }}
+                                    />
+                                }
+                            />
+                            <FormControlLabel
+                                label="Fallen Wizard Sites"
+                                control={
+                                    <Checkbox
+                                        checked={mapSettings.fallen}
+                                        onChange={(e) => {
+                                            mapSettings.fallen = e.target.checked;
+                                            setMapSettings({ ...mapSettings });
+                                        }}
+                                    />
+                                }
+                            />
+                            <FormControlLabel
+                                label="Lord Sites"
+                                control={
+                                    <Checkbox
+                                        checked={mapSettings.lords}
+                                        onChange={(e) => {
+                                            mapSettings.lords = e.target.checked;
+                                            setMapSettings({ ...mapSettings });
+                                        }}
+                                    />
+                                }
+                            />
+                        </FormGroup>
+                    </Grid>
+                    <Grid item xs={8} sm={6} md={3} lg={2}>
+                        <FormControl>
+                            <FormLabel>{Dictionary("home.maptype", "Site Order")}</FormLabel>
+                            <RadioGroup
+                                name="radio-buttons-group"
+                                value={mapSettings.prefer}
+                                onChange={(e) => updateMapSettingsPrefere(e.target.value)}
+                            >
+                                <FormControlLabel value="hero" control={<Radio />} label="Prefer Hero Sites" />
+                                <FormControlLabel value="minion" control={<Radio />} label="Prefer Minion Sites" />
+                                <FormControlLabel value="none" control={<Radio />} label="No Preference" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={2} lg={3}>
                         <Grid container rowGap={2} >
                             <Grid item xs={12}>
                                 {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
