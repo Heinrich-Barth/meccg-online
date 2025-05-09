@@ -185,7 +185,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         prefer: "hero",
         standardOnly: false,
         fallen: false,
-        lords: false
+        lords: false,
+        allowDCErrata: true,
     });
 
     const onApplyCustomDeck = function (pool: string, deck: string, sideboard: string, sites: string, notes: string) {
@@ -226,7 +227,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
 
         const bodyData = {
             name: GetUserName(),
-            dce: true,
+            dce: mapSettings.allowDCErrata,
             randomHazards: gametype === TYPE_SOLO_HAZ,
             deck: deckdata,
             avatar: GetCurrentAvatar()
@@ -655,12 +656,27 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                         checked={mapSettings.lords}
                                         onChange={(e) => {
                                             mapSettings.lords = e.target.checked;
+                                            if (!mapSettings.allowDCErrata && e.target.checked === true)
+                                                mapSettings.allowDCErrata = true;
+
                                             setMapSettings({ ...mapSettings });
                                         }}
                                     />
                                 }
                             />
                         </FormGroup>
+                        <FormControlLabel
+                                label="Use DC Errata"
+                                control={
+                                    <Checkbox
+                                        checked={mapSettings.allowDCErrata}
+                                        onChange={(e) => {
+                                            mapSettings.allowDCErrata = e.target.checked;
+                                            setMapSettings({ ...mapSettings });
+                                        }}
+                                    />
+                                }
+                            />
                     </Grid>
                     <Grid item xs={8} sm={6} md={3} lg={2}>
                         <FormControl>

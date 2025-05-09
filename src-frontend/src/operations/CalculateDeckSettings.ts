@@ -5,6 +5,7 @@ export type MapSettings = {
     standardOnly: boolean;
     fallen: boolean;
     lords: boolean;
+    allowDCErrata:boolean;
 }
 
 let hasOnlyStandard = false;
@@ -88,7 +89,8 @@ export default function CalculateMapSettings(deck:DeckCards, avatars:string[], d
             prefer:defaults.prefer,
             standardOnly: false,
             fallen: true,
-            lords: true
+            lords: true,
+            allowDCErrata: true,
         }
     }
 
@@ -99,7 +101,8 @@ export default function CalculateMapSettings(deck:DeckCards, avatars:string[], d
             prefer:defaults.prefer,
             standardOnly: onlyStandard,
             fallen: true,
-            lords: !onlyStandard
+            lords: !onlyStandard,
+            allowDCErrata: true,
         }
     }
 
@@ -108,5 +111,6 @@ export default function CalculateMapSettings(deck:DeckCards, avatars:string[], d
         standardOnly: onlyStandard,
         fallen: false,
         lords: false,
+        allowDCErrata: true,
     }
 }
