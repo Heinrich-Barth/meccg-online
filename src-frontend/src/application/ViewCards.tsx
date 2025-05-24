@@ -4,7 +4,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
-import ViewCardBrowser, { SearchResult, copyCode } from "../components/ViewCards";
+import ViewCardBrowser, { SeachResultEntry, copyCode } from "../components/ViewCards";
 import RenderCardPreview from "../components/CardZoom";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 
@@ -44,23 +44,26 @@ export default function ViewCards() {
             setPreviewImage({ image: src, left: !left });
     }
 
-    const renderSearchResult = function (img: SearchResult, key: any) {
-        const imgSrc = GetImageUri(img.image); 
+    const renderSearchResult = function (img: SeachResultEntry, preferErrata:boolean, key: any) {
+        const image = preferErrata && img.imageErrata ? img.imageErrata : img.image;
+        const imgSrc = GetImageUri(image); 
+        const isDCErrata = preferErrata && img.imageErrata;
 
         return <Grid item xs={12} sm={6} md={4} lg={3} xl={2} textAlign={"center"} key={img.code} className="cardbrowser-result">
-            <img src={imgSrc} 
-                data-flip={GetImageUri(img.flip)} 
-                alt={img.code} 
-                title={img.code} 
-                loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage("image-" + key, e.pageX)}
-                onMouseLeave={() => setPreviewImage({ image: "", left: false })}
-            />
-            <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
-            {img.flip !== "" && (
-                <Button variant="contained" className="button-flip" onClick={() => swapImage("image-" + key)} startIcon={<CachedIcon />}>Flip</Button>
-            )}
-        </Grid>
+                <img src={imgSrc} 
+                    data-flip={GetImageUri(img.flip)} 
+                    alt={img.code} 
+                    title={img.code} 
+                    loading="lazy" decoding="async" id={"image-" + key}
+                    onMouseEnter={(e) => onPreviewImage("image-" + key, e.pageX)}
+                    onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+                />
+                {isDCErrata && (<div className="view-card-errata">DC Errata</div>)}
+                <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
+                {img.flip !== "" && (
+                    <Button variant="contained" className="button-flip" onClick={() => swapImage("image-" + key)} startIcon={<CachedIcon />}>Flip</Button>
+                )}
+            </Grid>
     }
 
     return <React.Fragment>

@@ -26,6 +26,7 @@ export type CardImageMap = {
     images: {
         [code:string]: {
             image: string;
+            ImageNameErrataDC?: string;
         };
     }
 }

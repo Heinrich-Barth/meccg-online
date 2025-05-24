@@ -30,6 +30,17 @@
     }
 }
 
+.view-card-errata {
+    border-radius: 50%;
+    padding: 5px 10px;
+    color: var(--color-white);
+    background-color: var(--color-dark-grey);
+    position: absolute;
+    top: 2px;
+    right: 30px;
+    line-height: 1.5em;
+}
+
 .application-deckbuilder-result {
     position: relative;
 

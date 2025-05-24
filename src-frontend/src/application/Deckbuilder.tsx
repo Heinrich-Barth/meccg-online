@@ -4,7 +4,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
-import ViewCardBrowser, { GetCardImage, SearchResult, copyCode } from "../components/ViewCards";
+import ViewCardBrowser, { GetCardImage, SeachResultEntry, copyCode } from "../components/ViewCards";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -1004,7 +1004,7 @@ export default function Deckbuilder() {
             propagateDeckChanges();
     }
 
-    const renderSearchResult = function (img: SearchResult, key: any) {
+    const renderSearchResult = function (img: SeachResultEntry, preferErrata:boolean, key: any) {
         const card = getCardByCode(img.code)
         if (card === null)
             return <></>;
@@ -1013,30 +1013,33 @@ export default function Deckbuilder() {
         const isRegion = card?.type === "Region";
         const count = deck.counts[img.code] ?? 0;
         const disableAll = disableDeckAddingActions(card, count);
-        const imgSrc = GetImageUri(img.image);
-        return <Grid
-            item xs={12} sm={6} md={4} lg={3} xl={2}
-            textAlign={"center"}
-            key={img.code}
-            className="application-deckbuilder-result"
-        >
-            <img src={imgSrc} data-flip={GetImageUri(img.flip)} alt={img.code}
-                title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
-                onMouseEnter={(e) => onPreviewImage("image-"+key, e.pageX)}
-                onMouseLeave={() => setPreviewImage({ image: "", left: false })}
-            />
-            {count > 0 && (<CardCountBubble count={count} />)}
-            <div className="add-deck-actions">
-                <Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "pool")} title="Add to Pool"><BackHandIcon /></Button>
-                <br /><Button variant="contained" disabled={disableAll || isRegion} onClick={() => onButtonAddToDeck(img.code, "deck")} title="Add to Deck"><StyleIcon /></Button>
-                <br /><Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "sb")} title="Add to sideboard"><SpaceDashboardIcon /></Button>
-                <br /><Button variant="contained" onClick={() => copyCode(img.code)} title="Copy code to clipboard"><ContentCopyIcon /></Button>
-                {img.flip !== "" && (
-                    <Button variant="contained" onClick={() => swapImage("image-" + key)} title="Flip Backsite"><CachedIcon /></Button>
-                )}
-            </div>
+        const image = preferErrata && img.imageErrata ? img.imageErrata : img.image;
+        const imgSrc = GetImageUri(image); 
+        const isDCErrata = preferErrata && img.imageErrata;
 
-        </Grid>
+        return <Grid
+                item xs={12} sm={6} md={4} lg={3} xl={2}
+                textAlign={"center"}
+                key={img.code}
+                className="application-deckbuilder-result"
+            >
+                <img src={imgSrc} data-flip={GetImageUri(img.flip)} alt={img.code}
+                    title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
+                    onMouseEnter={(e) => onPreviewImage("image-"+key, e.pageX)}
+                    onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+                />
+                {isDCErrata && (<div className="view-card-errata">DC Errata</div>)}
+                {count > 0 && (<CardCountBubble count={count} />)}
+                <div className="add-deck-actions">
+                    <Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "pool")} title="Add to Pool"><BackHandIcon /></Button>
+                    <br /><Button variant="contained" disabled={disableAll || isRegion} onClick={() => onButtonAddToDeck(img.code, "deck")} title="Add to Deck"><StyleIcon /></Button>
+                    <br /><Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "sb")} title="Add to sideboard"><SpaceDashboardIcon /></Button>
+                    <br /><Button variant="contained" onClick={() => copyCode(img.code)} title="Copy code to clipboard"><ContentCopyIcon /></Button>
+                    {img.flip !== "" && (
+                        <Button variant="contained" onClick={() => swapImage("image-" + key)} title="Flip Backsite"><CachedIcon /></Button>
+                    )}
+                </div>
+            </Grid>
     }
 
     const RenderSingleRule = function(props: { text:string, desc?:string, checked:boolean})
@@ -1145,7 +1148,6 @@ export default function Deckbuilder() {
                 </Grid>
                 <Grid item xs={12} textAlign={"center"}>
                     <h1 data-translation="home.startgame">{Dictionary("frontend.menu.deck", "Deckbuilder")}</h1>
-                    <p>The "old" deckbuilder is still available <a href="/deckbuilder">here</a></p>
                 </Grid>
             </Grid>
         </div>

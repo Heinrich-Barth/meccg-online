@@ -1,9 +1,8 @@
-import { Autocomplete, Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material";
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
 import LinearProgress from '@mui/material/LinearProgress';
 import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, FetchFilters } from "../operations/FetchCards";
-import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import { FetchStageCards } from "../operations/FetchStageCards";
 
 function renderIsLoading() {
@@ -128,13 +127,6 @@ export function copyCode(code: string) {
         navigator.clipboard.writeText(code);
 }
 
-
-export type SearchResult = {
-    code: string;
-    image: string;
-    flip: string;
-}
-
 const getFlippedImage = function (code: string) {
     const flippedCode = g_pImages.fliped[code];
     const img = flippedCode ? g_pImages.images[flippedCode] : null;
@@ -183,10 +175,11 @@ type SearchParams = {
     dreamcards:number;
 }
 
-type SeachResultEntry = {
+export type SeachResultEntry = {
     code: string;
     boost: number;
     image: string;
+    imageErrata: string;
     flip: string;
 }
 
@@ -254,6 +247,7 @@ const performSearchCards = function (params: SearchParams) {
             res.push({
                 code: card.code,
                 image: g_pImages.images[card.code].image,
+                imageErrata: g_pImages.images[card.code].ImageNameErrataDC ?? "",
                 flip: getFlippedImage(card.code),
                 boost: boost
             })
@@ -299,9 +293,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
 
     const [isLoading, setIsLoading] = React.useState(true);
     const [searchValue, setSearchValue] = React.useState("");
-    const [searchResult, setSearchResult] = React.useState<SearchResult[]>([]);
+    const [searchResult, setSearchResult] = React.useState<SeachResultEntry[]>([]);
     const [resultLimit, setResultLimit] = React.useState(0);
     const [hasDreamcards, setDreamcards] = React.useState(false);
+    const [preferDC, setPreferDC] = React.useState(true);
     const [searchParams, setSearchParams] = React.useState<SearchParams>({
         alignment: "",
         keyword: "",
@@ -504,9 +499,12 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 {searchResult.length > 0 && (
                     <Grid item xs={12} textAlign={"center"}>
                         <p>{searchResult.length} card(s) matching your filter settings. {subline}</p>
+                        <FormGroup style={{alignContent: "center"}}>
+                            <FormControlLabel control={<Checkbox  checked={preferDC} onChange={(e) => setPreferDC(e.target.checked)} />} label="DC Errata" />
+                        </FormGroup>
                     </Grid>
                 )}
-                {searchResult.filter((_item, idx) => idx < resultLimit).map((value, key) => renderCardEntry(value, key))}
+                {searchResult.filter((_item, idx) => idx < resultLimit).map((value, key) => renderCardEntry(value, preferDC, key))}
 
             </Grid>
             <Grid container justifyContent="center">
