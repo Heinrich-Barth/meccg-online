@@ -51,7 +51,7 @@ export default function About() {
             <li>Node.JS - winston (MIT License)</li>
             <li>jQuery (MIT License)</li>
             <li>jQuery UI v1.12.1 - 2021-03-20 (widget.js, data.js, scroll-parent.js, widgets/draggable.js, widgets/droppable.js, widgets/mouse.js, MIT License)</li>
-            <li><a href="https://github.com/furf/jquery-ui-touch-punch" target="_blank">jQuery UI Touch Punch</a> (MIT License) </li>
+            <li><a href="https://github.com/furf/jquery-ui-touch-punch" target="_blank" rel="noreferrer">jQuery UI Touch Punch</a> (MIT License) </li>
             <li>leafletjs (BSD 2-Clause "Simplified" License)</li>
         </ul>
 
