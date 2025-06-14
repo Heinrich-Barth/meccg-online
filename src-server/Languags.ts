@@ -87,9 +87,9 @@ class Dictionary {
             if (data)
                 return data;
         }
-        catch (err)
+        catch (err:any)
         {
-            console.error(err);
+            console.error(err.message ?? err);
         }
     
         console.error("Cannot find dictionary file");
