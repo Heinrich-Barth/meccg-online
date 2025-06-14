@@ -53,6 +53,11 @@ function onPWALogin(_req:Request, res:Response)
 
 export default function InitAuthencation()
 {
+    ServerInstance.getServerInstance().use("/authentication", (req:Request, res:Response, next:NextFunction) => {
+        res.header("Cache-Control", "no-store");
+        next();
+    });
+
     ServerInstance.getServerInstance().get("/authentication", isSignedIn);
     ServerInstance.getServerInstance().post("/authentication", performLogn);
     ServerInstance.getServerInstance().get("/pwa", onPWALogin);
