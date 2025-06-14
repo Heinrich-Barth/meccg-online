@@ -8,10 +8,6 @@ export type MapSettings = {
     allowDCErrata:boolean;
 }
 
-let hasOnlyStandard = false;
-let hasFallen = false;
-let hasLords = false;
-
 const hasLordAvatar = function(deck:DeckCards, avatars:string[])
 {
     for (let code of Object.keys(deck.pool))

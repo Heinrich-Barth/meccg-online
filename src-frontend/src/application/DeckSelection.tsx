@@ -167,7 +167,6 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
     const [currentDeckLoaded, setCurrentDeckLoaded] = React.useState<DeckCards | null>(null);
     const [allowGameTypeSelection, setAllowGameTypeSelection] = React.useState(true);
     const hideDeckSelection = roomData?.arda === true;
-    const avatars = roomData.avatars && roomData.avatars?.length > 0 ? roomData.avatars : [];
     const [errorMessage, setErrorMessage] = React.useState("");
     const [snachMessage, setSnachMessage] = React.useState("");
     const [showCardList, setShowCardList] = React.useState<any>(null)

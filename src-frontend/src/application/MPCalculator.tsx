@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { AddCircleOutline, CreateRounded, DeleteOutline } from "@mui/icons-material";
+import { AddCircleOutline, DeleteOutline } from "@mui/icons-material";
 
 type Categories = {
     name: string;

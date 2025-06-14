@@ -201,7 +201,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                     </Link>
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <a href="https://discord.com/invite/EFqBJmT" target="_blank" onClick={collapseMenu}>
+                    <a href="https://discord.com/invite/EFqBJmT" target="_blank" rel="noreferrer" onClick={collapseMenu}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <LaunchIcon />
@@ -211,7 +211,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                     </a>
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <a href="https://councilofelrond.org" target="_blank" onClick={collapseMenu}>
+                    <a href="https://councilofelrond.org" target="_blank" rel="noreferrer" onClick={collapseMenu}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <LaunchIcon />
@@ -221,7 +221,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                     </a>
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <a href="https://meccg.com" target="_blank" onClick={collapseMenu}>
+                    <a href="https://meccg.com" target="_blank" rel="noreferrer" onClick={collapseMenu}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <LaunchIcon />

@@ -65,7 +65,7 @@ export default function LoadAvatar({onValidAvatar}:{onValidAvatar:Function})
         })
         .catch(console.error)
         .finally(() => setCurrentCode(GetCurrentAvatar()));
-    }, [setImageList, setCurrentCode])
+    }, [setImageList, setCurrentCode, onValidAvatar])
 
     return <>
         <div className="room-image room-image-game">

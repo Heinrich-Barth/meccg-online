@@ -5,7 +5,7 @@ const addImage = function(image:string, left:boolean)
     if (image === "")
         return <></>
     else
-        return <img src={image} alt="preview" />
+        return <img src={image} alt="" />
 }
 
 export default function RenderCardPreview( { image, left = true }: {image:string, left:boolean})

@@ -70,7 +70,7 @@ export default function About() {
 
         <h2>License information</h2>
         <p>This source code is licensed under GNU General Public License v2.0.</p>
-        <p>You can read the full license text at <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html" rel="nofollow" target="_blank">https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</a></p>
+        <p>You can read the full license text at <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html" rel="norefferer" target="_blank">https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</a></p>
     </div>
     </>;
 }
