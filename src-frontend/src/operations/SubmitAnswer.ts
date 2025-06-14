@@ -4,9 +4,10 @@ export async function CheckIfLoggedin()
 {
     try{
         const res = await fetch(PROXY_URL+"/authentication", {
+            cache: "no-cache",
             credentials: "include",
         });
-        return res.status === 204;
+        return res.ok;
     }
     catch(err)
     {
@@ -22,6 +23,7 @@ export default async function SubmitAnswer(answer:string)
     {
         const response = await fetch(PROXY_URL+"/authentication", {
             method: "POST",
+            cache: "no-cache",
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
