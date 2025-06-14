@@ -1,4 +1,4 @@
-import { DeckCards, DeckCardsEntry } from "./ExploreDeckData";
+import { DeckCards, DeckCardsEntry } from "../application/Types";
 
 export type MapSettings = {
     prefer: string;

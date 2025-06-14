@@ -5,7 +5,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { Grid } from '@mui/material';
 import Dictionary from './Dictionary';
+import FetchCards, { CardData, CardImageMap, FetchCardImages } from "../operations/FetchCards";
+import { DeckCardsEntry } from '../application/Types';
 
+type CardDataMap = {
+    [code:string]: CardData;
+}
+
+const g_pCardMap:CardDataMap = { };
+const g_pImageMap:{[code:string]:{
+            image: string;
+            ImageNameErrataDC?: string;
+        }
+    } = { }
+        
 const renderNotes = function(text:string)
 {
     if (text.trim() === "")
@@ -23,6 +36,48 @@ const renderNotes = function(text:string)
     return (<Grid item xs={12}>{res}</Grid>);
 }
 
+const RenderDeckListSectionPart = function(props: { list:DeckCardEntry[], title:string, basekey:string })
+{
+    if (props.list.length === 0)
+        return <></>;
+    
+    return <>
+        {props.title && (<h3>{props.title}</h3>)}
+        <ul>
+            {props.list.map((e,i) => <li key={props.basekey + i}>{e.count} {e.code}</li>)}
+        </ul>
+    </>
+}
+
+const RenderDeckListSection = function(props: { list:DeckCardEntry[], title:string, group?:boolean})
+{
+    if (props.list.length === 0)
+        return <></>;
+
+    const other:DeckCardEntry[] = !props.group ? props.list : [];
+    const chars:DeckCardEntry[] = !props.group ? [] : props.list.filter(a => a.type === "Character");
+    const res:DeckCardEntry[] = !props.group ? [] : props.list.filter(a => a.type === "Resource");
+    const haz:DeckCardEntry[] = !props.group ? [] : props.list.filter(a => a.type === "Hazard");
+
+    return <Grid item xs={12} sm={6} md={4} lg={3}>
+        <h2>{props.title}</h2>
+        <RenderDeckListSectionPart basekey={props.title+"c"} title="Characters" list={chars} />
+        <RenderDeckListSectionPart basekey={props.title+"r"} title="Resources" list={res} />
+        <RenderDeckListSectionPart basekey={props.title+"h"} title="Hazards" list={haz} />
+        <RenderDeckListSectionPart basekey={props.title+"o"} title="" list={other} />
+    </Grid>
+}
+
+const RenderDeckList = function(props: { pool:DeckCardEntry[], deck:DeckCardEntry[], sideboard:DeckCardEntry[], sites:DeckCardEntry[]})
+{
+    return <React.Fragment>
+        <RenderDeckListSection title="Pool" list={props.pool} group={true} />
+        <RenderDeckListSection title="Deck" list={props.deck} group={true} />
+        <RenderDeckListSection title="Sideboard" list={props.sideboard} group={true} />
+        <RenderDeckListSection title="Sites" list={props.sites} group={false} />
+    </React.Fragment>
+
+}
 const countCards = function(codes:any)
 {
     if (!codes)
@@ -35,30 +90,105 @@ const countCards = function(codes:any)
     return res;
 }
 
-const RenderSection = function({ title, codes, images } : { title: string, codes:any, images:any} )
+const getSortVal = function(type:string, title:string)
+{
+    if (type === "Resource")
+        return "dres" + title;
+    return type + title;;
+}
+
+const RenderSection = function({ title, codes, images } : { title: string, codes:DeckCardEntry[], images:any } )
 {
     if (!codes || !images || Object.keys(codes).length === 0)
-        return <></>;
+        return <React.Fragment />;
 
     return (<>
         <Grid item xs={12}>
-            <h3>{title} ({countCards(codes)})</h3>
+            <h3>{title} ({codes.length})</h3>
         </Grid>
-        {Object.keys(codes).sort().map((code, index) => {
-                
-                const img = images[code];
-                if (!img)
-                    return <></>;
-
-                return <Grid item xs={12} sm={6} md={2} key={title + index} className='view-image-container'>
-                    <img src={img} decoding="async" loading="lazy" alt='card' className='view-image'/>
-                    <div className='view-image-count'>{codes[code]}</div>
-                </Grid>
+        {codes.map((code, index) => {
+            const img = code.image;
+            return <Grid item xs={12} sm={6} md={2} key={title + index} className='view-image-container'>
+                <img src={img} decoding="async" loading="lazy" alt='card' className='view-image'/>
+                <div className='view-image-count'>{code.count}</div>
+            </Grid>
         })}
     </>);
 }
+const SortSection = function(codes:DeckCardsEntry, cards:CardDataMap):DeckCardEntry[]
+{
+    if (!codes || Object.keys(codes).length === 0)
+        return [];
 
-export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, sites, onClose }: { imageMap: any, notes:string, deck:any, pool:any, sideboard:any, sites:any, onClose: Function }) {
+    function sortCardEntries(a: string, b: string): number {
+
+        const cardA = cards[a];
+        const cardB = cards[b];
+        if (!cardA || !cardB)
+            return a.localeCompare(b);
+
+        return getSortVal(cardA.type, cardA.title).localeCompare(getSortVal(cardB.type, cardB.title));
+    }
+
+    return Object.keys(codes).sort((a,b) => sortCardEntries(a,b)).map((card) => {
+        const data = cards[card];
+        const image = g_pImageMap[card];
+        let imageSrc = image?.image ?? "";
+        if (image && image.ImageNameErrataDC)
+            imageSrc = image.ImageNameErrataDC;
+            
+        return {
+            code: card,
+            count: codes[card],
+            type: data.type,
+            image: imageSrc
+        } as DeckCardEntry;
+    });
+}
+
+type DeckCardEntry = {
+    code: string;
+    count: number;
+    type: "Resource" | "Site" | "Character" | "Hazard";
+    image: string;
+}
+
+export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, sites, onClose }: { imageMap: any, notes:string, deck:DeckCardsEntry, pool:DeckCardsEntry, sideboard:DeckCardsEntry, sites:DeckCardsEntry, onClose: Function }) {
+
+    const [_cardData, setCardData] = React.useState<CardDataMap>({ });
+    const [sectionPool, setSectionPool] = React.useState<DeckCardEntry[]>([]);
+    const [secionDeck, setSecionDeck] = React.useState<DeckCardEntry[]>([]);
+    const [secionSB, setSecionSB] = React.useState<DeckCardEntry[]>([]);
+    const [secionSites, setSecionSites] = React.useState<DeckCardEntry[]>([]);
+
+    React.useEffect(() => {
+
+        if (Object.keys(g_pCardMap).length > 0)
+        {
+            setCardData(g_pCardMap);
+            setSectionPool(SortSection(pool, g_pCardMap));
+            setSecionDeck(SortSection(deck, g_pCardMap));
+            setSecionSB(SortSection(sideboard, g_pCardMap));
+            setSecionSites(SortSection(sites, g_pCardMap));
+            return;
+        }
+
+        FetchCardImages().then((res:CardImageMap) => {
+            for (const code in res.images)
+                g_pImageMap[code] = res.images[code];
+
+            return FetchCards();
+        }).then(data => {
+            data.forEach(card => g_pCardMap[card.code] = card);
+            setCardData(g_pCardMap);
+
+            setSectionPool(SortSection(pool, g_pCardMap));
+            setSecionDeck(SortSection(deck, g_pCardMap));
+            setSecionSB(SortSection(sideboard, g_pCardMap));
+            setSecionSites(SortSection(sites, g_pCardMap));
+        });
+        
+    }, [setCardData, setSectionPool, setSecionDeck, setSecionSB, setSecionSites])
 
     if (countCards(imageMap) === 0)
     {
@@ -76,13 +206,18 @@ export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, 
             >
                 <DialogContent>
                     <Grid container>
+                        <RenderDeckList 
+                            deck={secionDeck}
+                            pool={sectionPool}
+                            sideboard={secionSB}
+                            sites={secionSites}
+                        />
                         {renderNotes(notes)}
 
-                        <RenderSection images={imageMap} codes={pool} title="Pool" />
-                        <RenderSection images={imageMap} codes={deck} title="Deck" />
-                        <RenderSection images={imageMap} codes={sideboard} title="Sideboard" />
-                        <RenderSection images={imageMap} codes={sites} title="Sites" />
-
+                        <RenderSection images={imageMap} codes={sectionPool} title="Pool" />
+                        <RenderSection images={imageMap} codes={secionDeck} title="Deck" />
+                        <RenderSection images={imageMap} codes={secionSB} title="Sideboard" />
+                        <RenderSection images={imageMap} codes={secionSites} title="Sites" />
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -94,3 +229,4 @@ export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, 
         </React.Fragment>
     );
 }
+

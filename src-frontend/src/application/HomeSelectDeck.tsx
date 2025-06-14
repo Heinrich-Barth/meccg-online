@@ -1,7 +1,7 @@
 import React from "react";
 import DeckSelection from "./DeckSelection";
-import FetchDeckList, { DeckEntry } from "../operations/FetchDeckLists";
-import { BACKSIDE_IMAGE } from "./Types";
+import FetchDeckList from "../operations/FetchDeckLists";
+import { BACKSIDE_IMAGE, DeckEntry } from "./Types";
 import GetGameData, { GameData } from "../operations/FetchGameData";
 import { Navigate, useParams } from "react-router-dom";
 import { validatRoomName } from "./Home";

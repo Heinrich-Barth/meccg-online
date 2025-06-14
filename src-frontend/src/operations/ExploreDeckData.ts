@@ -1,19 +1,5 @@
+import { DeckCardsEntry, DeckData, DeckCards } from "../application/Types";
 import { verifyCardCode } from "../components/CustomDeckInput";
-import { DeckData, DeckImageMap } from "./FetchDeckLists";
-
-export type DeckCardsEntry = {
-    [key:string] : number
-}
-
-
-export type DeckCards = {
-    deck: DeckCardsEntry;
-    pool: DeckCardsEntry;
-    sideboard: DeckCardsEntry;
-    sites: DeckCardsEntry;
-    images:DeckImageMap;
-    notes: string;
-}
 
 const getDeckSection = function(text:string, part:string)
 {

@@ -29,6 +29,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FetchTournaments from "../operations/FetchTournaments";
 import { CalculateOutlined } from "@mui/icons-material";
 import LaunchIcon from '@mui/icons-material/Launch';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -105,6 +106,16 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                                 <StyleIcon />
                             </ListItemIcon>
                             <ListItemText primary={Dictionary("frontend.menu.deck", "Deckbuilder")} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <ListItem disablePadding className="menu-item" dense={true}>
+                    <Link to="/decks" onClick={collapseMenu}>
+                        <ListItemButton >
+                            <ListItemIcon >
+                                <ViewCarouselIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={Dictionary("frontend.menu.deckbrowser", "Explore Decks")} />
                         </ListItemButton>
                     </Link>
                 </ListItem>

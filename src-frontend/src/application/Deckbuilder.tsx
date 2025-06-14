@@ -21,10 +21,10 @@ import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import RenderCardPreview from "../components/CardZoom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
-import ExploreDeckData, { DeckCardsEntry } from "../operations/ExploreDeckData";
+import ExploreDeckData from "../operations/ExploreDeckData";
 import { InitCustomDeck } from "../components/CustomDeckInput";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
-import { DeckPart, DeckCountMap, Deck, Deckentry } from "./Types";
+import { DeckPart, DeckCountMap, Deck, Deckentry, DeckCardsEntry } from "./Types";
 import calculateDreamcards from "../components/DeckLagality";
 import { CheckCircle, Help, StopCircle } from "@mui/icons-material";
 

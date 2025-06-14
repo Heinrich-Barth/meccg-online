@@ -1,5 +1,5 @@
+import { DeckCardsEntry } from "../application/Types";
 import { GetCardByCode } from "../components/CustomDeckInput";
-import { DeckCardsEntry } from "./ExploreDeckData";
 import { CardData } from "./FetchCards";
 
 type MapSettings = {

@@ -18,6 +18,7 @@ import Whatsnew from './application/Whatsnew';
 import ViewCards from './application/ViewCards';
 import { GetCurrentAvatar, GetCurrentAvatarImage } from './components/LoadAvatar';
 import MPCalculator from './application/MPCalculator';
+import ExploreDecks from './application/ExploreDecks';
 
 
 function App({ requireLogin }: { requireLogin: boolean }) {
@@ -58,6 +59,7 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path='/tournaments/:id' element={<TournamentDetail />} />
                     <Route path="/caching" element={<CacheData />} />
                     <Route path="/points" element={<MPCalculator />} />
+                    <Route path="/decks" element={<ExploreDecks />} />
                     <Route path="/blog" element={<Whatsnew />} />
                     <Route path="/blog/:id" element={<Whatsnew />} />
                     <Route path="/login" element={<LogIn onLogin={() => setAllowNavigation(true)} requireLogin={requireLogin} />} />

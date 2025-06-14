@@ -1,3 +1,4 @@
+import { DeckEntry, DeckData } from "../application/Types";
 import PROXY_URL from "./Proxy";
 
 export default async function FetchDeckList()
@@ -38,33 +39,4 @@ export async function FetchDeckById(id:string)
     }
 
     return { deck: "", images:{ }}
-}
-
-export type DeckId = string;
-
-export type DeckEntry = {
-    name: string;
-    decks: Map<string, DeckId> // name = uid
-    meta: Map<DeckId, DeckEntryMeta>
-}
-
-export type DeckEntryMeta = {
-    "avatar": string;
-    "pool": number;
-    "sideboard": number;
-    "character": number;
-    "resources": number;
-    "hazards": number;
-    "summary": string;
-}
-
-export type CardCode = string;
-export type CardImage = string;
-
-export type DeckImageMap = {
-    [key:CardCode] : CardImage
-}
-export type DeckData = {
-    deck: string;
-    images: DeckImageMap;
 }
