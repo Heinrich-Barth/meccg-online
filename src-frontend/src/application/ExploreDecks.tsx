@@ -1,10 +1,9 @@
 
 
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import FetchDeckList, { FetchDeckById } from '../operations/FetchDeckLists';
-import { Grid } from '@mui/material';
-import { BACKSIDE_IMAGE, DeckCards, DeckCardsEntry, DeckData, DeckEntry, DeckEntryMeta } from './Types';
+import { Button, Grid } from '@mui/material';
+import { BACKSIDE_IMAGE, DeckCards, DeckData, DeckEntry, DeckEntryMeta } from './Types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { GameData } from '../operations/FetchGameData';
@@ -12,6 +11,7 @@ import ExploreDeckData from '../operations/ExploreDeckData';
 import Dictionary from '../components/Dictionary';
 import { InitCustomDeck } from '../components/CustomDeckInput';
 import ViewDeckCards from '../components/ViewDeckCards';
+import MeccgLogo from '../components/MeccgLogo';
 
 const getLabelColor = function (index: number) {
     const labelColors = ["red", "green", "blue", "yellow", "pink"];
@@ -141,7 +141,6 @@ export default function ExploreDecks() {
                     </Grid>
                 </Grid>
             </Grid>
-
         );
     }
 
@@ -164,7 +163,16 @@ export default function ExploreDecks() {
 
     return (
         <React.Fragment>
-
+            <div className={"application-deckbuilder"}>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+                        <MeccgLogo />
+                    </Grid>
+                    <Grid item xs={12} textAlign={"center"}>
+                        <h1 data-translation="home.startgame">{Dictionary("frontend.menu.deck", "Deckbuilder")}</h1>
+                    </Grid>
+                </Grid>
+            </div>
             <Grid container className='padding2em1m' rowGap={1}>
                 {deckList.length === 0 ? <>
                     <Grid item xs={12} textAlign="center" className='padding2em1m'>

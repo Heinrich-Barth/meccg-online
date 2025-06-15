@@ -18,7 +18,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import SaveIcon from '@mui/icons-material/Save';
 import StyleIcon from '@mui/icons-material/Style';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
-import RenderCardPreview from "../components/CardZoom";
+import RenderCardPreview, { GetImagePreviewData, ImagePreviewInfo } from "../components/CardZoom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData from "../operations/ExploreDeckData";
@@ -683,14 +683,9 @@ const loadData = async function () {
     return true;
 }
 
-type ImagePreview = {
-    image: string;
-    left: boolean
-}
-
 function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCardDeckSection }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onMoveCardDeckSection: Function }) {
 
-    const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
+    const [previewImage, setPreviewImage] = React.useState<ImagePreviewInfo>({ image: "", left: true });
     const onPreviewImage = function (x: number, src: string) {
         const half = window.innerWidth / 2;
         const left = x < half;
@@ -797,7 +792,7 @@ const CreateSingleTextFileFromDeck = function (deck: Deck) {
 
 export default function Deckbuilder() {
 
-    const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
+    const [previewImage, setPreviewImage] = React.useState<ImagePreviewInfo>({ image: "", left: true });
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
     const [message, setMessage] = React.useState("");
     const [showLegalInfo, setShowLegalInfo] = React.useState(false);
@@ -811,15 +806,9 @@ export default function Deckbuilder() {
     }, [setDeck]);
 
     const onPreviewImage = function (id:string, x: number) {
-        const img = document.getElementById(id);
-        if (img === null)
-            return;
-
-        const src = img.getAttribute("src");
-        const half = window.innerWidth / 2;
-        const left = x < half;
-        if (src)
-            setPreviewImage({ image: src, left: !left });
+        const data = GetImagePreviewData(id, x);
+        if (data !== null)
+            setPreviewImage(data);
     }
     
     const saveCurrentDeck = function () {

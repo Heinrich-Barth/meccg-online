@@ -5,7 +5,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dictionary from "../components/Dictionary";
 import MeccgLogo from "../components/MeccgLogo";
 import ViewCardBrowser, { SeachResultEntry, copyCode } from "../components/ViewCards";
-import RenderCardPreview from "../components/CardZoom";
+import RenderCardPreview, { GetImagePreviewData, ImagePreviewInfo } from "../components/CardZoom";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 
 const swapImage = function (id: string) {
@@ -22,27 +22,10 @@ const swapImage = function (id: string) {
     }
 }
 
-type ImagePreview = {
-    image: string;
-    left: boolean
-}
-
 export default function ViewCards() {
-    const [previewImage, setPreviewImage] = React.useState<ImagePreview>({ image: "", left: true });
+    const [previewImage, setPreviewImage] = React.useState<ImagePreviewInfo|null>(null);
 
     React.useEffect(() => { FetchFrenchImageUrl() }, []);
-
-    const onPreviewImage = function (id:any, x: number) {
-        const img = document.getElementById(id);
-        if (img === null)
-            return;
-
-        const src = img.getAttribute("src");
-        const half = window.innerWidth / 2;
-        const left = x < half;
-        if (src)
-            setPreviewImage({ image: src, left: !left });
-    }
 
     const renderSearchResult = function (img: SeachResultEntry, preferErrata:boolean, key: any) {
         const image = preferErrata && img.imageErrata ? img.imageErrata : img.image;
@@ -55,8 +38,8 @@ export default function ViewCards() {
                     alt={img.code} 
                     title={img.code} 
                     loading="lazy" decoding="async" id={"image-" + key}
-                    onMouseEnter={(e) => onPreviewImage("image-" + key, e.pageX)}
-                    onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+                    onMouseEnter={(e) => setPreviewImage(GetImagePreviewData("image-" + key, e.pageX))}
+                    onMouseLeave={() => setPreviewImage(null)}
                 />
                 {isDCErrata && (<div className="view-card-errata">DC Errata</div>)}
                 <Button variant="contained" className="button-copy" onClick={() => copyCode(img.code)} startIcon={<ContentCopyIcon />}>Copy Code</Button>
@@ -68,7 +51,7 @@ export default function ViewCards() {
 
     return <React.Fragment>
         
-        <RenderCardPreview image={previewImage.image} left={previewImage.left} />
+        <RenderCardPreview image={previewImage?.image??""} left={previewImage?.left??true} />
         <div className={"application-home "}>
             <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">

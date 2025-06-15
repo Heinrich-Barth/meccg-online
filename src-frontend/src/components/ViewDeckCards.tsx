@@ -7,6 +7,7 @@ import { Grid } from '@mui/material';
 import Dictionary from './Dictionary';
 import FetchCards, { CardData, CardImageMap, FetchCardImages } from "../operations/FetchCards";
 import { DeckCardsEntry } from '../application/Types';
+import RenderCardPreview, { GetImagePreviewData, ImagePreviewInfo } from './CardZoom';
 
 type CardDataMap = {
     [code:string]: CardData;
@@ -97,7 +98,7 @@ const getSortVal = function(type:string, title:string)
     return type + title;;
 }
 
-const RenderSection = function({ title, codes, images } : { title: string, codes:DeckCardEntry[], images:any } )
+const RenderSection = function({ title, codes, images, renderPreview } : { title: string, codes:DeckCardEntry[], images:any, renderPreview:Function } )
 {
     if (!codes || !images || Object.keys(codes).length === 0)
         return <React.Fragment />;
@@ -109,7 +110,16 @@ const RenderSection = function({ title, codes, images } : { title: string, codes
         {codes.map((code, index) => {
             const img = code.image;
             return <Grid item xs={12} sm={6} md={2} key={title + index} className='view-image-container'>
-                <img src={img} decoding="async" loading="lazy" alt='card' className='view-image'/>
+                <img 
+                    src={img} 
+                    decoding="async" 
+                    loading="lazy" 
+                    alt={code.code} 
+                    id={"image-" + index}
+                    onMouseEnter={(e) => renderPreview(GetImagePreviewData("image-"+index, e.pageX))}
+                    onMouseLeave={() => renderPreview(null) }
+                    className='view-image'
+                />
                 <div className='view-image-count'>{code.count}</div>
             </Grid>
         })}
@@ -155,11 +165,12 @@ type DeckCardEntry = {
 
 export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, sites, onClose }: { imageMap: any, notes:string, deck:DeckCardsEntry, pool:DeckCardsEntry, sideboard:DeckCardsEntry, sites:DeckCardsEntry, onClose: Function }) {
 
-    const [_cardData, setCardData] = React.useState<CardDataMap>({ });
+    const [, setCardData] = React.useState<CardDataMap>({ });
     const [sectionPool, setSectionPool] = React.useState<DeckCardEntry[]>([]);
     const [secionDeck, setSecionDeck] = React.useState<DeckCardEntry[]>([]);
     const [secionSB, setSecionSB] = React.useState<DeckCardEntry[]>([]);
     const [secionSites, setSecionSites] = React.useState<DeckCardEntry[]>([]);
+    const [previewCard, setPreviewCard] = React.useState<ImagePreviewInfo|null>(null);
 
     React.useEffect(() => {
 
@@ -188,7 +199,7 @@ export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, 
             setSecionSites(SortSection(sites, g_pCardMap));
         });
         
-    }, [setCardData, setSectionPool, setSecionDeck, setSecionSB, setSecionSites])
+    }, [pool, deck, sideboard, sites, setCardData, setSectionPool, setSecionDeck, setSecionSB, setSecionSites])
 
     if (countCards(imageMap) === 0)
     {
@@ -205,6 +216,7 @@ export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, 
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogContent>
+                    <RenderCardPreview image={previewCard?.image??""} left={previewCard?.left===true} />
                     <Grid container>
                         <RenderDeckList 
                             deck={secionDeck}
@@ -214,10 +226,10 @@ export default function ViewDeckCards({ imageMap, notes, deck, pool, sideboard, 
                         />
                         {renderNotes(notes)}
 
-                        <RenderSection images={imageMap} codes={sectionPool} title="Pool" />
-                        <RenderSection images={imageMap} codes={secionDeck} title="Deck" />
-                        <RenderSection images={imageMap} codes={secionSB} title="Sideboard" />
-                        <RenderSection images={imageMap} codes={secionSites} title="Sites" />
+                        <RenderSection images={imageMap} codes={sectionPool} title="Pool" renderPreview={setPreviewCard} />
+                        <RenderSection images={imageMap} codes={secionDeck} title="Deck" renderPreview={setPreviewCard} />
+                        <RenderSection images={imageMap} codes={secionSB} title="Sideboard" renderPreview={setPreviewCard} />
+                        <RenderSection images={imageMap} codes={secionSites} title="Sites" renderPreview={setPreviewCard} />
                     </Grid>
                 </DialogContent>
                 <DialogActions>

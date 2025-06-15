@@ -1,16 +1,30 @@
 
+export type ImagePreviewInfo = {
+    image: string;
+    left: boolean;
+}
 
-const addImage = function(image:string, left:boolean)
+export function GetImagePreviewData(id:string, x: number):ImagePreviewInfo|null
 {
-    if (image === "")
-        return <></>
-    else
-        return <img src={image} alt="" />
+    const img = document.getElementById(id);
+    if (img === null)
+        return null;
+
+    const src = img.getAttribute("src");
+    if (!src)
+        return null;
+
+    const half = window.innerWidth / 2;
+    const left = x < half;
+    return {
+        image: src,
+        left: !left
+    }
 }
 
 export default function RenderCardPreview( { image, left = true }: {image:string, left:boolean})
 {
     return <div className={"card-zoom " + (left ? "card-zoom-left" : "card-zoom-right")}>
-        {addImage(image, left)}
+        {image !== "" && (<img src={image} alt="" />)}
     </div>
 }
