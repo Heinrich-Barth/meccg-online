@@ -33,7 +33,8 @@ export default function CacheData() {
     const [loadingLabel, setLoadingLabel] = React.useState("");
     const [doRedirect, setDoRedirect] = React.useState(false);
 
-    const onSuccessfulLogin = async function () {
+
+    const onSuccessfulLogin = React.useCallback(async function () {
         if (isCaching)
             return;
 
@@ -60,7 +61,7 @@ export default function CacheData() {
 
         isCompleted = true;
         setDoRedirect(true);
-    }
+    }, []);
 
     const initialized = React.useRef(false)
     React.useEffect(() => {
