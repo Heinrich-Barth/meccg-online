@@ -274,7 +274,8 @@ class GameCompanyLocation
 
     revealCard(pImage)
     {
-        pImage.setAttribute("src", pImage.getAttribute("data-img-image"));
+        if (pImage !== null)
+            pImage.setAttribute("src", pImage.getAttribute("data-img-image"));
     }
 
     drawRegions(companyElem, regions, bIsPlayer, bHasTargetSite)

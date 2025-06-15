@@ -774,7 +774,8 @@ const GameCompanies = {
 
     revealCard : function(pImage)
     {
-        pImage.setAttribute("src", pImage.getAttribute("data-img-image"));
+        if (pImage !== null)
+            pImage.setAttribute("src", pImage.getAttribute("data-img-image"));
     },
 
     revealLocations: function (company)
