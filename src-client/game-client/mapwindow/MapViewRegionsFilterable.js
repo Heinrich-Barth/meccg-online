@@ -65,8 +65,6 @@ class MapViewRegionsFilterable {
         const sRegionTitle = this.getCurrentRegion();
         if (sRegionTitle !== "")
             this.performSearch(sRegionTitle, "");
-
-        this.hideSearchTemplatePane();
     }
 
     hideSearchTemplatePane()
@@ -109,42 +107,34 @@ class MapViewRegionsFilterable {
         sel.onchange = this.onSelChange.bind(this);
         
         const textBox = document.getElementById("card_text");
-        textBox.onchange = this.onSearchByTitle.bind(this);
+        textBox.onchange = this.onKeyPress.bind(this);
         textBox.onkeyup = this.onKeyPress.bind(this);
     }
 
+    static #awaitSearch = false;
+
     onKeyPress(e)
     {
-        let code = "";
-        if (e.key !== undefined)
-            code = e.key;
-        else if (e.keyIdentifier !== undefined)
-            code = e.keyIdentifier;
-
-        if (code === "Enter")
-        {
+        if (e?.preventDefault)
             e.preventDefault();
-            this.onSearchByTitle();
+    
+        if (MapViewRegionsFilterable.#awaitSearch)
             return false;
-        }
+
+        setTimeout(() => {
+            MapViewRegionsFilterable.#awaitSearch = false;
+            const sText = document.getElementById("card_text").value.trim().toLowerCase();
+            this.performSearch("", sText);
+
+    }, 800);
     }
 
     performSearch(region, text)
     {
+
         document.body.dispatchEvent(new CustomEvent("meccg-map-search", { "detail":  {
             region: region,
             text : text
         } }));
     }
-
-    onSearchByTitle()
-    {
-        const sText = document.getElementById("card_text").value.trim().toLowerCase();
-        if (sText.length > 2)
-        {
-            this.performSearch("", sText);
-            this.hideSearchTemplatePane();
-        }
-    }
-
 }
