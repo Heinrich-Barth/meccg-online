@@ -33,6 +33,7 @@ class GameCompanyLocation
         if (g_bSetImgAnonymous)
             pImage.setAttribute("crossorigin", "anonymous");
         div.appendChild(pImage);
+
         return div;
     }
 
@@ -177,13 +178,24 @@ class GameCompanyLocation
         this.removeDuplicateRegions(jSiteContaienr);
 
         ArrayList(jSiteContaienr).find(".site-current .card-icon").each(this.revealCard);
-        ArrayList(jSiteContaienr).find(".site-regions .card-icon").each(this.revealCard);
+        ArrayList(jSiteContaienr).find(".site-regions .card-icon").each(this.#revealSiteCard.bind(this));
         ArrayList(jSiteContaienr).find(".site-target .card-icon").each(this.revealCard);
 
         ArrayList(jSiteContaienr).find(".site-regions .card").each((e) => e.classList.remove("hidden"));
         ArrayList(companyElem).find(".location-reveal").each((e) => e.classList.add("hide"));
 
         this.insertTargetReturnAction(company, companyElem);
+    }
+
+    #revealSiteCard(pCard)
+    {
+        if (pCard === null)
+            return;
+
+        this.revealCard(pCard);
+
+        if (pCard.parentElement.classList.contains("card-region-hideopponent"))
+            pCard.parentElement.classList.remove("card-region-hideopponent")    
     }
 
     removeDuplicateRegions(jSiteContaienr)
@@ -291,11 +303,19 @@ class GameCompanyLocation
         if (bHasTargetSite && regions.length === 1)
             regions.push("" + regions[0]);
 
-        for (let _reg of regions)
+        for (const _reg of regions)
         {
             const code = this.CardList.getSafeCode(_reg);
             const img = this.CardList.getImageRegion(_reg);
-            pContainerReg.appendChild(this.createLocationCard(code, img, bIsPlayer, Dictionary.get("loc_region", "Region moved through. Drop hazard creates here")));
+            const regDiv = this.createLocationCard(
+                    code, 
+                    img, 
+                    bIsPlayer, 
+                    Dictionary.get("loc_region", "Region moved through. Drop hazard creates here")
+                );
+            
+            regDiv.classList.add("card-region-hideopponent");
+            pContainerReg.appendChild(regDiv);
         }
     }
 
