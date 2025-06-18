@@ -57,6 +57,11 @@ const MapInstanceRendererUd = {
         const pMap = new MapViewUnderdeeps(data, tapped);
         pMap.createInstance(sCode);
         pMap.populateSites(sCode);
+
+        document.body.addEventListener("meccg-map-search", pMap.onSearch.bind(pMap), false);
+
+
+        new MapViewRegionsFilterable().createInstance(data.map);
         g_isInit = true;
     },
 

@@ -352,4 +352,26 @@ class MapViewUnderdeeps extends MapView {
             
         ArrayList(elem).find("img").each((_e) => CardPreview.initMapViewCard(_e));
     }
+
+    onSearch(e)
+    {
+        const container = document.getElementById("allsites");
+        if (container === null)
+            return;
+
+        const list = container.querySelectorAll("img");
+        if (list === null || list.length === 0)
+            return;
+
+        const text = e.detail.text.toLowerCase();
+
+        for (let image of list)
+        {
+            const show = text === "" || image.getAttribute("title").includes(text);
+            if (show && image.classList.contains("hide"))
+                image.classList.remove("hide");
+            else if (!show && !image.classList.contains("hide"))
+                image.classList.add("hide");
+        }
+    }
 }
