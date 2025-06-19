@@ -283,7 +283,7 @@ const ViewCardCountIndicator = function(props:{ max:number, current:number})
     const progress = (current / props.max) * 100
     return <>
         <Typography component={"p"} textAlign={"center"} style={{paddingBottom: "5px"}}>{current} of {props.max}</Typography>
-        <LinearProgress variant="buffer" value={progress} />
+        <LinearProgress variant="buffer" value={progress} valueBuffer={100} />
         <br/>
     </>
 }
