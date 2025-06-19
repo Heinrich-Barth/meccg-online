@@ -1,4 +1,5 @@
 import { Deck, DeckPart, Deckentry } from "../application/Types";
+import { GetCardByCode } from "./CustomDeckInput";
 
 export type DreamCardsLegalInfo = {
     total: number;
@@ -24,6 +25,7 @@ export type DreamCardsDetails = {
         percResources: number;
         percHazards: number;
         percTotal: number;
+
     },
 
     avatars: {
@@ -101,12 +103,12 @@ const countAvatars = function(deck:Deck)
             + coundAvatarsInSection(deck.playdeck.characters)
 }
 
-const calculateDreamcardsSection = function(section:DeckPart)
+const calculateDreamcardsSection = function(characters:Deckentry[], hazards:Deckentry[], resources:Deckentry[])
 {
     const data:DreamCardsDetailsSection = {
-        characters: calculateDreamcardsSectionList(section.characters),
-        hazards: calculateDreamcardsSectionList(section.hazards),
-        resources: calculateDreamcardsSectionList(section.resources),
+        characters: calculateDreamcardsSectionList(characters),
+        hazards: calculateDreamcardsSectionList(hazards),
+        resources: calculateDreamcardsSectionList(resources),
         total: {
             total: 0,
             standard: 0,
@@ -131,6 +133,9 @@ const calculateDreamcardsSection = function(section:DeckPart)
 
 const calculateDCPercentage = function(data:DreamCardsLegalInfo)
 {
+    if (data.total === 0)
+        return 0;
+
     const perc = Math.round((data.dreamcards / data.total) * 100);
     return perc;
 }
@@ -152,12 +157,43 @@ const countDCInDeck = function(...data:DreamCardsLegalInfo[])
 
     return total;
 }
+type CharacterAgents = {
+        characters: Deckentry[];
+        agents: Deckentry[];
+}
 
-export default function calculateDreamcards(deck: Deck):DreamCardsDetails {
+function removeAgentsFromList(part:Deckentry[], agentsAsHazards = false)
+{
+    const result:CharacterAgents = {
+        characters: part,
+        agents: []
+    }
+
+    if (!agentsAsHazards)
+        return result;
+
+    result.characters = [];
+    for (const card of part)
+    {
+        
+        const candidate = GetCardByCode(card.code);
+        if (candidate?.Secondary === "Agent")
+            result.agents.push(card);
+        else
+            result.characters.push(card);
+    }
+
+    return result;
+}
+
+export default function calculateDreamcards(deck: Deck, agentsAsHazards = false):DreamCardsDetails {
     
-    const play = calculateDreamcardsSection(deck.playdeck)
-    const sb = calculateDreamcardsSection(deck.sideboard);
-    const pool = calculateDreamcardsSection(deck.pool);
+    const characters = removeAgentsFromList(deck.playdeck.characters, agentsAsHazards);
+    const hazards = [...characters.agents, ...deck.playdeck.hazards];
+
+    const play = calculateDreamcardsSection(characters.characters, hazards, deck.playdeck.resources)
+    const sb = calculateDreamcardsSection(deck.sideboard.characters, deck.sideboard.hazards, deck.sideboard.hazards);
+    const pool = calculateDreamcardsSection(deck.pool.characters, deck.pool.hazards, deck.pool.resources);
     const avatars = countAvatars(deck);
     const total = countDCInDeck(play.total, pool.total, sb.total);
 

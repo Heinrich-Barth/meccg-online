@@ -1,4 +1,4 @@
-import { Alert, AppBar, Button, Grid, List, ListItem, ListItemIcon, ListItemText, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, AppBar, Button, Checkbox, FormControlLabel, FormGroup, Grid, List, ListItem, ListItemIcon, ListItemText, Snackbar, TextField, Typography } from "@mui/material";
 import React from "react";
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -22,10 +22,10 @@ import RenderCardPreview, { GetImagePreviewData, ImagePreviewInfo } from "../com
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SaveDeckDialog from "../components/SaveDeckAsDialog";
 import ExploreDeckData from "../operations/ExploreDeckData";
-import { InitCustomDeck } from "../components/CustomDeckInput";
+import { GetCardByCode, InitCustomDeck } from "../components/CustomDeckInput";
 import GetImageUri, { FetchFrenchImageUrl } from "../operations/GetImageUrlByLanguage";
 import { DeckPart, DeckCountMap, Deck, Deckentry, DeckCardsEntry } from "./Types";
-import calculateDreamcards from "../components/DeckLagality";
+import calculateDreamcards, { DreamCardsLegalInfo } from "../components/DeckLagality";
 import { CheckCircle, Help, StopCircle } from "@mui/icons-material";
 
 interface TabPanelProps {
@@ -153,7 +153,7 @@ function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, on
         return <>
             {caption !== "" && (<Typography variant="body1" component={"p"} className="display-block deck-part-cation smallcaps sections-title-specific">{caption} ({countDeckSectionCards(list)})</Typography>)}
             {list && list.length === 0 ? <>&ndash;</> : <ul className={"deck-edit-section-" + sectionClassname}>
-                {list.map((entry, idx) => (<CurrentDeckPartEntry
+                {list.map((entry, idx) => (<CurrentDeckPartEntry key={pref + idx + entry.code + "_r"}
                     keyVal={pref + idx + entry.code}
                     entry={entry}
                     onDecrease={onDecrease}
@@ -174,6 +174,7 @@ function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, on
             <li className="sections-title-specific-sub smallcaps">{key} ({countDeckSectionCards(map[key])})</li>
             {map[key].map((entry, idx) => <CurrentDeckPartEntry
                 keyVal={pref + index + "-" + idx + entry.code}
+                key={pref + index + "-" + idx + entry.code+ "_c"}
                 entry={entry}
                 onDecrease={onDecrease}
                 onIncrease={onIncrease}
@@ -371,8 +372,36 @@ const disableDeckAddingActions = function (card: CardData, count: number) {
     return count >= maxUnique;
 }
 
+type CharacterAgents = {
+        characters: Deckentry[];
+        agents: Deckentry[];
+}
 
-function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage, setPreviewImage, onMoveCardDeckSection }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, onMoveCardDeckSection: Function }) {
+function removeAgentsFromList(part:Deckentry[], agentsAsHazards = false)
+{
+    const result:CharacterAgents = {
+        characters: part,
+        agents: []
+    }
+
+    if (!agentsAsHazards)
+        return result;
+
+    result.characters = [];
+    for (const card of part)
+    {
+        
+        const candidate = GetCardByCode(card.code);
+        if (candidate?.Secondary === "Agent")
+            result.agents.push(card);
+        else
+            result.characters.push(card);
+    }
+
+    return result;
+}
+
+function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage, setPreviewImage, onMoveCardDeckSection, agentsAsHazards }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, onMoveCardDeckSection: Function, agentsAsHazards:boolean }) {
 
     const [value, setValue] = React.useState(0);
 
@@ -402,6 +431,9 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         setTextSites(deckPartToString(deck.sites));
         setTextNotes(deck.notes);
     }
+
+    const characters = removeAgentsFromList(deck.playdeck.characters, agentsAsHazards);
+    const hazards = [...characters.agents, ...deck.playdeck.hazards];
 
     return <React.Fragment>
         <Grid item xs={12} className="bgPaper">
@@ -454,7 +486,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             <CurrentDeckPart
                                 caption="Characters"
                                 pref="deckchar"
-                                list={deck.playdeck.characters}
+                                list={characters.characters}
                                 sectionClassname="character"
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
@@ -481,7 +513,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             <CurrentDeckPart
                                 caption="Hazards"
                                 pref="deckh"
-                                list={deck.playdeck.hazards}
+                                list={hazards}
                                 sectionClassname="hazard"
                                 onDecrease={(code: string) => onDecrease(code, "deck")}
                                 onIncrease={(code: string) => onIncrease(code, "deck")}
@@ -683,7 +715,7 @@ const loadData = async function () {
     return true;
 }
 
-function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCardDeckSection }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onMoveCardDeckSection: Function }) {
+function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCardDeckSection, agentsAsHazards }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onMoveCardDeckSection: Function, agentsAsHazards : boolean }) {
 
     const [previewImage, setPreviewImage] = React.useState<ImagePreviewInfo>({ image: "", left: true });
     const onPreviewImage = function (x: number, src: string) {
@@ -704,6 +736,7 @@ function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCa
                     onPreviewImage={onPreviewImage}
                     setPreviewImage={setPreviewImage}
                     onMoveCardDeckSection={onMoveCardDeckSection}
+                    agentsAsHazards={agentsAsHazards}
                 />
             </Grid>
         </>
@@ -796,6 +829,7 @@ export default function Deckbuilder() {
     const [deck, setDeck] = React.useState<Deck>(createEmptyDeck());
     const [message, setMessage] = React.useState("");
     const [showLegalInfo, setShowLegalInfo] = React.useState(false);
+    const [agentsAsHazards, setAgentsAsHazards] = React.useState(false);
 
     React.useEffect(() => { 
         loadData().finally(() => {
@@ -1031,18 +1065,20 @@ export default function Deckbuilder() {
             </Grid>
     }
 
-    const RenderSingleRule = function(props: { text:string, desc?:string, checked:boolean})
+    const RenderSingleRule = function(props: { text:string, desc?:string, checked:boolean, details:DreamCardsLegalInfo|null})
     {
+        const total = props.details === null ? "" : " - " + props.details.dreamcards + " dream-cards of " + props.details.total + " cards in total"; 
+        const txt = (props.desc??"") + " " + total;
         return <ListItem>
         <ListItemIcon>
             {props.checked ? <CheckCircle /> : <StopCircle />}
         </ListItemIcon>
-        <ListItemText primary={props.text} secondary={props.desc??""} />
+        <ListItemText primary={props.text} secondary={txt.trim()} />
     </ListItem>
     }
 
     const ShowLegalInfo = function() {
-        const dcLegalInfo = calculateDreamcards(deck);
+        const dcLegalInfo = calculateDreamcards(deck, agentsAsHazards);
         const ruleTotal = dcLegalInfo.dreamcards.percTotal >= 25;
         const ruleHaz = dcLegalInfo.dreamcards.percHazards >= 25;
         const ruleRes = dcLegalInfo.dreamcards.percResources >= 25;
@@ -1055,17 +1091,20 @@ export default function Deckbuilder() {
                 {isDCLegal ? "This is a legal dream-cards deck." : "This is not a legal dream-cards deck"}
             </Alert>
             <List>
-                <RenderSingleRule checked={ruleTotal} text="Overall minimum of 25% dream-cards (round up)." desc={"Dream-cards in deck: " + dcLegalInfo.dreamcards.percTotal + "%"} />
-                <RenderSingleRule checked={ruleRes} text="Resource portion of deck has +25% dream-cards (round up)." desc={"Dream-card resources: " + dcLegalInfo.dreamcards.percResources + "%"} />
-                <RenderSingleRule checked={ruleHaz} text="Hazard portion of deck has +25% dream-cards (round up)." desc={"Dream-card hazards: " + dcLegalInfo.dreamcards.percHazards + "%"} />
-                <RenderSingleRule checked={rullesSideboard} text={"Your sideboard may contain up to " + dcLegalInfo.sidebaord.allowed + " cards"} desc={"You have " + dcLegalInfo.details.sideboard.total.total + " cards in your sideboard."} />
-                <RenderSingleRule checked={rulesAvatar} text={"You may have up to " + dcLegalInfo.avatars.maximum + " avatar copies"} desc={"You have " + dcLegalInfo.avatars.count + " avatars in your deck"} />
+                <RenderSingleRule checked={ruleTotal} text="Overall minimum of 25% dream-cards (round up)." desc={"Dream-cards in deck: " + dcLegalInfo.dreamcards.percTotal + "%"} details={dcLegalInfo.details.total} />
+                <RenderSingleRule checked={ruleRes} text="Resource portion of deck has +25% dream-cards (round up)." desc={"Dream-card resources: " + dcLegalInfo.dreamcards.percResources + "%"} details={dcLegalInfo.details.playdeck.resources} />
+                <RenderSingleRule checked={ruleHaz} text="Hazard portion of deck has +25% dream-cards (round up)." desc={"Dream-card hazards: " + dcLegalInfo.dreamcards.percHazards + "%"} details={dcLegalInfo.details.playdeck.hazards}/>
+                <RenderSingleRule checked={rullesSideboard} text={"Your sideboard may contain up to " + dcLegalInfo.sidebaord.allowed + " cards"} desc={"You have " + dcLegalInfo.details.sideboard.total.total + " cards in your sideboard."} details={dcLegalInfo.details.sideboard.total}/>
+                <RenderSingleRule checked={rulesAvatar} text={"You may have up to " + dcLegalInfo.avatars.maximum + " avatar copies"} desc={"You have " + dcLegalInfo.avatars.count + " avatars in your deck"} details={null} />
             </List>
         </Grid>
     }
 
     const DeckSummary = function () {
 
+        const characters = removeAgentsFromList(deck.playdeck.characters, agentsAsHazards);
+        const hazards = [...characters.agents, ...deck.playdeck.hazards];
+ 
         return <Grid container item xs={12} spacing={0} className="deck-summary">
             <Grid item xs={1} container>
                 <Grid item xs={3}><BackHandIcon /></Grid>
@@ -1087,8 +1126,8 @@ export default function Deckbuilder() {
                 </Grid>
             </Grid>
             <Grid item xs={3}>
-                {countDeckEntryCardsTotalDeckentryS(deck.playdeck.characters)} Characters
-                <br />{countDeckEntryCardsTotalDeckentryS(deck.playdeck.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.playdeck.hazards)} Hazards
+                {countDeckEntryCardsTotalDeckentryS(characters.characters)} Characters
+                <br />{countDeckEntryCardsTotalDeckentryS(deck.playdeck.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(hazards)} Hazards
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.sites.resources)} Sites
             </Grid>
             <Grid item xs={1} container>
@@ -1104,18 +1143,21 @@ export default function Deckbuilder() {
                 <br />
             </Grid>
             <Grid container item xs={12} textAlign={"center"} className="deck-summary-pt1">
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Button variant="contained" onClick={() => { setDeck(createEmptyDeck()); sessionStorage.setItem("currentdeck", ""); }} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                     <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
                     <Button variant="contained" onClick={() => document.getElementById("meccg-open-dialog")?.click()} title="News Deck" startIcon={<FolderOpenIcon />}>Load</Button>
+                    &nbsp; <Button variant="contained" onClick={saveCurrentDeck} title="Save deck" startIcon={<SaveIcon />}>Save</Button>
                 </Grid>
-                <Grid item xs={3}>
-                    <Button variant="contained" onClick={saveCurrentDeck} title="Save deck" startIcon={<SaveIcon />}>Save</Button>
-                </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Button variant="contained" onClick={() => setShowLegalInfo(!showLegalInfo)} title="Legality" startIcon={<Help />}>Info</Button>
+                </Grid>
+                <Grid item xs={2}>
+                    <FormGroup style={{alignContent: "center"}}>
+                        <FormControlLabel control={<Checkbox  checked={agentsAsHazards} onChange={(e) => setAgentsAsHazards(e.target.checked)} />} label="Agents are Hazards" />
+                    </FormGroup>
                 </Grid>
             </Grid>
             {showLegalInfo && <ShowLegalInfo />}
@@ -1152,6 +1194,7 @@ export default function Deckbuilder() {
                     onDecrease={onDecreaseDeckAction}
                     onIncrease={onIncreaseDeckAction}
                     onMoveCardDeckSection={onMoveCardDeckSection}
+                    agentsAsHazards={agentsAsHazards}
                 />
             </Grid>
         </div>
