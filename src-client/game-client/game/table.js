@@ -169,7 +169,7 @@
                     <div class="container-title-bar-title fl"></div>
                     <div class="container-title-bar-divider hideOnOffer fl">&nbsp;&dash;&nbsp;</div>
                     <div class="container-title-bar-reveal hideOnOffer fl"><a href="#" title="${Dictionary.get("title_showtoopp", "Show to your Opponent")}" data-type="">${Dictionary.get("reval_opp", "reveal to opp.")}</a></div>
-                    <div class="container-title-bar-shuffle hideOnOffer fr">${Dictionary.get("close_and_shuffle", "Close & Shuffle")}</div>
+                    <div class="container-title-bar-shuffle hideOnOffer fr">${Dictionary.get("close", "Close")}</div>
                     <div class="clear"></div>
                 </div>
                 <div class="container-data"></div>
