@@ -617,6 +617,7 @@ export default class DeckArda extends DeckDefault {
             res.fromDiscardpile(uuid) ||
             res.fromVictory(uuid) ||
             res.fromHandStage(uuid) ||
+            res.fromOutOfPlay(uuid) ||
             res.from(uuid, deck.#discardPileMinorItems) ||
             res.from(uuid, deck.#playdeckMinorItems) ||
             res.from(uuid, deck.#discardPileCharacters) ||
