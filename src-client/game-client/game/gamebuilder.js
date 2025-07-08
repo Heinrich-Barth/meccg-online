@@ -530,8 +530,7 @@ const GameBuilder = {
         
         MeccgApi.addListener("/game/view-cards/reveal/reveal", function(bIsMe, jData)
         {
-            if (!bIsMe)
-                g_Game.TaskBarCards.onShowOnOfferReveal(jData.uuid);
+            g_Game.TaskBarCards.onShowOnOfferReveal(jData.uuid);
         });
         MeccgApi.addListener("/game/view-cards/reveal/remove", function(bIsMe, jData)
         {
