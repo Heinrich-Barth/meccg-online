@@ -15,6 +15,25 @@
 
     transition: all 0.3s ease-in-out;
 
+    &::after {
+        content: 'x';
+        position: fixed;
+        top: 12%;
+        right: 13%;
+        background: linear-gradient(90deg, rgba(35, 35, 35, 0.7) 0%, rgba(35, 35, 35, 0.3) 100%);
+        border-radius: 50%;
+        padding: 1em;
+        z-index: 1002;
+        color: var(--color-yellow);
+    }
+
+    &:hover {
+        &::after {
+            background-color: rgba(35, 35, 35, 0.9);
+            color: var(--color-orange-light);
+        }
+    }
+
     .view-card-list-container
     {
         scale: 1;
@@ -54,8 +73,6 @@
         .container-title-bar-shuffle
         {
             cursor: pointer;
-            visibility: hidden;
-
             &:hover{
                 color: var(--color-orange-light);
             }
@@ -121,10 +138,6 @@
     &.view-playdeck
     {
         cursor: default;
-        .container-title-bar-shuffle
-        {
-            visibility: visible !important;
-        }
     }
 
     .icons a.onoffer { display: none; }
