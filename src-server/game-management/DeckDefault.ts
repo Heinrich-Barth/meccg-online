@@ -549,13 +549,19 @@ export default class DeckDefault extends DeckCommons {
                 return this.from(uuid, deck.#victory);
             },
 
+            fromOutOfPlay : function(uuid:string)
+            {
+                return this.from(uuid, deck.#outofplay);
+            },
+
             fromAnywhere : function(uuid:string)
             {
                 return this.fromHand(uuid) || 
                        this.fromSideboard(uuid) || 
                        this.fromPlaydeck(uuid) || 
                        this.fromDiscardpile(uuid) ||
-                       this.fromVictory(uuid);
+                       this.fromVictory(uuid) ||
+                       this.fromOutOfPlay(uuid);
             }
         }
     }

@@ -164,8 +164,7 @@
     &.view-outofplay 
     {
         .container-title-bar-divider,
-        .container-title-bar-reveal,
-        .view-card-list-actions {
+        .container-title-bar-reveal {
             display: none !important;
         }
     }

@@ -10,13 +10,13 @@
                 <!-- SHARED -->
                 <div class="card-bar card-bar-shared">
                     <div class="icons">
-                        <a id="shared_victories" class="icon icon-shared icon-shared-victory context-cursor" title="${Dictionary.get("look_shared_stored", "Look at opponent's stored cards.")}">
-                            <img src="/data/backside" alt="stored cards" id="icon-preview-shared-scored">
-                            <i class="fa fa-star-o"></i>
-                        </a>
                         <a id="shared_outofplay" class="icon icon-shared icon-shared-out" title="${Dictionary.get("look_shared_oop", "View cards which are out of play")}">
                             <img src="/data/backside" alt="out-of-play cards" id="icon-preview-shared-outofplay">
                             <i class="fa fa-ban"></i>
+                        </a>
+                        <a id="shared_victories" class="icon icon-shared icon-shared-victory context-cursor" title="${Dictionary.get("look_shared_stored", "Look at opponent's stored cards.")}">
+                            <img src="/data/backside" alt="stored cards" id="icon-preview-shared-scored">
+                            <i class="fa fa-star-o"></i>
                         </a>
                     </div>
                 </div>
