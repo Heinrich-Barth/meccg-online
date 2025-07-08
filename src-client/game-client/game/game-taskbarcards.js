@@ -518,8 +518,6 @@ class TaskBarCards
     static OnClickContainerShuffle(e) 
     {
         TaskBarCards.HideList();
-        TaskBarCards.ShufflePlaydeck();
-        
         e.stopPropagation();
         return false;
     }
@@ -658,6 +656,13 @@ class TaskBarCards
 
         if (bIsMe) 
         {
+            for (let _elem of elem.querySelectorAll("img"))
+            {
+                const backside = _elem.getAttribute("data-image-backside");
+                _elem.setAttribute("data-image-backside", _elem.getAttribute("src"));
+                _elem.setAttribute("src", backside);
+            }
+            
             for (let _elem of elem.querySelectorAll(".card-hand a"))
                 _elem.onclick = TaskBarCards.OnClickCardIconOffered;
         }
