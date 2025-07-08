@@ -23,10 +23,19 @@ class RevealCardPile extends TradeCards
 
     setNumCards(numCards)
     {
-        if (typeof numCards !== "number")
-            this.#numCards = 5;
-        else 
-            this.#numCards = numCards;
+        this.#numCards = this.#requireAsNumber(numCards, 5);
+    }
+
+    #requireAsNumber(numCards, nDef)
+    {
+        if (typeof numCards === "number")
+            return numCards;
+        
+        if (typeof numCards !== "string")
+            return nDef;
+
+        const val = parseInt(numCards);
+        return isNaN(val) || val < 1 ? nDef : val;
     }
 
     revealOfferedCards()
