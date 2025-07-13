@@ -26,6 +26,9 @@
     .view-score-container h2 {
         text-align: center;
         color: var(--color-orange-light);
+        border-bottom: 1px solid rgb(20,20,20);
+        margin-bottom: 10px;
+        padding: 20px;
     }
 
     select.req {
@@ -43,6 +46,7 @@
     .score_label 
     {
         cursor: pointer;
+        padding: 2px 0;
         &:hover {
             background-color: rgba(255, 165, 0, 0.5);
             border-radius: 5px;
@@ -153,7 +157,7 @@
             .toggle-turn-stats a,
             .return-to-lobby a{
                 display: block !important;
-                text-transform: uppercase;
+                font-variant: small-caps;
                 color: var(--color-orange-light);
                 font-size: 0.8em;
 
@@ -265,10 +269,15 @@
     position: relative;
     margin: 0 auto;
     min-width: 300px;
-    top: 30%;
-    padding: 20px;
+    top: 50%;
     z-index: 502;
     display: inline-block;
+    border: 1px solid rgb(20,20,20);
+    transform: translateY(-50%);
+}
+
+.view-score-container-inner {
+    padding: 20px;
 }
 
 .scoring-sheet .button,
@@ -285,7 +294,13 @@
     position: relative;
     text-align: center;
     text-decoration: none;
-    background-color: #a8cea4;
+    
+    background-color: var(--color-dark-grey);
+
+    &:hover {
+        background-color: #a8cea4;
+        color: #000;
+    }
 }
 
 .view-score-victory-container {
@@ -410,6 +425,7 @@
     padding: 5px;
     color: var(--color-near-white);
     text-align: center;
+    border: 1px solid rgb(20,20,20);
 
     &.scoring-sheet-ingame-collapsed 
     {

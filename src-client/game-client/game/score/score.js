@@ -69,31 +69,36 @@ class ScoringContainers {
         jContainer.setAttribute("class", "hidden scoring-card");
         jContainer.innerHTML = '<div class="menu-overlay"></div>';
 
-        let div = document.createElement("div");
+        const div = document.createElement("div");
         div.setAttribute("class", "view-score-card fl");
         div.innerHTML = `<img src="/data/backside" data-image-backside="/data/backside">`;
 
-        let view_score_container = document.createElement("div");
-        view_score_container.setAttribute("class", "view-score-container blue-box");
-        view_score_container.appendChild(div);
-        
-        let jContainerData = document.createElement("div");
-        jContainerData.setAttribute("class", "container-data fl");
+        const view_score_container_wrapper = document.createElement("div");
+        view_score_container_wrapper.setAttribute("class", "view-score-container blue-box");
 
         {
             const _temp = document.createElement("h2");
             _temp.innerText = Dictionary.get("score_card", "Score Card")
-            jContainerData.appendChild(_temp);
+            _temp.setAttribute("class", "score-container-title");
+            view_score_container_wrapper.appendChild(_temp);
         }
+
+        const view_score_container = document.createElement("div");
+        view_score_container.setAttribute("class", "view-score-container-inner");
+        view_score_container_wrapper.append(view_score_container);
+
+        view_score_container.appendChild(div);
+        
+        const jContainerData = document.createElement("div");
+        jContainerData.setAttribute("class", "container-data fl");
         
         jContainerData.appendChild(this.createScoreCardTypes());
         jContainerData.appendChild(this.createScoreCardPoints());
        
         {
-            const _temp = document.createElement("input");
-            _temp.setAttribute("type", "button");
+            const _temp = document.createElement("button");
             _temp.setAttribute("class", "button");
-            _temp.setAttribute("value", Dictionary.get("score_card", "Score Card"));
+            _temp.innerHTML = `<i class="fa fa-star"></i> ${Dictionary.get("score_card", "Score Card")}`;
             jContainerData.appendChild(_temp);
         }      
         
@@ -105,7 +110,7 @@ class ScoringContainers {
             view_score_container.appendChild(_temp);
         }
         
-        jContainer.appendChild(view_score_container);
+        jContainer.appendChild(view_score_container_wrapper);
 
         document.body.appendChild(jContainer);
 

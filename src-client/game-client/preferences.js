@@ -280,7 +280,7 @@ class Preferences extends PreferencesStorable {
         const div = document.createElement("div");
         div.setAttribute("class", "config-wrapper " + this.getGameCss());
         div.innerHTML = `<div class="icons cursor-pointer" id="prefs">
-                            <i class="fa fa-sliders" aria-hidden="true" title="${this.#getLabel("settings", "Game Settings")}">${this.getSettingsName()}</i>
+                            <i class="fa fa-sliders" aria-hidden="true" title="${this.#getLabel("settings", "Game Settings")}"> ${this.getSettingsName()}</i>
                         </div>`;
 
         this.appendContainer(div);

@@ -184,7 +184,7 @@ div.panel-buttons { width: 70px; margin-top: 22px; }
 
 .caption {
     color: var(--color-light-grey);
-    text-transform: uppercase;
+    font-variant: small-caps;
     font-size: 10px;
 }
 
@@ -234,6 +234,7 @@ img.map-region-icon {
     color: var(--color-light-grey);
     overflow: auto;
     max-height: 50%;
+    border: 1px solid rgb(20,20,20);
 
     .preferred-image-list img {
         display: inline;
@@ -263,10 +264,16 @@ img.map-region-icon {
 
     &.preferred-sites-container-close {
 
+        padding: 10px;
+
+        .preferred-sites-toggle-toggle {
+            top: 6px;
+        }
+
         p,
         .preferred-image-list { display: none; }
 
-        h2 { margin-right: 20px;}
+        h2 { margin-right: 20px; margin-bottom: 0;}
     } 
 }
 

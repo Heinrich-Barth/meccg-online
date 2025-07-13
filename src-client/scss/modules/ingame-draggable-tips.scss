@@ -16,7 +16,7 @@ body.on-drag-event-resource .area-player .company-characters-add:before
     position: absolute;
     text-align: center;
     color: var(--color-near-white);
-    text-transform: uppercase;
+    font-variant: small-caps;
     font-size: 0.8em;
     padding: 5px 2px;
 }

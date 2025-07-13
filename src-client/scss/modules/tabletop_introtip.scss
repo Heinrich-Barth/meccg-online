@@ -28,14 +28,14 @@
     .tip-content h2,
     .tip-content h3 {
         color: var(--color-orange-light);
-        text-transform: uppercase;
+        font-variant: small-caps;
         padding-top: 1em;
 
         &:first-of-type { padding-top: 0;}
     }
 
     h3 {
-        text-transform: uppercase;
+        font-variant: small-caps;
     }
 
     .text-white {
