@@ -240,12 +240,25 @@
         color: var(--color-light-grey);
         position: fixed;
         z-index: 502;
+        border: 1px solid rgb(20,20,20);
 
         .preference-section { display: inline-block;}
     }
 
+    .preference {
+        padding-left: 20px;
+        position: relative;
+
+        i {
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+    }
     label {
         cursor: pointer;
+
+        
         &:hover {
             color: var(--color-white);
         }
@@ -254,6 +267,7 @@
 
 .config-panel .preference-section-pad {
     border-bottom: 1px dotted;
+    padding-bottom: 5px;
 }
 
 @media (max-width: 750px) {

@@ -211,6 +211,7 @@ body.on-drag-event-generic .chatbox { display: none !important;}
         position: relative;
         padding: 5px 0;
         background-color: var(--color-dark-grey);
+        border: 1px solid rgb(20,20,20);
 
         ul {
             list-style: none;
@@ -221,6 +222,24 @@ body.on-drag-event-generic .chatbox { display: none !important;}
         li {
             display: block;
             justify-content: space-between;
+        }
+
+        .context-menu__items-title {
+            padding-left: 10px;
+            font-variant: small-caps;
+            color: var(--color-orange-light);
+            font-size: 0.8em;
+            position: relative;
+
+            span {
+                position: absolute;
+                right: -15px;
+                top: -30px;
+                border-radius: 50%;
+                padding: 10px;
+                background-color: var(--color-dark-grey);
+                border: 1px solid rgb(20,20,20);
+            }
         }
 
     }

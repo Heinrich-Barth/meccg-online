@@ -64,8 +64,21 @@ const ContextMenu = {
         const pContainer = document.createElement("ul");
         pContainer.setAttribute("class", "context-menu__items");
 
+        {
+            const li = document.createElement("li");
+            li.setAttribute("class", "context-menu__items-title");
+            li.innerText = "Actions";
+            const span = document.createElement("span");
+            span.innerText = "x";
+            span.setAttribute("class", "blue-box cursor-pointer")
+            span.setAttribute("title", "Click anywhere to close");
+            span.onclick = ContextMenu.callbacks.hide;
+            li.append(span);
+            pContainer.appendChild(li);
+        }
+
         let hasElements = false;
-        let bAddDivider = false;
+        let bAddDivider = true;
         const vsItems = ContextMenu.data.types[nType];
         if (ContextMenu.hasShortcuts(nType))
             pContainer.classList.add("context-menu__items-shortcuts")

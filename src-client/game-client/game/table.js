@@ -114,7 +114,7 @@
         div.setAttribute("id","interface");
         div.setAttribute("data-time", document.body.getAttribute("data-time"));
         div.innerHTML = `
-            <div class="player-selector-box blue-box">
+            <div class="player-selector-box blue-box-light">
                 <div class="player_selector smallCaps">
                     <div class="player_group" id="player_selector"></div> 
                     <div class="player_group player_group_additionals">
@@ -167,8 +167,7 @@
             <div class="view-card-list-container blue-box" data-class="view-card-list-container blue-box" >
                 <div class="container-title-bar smallCaps">
                     <div class="container-title-bar-title fl"></div>
-                    <div class="container-title-bar-divider hideOnOffer fl">&nbsp;&dash;&nbsp;</div>
-                    <div class="container-title-bar-reveal hideOnOffer fl"><a href="#" title="${Dictionary.get("title_showtoopp", "Show to your Opponent")}" data-type="">${Dictionary.get("reval_opp", "reveal to opp.")}</a></div>
+                    <div class="container-title-bar-reveal hideOnOffer fl"><i class="fa fa-eye"></i> <a href="#" title="${Dictionary.get("title_showtoopp", "Show to your Opponent")}" data-type=""> ${Dictionary.get("reval_opp", "reveal to opp.")}</a></div>
                     <div class="container-title-bar-shuffle hideOnOffer fr">${Dictionary.get("close", "Close")}</div>
                     <div class="clear"></div>
                 </div>

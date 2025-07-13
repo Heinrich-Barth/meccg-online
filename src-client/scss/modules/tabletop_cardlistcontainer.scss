@@ -20,7 +20,7 @@
         position: fixed;
         top: 12%;
         right: 13%;
-        background: linear-gradient(90deg, rgba(35, 35, 35, 0.7) 0%, rgba(35, 35, 35, 0.3) 100%);
+        background: linear-gradient(90deg, rgba(35, 35, 35, 1) 0%, rgba(35, 35, 35, 0.9) 100%);
         border-radius: 50%;
         padding: 1em;
         z-index: 1002;
@@ -60,16 +60,26 @@
     top: 15%;
     right: 15%;
     bottom: 15%;
-    overflow-y: auto;
-    padding: 15px;
     z-index: 1001;
+    overflow-y: auto;
+    border: 1px solid rgb(20,20,20);
+
+    .container-data,
+    .container-title-bar {
+        padding: 15px;
+    }
+
+    .container-title-bar-reveal {
+        padding-left: 2em;
+    }
 
     .container-title-bar {
         padding-bottom: 10px;
         color: var(--color-yellow);
         font-size: 14px;
         cursor: default;
-
+        border-bottom: 1px solid rgb(20,20,20);
+        
         .container-title-bar-shuffle
         {
             cursor: pointer;
@@ -176,7 +186,6 @@
 
     &.view-outofplay 
     {
-        .container-title-bar-divider,
         .container-title-bar-reveal {
             display: none !important;
         }
