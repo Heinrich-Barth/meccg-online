@@ -240,17 +240,14 @@ class DiceContainer {
 
         const bounding = elem.getBoundingClientRect();
         if (bounding.top < 0 || bounding.left < 0) {
-            console.log("outside top or left");
             return true;
         }
         
         if (bounding.bottom > (window.innerHeight || document.documentElement.clientHeight)) {
-            console.log("outside bottom");
             return true;
         }
         
         if (bounding.right > (window.innerWidth || document.documentElement.clientWidth)) {
-            console.log("outside right");
             return true;
         }
 
