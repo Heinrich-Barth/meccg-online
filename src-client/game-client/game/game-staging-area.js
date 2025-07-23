@@ -22,8 +22,10 @@ class StagingArea
         else
             return "";
     }
-
-    createNewCard(uuid, code, type, id, cssState = "", turn = 0, token = 0, secondary = "", tokenMP = 0)
+/*
+uuid, code, type, id, css, turn, token, secondary, tokenMP, isPlayer);
+*/
+    #createNewCard(uuid, code, type, id, cssState = "", turn = 0, token = 0, secondary = "", tokenMP = 0, isPlayer = true)
     {
         if (uuid === "")
             return null;
@@ -39,7 +41,10 @@ class StagingArea
         jDiv.setAttribute("data-card-type", type);
         jDiv.setAttribute("draggable", "true");
         jDiv.setAttribute("data-revealed", "true");
-        jDiv.setAttribute("title", safeCode + ", since turn " + turn);
+        if (isPlayer === true)
+            jDiv.setAttribute("title", safeCode + ", since turn " + turn);
+        else
+            jDiv.setAttribute("title", "since turn " + turn);
         jDiv.setAttribute("data-turn", turn);
         jDiv.setAttribute("data-secondary", secondary.toLowerCase());
         if (token > 0)
@@ -58,6 +63,17 @@ class StagingArea
         jImage.setAttribute("decoding", "async");
         jImage.setAttribute("data-revealed", true);
         jImage.setAttribute("data-img-image", this.CardList.getImage(code));
+        
+        if (isPlayer)
+        {
+            jImage.setAttribute("data-owner", "");
+            jImage.setAttribute("data-is-mine", "true");
+        }
+        else
+        {
+            jImage.setAttribute("data-owner", "other");
+            jImage.setAttribute("data-is-mine", "false");
+        }
 
         jDiv.appendChild(jImage);
         return jDiv;
@@ -134,7 +150,7 @@ class StagingArea
 
         const isLongOrShort = this.#isLongOrShortEvent(secondary.toLowerCase());
         const css = this.getCardStateCss(state);
-        const res = this.createNewCard(uuid, code, type, id, css, turn, token, secondary, tokenMP);
+        const res = this.#createNewCard(uuid, code, type, id, css, turn, token, secondary, tokenMP, isPlayer);
         if (res === null)
             return "";
 
