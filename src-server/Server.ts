@@ -241,37 +241,43 @@ export class ServerInstance {
     static doShutdown()
     {
         try {
-            try {
+            if (ServerInstance.#io?.httpServerInstance)
+            {
                 Logger.info("- shutdown IO http ServerInstance.");
                 ServerInstance.#io.httpServerInstance.close();
             }
-            catch (e) {
-                Logger.error(e);
-            }
-    
-            try {
+        }
+        catch (e) {
+            Logger.error(e);
+        }
+
+        try {
+            if (ServerInstance.#io)
+            {
                 Logger.info("- shutdown IO.");
                 ServerInstance.#io.close();
             }
-            catch (e) {
-                Logger.error(e);
-            }
-    
-            try {
+        }
+        catch (e) {
+            Logger.error(e);
+        }
+
+        try {
+            if (ServerInstance.#instanceListener)
+            {
                 Logger.info("- shutdown ServerInstance.");
                 ServerInstance.#instanceListener.close();
             }
-            catch (e) {
-                Logger.error(e);
-            }
         }
-        finally {
-            ServerInstance.#io = null;
-            ServerInstance.#instanceListener = null;
+        catch (e) {
+            Logger.error(e);
+        }
     
-            Logger.info("- stop application.");
-            process.exit(0);
-        }
+        ServerInstance.#io = null;
+        ServerInstance.#instanceListener = null;
+
+        Logger.info("- stop application.");
+        process.exit(0);
     }
 
     static onSocketDisconnect(socket: any) 
@@ -330,8 +336,15 @@ export class ServerInstance {
 
 }
 
+/** SIGTERM AND SIGINT might be called one after the other, so do not perform shutdown twice */
+let g_bIsShuttingDown = false;
 
 export function shutdown(): void {
+
+    if (g_bIsShuttingDown)
+        return;
+
+    g_bIsShuttingDown = true;
     Logger.info("Shutting down game ServerInstance.");
 
     /** send save game instruction to running games */
