@@ -648,8 +648,7 @@ body.table-companies-breakline .companies {
             margin-right: 40px;
         }
 
-        .company-character .card:hover {
-
+        .company-character .card:not([data-revealed='false']):hover {
             .character-mark-toggle,
             .character-card-dice {
                 visibility: visible;
