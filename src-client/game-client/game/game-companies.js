@@ -94,7 +94,7 @@ const createCharacterHtml = function(jsonCard, id)
     div.setAttribute("id", id);
     div.setAttribute("data-character-uuid", uuid);
 
-    let pCharacterContainer = document.createElement("div");
+    const pCharacterContainer = document.createElement("div");
     pCharacterContainer.setAttribute("class", "company-character-container pos-rel");
     
     const pCharDiv = document.createElement("div");
