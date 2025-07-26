@@ -555,7 +555,7 @@ const GameCompanies = {
             /* remove, if the character is in the company. It is easier to redraw than to match which items are new etc. */
             GameCompanies.character.removeExistingCharacter(jsonCharacter.character.uuid);
 
-            let pCharacter = insertNewCharacter(jsonCharacter.character, pContainer, bInsertBeforeTarget, bIsHosting);
+            const pCharacter = insertNewCharacter(jsonCharacter.character, pContainer, bInsertBeforeTarget, bIsHosting);
 
             const pContainerResources = pCharacter.querySelector(".company-character-reosurces");
             
