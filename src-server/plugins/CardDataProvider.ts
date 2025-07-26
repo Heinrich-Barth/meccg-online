@@ -40,6 +40,16 @@ class CardDataProvider extends CardRepository {
         this.postProcessCardList();
     }
 
+    getFlippedCode(code:string)
+    {
+        const map = this.#imageList.getQuestList();
+        const other = map[code.toLocaleLowerCase()];
+        if (typeof other === "string")
+            return other;
+        else
+            return "";
+    }
+
     getFilters()
     {
         return this.#filters;    

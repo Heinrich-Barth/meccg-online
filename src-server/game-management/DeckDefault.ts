@@ -256,6 +256,33 @@ export default class DeckDefault extends DeckCommons {
             return false;
     }
 
+    importCardsToStored(code:string, _cardMap:TDeckCardMap)
+    {
+        code = this.removeQuotes(code);
+
+        const _entry = this.createCardEntry(code, false);
+        if (_entry === null)
+        {
+            Logger.info("Cannot register card " + code + " to game.");
+            return "";
+        }
+
+        _entry.type = "resource";
+        _entry.secondary = "permanent event";
+        _entry.revealed = false;
+
+        /** theoretically, this should never be necessary. Yet, apparently, there can be an issue where a code is already taken */
+        if (_cardMap[_entry.uuid])
+        {
+            console.warn("Duplicate card uuid detected.");
+            _entry.uuid = randomUUID().toString().toLowerCase();
+        }
+
+        _cardMap[_entry.uuid] = _entry;
+        this.#victory.unshift(_entry.uuid);
+        return _entry.uuid;
+    }
+
     importCardsToDeck(code:string, bAsCharacter:boolean, _cardMap:TDeckCardMap)
     {
         code = this.removeQuotes(code);

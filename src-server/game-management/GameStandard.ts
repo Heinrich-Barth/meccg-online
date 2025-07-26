@@ -5,6 +5,7 @@ import SaveGameEvaluation from "./SaveGameEvaluation";
 
 import Logger from "../Logger";
 import { TDeckCard } from "./DeckCommons";
+import { CardDataProvider } from "../plugins/CardDataProvider";
 
 export default class GameStandard extends GamePlayers
 {
@@ -530,6 +531,13 @@ export default class GameStandard extends GamePlayers
         }
     }
 
+    #storeQuestCard(userid:string, card:TDeckCard)
+    {
+        const code = CardDataProvider.getFlippedCode(card.code);
+        if (code !== "")
+            this.getPlayboardManager().ImportCardToStored(userid, code)
+    }
+
     onCardStore(userid:string, _socket:any, obj:any)
     {
         const card:TDeckCard|null = this.getPlayboardManager().GetCardByUuid(obj.uuid);
@@ -541,6 +549,8 @@ export default class GameStandard extends GamePlayers
         const result = this.doStorCard(obj.uuid, card)
         if (result.stored)
         {
+            this.#storeQuestCard(userid, card);
+
             this.publishToPlayers("/game/card/remove", userid, result.list);
             this.updateHandCountersPlayerAll();
 

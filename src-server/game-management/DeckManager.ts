@@ -238,6 +238,14 @@ export default class DeckManager {
             return this.#deck[playerId].importCardsToDeck(code, bAsCharacter, this.#cardMap);
     }
 
+    ImportCardToStored(playerId:string, code:string)
+    {
+        if (typeof this.#deck[playerId] === "undefined" || code === "")
+            return "";
+        else
+            return this.#deck[playerId].importCardsToStored(code, this.#cardMap);
+    }
+
     updateCardType(uuid:string)
     {
         const entry = this.#cardMap[uuid];
