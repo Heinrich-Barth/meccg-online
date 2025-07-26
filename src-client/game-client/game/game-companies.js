@@ -1022,8 +1022,13 @@ const GameCompanies = {
             return;
 
         const src = reveal ? pImage.getAttribute("data-img-image") : pImage.getAttribute("data-image-backside");
-        if (src !== "")
-            pImage.setAttribute("src", src);
+        if (src === "")
+            return;
+
+        pImage.setAttribute("src", src);
+
+        if (pImage.parentElement?.hasAttribute("data-revealed"))
+            pImage.parentElement.setAttribute("data-revealed", src.indexOf("/backside") === -1 ? "true" : "false");
     },
 
     onRemoveCardsFromGame: function (listUuid)
