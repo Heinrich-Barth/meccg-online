@@ -195,7 +195,7 @@ function insertNewcontainer(bIsPlayer, sHexPlayerCode, companyId, playerId)
  function insertNewCharacter(jsonCard, pContainer, bInsertBefore, bIsHosting)
  {
      const id = "character_" + jsonCard.uuid;
-     let pHtml = createCharacterHtml(jsonCard, id);
+     const pHtml = createCharacterHtml(jsonCard, id);
      if (pHtml == null)
          return document.getElementById("test");
 
