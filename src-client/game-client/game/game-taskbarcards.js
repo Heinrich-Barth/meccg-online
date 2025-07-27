@@ -337,12 +337,8 @@ class TaskBarCards
         const iconHandEye = document.getElementById("icon_hand_eye");
         if (iconHandEye !== null)
         {
-            iconHandEye.onclick = TaskBarCards.OnClickIconHand;
-            iconHandEye.oncontextmenu = () => 
-            {
-                TaskBarCards.OnRevealToOpponent("hand");
-                return false;
-            };
+            iconHandEye.onclick = ContextMenu.contextActions.onContextHandActions;
+            iconHandEye.oncontextmenu = ContextMenu.contextActions.onContextHandActions;
         }
 
         document.getElementById("shared_outofplay").onclick = (e) => 
@@ -925,7 +921,9 @@ class TaskBarCards
 
         TaskBarCards.#onArdaHandToggle();
 
-        e.stopPropagation();
+        if (e)
+            e.stopPropagation();
+
         return false;
     }
 

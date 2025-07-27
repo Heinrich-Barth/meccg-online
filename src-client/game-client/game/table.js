@@ -131,7 +131,7 @@
                 <div id="playercard_hand_droppable" class="playercard_hand_droppable"></div>
                 <div class="blue-box-light playercard-hand-content" id="playercard-hand-content">
                     <div class="card-hand card-draw">
-                        <div class="card-hand-eye" id="icon_hand_eye" title="${Dictionary.get("title_icon_hand_eye", "Toggle hand card visibility. RIGHT CLICK to reveal hand cards to opponent")}"><i class="fa fa-eye"></i></div>
+                        <div class="card-hand-eye" id="icon_hand_eye" title="${Dictionary.get("title_icon_hand_eye", "CLICK to open action menu")}"><i class="fa fa-sliders"></i></div>
                         <a href="#" class="card-icon smallCaps" id="draw_card" title="${Dictionary.get("title_draw", "Draw a new card (press d)")}">${Dictionary.get("title_draw_text", "draw")}</a><div class="cursor-pointer card-dice-hand" title="${Dictionary.get("title_dice", "Click to roll the dice (press r or w)")}" id="roll_dice_icon_hand"><img src="/media/personalisation/dice/default/dice-1.png"><img src="/media/personalisation/dice/default/dice-1.png"></div><div class="hand-card-sizer"></div>
                     </div>
                     <div id="playercard_hand_container" class="playercard-hand-container"></div>
