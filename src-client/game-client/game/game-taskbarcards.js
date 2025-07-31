@@ -555,6 +555,11 @@ class TaskBarCards
                 .show("Shuffle discardpile first?", "Do you want to shuffle your discard pile before revealing it?", "Yes, shuffle first", "No");
                 break;
             }
+            case "handall":
+                MeccgApi.send("/game/view-cards/reveal-pile", {
+                    type: type
+                });
+                break;
             case "sideboard":
             case "playdeck":
             case "hand":
@@ -649,20 +654,28 @@ class TaskBarCards
         if (elem === null)
             return false;
 
-        if (bIsMe) 
+        if (jData.showall === true)
         {
-            for (let _elem of elem.querySelectorAll("img"))
+            if (bIsMe)
             {
-                const backside = _elem.getAttribute("data-image-backside");
-                _elem.setAttribute("data-image-backside", _elem.getAttribute("src"));
-                _elem.setAttribute("src", backside);
+                for (let _elem of elem.querySelectorAll(".card-hand a"))
+                    _elem.onclick = TaskBarCards.OnClickCardIconOffered;
             }
-            
-            for (let _elem of elem.querySelectorAll(".card-hand a"))
-                _elem.onclick = TaskBarCards.OnClickCardIconOffered;
         }
-        else
-            this.#flipCards(elem);
+        else 
+        {
+            if (bIsMe) 
+            {
+                for (let _elem of elem.querySelectorAll("img"))
+                {
+                    const backside = _elem.getAttribute("data-image-backside");
+                    _elem.setAttribute("data-image-backside", _elem.getAttribute("src"));
+                    _elem.setAttribute("src", backside);
+                }
+            }
+            else
+                this.#flipCards(elem);
+        }
 
         if (bIsMe)
             this.#addOfferedInfo(".view-card-list-container", "offer");

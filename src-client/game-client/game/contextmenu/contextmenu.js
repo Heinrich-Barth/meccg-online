@@ -620,6 +620,11 @@ const ContextMenu = {
             TaskBarCards.OnRevealToOpponent("hand");
         },
 
+        toggleHandCardRevealAll: function() 
+        {                
+            TaskBarCards.OnRevealToOpponent("handall");
+        },
+
         tokenRemove : function()
         {
             ContextMenu.onToken(false);
@@ -1121,7 +1126,8 @@ const ContextMenu = {
         this.addItem("hand_play_as_character", "Play card as character", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleCharacterPlayability.bind(ContextMenu.callbacks));
 
         this.addItem("hand_action_toggle_view", "Show/Hide hand cards", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardVisiblity.bind(ContextMenu.callbacks))
-        this.addItem("hand_action_reveal", "Reveak hand to opponent", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardReveal.bind(ContextMenu.callbacks))
+        this.addItem("hand_action_reveal", "Reveal hand to opponent (choose)", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardReveal.bind(ContextMenu.callbacks))
+        this.addItem("hand_action_reveal_all", "Show your hand to opponent", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardRevealAll.bind(ContextMenu.callbacks))
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];
         this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
@@ -1131,7 +1137,7 @@ const ContextMenu = {
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];
         this.data.types["victory"] = ["victory_me", "victory_shared"];
         this.data.types["hand"] = ["hand_play_facedown", "hand_play_as_character"];
-        this.data.types["hand_action"] = ["hand_action_toggle_view", "hand_action_reveal"];
+        this.data.types["hand_action"] = ["hand_action_toggle_view", "hand_action_reveal", "hand_action_reveal_all"];
 
         this.data.offsets["playdeck_actions"] = -100;
         this.data.offsets["hand"] = 130;
