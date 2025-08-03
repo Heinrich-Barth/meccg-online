@@ -477,7 +477,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     const [resultLimit, setResultLimit] = React.useState(0);
     const [hasDreamcards, setDreamcards] = React.useState(false);
     const [preferDC, setPreferDC] = React.useState(true);
-    const [openFilter, setOpenFilter] = React.useState(true);
+    const [openFilter, setOpenFilter] = React.useState(false);
 
     const [searchParams, setSearchParams] = React.useState<SearchParams>(createEmptySearchParams());
 
