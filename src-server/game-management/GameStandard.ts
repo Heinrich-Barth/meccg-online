@@ -1396,7 +1396,14 @@ export default class GameStandard extends GamePlayers
             opponentid = obj.opponentid;
         }
 
-        this.publishToPlayers("/game/view-cards/reveal/list", userid, {type: type, playerid: opponentid, list: this.#getList(userid, type) });
+        let showAll = false;
+        if (type === "handall")
+        {
+            showAll = true;
+            type = "hand";
+        }
+
+        this.publishToPlayers("/game/view-cards/reveal/list", userid, {type: type, playerid: opponentid, showall: showAll, list: this.#getList(userid, type) });
         this.publishChat(userid, " offers to show cards in " + obj, false);
     }
 
