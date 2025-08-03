@@ -221,13 +221,13 @@ const REGULAR_ONLY = 2;
 
 const cardFilterAppliesAndMatches = function(acceptableList:string[], value:string)
 {
-    return acceptableList.length > 0 && acceptableList.includes(value);
+    return acceptableList.length === 0 || acceptableList.includes(value);
 }
 
 const cardKeysAppliyAndMatches = function(acceptableList:string[], values:string[]|null)
 {
     if (acceptableList.length === 0 || values === null )
-        return false;
+        return true;
 
     for (const val of acceptableList)
     {
@@ -267,11 +267,11 @@ const getMatch = function (card: CardData, params: SearchParams) {
         return 0;
 
     if (!cardFilterAppliesAndMatches(params.alignment, card.alignment)
-        && !cardFilterAppliesAndMatches(params.secondary, card.Secondary) 
-        && !cardFilterAppliesAndMatches(params.set, card.set_code)
-        && !cardFilterAppliesAndMatches(params.type, card.type)
-        && !cardKeysAppliyAndMatches(params.keyword, card.keywords)
-        && !cardKeysAppliyAndMatches(params.skill, card.skills))
+        || !cardFilterAppliesAndMatches(params.secondary, card.Secondary) 
+        || !cardFilterAppliesAndMatches(params.set, card.set_code)
+        || !cardFilterAppliesAndMatches(params.type, card.type)
+        || !cardKeysAppliyAndMatches(params.keyword, card.keywords)
+        || !cardKeysAppliyAndMatches(params.skill, card.skills))
         return 0;
 
     if (params.q !== "")
