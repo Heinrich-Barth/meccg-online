@@ -147,6 +147,37 @@ const countDeckSectionCards = function(list: Deckentry[])
 
     return count;
 }
+
+const sortTextAreaCodes = function(text:string)
+{
+    const map:any = {};
+    for (const line of text.trim().split("\n"))
+    {
+        const pos = line.indexOf(" ");
+        if (pos < 1)
+            continue;
+
+        const left = line.substring(0, pos).trim();
+        const right = line.substring(pos+1);
+
+        const val = parseInt(left);
+        if (isNaN(val))
+            continue;
+
+        if (map[right])
+            map[right] += val;
+        else
+            map[right] = val;
+    }
+
+    const keys = Object.keys(map).sort();
+    const res:string[] = [];
+    for (const key of keys)
+        res.push(map[key] + " " + key);
+
+    return res.join("\n");
+}
+
 function CurrentDeckPart({ caption, list, pref, sectionClassname, onIncrease, onDecrease, onPreviewImage, setPreviewImage, type, onMoveCardDeckSection, sortType = false }: { caption: string, list: Deckentry[], pref: string, sectionClassname: string, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, sortType?: boolean, type: string, onMoveCardDeckSection: Function }) {
 
     if (sortType === false || list.length === 0) {
@@ -423,6 +454,14 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         setMessage("Applied");
     }
 
+    const sortCodesInTextarea = function()
+    {
+        setTextPool(sortTextAreaCodes(textPool));
+        setTextDeck(sortTextAreaCodes(textDeck));
+        setTextSideboard(sortTextAreaCodes(textSideboard));
+        setTextSites(sortTextAreaCodes(textSites));
+    }
+
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
         if (newValue === 0)
@@ -595,8 +634,11 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <Grid item xs={12} container rowGap={2}>
-                    <Grid item xs={12} className="custom-deck">
+                    <Grid item xs={6} className="custom-deck">
                         <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
+                    </Grid>
+                    <Grid item xs={6} className="custom-deck" style={{ textAlign: "right"}}>
+                        <Button variant="outlined" onClick={sortCodesInTextarea}>Sort codes</Button>
                     </Grid>
                     <Grid item xs={6} lg={3} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textPool} multiline onChange={(e) => setTextPool(e.target.value)} fullWidth label={"Pool"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
