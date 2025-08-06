@@ -365,11 +365,14 @@ const convertToDeck = function (pool: string, deck: string, sideboard: string, s
 
 const disableDeckAddingActions = function (card: CardData, count: number) {
     if (card.uniqueness !== true)
-        return count >= 3;
+        return false;
 
     const isAvatar = card.Secondary === "Avatar";
     const maxUnique = isAvatar ? 10 : 1;
     return count >= maxUnique;
+}
+const isExceedingCardLimit = function (card: CardData, count: number) {
+    return card.uniqueness !== true && count >= 3;
 }
 
 type CharacterAgents = {
@@ -1035,7 +1038,8 @@ export default function Deckbuilder() {
         const isSite = card?.type === "Site";
         const isRegion = card?.type === "Region";
         const count = deck.counts[img.code] ?? 0;
-        const disableAll = disableDeckAddingActions(card, count);
+        const disableUnique = disableDeckAddingActions(card, count);
+        const exceedNotice = !disableUnique && isExceedingCardLimit(card, count);
         const image = preferErrata && img.imageErrata ? img.imageErrata : img.image;
         const imgSrc = GetImageUri(image); 
         const isDCErrata = preferErrata && img.imageErrata;
@@ -1050,13 +1054,16 @@ export default function Deckbuilder() {
                     title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
                     onMouseEnter={(e) => onPreviewImage("image-"+key, e.pageX)}
                     onMouseLeave={() => setPreviewImage({ image: "", left: false })}
+                    className={exceedNotice ? "application-deckbuilder-result-exceednotive": ""}
                 />
                 {isDCErrata && (<div className="view-card-errata">DC Errata</div>)}
+                {exceedNotice && (<div className="view-card-exceeding">3 usually is max</div>)}
+                
                 {count > 0 && (<CardCountBubble count={count} />)}
                 <div className="add-deck-actions">
-                    <Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "pool")} title="Add to Pool"><BackHandIcon /></Button>
-                    <br /><Button variant="contained" disabled={disableAll || isRegion} onClick={() => onButtonAddToDeck(img.code, "deck")} title="Add to Deck"><StyleIcon /></Button>
-                    <br /><Button variant="contained" disabled={disableAll || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "sb")} title="Add to sideboard"><SpaceDashboardIcon /></Button>
+                    <Button variant="contained" disabled={disableUnique || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "pool")} title="Add to Pool"><BackHandIcon /></Button>
+                    <br /><Button variant="contained" disabled={disableUnique || isRegion} onClick={() => onButtonAddToDeck(img.code, "deck")} title="Add to Deck"><StyleIcon /></Button>
+                    <br /><Button variant="contained" disabled={disableUnique || isSite || isRegion} onClick={() => onButtonAddToDeck(img.code, "sb")} title="Add to sideboard"><SpaceDashboardIcon /></Button>
                     <br /><Button variant="contained" onClick={() => copyCode(img.code)} title="Copy code to clipboard"><ContentCopyIcon /></Button>
                     {img.flip !== "" && (
                         <Button variant="contained" onClick={() => swapImage("image-" + key)} title="Flip Backsite"><CachedIcon /></Button>

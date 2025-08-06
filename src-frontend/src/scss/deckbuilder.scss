@@ -37,6 +37,20 @@
     right: 30px;
     line-height: 1.5em;
 }
+
+.view-card-exceeding {
+    bottom: 10px;
+    color: var(--color-black);
+    background-color: var(--color-orange);
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    right: 30px;
+    line-height: 1.5em;
+}
+.application-deckbuilder-result-exceednotive {
+    opacity: 0.8;
+}
 .application-deckbuilder-result {
     position: relative;
     .add-deck-actions {
