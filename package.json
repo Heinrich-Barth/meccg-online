@@ -8,6 +8,7 @@
   "scripts": {
     "build": "gulp --production & npx tsc",
     "dev": "concurrently \"gulp --debug --verbose\" \"nodemon\"",
+    "dev_client": "nodemon",
     "start": "node dist-server/index.js"
   },
   "devDependencies": {
