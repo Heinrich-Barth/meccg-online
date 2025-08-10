@@ -57,7 +57,7 @@ export default class CardBuilder
                     order: 1
                 };
             }
-            else if (map[key] && map[key].name)
+            else if (map[key].name)
             {
                 this.#sets[key.toUpperCase()] = {
                     name: map[key].name,
@@ -67,6 +67,11 @@ export default class CardBuilder
                     released: map[key].ice !== false || map[key].released === true, 
                     order: map[key].order ?? 100
                 };
+            }
+            else 
+            {
+                console.warn("Cannot make use of ", map[key])
+                process.exit(1);
             }
         }
 
@@ -220,14 +225,12 @@ export default class CardBuilder
 
     #getFullSetName(code:string)
     {
-        const val = this.#sets[code.toLowerCase()];
-        if (typeof val !== "string" || val === "")
-        {
-            console.warn("Cannot find set name by code: " + code);
-            return "";            
-        }
-        
-        return val;
+        const val = this.#sets[code.toUpperCase()];
+        if (val?.name)
+            return val.name;
+
+        console.warn("Cannot find set name by code: " + code);
+        return "";            
     }
 
     #getErrata(code:string)
