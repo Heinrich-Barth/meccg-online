@@ -619,7 +619,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 resultSize={searchResult.length}        
             />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={1}>
+            <Button style={{ marginTop: "15px"}} variant="outlined" onClick={() => setOpenFilter(true)} startIcon={<FilterAltIcon />}>Filter</Button>
+        </Grid>
+        <Grid item xs={11}>
             <TextField value={searchValue} variant="filled" margin="dense" autoFocus onChange={(e) => updateSearchValue(e.target.value.toLowerCase())} fullWidth label="Search text" placeholder="Seach by title" />
         </Grid>
         <RenderFilterApplied 
