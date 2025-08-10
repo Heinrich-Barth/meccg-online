@@ -61,7 +61,7 @@ export default class CardBuilder
             {
                 this.#sets[key.toUpperCase()] = {
                     name: map[key].name,
-                    ice: map[key].ice,
+                    ice: map[key].ice !== false,
                     code: key.toUpperCase(),
                     dc: map[key].ice !== true,
                     released: map[key].ice === true || map[key].released === true, 
