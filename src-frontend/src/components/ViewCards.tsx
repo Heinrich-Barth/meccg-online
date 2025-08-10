@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Checkbox, Chip, Drawer, FormControl, FormControlLabel, FormGroup, Grid, Radio, RadioGroup, SpeedDial, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, Chip, Drawer, Fab, FormControl, FormControlLabel, FormGroup, Grid, Radio, RadioGroup, SpeedDial, TextField, Typography } from "@mui/material";
 import Backdrop from '@mui/material/Backdrop';
 import LinearProgress from '@mui/material/LinearProgress';
 import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, FetchFilters } from "../operations/FetchCards";
@@ -7,6 +7,7 @@ import { FetchStageCards } from "../operations/FetchStageCards";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { FetchSets, ISetInformation, ISetList } from "../operations/FetchSets";
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 function renderIsLoading() {
     return <Backdrop
@@ -425,6 +426,13 @@ const RenderDrawer = function(props:{
                     fullWidth 
                     label="Search text" 
                     placeholder="Seach by title" />
+
+            </Grid>
+            <Grid item xs={7}>
+                You can click on as many filters as you want to refinde your list
+            </Grid>
+            <Grid item xs={5}>
+                
             </Grid>
             {g_pSets.length > 0 && (
                 <Grid item xs={12}>
@@ -632,10 +640,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 resultSize={searchResult.length}        
             />
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={3} sm={2} md={1}>
             <Button style={{ marginTop: "15px"}} variant="outlined" onClick={() => setOpenFilter(true)} startIcon={<FilterAltIcon />}>Filter</Button>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={9} sm={10} md={11}>
             <TextField value={searchValue} variant="filled" margin="dense" autoFocus onChange={(e) => updateSearchValue(e.target.value.toLowerCase())} fullWidth label="Search text" placeholder="Seach by title" />
         </Grid>
         <RenderFilterApplied 
@@ -697,12 +705,26 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 </Grid>
             </Grid>
         </Grid>
-        <SpeedDial
-            ariaLabel="Open filter"
+        <Fab
             title="Open filter"
-            sx={{ position: 'fixed', bottom: 16, left: 16, zIndex: 2 }}
-            icon={<FilterAltIcon />}
+            variant="extended"
+            style={{ position: 'fixed', bottom: 16, left: 16, zIndex: 2 }}
+            size="medium"
+            color="primary"
             onClick={() => setOpenFilter(!openFilter)}
-        />
+        >
+            <FilterAltIcon sx={{ mr: 1 }}/> Filter
+        </Fab>
+        {searchResult.length > 0 && (
+            <Fab
+                title="Open filter"
+                variant="extended"
+                style={{ position: 'fixed', bottom: 16, right: 16, zIndex: 2 }}
+                size="medium"
+                color="primary"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+                <KeyboardDoubleArrowUpIcon />
+            </Fab>)}
     </React.Fragment>
 }
