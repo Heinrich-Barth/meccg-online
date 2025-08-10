@@ -198,7 +198,7 @@ function CheckboxListSet(list: ISetInformation[], label: string, value:string[],
 }
 
 type FilterCreator = "all" | "dconly" | "iceonly";
-type FilterRelased = "all" | "released";
+type FilterRelased = "all" | "released" | "unreleased";
 
 type SearchParams = {
     alignment: string[];
@@ -264,8 +264,11 @@ const getMatch = function (card: CardData, params: SearchParams) {
             return 0;
     }
 
-    if (params.relasedonly === "released" && set && !set.released)
-        return 0;
+    if (params.relasedonly !== "all" && set)
+    {
+        if ((params.relasedonly === "released" && !set.released) || (params.relasedonly === "unreleased" && set.released))
+            return 0;
+    }
 
     if (params.stageOnly === true && !card.stage)
         return 0;
@@ -595,6 +598,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     }
     const onSelectDreamcards = function (val: FilterCreator) {
         searchParams.dreamcards = val;
+        
+        if (val === "iceonly")
+            searchParams.relasedonly = "all";
+
         setSearchParams(searchParams);
         performSearch();
     }
@@ -650,13 +657,13 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                     onChange={(e) => onSelectDreamcards(e.target.value as FilterCreator)}
                 >
                     <FormControlLabel value={"all"} control={<Radio />} label="Show all cards" />
-                    <FormControlLabel value={"dconly"} control={<Radio />} label="Only show DC cards" />
                     <FormControlLabel value={"iceonly"} control={<Radio />} label={"Only show regular cards" } />
+                    <FormControlLabel value={"dconly"} control={<Radio />} label="Only show DC cards" />
                 </RadioGroup>
             </FormControl>
         </Grid>)}
         {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
-            <FormControl>
+            <FormControl disabled={searchParams.dreamcards === "iceonly"}>
                 <RadioGroup
                     name="radio-buttons-group"
                     value={searchParams.relasedonly + ""}
@@ -664,6 +671,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 >
                     <FormControlLabel value={"all"} control={<Radio />} label="Show all cards" />
                     <FormControlLabel value={"released"} control={<Radio />} label="Only relased cards" />
+                    <FormControlLabel value={"unreleased"} control={<Radio />} label="Only unrelased cards" />
                 </RadioGroup>
             </FormControl>
         </Grid>)}
