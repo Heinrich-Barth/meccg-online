@@ -659,7 +659,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             <FormControl>
                 <RadioGroup
                     name="radio-buttons-group"
-                    value={searchParams.dreamcards + ""}
+                    value={searchParams.relasedonly + ""}
                     onChange={(e) => onSelectReleaseCards(e.target.value as FilterRelased)}
                 >
                     <FormControlLabel value={"all"} control={<Radio />} label="Show all cards" />
