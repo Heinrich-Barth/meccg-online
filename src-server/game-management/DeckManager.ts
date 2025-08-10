@@ -56,7 +56,6 @@ export default class DeckManager {
             siteMap : this.#siteMap,
             deck : { } // => DeckDefault|DeckArda
         };
-
        
         for (let key in this.#deck) 
             jData.deck[key] = this.#deck[key].save(this.#firstPlayerId === key);
@@ -95,19 +94,10 @@ export default class DeckManager {
 
     restoreSiteMap(data:any)
     {
-        this.#siteMap = { };
-
         if (data === null || data === undefined)
-            return;
-
-        for (let key of Object.keys(data))
-        {
-            this.#siteMap[key] = {};
-
-            let _site = data[key];
-            for (let site of Object.keys(_site))
-                this.#siteMap[key][site] = _site[site] === true;
-        }
+            this.#siteMap = { };
+        else
+            this.#siteMap = { ...data }
     }
 
     #restoreDeck(decks:any, requireAdmin:boolean)

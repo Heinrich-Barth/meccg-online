@@ -107,9 +107,7 @@ export default class SaveGameEvaluation
             return null;
         }
 
-        this.#clearMap(game.playboard.decks.siteMap);
         this.evaluateCompanies(game.playboard.companies);
-
         return game;
     }
 

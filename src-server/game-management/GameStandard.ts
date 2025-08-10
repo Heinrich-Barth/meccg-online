@@ -1677,15 +1677,15 @@ export default class GameStandard extends GamePlayers
         }
     }
 
-    #globalRestoreGameSitemap(playboard:any, assignments:any)
+    #globalRestoreGameSitemap(siteMap:any, assignments:any)
     {
-        for (let key in playboard.decks.siteMap) 
+        for (let key in siteMap) 
         {
             const newkey = assignments[key];
             if (newkey === undefined)
                 throw new Error("Cannot find owner " + key + " in siteMap");
             
-            playboard.decks.siteMap[newkey] = playboard.decks.siteMap[key];
+            siteMap[newkey] = siteMap[key];
 
             /** 
              * It might be, that the OLD and NEW ids are identical (immediate restoring)
@@ -1693,7 +1693,7 @@ export default class GameStandard extends GamePlayers
              * make sure we do not remove a valid sitemap.
              */
             if (newkey !== key)
-                delete playboard.decks.siteMap[key];
+                delete siteMap[key];
         }
     }
 
@@ -1709,6 +1709,9 @@ export default class GameStandard extends GamePlayers
             if (newkey !== key)
                 delete playboard.decks.deck[key];
         }
+
+        if (playboard.decks.siteMap)
+            this.#globalRestoreGameSitemap(playboard.decks.siteMap, assignments);
     }
 
     #globalRestoreGameStagingArea(playboard:any, assignments:any)
@@ -1764,7 +1767,6 @@ export default class GameStandard extends GamePlayers
         {
             const playboard = data.game.playboard;
             this.#globalRestoreGameOwnerShips(playboard, assignments);
-            this.#globalRestoreGameSitemap(playboard, assignments);
             this.#globalRestoreGameDecks(playboard, assignments)
             this.#globalRestoreGameStagingArea(playboard, assignments);            
             this.#globalRestoreGameCompanies(playboard, assignments);
