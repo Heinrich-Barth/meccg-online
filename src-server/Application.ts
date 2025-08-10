@@ -79,7 +79,7 @@ ServerInstance.getServerInstance().get("/data/list/gamedata", Caching.cache.json
         underdeeps: CardDataProvider.getUnderdeepMapdata()
     });
 });
-
+ServerInstance.getServerInstance().get("/data/list/sets", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.json(CardDataProvider.getSetList()).status(200));
 ServerInstance.getServerInstance().get("/data/list/map", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getMapdata()).status(200));
 ServerInstance.getServerInstance().get("/data/list/underdeeps", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getUnderdeepMapdata()).status(200));
 

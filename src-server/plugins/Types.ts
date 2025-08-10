@@ -25,6 +25,19 @@ export interface ICardMapCard {
     [key:string]:ICard
 }
 
+export interface ISetInformation {
+    name: string;
+    code: string;
+    ice: boolean;
+    dc: boolean;
+    released: boolean;
+    order: number;
+}
+
+export interface ISetList {
+    [code:string]:ISetInformation
+}
+
 export interface ISiteTitleCards extends Iterable<ICard[]>
 {
     [key:string]:ICard[]

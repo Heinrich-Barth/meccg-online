@@ -6,6 +6,7 @@ import FetchCards, { CardData, CardFilters, CardImageMap, FetchCardImages, Fetch
 import { FetchStageCards } from "../operations/FetchStageCards";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { FetchSets, ISetInformation, ISetList } from "../operations/FetchSets";
 
 function renderIsLoading() {
     return <Backdrop
@@ -27,7 +28,8 @@ const g_pImages: CardImageMap = {
     images: {}
 }
 
-const g_pSets: CardSet[] = [];
+const g_pSetMap: ISetList = {};
+const g_pSets: ISetInformation[] = [];
 const g_sSkills: string[] = [];
 const g_sKeywords: string[] = [];
 
@@ -39,7 +41,7 @@ function cacheFilters(filters: CardFilters) {
 }
 
 
-const buildSetsMap = function (cards: CardData[]) {
+const buildSetsMap = function (cards: CardData[], sets:ISetList) {
     if (g_pSets.length > 0)
         return;
 
@@ -49,15 +51,14 @@ const buildSetsMap = function (cards: CardData[]) {
             map[card.set_code] = card.full_set;
     }
 
-    const codes = Object.keys(map)
-    for (let code of codes) {
-        g_pSets.push({
-            code: code,
-            name: map[code]
-        });
+    const codes = Object.keys(sets)
+    for (const code of codes)
+    {
+        g_pSetMap[code] = sets[code];
+        g_pSets.push(sets[code]);
     }
 
-    g_pSets.sort((a,b) => a.name.localeCompare(b.name));
+    g_pSets.sort((a,b) => a.order - b.order);
 }
 
 const assertArray = function(code:string, name:string, candidate:any)
@@ -165,7 +166,7 @@ function CheckboxList(list: string[], label: string, values:string[], onChange: 
         </Grid>
     </Grid>
 }
-function CheckboxListSetApplied(list: CardSet[], label: string, value:string[], onChange: Function) {
+function CheckboxListSetApplied(list: ISetInformation[], label: string, value:string[], onChange: Function) {
 
     return <React.Fragment>
         {list.filter(item => value.includes(item.code)).map((item, n) => <Chip key={"app" + n+label} 
@@ -177,7 +178,7 @@ function CheckboxListSetApplied(list: CardSet[], label: string, value:string[], 
     </React.Fragment>
 
 }
-function CheckboxListSet(list: CardSet[], label: string, value:string[], onChange: Function) {
+function CheckboxListSet(list: ISetInformation[], label: string, value:string[], onChange: Function) {
 
     if (list.length === 0)
         return <></>
@@ -196,6 +197,9 @@ function CheckboxListSet(list: CardSet[], label: string, value:string[], onChang
 
 }
 
+type FilterCreator = "all" | "dconly" | "iceonly";
+type FilterRelased = "all" | "released";
+
 type SearchParams = {
     alignment: string[];
     type: string[];
@@ -205,7 +209,8 @@ type SearchParams = {
     set: string[];
     q: string,
     stageOnly?:boolean;
-    dreamcards:number;
+    dreamcards:FilterCreator;
+    relasedonly:FilterRelased;
 }
 
 export type SeachResultEntry = {
@@ -215,9 +220,6 @@ export type SeachResultEntry = {
     imageErrata: string;
     flip: string;
 }
-
-const DC_ONLY = 1;
-const REGULAR_ONLY = 2;
 
 const cardFilterAppliesAndMatches = function(acceptableList:string[], value:string)
 {
@@ -254,14 +256,16 @@ const calculateBoostBySearchTerm = function(card: CardData, q:string)
 
 const getMatch = function (card: CardData, params: SearchParams) {
 
-    if (params.dreamcards !== 0)
-    {
-        if (params.dreamcards === DC_ONLY && !card.dreamcard)
-            return 0;
+    const set = g_pSetMap[card.set_code];
 
-        if (params.dreamcards === REGULAR_ONLY && card.dreamcard === true)
+    if (params.dreamcards !== "all" && set)
+    {
+        if ((params.dreamcards === "dconly" && !set.dc) || (params.dreamcards === "iceonly" && !set.ice))
             return 0;
     }
+
+    if (params.relasedonly === "released" && set && !set.released)
+        return 0;
 
     if (params.stageOnly === true && !card.stage)
         return 0;
@@ -343,7 +347,8 @@ const createEmptySearchParams = function():SearchParams
         type: [],
         set: [],
         stageOnly: false,
-        dreamcards: 0
+        dreamcards: "all",
+        relasedonly: "all"
     };
 }
  
@@ -475,7 +480,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     const [searchValue, setSearchValue] = React.useState("");
     const [searchResult, setSearchResult] = React.useState<SeachResultEntry[]>([]);
     const [resultLimit, setResultLimit] = React.useState(0);
-    const [hasDreamcards, setDreamcards] = React.useState(false);
+    const [hasDreamcards, setDreamcards] = React.useState(true);
     const [preferDC, setPreferDC] = React.useState(true);
     const [openFilter, setOpenFilter] = React.useState(false);
 
@@ -526,7 +531,9 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             const filters = await FetchFilters();
             cacheFilters(filters);
 
-            buildSetsMap(cards);
+            const sets = await FetchSets();
+
+            buildSetsMap(cards, sets);
 
             if (containsDreamcards(g_pCards))
                 setDreamcards(true);
@@ -586,14 +593,13 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         setSearchParams(searchParams);
         performSearch();
     }
-    const onSelectDreamcards = function (val: string) {
-        if (val === "" + DC_ONLY)
-            searchParams.dreamcards = DC_ONLY;
-        else if (val === "" + REGULAR_ONLY)
-            searchParams.dreamcards = REGULAR_ONLY;
-        else
-            searchParams.dreamcards = 0;
-
+    const onSelectDreamcards = function (val: FilterCreator) {
+        searchParams.dreamcards = val;
+        setSearchParams(searchParams);
+        performSearch();
+    }
+    const onSelectReleaseCards = function (val:FilterRelased) {
+        searchParams.relasedonly = val;
         setSearchParams(searchParams);
         performSearch();
     }
@@ -636,16 +642,28 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             onSelectSkill={onSelectSkill} 
             onSelectKeywords={onSelectKeywords}
         />
-        {hasDreamcards && (<Grid item xs={12} textAlign={"center"}>
+        {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
             <FormControl>
                 <RadioGroup
                     name="radio-buttons-group"
                     value={searchParams.dreamcards + ""}
-                    onChange={(e) => onSelectDreamcards(e.target.value)}
+                    onChange={(e) => onSelectDreamcards(e.target.value as FilterCreator)}
                 >
-                    <FormControlLabel value={"0"} control={<Radio />} label="Show all cards" />
-                    <FormControlLabel value={"" + DC_ONLY} control={<Radio />} label="Only show DC cards" />
-                    <FormControlLabel value={"" + REGULAR_ONLY} control={<Radio />} label={"Only show regular cards" } />
+                    <FormControlLabel value={""} control={<Radio />} label="Show all cards" />
+                    <FormControlLabel value={"dconly"} control={<Radio />} label="Only show DC cards" />
+                    <FormControlLabel value={"iceonly"} control={<Radio />} label={"Only show regular cards" } />
+                </RadioGroup>
+            </FormControl>
+        </Grid>)}
+        {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
+            <FormControl>
+                <RadioGroup
+                    name="radio-buttons-group"
+                    value={searchParams.dreamcards + ""}
+                    onChange={(e) => onSelectReleaseCards(e.target.value as FilterRelased)}
+                >
+                    <FormControlLabel value={"all"} control={<Radio />} label="Show all cards" />
+                    <FormControlLabel value={"released"} control={<Radio />} label="Only relased cards" />
                 </RadioGroup>
             </FormControl>
         </Grid>)}

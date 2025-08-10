@@ -1,13 +1,12 @@
 import * as fs from "fs";
-import { ICard } from "./Types";
+import { ICard, ISetList } from "./Types";
 
 export default class CardBuilder
 {
     #cards:ICard[] = [];
-    #sets:any = { }
+    #sets:ISetList = { }
     #erratas:any = { };
-    #setOrder:any = { };
-
+    
     #loadJsonObject(file:string)
     {
         try {
@@ -43,11 +42,33 @@ export default class CardBuilder
     #loadSets(dir:string)
     {
         const file = dir + "/sets.json";
-        this.#sets = this.#loadJsonObject(file);
+        const map = this.#loadJsonObject(file);
 
-        let count = 0;
-        for (let key in this.#sets)
-            this.#setOrder[key] = ++count;
+        for (let key in map)
+        {
+            if (typeof map[key] === "string")
+            {
+                this.#sets[key.toUpperCase()] = {
+                    name: map[key],
+                    code: key.toUpperCase(),
+                    ice: true,
+                    dc: false,
+                    released: true, 
+                    order: 1
+                };
+            }
+            else if (map[key] && map[key].name)
+            {
+                this.#sets[key.toUpperCase()] = {
+                    name: map[key].name,
+                    ice: map[key].ice,
+                    code: key.toUpperCase(),
+                    dc: map[key].ice !== true,
+                    released: map[key].ice === true || map[key].released === true, 
+                    order: map[key].order ?? 100
+                };
+            }
+        }
 
         const size = Object.keys(this.#sets).length;
         if (size === 0)
@@ -78,6 +99,11 @@ export default class CardBuilder
         }
 
         return res;
+    }
+
+    getSets()
+    {
+        return this.#sets;
     }
 
     fromDirectory(dir: string) 
@@ -169,8 +195,8 @@ export default class CardBuilder
         if (errata !== "")
             card.ImageNameErrataDC = errata;
 
-        if (this.#setOrder[setCode])
-            card.set_order = this.#setOrder[setCode];
+        if (this.#sets[setCode])
+            card.set_order = this.#sets[setCode].order;
         else
             card.set_order = 1;
 

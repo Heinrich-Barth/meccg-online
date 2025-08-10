@@ -3,7 +3,7 @@ import CardsMeta from "./CreateCardsMeta";
 import CardRepository from "./CardRepository";
 import { validate as ValidateDeck, validateArda as ValidateDeckArda, validateSingleplayer as ValidateDeckSingleplayer } from "./DeckValidator";
 import  CreateCardsMap, { IMapData }  from "./CardsMap";
-import { DeckValidate, DeckValidateArda, DeckValidateSection } from "./Types";
+import { DeckValidate, DeckValidateArda, DeckValidateSection, ISetList } from "./Types";
 import ImageList, { CardImagesMap } from "./ImageList";
 import Logger from "../Logger";
 import ConfigurationInstance from "../Configuration";
@@ -20,6 +20,7 @@ class CardDataProvider extends CardRepository {
 
     #cardsFile:string;
     #mapPos:string;
+    #sets:ISetList = { };
 
     #filters = { };
     #cardsMap:IMapData|null = null;
@@ -58,7 +59,10 @@ class CardDataProvider extends CardRepository {
     #buildCardsData(dir:string)
     {
         const builder = new CardBuilder();
-        return builder.fromDirectory(dir);
+        const cards =  builder.fromDirectory(dir);
+
+        this.#sets = builder.getSets();
+        return cards;
     }
 
     load()
@@ -137,6 +141,11 @@ class CardDataProvider extends CardRepository {
     getSiteList()
     {
         return this.#cardsMap!.siteList;
+    }
+
+    getSetList()
+    {
+        return this.#sets;
     }
 
     getImageByCode(code:string)

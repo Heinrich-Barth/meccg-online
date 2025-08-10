@@ -1,1 +1,30 @@
-{"metw":"The Wizards","mele":"The Lidless Eye","meba":"The Balrog","meas":"Against the Shadow","mewh":"The White Hand","metd":"The Dragons","medm":"Dark Minions"}
+{
+    "metw": {
+        "name": "The Wizards",
+        "order": 1
+    },
+    "metd": {
+        "name": "The Dragons",
+        "order": 2
+    },
+    "medm": {
+        "name": "Dark Minions",
+        "order": 3
+    },
+    "mele": { 
+        "name": "The Lidless Eye",
+        "order": 4
+    },
+    "meas": {
+        "name": "Against the Shadow",
+        "order": 5
+    },
+    "mewh": {
+        "name": "The White Hand",
+        "order": 6
+    },
+    "meba": {
+        "name": "The Balrog",
+        "order": 7
+    }
+}
