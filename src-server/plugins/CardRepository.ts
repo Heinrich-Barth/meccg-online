@@ -82,6 +82,7 @@ export default class CardRepository {
     #nameCodeAlternatives = {};
     #cardsDeckbuilder:TCardDeckbuilder[] = [];
     #listAvatars:string[] = [];
+    #listRandomCharCodes:string[] = [];
     #types:KeyValuesString = {};
     #stageList:string[] = [];
     #cardRepository:ICardMapCard = {};
@@ -199,6 +200,18 @@ export default class CardRepository {
             this.#cardRepository[card.code] = card;
     }
 
+    getRandomCharacterCode()
+    {
+        if (this.#listRandomCharCodes.length === 0)
+            return "";
+
+        const index = Math.floor(Math.random() * this.#listRandomCharCodes.length);
+        if (index < this.#listRandomCharCodes.length)
+            return this.#listRandomCharCodes[index];
+        else
+            return this.#listRandomCharCodes[0];
+    }
+
     #identifyAvatars()
     {
         let nCount = 0;
@@ -209,6 +222,8 @@ export default class CardRepository {
                 this.#listAvatars.push(card.code.toLowerCase());
                 nCount++;
             }
+            else if (card["Secondary"] === "character" && card["set_code"] === "METW")
+                this.#listRandomCharCodes.push(card.code.toLowerCase());
         }
         
         Logger.info("\t- Avatars: " + nCount);

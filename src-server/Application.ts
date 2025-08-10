@@ -107,6 +107,11 @@ ServerInstance.getServerInstance().get("/data/list/cards", Caching.cache.jsonCal
 ServerInstance.getServerInstance().get("/data/list/stages", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getStageCards()).status(200));
 ServerInstance.getServerInstance().get("/data/list/avatars", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getAvatarCodes()).status(200));
 ServerInstance.getServerInstance().get("/data/list/filters", Caching.cache.jsonCallback1hrs, (_req: Request, res: Response) => res.send(CardDataProvider.getFilters()).status(200));
+ServerInstance.getServerInstance().get("/data/randomcharacter", Caching.cache.jsonCallback1hrs, (_req: Request, res:Response) => {
+    const code = CardDataProvider.getRandomCharacterCode();
+    const image = CardDataProvider.getImageByCode(code);
+    res.json({ code:  code, image: image })
+});
 
 ServerInstance.getServerInstance().use("/data/backside", express.static(getRootFolder() + "/public/media/assets/images/cards/backside.jpg", Caching.headerData.jpeg));
 ServerInstance.getServerInstance().use("/data/backside-region", express.static(getRootFolder() + "/public/media/assets/images/cards/backside-region.jpg", Caching.headerData.jpeg));

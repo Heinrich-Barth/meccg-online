@@ -6,6 +6,8 @@ import FetchDeckList from "../operations/FetchDeckLists";
 import { CacheRequestData } from "../operations/SubmitAnswer";
 import { LoadDictionary } from "../components/Dictionary";
 import { Navigate } from "react-router-dom";
+import FetchRandomAvatar from "../operations/FetchRandomAvatar";
+import { GetCurrentAvatarImage, SetCurrentAvatar } from "../components/LoadAvatar";
 
 const Prefetch:any = {
     "/data/list/images": "Images",
@@ -28,7 +30,7 @@ const Prefetch:any = {
 let isCaching = false;
 let isCompleted = false;
 
-export default function CacheData() {
+export default function CacheData(props: { onReady:Function }) {
 
     const [loadingLabel, setLoadingLabel] = React.useState("");
     const [doRedirect, setDoRedirect] = React.useState(false);
@@ -56,6 +58,16 @@ export default function CacheData() {
             {
                 setLoadingLabel(val);
                 await CacheRequestData(uri);
+            }
+        }
+
+        if (GetCurrentAvatarImage() === "")
+        {
+            const avatar = await FetchRandomAvatar();
+            if (avatar)
+            {
+                SetCurrentAvatar(avatar.code, avatar.image);
+                props.onReady(avatar);
             }
         }
 
