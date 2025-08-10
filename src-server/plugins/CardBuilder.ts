@@ -64,7 +64,7 @@ export default class CardBuilder
                     ice: map[key].ice !== false,
                     code: key.toUpperCase(),
                     dc: map[key].ice !== true,
-                    released: map[key].ice === true || map[key].released === true, 
+                    released: map[key].ice !== false || map[key].released === true, 
                     order: map[key].order ?? 100
                 };
             }
