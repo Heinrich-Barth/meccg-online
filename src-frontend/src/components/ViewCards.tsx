@@ -649,7 +649,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                     value={searchParams.dreamcards + ""}
                     onChange={(e) => onSelectDreamcards(e.target.value as FilterCreator)}
                 >
-                    <FormControlLabel value={""} control={<Radio />} label="Show all cards" />
+                    <FormControlLabel value={"all"} control={<Radio />} label="Show all cards" />
                     <FormControlLabel value={"dconly"} control={<Radio />} label="Only show DC cards" />
                     <FormControlLabel value={"iceonly"} control={<Radio />} label={"Only show regular cards" } />
                 </RadioGroup>
