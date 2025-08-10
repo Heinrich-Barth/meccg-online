@@ -795,7 +795,9 @@ const ContextMenu = {
 
         viewTappedSites : function()
         {
-            fetch("/data/list/sites-tapped")
+            fetch("/data/list/sites-tapped",{
+                cache: "no-store"
+            })
             .then((response) => 
             {
                 if (response.status === 200)

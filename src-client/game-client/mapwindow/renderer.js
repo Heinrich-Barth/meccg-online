@@ -274,7 +274,9 @@ const fetchTappedSites = function () {
 
     updateLoadingInfo("already tapped sites");
 
-    fetch("/data/list/sites-tapped")
+    fetch("/data/list/sites-tapped", {
+        cache: "no-store"
+    })
     .then((response) => 
     {
         if (response.status === 200)

@@ -136,7 +136,9 @@ const fetchTappedSites = function ()
     if (g_isInit)
         return;
 
-    fetch("/data/list/sites-tapped")
+    fetch("/data/list/sites-tapped", {
+        cache: "no-store"
+    })
     .then((response) => {
         if (response.status === 200)
             return response.json();
