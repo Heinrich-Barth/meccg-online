@@ -62,31 +62,34 @@ const URIS_IMAGE_LOCAL = [
     "/data/list/name-code-suggestions"
 ];
 
+
+const URIS_IMAGE_LOCAL_NEVER = [
+    "/data/list/sites-tapped"
+];
+
 const URIS_NETWORK_FIRST = [
     "/static/frontend",
     "/static/media",
 ]
 
+const neverCache = function(uri)
+{
+    for (const path of URIS_IMAGE_LOCAL_NEVER)
+    {
+        if (uri === path)
+            return true;
+    }
+
+    return false;   
+}
+
 const identifyCacheStrategy = function(event)
 {
-    /*
-        This would be awesome, but the cache is limited so we cannot cache all images.
-        Hence, do not cache at all, because there is no benefit...
-        if (event.request.url.startsWith("https://raw.githubusercontent.com") && event.request.url.endsWith(".jpg"))
-            return STRATEGY_CACHEFIRST_IMAGE;
-    */
-    
     const uri = getUri(event.request.url);
-    /*
-        This would be awesome, but the cache is limited so we cannot cache all images.
-        Hence, do not cache at all, because there is no benefit...
-        if (uri.startsWith("/cards"))
-            return STRATEGY_CACHEFIRST_IMAGE;
-    */
     if (uri === "/data/clearcache")
         return STRATEGY_CLEAR;
 
-    if (uriStartsWith(uri, URIS_IMAGE_LOCAL))
+    if (uriStartsWith(uri, URIS_IMAGE_LOCAL) && !neverCache(uri) )
         return STRATEGY_CACHEFIRST_LOCAL;
 
     if (uriStartsWith(uri, URIS_NETWORK_FIRST))
