@@ -331,9 +331,12 @@ export default class DeckManager {
     #getTappedSites(playerId:string)
     {
         if (typeof playerId === "undefined" || playerId === "" || typeof this.#siteMap[playerId] === "undefined")
+        {
+            Logger.warn("Cannot find player #" + playerId);
             return { };
-        else
-            return  this.#siteMap[playerId];
+        }
+
+        return this.#siteMap[playerId];
     }
 
     #setCardState(uuid:string, nState:number)

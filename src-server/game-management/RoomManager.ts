@@ -158,13 +158,13 @@ export default class RoomManager {
         }
 
         const pRoom = this.getRoom(room);
-        if (pRoom !== null)
-            return pRoom.getGame().getTappedSites(userid);
-        else
+        if (pRoom === null)
         {
             Logger.warn("Cannot get tapped sites. room does not exist: " + room);
             return { };
         }
+
+        return pRoom.getGame().getTappedSites(userid);
     }
 
     #getPlayerOrVisitor(room:string, userid:string):Player|Visitor|null
