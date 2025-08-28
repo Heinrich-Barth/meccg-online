@@ -67,6 +67,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/deck/reveal/perform", this.onDeckRevealPerform.bind(this));
         this.getMeccgApi().addListener("/game/deck/reveal/self", this.onDeckRevealSelfPerform.bind(this));
         this.getMeccgApi().addListener("/game/deck/discard/playdeck", this.onReshuffleDiscardIntoPlaydeck.bind(this));
+        this.getMeccgApi().addListener("/game/deck/shuffle/handintoplaydeck", this.#onReshuffleHandIntoPlaydeck.bind(this));
 
         this.getMeccgApi().addListener("/game/company/create", this.onGameCompanyCreate.bind(this));
         this.getMeccgApi().addListener("/game/company/arrive", this.onGameCompanyArrives.bind(this));
@@ -427,6 +428,17 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, "reshuffled their discard pile into their playdeck");
 
         this.replyToPlayer("/game/deck/discard/playdeck", socket, { success: res });
+    }
+
+    #onReshuffleHandIntoPlaydeck(userid:string, socket:any = null, _obj:any = null)
+    {
+        const res = this.getPlayboardManager().ShuffleHandIntoPlaydeck(userid);
+        if (res)
+        {
+            this.publishChat(userid, "reshuffled their hand into their playdeck");
+            this.updateHandCountersPlayer(userid);
+            this.replyToPlayer("/game/card/hand", socket, { cards: [] });
+        }
     }
 
     onCardDraw(userid:string, _socket:any = null, _obj:any = null)

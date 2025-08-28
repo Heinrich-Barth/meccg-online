@@ -223,6 +223,12 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
         return deck !== null && deck.shuffleDiscardpileIntoPlaydeck();
     }
 
+    ShuffleHandIntoPlaydeck(playerId:string)
+    {
+        const deck = this.getPlayerDeck(playerId);
+        return deck !== null && deck.shuffleHandIntoPlaydeck();
+    }
+
     ShuffleDiscardpile(playerId:string)
     {
         const deck = this.getPlayerDeck(playerId);

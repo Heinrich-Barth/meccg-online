@@ -98,6 +98,17 @@ export default class DeckDefault extends DeckCommons {
         else
             return false;
     }
+
+    shuffleHandIntoPlaydeck()
+    {
+        if (this.#handCards.length > 0 && this.moveList(this.#handCards, this.#playdeck))
+        {
+            this.shuffleAny(this.#playdeck);
+            return true;
+        }
+        else
+            return false;
+    }
     
     shufflePlaydeckTop(count:number)
     {
