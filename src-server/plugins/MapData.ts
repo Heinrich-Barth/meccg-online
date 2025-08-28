@@ -280,6 +280,7 @@ export default class MapData
                 return "bl";
             case "double coastal sea":
                 return "cscs";
+            case "triple coastal sea":
             case "triple coastal seas":
                 return "cscscs";
             case "coastal sea":
