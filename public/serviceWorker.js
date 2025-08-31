@@ -40,7 +40,6 @@ const uriStartsWith = function(uri, paths)
 }
 
 const URIS_IMAGE_LOCAL = [
-    "/media/maps", 
     "/media/assets/js",
     "/media/assets/fonts",
     "/media/personalisation/dice",
@@ -67,11 +66,6 @@ const URIS_IMAGE_LOCAL_NEVER = [
     "/data/list/sites-tapped"
 ];
 
-const URIS_NETWORK_FIRST = [
-    "/static/frontend",
-    "/static/media",
-]
-
 const neverCache = function(uri)
 {
     for (const path of URIS_IMAGE_LOCAL_NEVER)
@@ -91,9 +85,6 @@ const identifyCacheStrategy = function(event)
 
     if (uriStartsWith(uri, URIS_IMAGE_LOCAL) && !neverCache(uri) )
         return STRATEGY_CACHEFIRST_LOCAL;
-
-    if (uriStartsWith(uri, URIS_NETWORK_FIRST))
-        return STRATEGY_NETWORKFIRST;
 
     return STRATEGY_IGNORE
 }
@@ -353,5 +344,3 @@ self.addEventListener( "activate", (event) => {
 });
 
 self.addEventListener("fetch", fetchListener);
-
-
