@@ -671,6 +671,15 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         else
             return this.#companies[companyId];
     }
+
+    GetAttaachedLocationCardsAll()
+    {
+        const res:any = { }
+        for (const id in this.#companies)
+            res[id] = this.#companies[id].sites.attached
+        
+        return res;
+    }
  
      GetCompanyAttachedLocationCards(companyId:string) : TCompanyLocationCard
      {

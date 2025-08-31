@@ -78,6 +78,7 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/company/location/reveal", this.onGameCompanyLocationReveal.bind(this));
         this.getMeccgApi().addListener("/game/company/location/attach", this.onGameCompanyLocationAttach.bind(this));
         this.getMeccgApi().addListener("/game/company/location/choose", this.onGameCompanyLocationChoose.bind(this));
+        this.getMeccgApi().addListener("/game/company/location/housekeeping", this.#onGameCompanyLocationHousekeeping.bind(this));
 
         this.getMeccgApi().addListener("/game/score/show", this.scoreShow.bind(this));
         this.getMeccgApi().addListener("/game/score/update", this.scoreUpdate.bind(this));
@@ -1117,8 +1118,8 @@ export default class GameStandard extends GamePlayers
     onGameCompanyLocationSetLocation(userid:string, _socket:any, obj:any)
     {
         this.getPlayboardManager().SetCompanyStartSite(obj.companyUuid, obj.start, obj.regions, obj.destination);
-        let res = this.getPlayboardManager().GetCompanyAttachedLocationCards(obj.companyUuid);
-        let result = {
+        const res = this.getPlayboardManager().GetCompanyAttachedLocationCards(obj.companyUuid);
+        const result = {
             company: obj.companyUuid, 
             start: res.current, 
             regions: res.regions, 
@@ -1132,6 +1133,12 @@ export default class GameStandard extends GamePlayers
         
         this.publishToPlayers("/game/player/draw/locations", userid, result);
         this.publishChat(userid, " organises locations.", false);
+    }
+
+    #onGameCompanyLocationHousekeeping(userid:string, _socket:any, data:any)
+    {
+        const map = this.getPlayboardManager().GetAttaachedLocationCardsAll();
+        this.publishToPlayers("/game/company/location/housekeeping", userid, map);
     }
 
     onGameCompanyLocationChoose(userid:string, _socket:any, data:any)
