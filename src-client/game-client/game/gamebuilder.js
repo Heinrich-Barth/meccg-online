@@ -732,6 +732,8 @@ const GameBuilder = {
             GameBuilder.CompanyManager.drawLocations(company, start, regions, target, jData.revealed, jData.attached, jData.current_tapped, jData.target_tapped, jData.revealStart);
         });
 
+        MeccgApi.addListener("/game/company/location/housekeeping", (_bIsMe, data) => GameBuilder.CompanyManager.locationHousekeeping(data));
+
         
         MeccgApi.addListener("/game/card/updatetype", (_bIsMe, data) => {
 

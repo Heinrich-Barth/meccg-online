@@ -559,5 +559,4 @@ class GameCompanyLocation
             DomUtils.removeAllChildNodes(pSites.querySelector(".site-regions"));
         }
     }
-
 }

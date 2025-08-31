@@ -687,6 +687,12 @@ const GameCompanies = {
         }   
     },
 
+    locationHousekeeping: function(map)
+    {
+        if (map)
+            HouseKeepingLocations.get().onUpdate(map)
+    },
+
     /**
      * draw a company on screen
      * 
@@ -1050,3 +1056,97 @@ const GameCompanies = {
     }
 };
 
+
+class HouseKeepingLocations 
+{
+    #lastUpdated = 0;
+
+    static #instance = new HouseKeepingLocations();
+
+    static get()
+    {
+        return HouseKeepingLocations.#instance;
+    }
+
+    #hasAttachedCards()
+    {
+        const list = document.getElementsByClassName("site-onguard");
+        if (list === null || list.length === 0)
+            return false;
+
+        const size = list.length;
+        for (const elem of list)
+        {
+            if (elem.querySelector("img") !== null)
+                return true;
+        }
+
+        return false;
+    }
+
+    #getSiteContianer(id)
+    {
+        const company = document.getElementById(id);
+        if (company === null)
+        {
+            console.warn("Company does not exist anymore:", id);
+            return null;
+        }
+
+        const container = company.querySelector(".site-onguard");
+        if (container === null)
+        {
+            console.warn("Company does not have onguard container:", id);
+            return null;
+        }
+
+        return container;
+    }
+
+    #onUpdateCompanyById(id, uids)
+    {
+        const container = this.#getSiteContianer(id);
+        if (container === null)
+            return;
+
+        const list = this.#getRemovables(container, uids);
+        this.#remove(list);
+    }
+
+    #remove(list)
+    {
+        for (const elem of list)
+            elem.parentElement.removeChild(elem);
+    }
+
+    #getRemovables(container, uids)
+    {
+        const divs = container.querySelectorAll("div");
+        if (divs === null || divs.length === 0)
+            return [];
+
+        const removable = [];
+        for (const div of divs)
+        {
+            const uid = div.getAttribute("data-uuid");
+            if (uid !== null && uid !== "" && !uids.includes(uid))
+                removable.push(div);
+        }
+
+        return removable;
+    }
+
+    onUpdate(map)
+    {
+        for (const companyid in map)
+            this.#onUpdateCompanyById("company_" + companyid, map[companyid]);
+    }
+
+    onEvent()
+    {
+        if (this.#hasAttachedCards())
+            MeccgApi.send("/game/company/location/housekeeping", {});
+    }
+}
+
+document.body.addEventListener("meccg-housekeeping", () => HouseKeepingLocations.get().onEvent());
