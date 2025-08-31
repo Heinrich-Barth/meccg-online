@@ -8,7 +8,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { FetchSets, ISetInformation, ISetList } from "../operations/FetchSets";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 function renderIsLoading() {
     return <Backdrop
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -145,6 +145,7 @@ function CheckboxListApplied(list: string[], label: string, values:string[], onC
         {list.filter(item => values.includes(item)).map((item, n) => <Chip key={"app" + n+label} 
             onClick={() => onChange(item)} 
             className="filter-chip"
+            icon={<CancelIcon />}
             variant={"filled"}
             label={item} 
             /> )}
@@ -174,6 +175,7 @@ function CheckboxListSetApplied(list: ISetInformation[], label: string, value:st
             onClick={() => onChange(item.code)} 
             variant={"filled"}
             className="filter-chip"
+            icon={<CancelIcon />}
             label={item.name} 
             /> )}
     </React.Fragment>
@@ -368,9 +370,25 @@ const RenderFilterApplied = function(props:{
     onSelectSpecific:Function,
     onSelectSkill:Function,
     onSelectKeywords:Function,
+    onResetFilter:Function
 })
 {
+    const size = props.searchParams.alignment.length +
+                    props.searchParams.type.length +
+                    props.searchParams.secondary.length +
+                    props.searchParams.keyword.length +
+                    props.searchParams.skill.length +
+                    props.searchParams.set.length;
+    const hasFilter = size > 0;
+
     return <Grid item xs={12}>
+            {hasFilter && <Chip 
+                onClick={() => props.onResetFilter()} 
+                variant={"filled"}
+                className="filter-chip"
+                icon={<CancelIcon />}
+                label={"Clear filter"} 
+            />}
             {CheckboxListSetApplied(g_pSets, "Set", props.searchParams.set, (e: string) => props.onSelectSet(e))}
             {g_pFilters && (<>
                 {g_pFilters.alignment && (
@@ -623,6 +641,14 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
         setSearchParams(searchParams);
         performSearch();
     }
+    const onResetFilter = function()
+    {
+        const search = createEmptySearchParams();
+        search.q = searchParams.q;
+        setSearchParams(search);
+        performSearch();
+    }
+
     return <React.Fragment>
         <Grid container item xs={12}>
             <RenderDrawer 
@@ -656,6 +682,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             onSelectSpecific={onSelectSpecific} 
             onSelectSkill={onSelectSkill} 
             onSelectKeywords={onSelectKeywords}
+            onResetFilter={onResetFilter}
         />
         {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
             <FormControl>
