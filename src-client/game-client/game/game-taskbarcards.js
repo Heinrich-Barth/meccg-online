@@ -448,7 +448,7 @@ class TaskBarCards
             pPlaydeck.oncontextmenu = TaskBarCards.onRightClickPlaydeck;
         }
 
-        for (let elem of document.querySelectorAll(".taskbar .taskbar-turn"))
+        for (const elem of document.querySelectorAll(".taskbar .taskbar-turn"))
             elem.onclick = TaskBarCards.OnTurnClick;
     }
 
@@ -954,6 +954,8 @@ class TaskBarCards
             const sPhase = e.target.getAttribute("data-phase") || "";
             MeccgApi.send("/game/phase/set", sPhase);
         }
+
+        document.body.dispatchEvent(new CustomEvent("meccg-housekeeping", { "detail": true }));
 
         e.stopPropagation();
         return false;
