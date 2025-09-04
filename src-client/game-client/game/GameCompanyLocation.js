@@ -15,7 +15,7 @@ class GameCompanyLocation
 
     createLocationCard(code, img, bIsPlayer, sTitle)
     {
-        let sOwner = bIsPlayer ? "" : "other";
+        const sOwner = bIsPlayer ? "" : "other";
         const div = document.createElement("div");
         div.setAttribute("class", "card");
         div.setAttribute("draggable", "false");
@@ -253,14 +253,31 @@ class GameCompanyLocation
 
         const len = cardList.length;
         for (let i = 0; i < len; i++)
-            this.onAttachCardToCompanySitesElement(jOnGuardContainer, cardList[i], bAllowContextMenu, isPlayersCompany);
+            this.#onAttachCardToCompanySitesElement(jOnGuardContainer, cardList[i], bAllowContextMenu, isPlayersCompany);
 
         pCheckForCardsPlayed.loadAfter(jOnGuardContainer);
         pCheckForCardsPlayed.mark();
     }
 
-    onAttachCardToCompanySitesElement(pOnGuardContainer, card, bAllowContextMenu, isPlayersCompany)
+    #removeEmptyContainerByUuid(container, uuid)
     {
+        const id = "#" + this.CARDID_PREFIX + uuid
+        const candidate = container.querySelector(id);
+        if (candidate === null)
+            return;
+
+        const image = candidate.querySelector("img");
+        if (image === null && candidate.hasAttribute("data-uuid"))
+        {
+            console.info("Removing empty container");
+            candidate.parentElement.removeChild(candidate);
+        }
+    }
+
+    #onAttachCardToCompanySitesElement(pOnGuardContainer, card, bAllowContextMenu, isPlayersCompany)
+    {
+        this.#removeEmptyContainerByUuid(pOnGuardContainer, card.uuid);
+
         pOnGuardContainer.appendChild(createNewCard(card));
         
         const pCard = document.getElementById(this.CARDID_PREFIX + card.uuid);
