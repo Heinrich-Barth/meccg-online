@@ -276,6 +276,11 @@ class GameCompanyLocation
 
     #onAttachCardToCompanySitesElement(pOnGuardContainer, card, bAllowContextMenu, isPlayersCompany)
     {
+        /** 
+         * this is not nice, but it might happen that an image container remains on the table and
+         * can cause display inconsistencies that require a reload. To avoid this,
+         * this checks if the container already exists and is empty. If so, remove it.
+         */
         this.#removeEmptyContainerByUuid(pOnGuardContainer, card.uuid);
 
         pOnGuardContainer.appendChild(createNewCard(card));
