@@ -1074,7 +1074,6 @@ class HouseKeepingLocations
         if (list === null || list.length === 0)
             return false;
 
-        const size = list.length;
         for (const elem of list)
         {
             if (elem.querySelector("img") !== null)
