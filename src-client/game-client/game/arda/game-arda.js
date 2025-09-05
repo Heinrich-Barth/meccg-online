@@ -263,7 +263,7 @@ let Arda = {
 
         const div = document.createElement("div");
         div.setAttribute("class", "arda-hand-container");
-        div.oncontextmenu = Arda.onRefreshHands;
+        div.oncontextmenu = Arda.onShufflePlaydeck;
         div.appendChild(a);
 
         parent.appendChild(div);
