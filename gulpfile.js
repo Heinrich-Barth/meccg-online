@@ -27,11 +27,7 @@ const targetPathJs = "./dist-client/js";
 const compileFile = function(file, targetFilepath)
 {
     console.info("Compile " + file)
-    let css_file = gulp.src(sourcePath + file).pipe(sass());
-
-    //if (!isDebug)
-    //    css_file = css_file.pipe(cleanCSS({format: {"wrapAt": 1024}}));
-
+    const css_file = gulp.src(sourcePath + file).pipe(sass());
     const dirTarget = targetFilepath === undefined ? targetPath : targetFilepath;
     return css_file
         .pipe(rename({extname : '.css'}))
@@ -70,7 +66,10 @@ gulp.task('compile-saas-map-lobby', () => compileFile("/modules/lobby.scss"));
 gulp.task('compile-saas-notification', () => compileFile('/modules/notification.scss'));
 gulp.task("compile-saas-score", () => compileFile('/modules/score.scss'));
 
-gulp.task('copy-client-js', () => gulp.src("./src-client/game-client/**/*").pipe(gulp.dest(targetPathJs)));
+gulp.task('copy-client-js', () => {
+    console.info("Building all client game JS files and saving to " + targetPathJs);
+    return gulp.src("./src-client/game-client/**/*").pipe(gulp.dest(targetPathJs));
+});
 
 const sccsModules = [
     "compile-sass-about",
