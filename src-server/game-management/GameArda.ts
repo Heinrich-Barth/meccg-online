@@ -229,7 +229,7 @@ export default class GameArda extends GameStandard {
         return result;
     }
 
-    onTradePerform(userid: string, _socket: any, obj: any) {
+    onTradePerform(userid: string, socket: any, obj: any) {
         /** trading did not work */
         const moved = this.onTradePerformMoveToDeck(Object.keys(obj.cards), obj);
         if (moved.length === 0) {
@@ -238,7 +238,7 @@ export default class GameArda extends GameStandard {
         }
 
         /** now each player draws cards again based on the number of discarded cards of the other player */
-        for (let trader of moved) {
+        for (const trader of moved) {
             /** only draw, the update will be sent later from each player on success signal */
             const deck = this.getDeckManager().getPlayerDeck(trader.id) as DeckArda;
             if (deck === null) {
@@ -246,19 +246,23 @@ export default class GameArda extends GameStandard {
                 continue;
             }
 
+            /** change ownership of MP cards */
             for (let i = 0; i < trader.mp; i++)
             {
                 const uuid = deck.drawCardMarshallingPoints();
-                if (uuid)
-                {
-                    const card = this.getDeckManager().getFullPlayerCard(uuid);
-                    if (card !== null)
-                        this.updateCardOwnership(deck.getPlayerId(), card);
-                }
+                const card = uuid === "" ? null : this.getDeckManager().getFullPlayerCard(uuid);
+                if (card !== null)
+                    this.updateCardOwnership(deck.getPlayerId(), card);
             }
 
+            /** change ownership of regular hand cards */
             for (let i = 0; i < trader.hand; i++)
-                deck.draw();
+            {
+                const uuid = deck.draw();
+                const card = uuid === "" ? null : this.getDeckManager().getFullPlayerCard(uuid);
+                if (card !== null)
+                    this.updateCardOwnership(deck.getPlayerId(), card);
+            }
         }
 
         this.onTradeSuccess(userid, obj);
