@@ -467,30 +467,6 @@
 
     .link-change { display: none;}
 
-    &:hover {
-        background: #000;
-
-        .link-change { 
-            display: inline-block; 
-            cursor: pointer;
-        }
-
-        a { display: block; }
-        td { 
-            span { display: block; }
-            strong { display: none;}
-        }
-        th.scoring-sheet-ingame-collapse { transform: rotate(-65deg); }
-        .score-letter { display: none; }
-        .score-word {
-            display: block;
-            position: absolute;
-            text-align: left;
-            width: 200px;
-            top: 0;
-        }
-    }
-
     table {
         border-collapse: separate;
         border-spacing: 0 2px;
@@ -542,6 +518,38 @@
         text-align: center; 
 
         &:hover { color:  var(--color-orange-light); }
+    }
+
+    &:hover {
+        background: #000;
+        table {
+            font-size: 1.3em;
+        }
+
+
+        .link-change { 
+            display: inline-block; 
+            cursor: pointer;
+        }
+
+        a { 
+            display: block;
+            margin: 2px;
+        }
+
+        td { 
+            span { display: block; }
+            strong { display: none;}
+        }
+        th.scoring-sheet-ingame-collapse { transform: rotate(-65deg); }
+        .score-letter { display: none; }
+        .score-word {
+            display: block;
+            position: absolute;
+            text-align: left;
+            width: 200px;
+            top: 0;
+        }
     }
 }
 
