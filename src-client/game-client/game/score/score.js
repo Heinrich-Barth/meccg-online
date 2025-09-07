@@ -338,6 +338,10 @@ const SCORING_INGAME =
         return res;
     },
 
+    /**
+     * Build the table and exclude MALUS points. These come later
+     * @returns Map of categories with corresponding row element
+     */
     buildFinalScores_tableRows_map : function()
     {
         const ptsByCategory = {};
@@ -383,41 +387,44 @@ const SCORING_INGAME =
         const map = this.buildFinalScores_tableRows_map();
         const totalsRow = document.createDocumentFragment();
 
-        let listPoints = [];
+        const listPoints = [];
 
-        for (let id in SCORING_INGAME._scores)
+        /** iterate over all players */
+        for (const id in SCORING_INGAME._scores)
         {
-            const score = SCORING_INGAME._scores[id];
-
             let total = 0;
             let totalUsed = 0;
             let totalMalus = 0;
 
-            for (let category in score)
+            /** iterate over player scores by category */
+            const score = SCORING_INGAME._scores[id];
+            for (const category in score)
             {
-                let thisMalus = 0;
+                const _score = score[category];                
+                const isMalus = category === "malus";
 
-                const _score = score[category];
-                if (category === "malus" && _score.value)
-                {
-                    thisMalus = parseInt(_score.value);
-                    totalMalus = thisMalus;
-                }
-
-                if (thisMalus === 0 && SCORING.ignoreCategory(category))
+                /** other categories like general influence can be ignored. Skip right away */
+                if (!isMalus && SCORING.ignoreCategory(category))
                     continue;
 
-                if (thisMalus === 0)
-                {
-                    const usable = _score.double ? _score.usable * 2 : _score.usable;
-                    const isCut = _score.value !== usable;
-                    map[category].append(this.buildFinalScores_tableRows_cell(_score.value, usable, isCut, true));
+                /** apply malus once for this player */
+                const thisMalus = isMalus && _score.value ? parseInt(_score.value) : 0;
+                totalMalus = thisMalus;
 
-                    total += parseInt(_score.value);
-                    totalUsed += parseInt(usable);
-                }
-                else
+                /** add malus score cell  */
+                if (isMalus)
+                {
                     map[category].append(this.buildFinalScores_tableRows_cell(-1 * thisMalus, -1 * thisMalus, false, true));
+                    continue;
+                }
+
+                /** if not malus score, check how many points player gets */
+                const usable = _score.double ? _score.usable * 2 : _score.usable;
+                const isCut = _score.value !== usable;
+                map[category].append(this.buildFinalScores_tableRows_cell(_score.value, usable, isCut, true));
+
+                total += parseInt(_score.value);
+                totalUsed += parseInt(usable);
             }
 
             total -= totalMalus;
