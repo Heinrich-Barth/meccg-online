@@ -9,9 +9,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import FetchCards, { CardData } from "../operations/FetchCards";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import BackHandIcon from '@mui/icons-material/BackHand';
+import CloseIcon from '@mui/icons-material/Close';
+import FetchCards, { CardData } from "../operations/FetchCards";
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import MapIcon from '@mui/icons-material/Map';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
@@ -670,7 +671,9 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
             open={message !== ""}
             autoHideDuration={5000}
             onClick={() => setMessage("")}
+            onClose={() => setMessage("")}
             message={message}
+            action={<CloseIcon fontSize="small" />}
         />
     </React.Fragment>;
 }
