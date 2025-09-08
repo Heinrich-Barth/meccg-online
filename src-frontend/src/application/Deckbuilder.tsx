@@ -454,7 +454,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         setMessage("Applied");
     }
 
-    const onApplyNotesChange = function(text:string)
+    const onApplyNotesChange = function()
     {
         updateDeck({ ... deck });
     }
@@ -634,7 +634,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <Button onClick={onApplyNotesChange}>Save changes to notes</Button>
+                    <Button variant="contained" onClick={onApplyNotesChange}>Save changes to notes</Button>
                 </Grid>
                 <Grid item xs={12} className="deck-notes">
                     <TextField rows={10} value={deck.notes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
