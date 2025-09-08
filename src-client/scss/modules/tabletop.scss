@@ -931,7 +931,7 @@ body[data-is-watcher='false']
             }
         }
 
-        .card:not(.card-is-mine) {
+        .card {
             &.state_ready img,
             img {
                 transform: rotate(180deg);
