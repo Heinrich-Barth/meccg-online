@@ -454,6 +454,12 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         setMessage("Applied");
     }
 
+    const onApplyDeckNotes = function(text:string)
+    {
+        deck.notes = text;
+        updateDeck({ ... deck });
+    }
+
     const sortCodesInTextarea = function()
     {
         setTextPool(sortTextAreaCodes(textPool));
@@ -629,7 +635,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     </Grid>
                 </Grid>
                 <Grid item xs={12} className="deck-notes">
-                    <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
+                    <TextField rows={10} value={deck.notes} multiline onChange={(e) => onApplyDeckNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
                 </Grid>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
