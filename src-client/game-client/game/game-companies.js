@@ -25,12 +25,12 @@ const createCompanyHtml = function(companyId, id)
 
 const createOpponentContainer = function(sHexPlayerCode, playerId)
 {
-    let pContainer = document.getElementById("opponent-companies");
+    const pContainer = document.getElementById("opponent-companies");
     if (pContainer === null)
         return null;
 
     /* check if the container already exists  */
-    let jTarget = pContainer.querySelector("[data-player='" + sHexPlayerCode + "']");
+    const jTarget = pContainer.querySelector("[data-player='" + sHexPlayerCode + "']");
     if (jTarget !== null)
         return jTarget;
 
