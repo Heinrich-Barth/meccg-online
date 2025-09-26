@@ -961,22 +961,6 @@ body[data-is-watcher='false']
     }
 }
 
-
-#draw_card__dep {
-    display: block;
-    height: 40px;
-    margin-top: 4px;
-    background: url("/media/assets/images/icons/icon-draw.png") 0 -0 no-repeat;
-
-    &:hover {
-        background: url("/media/assets/images/icons/icon-draw-hover.png") 0 0 no-repeat;
-    }  
-}
-
-.hosts_nothing {
-    display: none !important;
-}
-
 #lidles-eye {
     z-index: 601;
     position: fixed;

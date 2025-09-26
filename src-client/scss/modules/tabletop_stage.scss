@@ -6,11 +6,21 @@
 
     .staging-area-drop {
         display: none;
-        position: absolute;
-        left: 0px;
-        right: 0;
-        top: 0;
-        height: 80%;
+
+        .staging-area-drop-resource,
+        .staging-area-drop-character {
+            position: absolute;
+            top: 0;
+            height: 80%;
+        }
+        .staging-area-drop-resource {
+            left: 0;
+            width: 70%;
+        }
+        .staging-area-drop-character {
+            left: 71%;
+            width: 29%;
+        }
     }
 
     &.staging-area-opponent {

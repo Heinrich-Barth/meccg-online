@@ -79,7 +79,10 @@
                     <!-- STAGING AREA -->
                     <div class="staging-area staging-area-player" id="staging-area-player">
                         <div class="create-new-company" id="create_new_company"></div>
-                        <div class="staging-area-drop" id="staging_area_drop"></div>
+                        <div class="staging-area-drop" id="staging_area_drop">
+                            <div class="staging-area-drop-resource"  id="staging_area_drop_resource" title="Play card and automatically sort it into its stack"></div>
+                            <div class="staging-area-drop-character" id="staging_area_drop_character" title="This card will be able to host other ressources"></div>
+                        </div>
                         <div class="staging-area-resources staging-area-area" id="staging_area_resources_player"></div>
                         <div class="staging-area-resources-longshort staging-area-area" id="staging_area_resources_longshort_player"></div>
                         <div class="staging-area-factions staging-area-area" id="staging_area_factions_player"></div>

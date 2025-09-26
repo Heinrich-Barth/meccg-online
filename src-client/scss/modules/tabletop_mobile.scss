@@ -58,8 +58,23 @@ body {
     }
     .company-host, .company { padding-right: 0 !important;}
 
-    &.on-drag-event-hazard .staging-area-drop,
-    &.on-drag-event-resource .staging-area-drop {
+    &.on-drag-event-hazard .staging-area-drop-resource,
+    &.on-drag-event-resource .staging-area-drop-resource {
+        display: block !important;
+        position: fixed !important;
+        width: 50px !important;
+        height: 50px !important;
+        top: 400px !important;
+        right: 0px !important;
+        left: auto;
+
+        &::before {
+            color: #fff;
+            content: "Events";
+        }
+    }
+    &.on-drag-event-hazard .staging-area-drop-resource,
+    &.on-drag-event-resource .staging-area-drop-resource {
         display: block !important;
         position: fixed !important;
         width: 50px !important;
