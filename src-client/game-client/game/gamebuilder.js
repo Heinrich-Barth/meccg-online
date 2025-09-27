@@ -460,6 +460,20 @@ const GameBuilder = {
         return !isNaN(val) && val > 0 ? val : 1;
     },
 
+    onUpdateTypeToPlayAsCharacter : function(uuid, type)
+    {
+        let div = document.getElementById("card_icon_nr_" + uuid);
+        if (div === null)
+            div = document.getElementById("arda-hand-card-" + uuid);
+
+        const img = div ? div.querySelector("img") : null;        
+        if (img && type)
+        {
+            div.setAttribute("data-card-type", type);
+            img.dispatchEvent(new MouseEvent('dblclick'));
+        }
+    },
+
     onDrawNewCardToHand : function(e)
     {
         const count = GameBuilder.countCardsToDraw();
@@ -734,19 +748,7 @@ const GameBuilder = {
 
         MeccgApi.addListener("/game/company/location/housekeeping", (_bIsMe, data) => GameBuilder.CompanyManager.locationHousekeeping(data));
 
-        
-        MeccgApi.addListener("/game/card/updatetype", (_bIsMe, data) => {
-
-            const id = "card_icon_nr_" + data.uuid;
-            const div = document.getElementById(id);
-            const img = div ? div.querySelector("img") : null;
-            
-            if (div && img && data.type)
-            {
-                div.setAttribute("data-card-type", data.type);
-                img.dispatchEvent(new MouseEvent('dblclick'));
-            }
-        });
+        MeccgApi.addListener("/game/card/updatetype", (_bIsMe, data) => GameBuilder.onUpdateTypeToPlayAsCharacter(data.uuid, data.type));
 
         MeccgApi.addListener("/game/card/state/hand", (_bIsMe, data) => {
 
