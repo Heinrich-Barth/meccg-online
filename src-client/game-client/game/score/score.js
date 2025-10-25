@@ -11,7 +11,7 @@ class ScoringContainers {
     create()
     {
         this.createScoreCard();
-        this.createScoreSheet();
+        this.#createScoreSheet();
     }
 
     createScoreCardTypes()
@@ -190,7 +190,7 @@ class ScoringContainers {
         return div;
     }
 
-    createScoreSheet()
+    #createScoreSheet()
     {
         if (document.getElementById("scoring-sheet") !== null)
             return;
