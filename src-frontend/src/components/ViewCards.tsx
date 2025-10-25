@@ -9,6 +9,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { FetchSets, ISetInformation, ISetList } from "../operations/FetchSets";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import CancelIcon from '@mui/icons-material/Cancel';
+
 function renderIsLoading() {
     return <Backdrop
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -231,8 +232,11 @@ const cardFilterAppliesAndMatches = function(acceptableList:string[], value:stri
 
 const cardKeysAppliyAndMatches = function(acceptableList:string[], values:string[]|null)
 {
-    if (acceptableList.length === 0 || values === null )
+    if (acceptableList.length === 0)
         return true;
+
+    if (values === null)
+        return false;
 
     for (const val of acceptableList)
     {
