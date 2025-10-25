@@ -625,7 +625,7 @@ class TaskBarCards
 
     onShowOnOffer(bIsMe, jData) 
     {
-        if (!bIsMe && jData.playerid !== "" && jData.playerid !== MeccgPlayers.getChallengerId())
+        if (!bIsMe && jData.playerid && jData.playerid !== MeccgPlayers.getChallengerId())
             return false;
 
         const bICanSee = !GamePreferences.offerBlindly();
@@ -633,15 +633,7 @@ class TaskBarCards
         if (elem === null)
             return false;
 
-        if (jData.showall === true)
-        {
-            if (bIsMe)
-            {
-                for (let _elem of elem.querySelectorAll(".card-hand a"))
-                    _elem.onclick = TaskBarCards.OnClickCardIconOffered;
-            }
-        }
-        else 
+        if (!jData.showall)
         {
             if (bIsMe) 
             {
@@ -651,17 +643,28 @@ class TaskBarCards
                     _elem.setAttribute("data-image-backside", _elem.getAttribute("src"));
                     _elem.setAttribute("src", backside);
                 }
+
+                for (const a of elem.querySelectorAll(".card-hand a"))
+                    a.onclick = TaskBarCards.OnClickCardIconOffered;
             }
             else
                 this.#flipCards(elem);
         }
 
-        if (bIsMe)
-            this.#addOfferedInfo(".view-card-list-container", "offer");
-        else
-            this.#addOfferedInfo(".view-card-list-container", "offered");
-
+        this.#addOfferedInfo(".view-card-list-container", bIsMe ?  "offer" : "offered");
         return true;
+    }
+
+    #activateIconActions(container)
+    {
+        const list = container.querySelectorAll("a");
+        if (list === null || list.length === 0)
+            return;
+
+        for (const a of list)
+        {
+            // dmpa
+        }
     }
 
     #addOfferedInfo(sIdentifier, sAddCss)
@@ -675,9 +678,12 @@ class TaskBarCards
 
     onShowOnOfferReveal(sUuid) 
     {
-        let jImage = ViewCardListContainer.GetViewContainer().querySelector(".container-data").querySelector('div[data-uuid="' + sUuid + '"] img');
+        const jImage = ViewCardListContainer.GetViewContainer().querySelector(".container-data").querySelector('div[data-uuid="' + sUuid + '"] img');
         if (jImage === null)
+        {
+            console.warn("Cannot find card #" + sUuid);
             return;
+        }
 
         const backside = jImage.getAttribute("data-image-backside");
         if (backside !== null && backside.indexOf("/backside") === -1) 
@@ -708,11 +714,11 @@ class TaskBarCards
         const len = res === null ? 0 : res.length;
         for (let i = 0; i < len; i++)
         {
-            let jthis = res[i];
+            const jthis = res[i];
             const backside = jthis.getAttribute("data-image-backside") || "";
             if (backside.indexOf("/backside") !== -1) 
             {
-                let sSrc = jthis.getAttribute("src");
+                const sSrc = jthis.getAttribute("src");
                 jthis.setAttribute("src", jthis.getAttribute("data-image-backside"));
                 jthis.setAttribute("data-image-backside", sSrc);
             }

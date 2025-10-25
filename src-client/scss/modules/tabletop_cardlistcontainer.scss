@@ -145,7 +145,7 @@
     &.offered 
     {
         .icons a { display: none; }
-        .container-title-bar { visibility: hidden; }
+        .container-title-bar div:not(.container-title-bar-shuffle) { visibility: hidden; }
     }
         
     &.offer {
