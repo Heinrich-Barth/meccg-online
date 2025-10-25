@@ -8,24 +8,11 @@
     right: 0;
     background-color: rgba(0,0,0,0.3);
     z-index: 1000;
-    cursor: pointer;
 
     visibility: visible;
     opacity: 1;
 
     transition: all 0.3s ease-in-out;
-
-    &::after {
-        content: 'x';
-        position: fixed;
-        top: 12%;
-        right: 13%;
-        background: linear-gradient(90deg, rgba(35, 35, 35, 1) 0%, rgba(35, 35, 35, 0.9) 100%);
-        border-radius: 50%;
-        padding: 1em;
-        z-index: 1002;
-        color: var(--color-yellow);
-    }
 
     &:hover {
         &::after {
@@ -79,12 +66,15 @@
         font-size: 14px;
         cursor: default;
         border-bottom: 1px solid rgb(20,20,20);
+        position: sticky;
+        top: 0;
+        z-index: 2;
         
         .container-title-bar-shuffle
         {
             cursor: pointer;
             &:hover{
-                color: var(--color-orange-light);
+                color: var(--color-near-white);
             }
         }
     }

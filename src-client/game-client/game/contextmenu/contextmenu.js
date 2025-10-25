@@ -1133,8 +1133,8 @@ const ContextMenu = {
         this.addItem("hand_play_as_character", "Play card as character", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleCharacterPlayability.bind(ContextMenu.callbacks));
 
         this.addItem("hand_action_toggle_view", "Show/Hide hand cards", "fa-eye", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardVisiblity.bind(ContextMenu.callbacks))
-        this.addItem("hand_action_reveal", "Reveal hand to opponent (choose)", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardReveal.bind(ContextMenu.callbacks))
-        this.addItem("hand_action_reveal_all", "Show your hand to opponent", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardRevealAll.bind(ContextMenu.callbacks))
+        this.addItem("hand_action_reveal", "Reveal hand to opponent", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardRevealAll.bind(ContextMenu.callbacks))
+        this.addItem("hand_action_reveal_all", "Show cards to opponent (choose)", "fa-user", "context-menu-item-generic", ContextMenu.callbacks.toggleHandCardReveal.bind(ContextMenu.callbacks))
         this.addItem("hand_action_shuffletoplaydeck", "Shuffle hand into playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleHandIntoPlaydeck.bind(ContextMenu.callbacks))
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];

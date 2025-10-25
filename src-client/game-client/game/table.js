@@ -168,10 +168,10 @@
         div.setAttribute("class", "hidden");
         div.innerHTML = `
             <div class="view-card-list-container blue-box" data-class="view-card-list-container blue-box" >
-                <div class="container-title-bar smallCaps">
+                <div class="container-title-bar blue-box smallCaps">
                     <div class="container-title-bar-title fl"></div>
                     <div class="container-title-bar-reveal hideOnOffer fl"><i class="fa fa-eye"></i> <a href="#" title="${Dictionary.get("title_showtoopp", "Show to your Opponent")}" data-type=""> ${Dictionary.get("reval_opp", "reveal to opp.")}</a></div>
-                    <div class="container-title-bar-shuffle hideOnOffer fr">${Dictionary.get("close", "Close")}</div>
+                    <div class="container-title-bar-shuffle fr">${Dictionary.get("close", "Close")}</div>
                     <div class="clear"></div>
                 </div>
                 <div class="container-data"></div>

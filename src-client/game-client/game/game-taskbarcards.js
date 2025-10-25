@@ -3,30 +3,11 @@ class ViewCardListContainer {
 
     static CONTAINER_ID = "view_card_list_container";
 
-    static CardList = null;
+    static #cardList = null;
 
-    static init()
+    static setCardList(pCardList)
     {
-        let elem = document.getElementById(ViewCardListContainer.CONTAINER_ID);
-        if (elem !== null)
-            return;
-
-        const div = document.createElement("div");
-        div.setAttribute("id", "view_card_list_container");
-        div.setAttribute("class", "hidden");
-        div.innerHTML = `
-                <div data-class="view-card-list-container blue-box" class="view-card-list-container blue-box">
-                    <div class="container-title-bar smallCaps">
-                        <div class="container-title-bar-title fl"></div>
-                        <div class="container-title-bar-reveal hideOnOffer fl"><a href="#" class="fa fa-eye" title="show to your opponent" data-type="">reveal to opp.</a></div>
-                        <div class="container-title-bar-shuffle hideOnOffer fr">Close &amp; Shuffle</div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="container-data"></div>
-                    <div class="clear"></div>
-                </div>`;
-
-        document.body.appendChild(div);
+        ViewCardListContainer.#cardList = pCardList;
     }
 
     static GetViewContainer() 
@@ -46,8 +27,8 @@ class ViewCardListContainer {
 
     static createCardContainer(code, uuid, type, bShowCardPreview, cardNumber) 
     {
-        let _img = ViewCardListContainer.CardList.getImage(code);
-        let sCode = ViewCardListContainer.CardList.getSafeCode(code);
+        let _img = ViewCardListContainer.#cardList.getImage(code);
+        let sCode = ViewCardListContainer.#cardList.getSafeCode(code);
 
         if (!bShowCardPreview) 
         {
@@ -302,17 +283,14 @@ class TaskBarCards
 
     constructor(_CardList, _CardPreview)
     {
-        ViewCardListContainer.CardList = _CardList;
+        ViewCardListContainer.setCardList(_CardList);
         TaskBarCards.#cardPreview = _CardPreview;
         TaskBarCards.#requireStageCardList();
 
-        ViewCardListContainer.init();
-        
         const view = ViewCardListContainer.GetViewContainer();
-        view.onclick = TaskBarCards.HideList;
-        view.querySelector(".container-title-bar-shuffle").onclick = TaskBarCards.OnClickContainerShuffle;
+        view.querySelector(".container-title-bar-shuffle").onclick = TaskBarCards.#OnClickContainerClose;
 
-        for (let elem of view.querySelectorAll(".container-title-bar-reveal a"))
+        for (const elem of view.querySelectorAll(".container-title-bar-reveal a"))
         {
             elem.onclick = (e) => {
                 const _data = e.target.getAttribute("data-type") || "";
@@ -510,7 +488,7 @@ class TaskBarCards
         return false;
     }
 
-    static OnClickContainerShuffle(e) 
+    static #OnClickContainerClose(e) 
     {
         TaskBarCards.HideList();
         e.stopPropagation();
@@ -557,7 +535,8 @@ class TaskBarCards
             }
             case "handall":
                 MeccgApi.send("/game/view-cards/reveal-pile", {
-                    type: type
+                    type: type,
+                    revalall: true,
                 });
                 break;
             case "sideboard":
@@ -748,8 +727,8 @@ class TaskBarCards
 
         const jContainer = jViewContainer.querySelector(".view-card-list-container");
 
-        let isOfferred = jContainer.classList.contains("offered");
-        let isOffer = jContainer.classList.contains("offer");
+        const isOfferred = jContainer.classList.contains("offered");
+        const isOffer = jContainer.classList.contains("offer");
 
         TaskBarCards.HideListContainer(jViewContainer, jContainer);
 
