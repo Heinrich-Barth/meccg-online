@@ -235,7 +235,7 @@ const cardKeysAppliyAndMatches = function(acceptableList:string[], values:string
     if (acceptableList.length === 0)
         return true;
 
-    if (values === null)
+    if (!values || !Array.isArray(values) || values.length === 0)
         return false;
 
     for (const val of acceptableList)
