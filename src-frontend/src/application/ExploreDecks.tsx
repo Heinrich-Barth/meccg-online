@@ -18,10 +18,10 @@ const getLabelColor = function (index: number) {
     if (index <= 0)
         index = 0;
 
-    while (index > labelColors.length)
+    while (index >= labelColors.length)
         index -= labelColors.length;
 
-    return labelColors[index];
+    return index < 0 || index >= labelColors.length ? labelColors[0] : labelColors[index];
 }
 
 

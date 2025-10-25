@@ -313,7 +313,7 @@ h3 {
     transition: all 0.3s ease-in-out;
 
     span {
-        color: var(--color-white);
+        color: var(--color-black);
         padding: 2px 10px;
         border-radius: 5px;
 
@@ -339,7 +339,7 @@ h3 {
 
         &:hover,
         &.active {
-            color: var(--color-black);
+            color: var(--color-white);
         }
     }
 
