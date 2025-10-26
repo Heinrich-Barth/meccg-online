@@ -50,7 +50,7 @@ export default function HomeSelectDeck() {
                 
             roomData = info;
             FetchDeckList()
-            .then((list) => deckList = list)
+            .then((list) => deckList = list.sort((a,b) => a.name.localeCompare(b.name)))
             .finally(() => setSelectDeckOpen(true));
 
         })

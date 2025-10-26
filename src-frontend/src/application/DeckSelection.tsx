@@ -132,14 +132,13 @@ const map2string = function (input: DeckCardsEntry) {
     return list.join("\n");
 }
 
-const scrollTop = function()
-{
+const scrollTop = function () {
     const section = document.getElementById("APP_BAR");
     if (section)
-        section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-let g_vsAvatars:string[] = []
+let g_vsAvatars: string[] = []
 
 export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room, deckList, roomImage, roomData }: DeckSelectionProps) {
 
@@ -230,7 +229,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             sessionStorage.removeItem("deck-notes");
 
         updateMapSettingsStorage(mapSettings);
-        
+
         fetch(PROXY_URL + "/" + getUrlPathByType(gametype) + "/" + room + "/login", {
             method: "POST",
             credentials: "include",
@@ -329,7 +328,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         });
     }
 
-    const loadDeckById = function (deckid: string, group:string = "") {
+    const loadDeckById = function (deckid: string, group: string = "") {
         setErrorMessageFile("");
         setErrorMessage("");
         if (deckid === "") {
@@ -372,15 +371,13 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         setGameTypeLabel(getGameTypeLabelButton(val));
     }
 
-    const updateMapSettingsPrefere = function(val:string)
-    {
+    const updateMapSettingsPrefere = function (val: string) {
         const data = { ...mapSettings }
         data.prefer = val;
         setMapSettings(data);
     }
 
-    const updateGameTypeFromDeckGroup = function(group:string)
-    {
+    const updateGameTypeFromDeckGroup = function (group: string) {
         if (!allowGameTypeSelection)
             return;
 
@@ -388,7 +385,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             updateGameType(TYPE_ARDA);
         else if (group.toLowerCase().startsWith("solo"))
             updateGameType(TYPE_SOLO);
-        else 
+        else
             updateGameType(TYPE_STANDARD);
     }
 
@@ -406,7 +403,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         setCurrentDeckGroup("");
         setViewDeckId("");
         setCurrentDeckId("");
-        InitCustomDeck();   
+        InitCustomDeck();
         FetchSampleRooms().then(list => {
             for (let e of list) {
                 if (e.name.toLowerCase() === room.toLowerCase()) {
@@ -428,9 +425,9 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
 
         const imgAvatar = meta.avatar !== "" ? meta.avatar : BACKSIDE_IMAGE;
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
-        
+
         return (
-            <Grid item xs={12} md={6} lg={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
+            <Grid item xs={12} lg={6} xl={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
                     <Grid item xs={4} md={3}>
                         <div className="room-image room-image-game">
@@ -447,8 +444,8 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                     <br />Sideboard: {meta?.sideboard}
                                 </p>
                             </Grid>
-                            <Grid item xs={12} md={5} >
-                                <Grid container rowGap={2}>
+                            <Grid item xs={12} md={5} style={{ paddingRight: "0.5em"}}>
+                                <Grid container rowGap={1}>
                                     <Grid item xs={12}>
                                         <Button
                                             fullWidth
@@ -537,20 +534,20 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         reader.readAsText(file);
     }
 
-    const createLabelDiv = function (elem: DeckEntry, index: number) {
+    const CreateLabelDiv = function (props:{elem: DeckEntry, idx: number}) {
+        const index = props.idx;
+        const elem = props.elem;
         const color = getLabelColor(index);
         const count = Object.keys(elem.decks).length;
         if (count === 0)
             return <></>;
 
         const isSelected = currentDeckGroup !== "" && currentDeckGroup === elem.name.toLowerCase();
-
-        return (
-            <div className='deck-label marginBottom0-5em pointer' key={"label-" + index} onClick={() => currentDeckGroup === "" ? setCurrentDeckGroup(elem.name.toLowerCase()) : setCurrentDeckGroup(isSelected ? "" : elem.name.toLowerCase())}>
-                <span data-deck-group={elem.name.toLowerCase()} className={"deck-label-" + color}>
-                    {isSelected && (<><i className='fa fa-eye' />&nbsp;</>)}{elem.name} ({count})
-                </span>
-            </div>);
+        return <div className='deck-label marginBottom0-5em pointer' key={"label-" + index} onClick={() => currentDeckGroup === "" ? setCurrentDeckGroup(elem.name.toLowerCase()) : setCurrentDeckGroup(isSelected ? "" : elem.name.toLowerCase())}>
+            <div className={"deck-label-" + color}>
+                {isSelected && (<><i className='fa fa-eye' />&nbsp;</>)}{elem.name} ({count})
+            </div>
+        </div>
     }
 
     const getDialogTitle = function () {
@@ -558,6 +555,36 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
             return Dictionary("home.joinarda", "Join the Arda game");
 
         return Dictionary("home.selectdeck", "Choose your deck to play")
+    }
+
+    const LoadDeckButton = function(props: { fullwidth: boolean })
+    {
+        return <Button
+            className='buttonLeft'
+            onClick={() => document.getElementById("meccg-open-dialog")?.click()}
+            disabled={!allowDeckLoading} 
+            fullWidth={props.fullwidth}  
+            variant='outlined' 
+            startIcon={<ScreenSearchDesktopIcon />} 
+            >
+                {Dictionary("frontend.loadeck", "Load Deck")}
+        </Button>
+    }
+
+    const ImportEditButton = function(props: { fullwidth: boolean })
+    {
+        return <Button disabled={!allowDeckLoading} 
+                    fullWidth={props.fullwidth} 
+                    className='buttonLeft' startIcon={<BrowserUpdatedIcon />} 
+                    onClick={() => {
+                                if (!showCustomDeck)
+                                    editDeckById("custom")
+                                else
+                                    setShowCustomDeck(false);
+                            }}
+            >
+                {Dictionary("frontend.importdeck", "Import / Edit Deck")}
+            </Button>
     }
 
     return (
@@ -654,17 +681,17 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             />
                         </FormGroup>
                         <FormControlLabel
-                                label="Use DC Errata"
-                                control={
-                                    <Checkbox
-                                        checked={mapSettings.allowDCErrata}
-                                        onChange={(e) => {
-                                            mapSettings.allowDCErrata = e.target.checked;
-                                            setMapSettings({ ...mapSettings });
-                                        }}
-                                    />
-                                }
-                            />
+                            label="Use DC Errata"
+                            control={
+                                <Checkbox
+                                    checked={mapSettings.allowDCErrata}
+                                    onChange={(e) => {
+                                        mapSettings.allowDCErrata = e.target.checked;
+                                        setMapSettings({ ...mapSettings });
+                                    }}
+                                />
+                            }
+                        />
                     </Grid>
                     <Grid item xs={8} sm={6} md={3} lg={2}>
                         <FormControl>
@@ -689,20 +716,10 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             <Grid item xs={12}>
                                 {errorMessageFile !== "" && (<Alert severity="error">{errorMessageFile}</Alert>)}
                                 <input className='displayNone' id="meccg-open-dialog" type="file" onChange={onLoadLocalDeck} />
-                                <Button
-                                    className='buttonLeft'
-                                    onClick={() => document.getElementById("meccg-open-dialog")?.click()}
-                                    disabled={!allowDeckLoading} fullWidth variant='outlined' startIcon={<ScreenSearchDesktopIcon />} >{Dictionary("frontend.loadeck", "Load Deck")}</Button>
-
+                                <LoadDeckButton fullwidth={true} />
                             </Grid>
                             <Grid item xs={12}>
-                                <Button disabled={!allowDeckLoading} onClick={() => {
-                                    if (!showCustomDeck)
-                                        editDeckById("custom")
-                                    else
-                                        setShowCustomDeck(false);
-                                }}
-                                    fullWidth className='buttonLeft' startIcon={<BrowserUpdatedIcon />} >{Dictionary("frontend.importdeck", "Import / Edit Deck")}</Button>
+                                <ImportEditButton fullwidth={true} />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -729,38 +746,49 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             <Grid item xs={12} textAlign="center" className='padding2em1m'>
                                 <h3>Deck Selection</h3>
                                 <p>Choose a deck or click here to load/import a deck</p>
-
-                                {deckList.map((entry, index) => createLabelDiv(entry, index))}
                             </Grid>
-
-                            <Grid container rowGap={2} justifyContent="center" className='padding2em1m'>
-                                {deckList.map((deckGroup, index) => {
-                                    const res: any = [];
-                                    const color = getLabelColor(index);
-                                    let i = 0;
-                                    const deckList: any = deckGroup.decks;
-                                    const deckGroupMeta: any = deckGroup.meta;
-                                    for (let deckName in deckList) {
-                                        const deckUid = deckList[deckName] ?? "null";
-                                        const deckData = deckGroupMeta[deckUid]
-                                        if (deckData !== undefined)
-                                            res.push(createChallengeDeckCard(deckGroup, deckName, deckData, color, "deck-" + index + "-" + (++i)));
-                                    }
-                                    return res;
-                                })}
+                            <Grid container item xs={12} className='padding2em1m'>
+                                <Grid item xs={12} sm={3} textAlign="left" style={{ paddingRight: "0.5em" }}>
+                                    {deckList.map((entry, index) => <Grid container item xs={12} key={"sel_lab" + index}>
+                                        <CreateLabelDiv elem={entry} idx={index} />
+                                    </Grid>)}
+                                    <Grid item xs={12} style={{ padding: "1em"}}>
+                                        <LoadDeckButton fullwidth={false} />
+                                    </Grid>
+                                    <Grid item xs={12} style={{ padding: "1em"}}>
+                                        <ImportEditButton fullwidth={false} />
+                                    </Grid>
+                                </Grid>
+                                <Grid container item xs={12} sm={9} rowGap={2}>
+                                    {deckList.map((deckGroup, index) => {
+                                        const res: any = [];
+                                        const color = getLabelColor(index);
+                                        let i = 0;
+                                        const deckList: any = deckGroup.decks;
+                                        const deckGroupMeta: any = deckGroup.meta;
+                                        for (const deckName in deckList) 
+                                        {
+                                            const deckUid = deckList[deckName] ?? "null";
+                                            const deckData = deckGroupMeta[deckUid]
+                                            if (deckData !== undefined)
+                                                res.push(createChallengeDeckCard(deckGroup, deckName, deckData, color, "deck-" + index + "-" + (++i)));
+                                        }
+                                        return res;
+                                    })}
+                                </Grid>
                             </Grid>
                         </>}
                     </>)}
                 </Grid>
                 {showCardList !== null && (
-                    <ViewDeckCards 
-                        imageMap={showCardList.images} 
-                        notes={showCardList.notes} 
+                    <ViewDeckCards
+                        imageMap={showCardList.images}
+                        notes={showCardList.notes}
                         deck={showCardList.deck}
                         pool={showCardList.pool}
                         sideboard={showCardList.sideboard}
                         sites={showCardList.sites}
-                        onClose={() => setShowCardList(null)} 
+                        onClose={() => setShowCardList(null)}
                     />
                 )}
             </Dialog>

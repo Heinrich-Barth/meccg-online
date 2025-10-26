@@ -104,7 +104,7 @@ export default function ExploreDecks() {
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
 
         return (
-            <Grid item xs={12} md={6} lg={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
+            <Grid item xs={12} lg={6} xl={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
                     <Grid item xs={4} md={3}>
                         <div className="room-image room-image-game">
@@ -145,20 +145,25 @@ export default function ExploreDecks() {
     }
 
 
-    const createLabelDiv = function (elem: DeckEntry, index: number) {
+    const CreateLabelDiv = function (props:{elem: DeckEntry, idx: number}) {
+        const index = props.idx;
+        const elem = props.elem;
+
         const color = getLabelColor(index);
         const count = Object.keys(elem.decks).length;
+
         if (count === 0)
             return <></>;
 
         const isSelected = currentDeckGroup !== "" && currentDeckGroup === elem.name.toLowerCase();
 
-        return (
-            <div className='deck-label marginBottom0-5em pointer' key={"label-" + index} onClick={() => currentDeckGroup === "" ? setCurrentDeckGroup(elem.name.toLowerCase()) : setCurrentDeckGroup(isSelected ? "" : elem.name.toLowerCase())}>
+        return <>
+            <div className='deck-label marginBottom0-5em pointer' onClick={() => currentDeckGroup === "" ? setCurrentDeckGroup(elem.name.toLowerCase()) : setCurrentDeckGroup(isSelected ? "" : elem.name.toLowerCase())}>
                 <span data-deck-group={elem.name.toLowerCase()} className={"deck-label-" + color}>
                     {isSelected && (<><i className='fa fa-eye' />&nbsp;</>)}{elem.name} ({count})
                 </span>
-            </div>);
+            </div>
+        </>;
     }
 
     return (
@@ -184,25 +189,29 @@ export default function ExploreDecks() {
                     <Grid item xs={12} textAlign="center" className='padding2em1m'>
                         <h3>Deck Selection</h3>
                         <p>Choose a deck or click here to load/import a deck</p>
-
-                        {deckList.map((entry, index) => createLabelDiv(entry, index))}
                     </Grid>
-
-                    <Grid container rowGap={2} justifyContent="center" className='padding2em1m'>
-                        {deckList.map((deckGroup, index) => {
-                            const res: any = [];
-                            const color = getLabelColor(index);
-                            let i = 0;
-                            const deckList: any = deckGroup.decks;
-                            const deckGroupMeta: any = deckGroup.meta;
-                            for (let deckName in deckList) {
-                                const deckUid = deckList[deckName] ?? "null";
-                                const deckData = deckGroupMeta[deckUid]
-                                if (deckData !== undefined)
-                                    res.push(createChallengeDeckCard(deckGroup, deckName, deckData, color, "deck-" + index + "-" + (++i)));
-                            }
-                            return res;
-                        })}
+                    <Grid container item xs={12} className='padding2em1m'>
+                        <Grid item xs={12} sm={3} textAlign="left" style={{ paddingRight: "0.5em"}}>
+                            {deckList.map((entry, index) => <Grid item xs={12} key={"sel_lab" + index}>
+                                    <CreateLabelDiv elem={entry} idx={index} />
+                                </Grid>)}
+                        </Grid>
+                        <Grid container item xs={12} sm={9} justifyContent="center" rowGap={2}>
+                            {deckList.map((deckGroup, index) => {
+                                const res: any = [];
+                                const color = getLabelColor(index);
+                                let i = 0;
+                                const deckList: any = deckGroup.decks;
+                                const deckGroupMeta: any = deckGroup.meta;
+                                for (let deckName in deckList) {
+                                    const deckUid = deckList[deckName] ?? "null";
+                                    const deckData = deckGroupMeta[deckUid]
+                                    if (deckData !== undefined)
+                                        res.push(createChallengeDeckCard(deckGroup, deckName, deckData, color, "deck-" + index + "-" + (++i)));
+                                }
+                                return res;
+                            })}
+                        </Grid>
                     </Grid>
                 </>}
             </Grid>

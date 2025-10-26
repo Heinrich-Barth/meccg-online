@@ -145,17 +145,18 @@
 
 .deck-label {
     color: var(--color-black);
-    display: inline-block;
     font-size: 0.8em;
     grid-column: span 3;
     padding: 0 10px;
-    text-align: right;
+    text-align: left;
     transition: all 0.3s ease-in-out;
     margin-right: 1em;
 
-    span {
+    span,
+    div {
         padding: 2px 10px;
         border-radius: 5px;
+        display: inline-block;
     }
 
     :last-of-type {
