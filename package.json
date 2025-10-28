@@ -6,6 +6,7 @@
   "license": "GPL-2.0",
   "main": "src-server/index.ts",
   "scripts": {
+    "build_all": "sh build-frontend.sh && gulp --production & npx tsc",
     "build": "gulp --production & npx tsc",
     "dev": "concurrently \"gulp --debug --verbose\" \"nodemon\"",
     "dev_client": "nodemon",
