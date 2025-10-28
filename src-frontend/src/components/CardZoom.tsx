@@ -4,6 +4,19 @@ export type ImagePreviewInfo = {
     left: boolean;
 }
 
+export function GetImagePreviewDataByImageUri(uri:string, x: number):ImagePreviewInfo|null
+{
+    if (!uri)
+        return null;
+
+    const half = window.innerWidth / 2;
+    const left = x < half;
+    return {
+        image: uri,
+        left: !left
+    }
+}
+
 export function GetImagePreviewData(id:string, x: number):ImagePreviewInfo|null
 {
     const img = document.getElementById(id);

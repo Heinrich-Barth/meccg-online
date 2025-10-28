@@ -7,7 +7,7 @@ import { Grid } from '@mui/material';
 import Dictionary from './Dictionary';
 import FetchCards, { CardData, CardImageMap, FetchCardImages } from "../operations/FetchCards";
 import { DeckCardsEntry } from '../application/Types';
-import RenderCardPreview, { GetImagePreviewData, ImagePreviewInfo } from './CardZoom';
+import RenderCardPreview, { GetImagePreviewDataByImageUri, ImagePreviewInfo } from './CardZoom';
 
 type CardDataMap = {
     [code:string]: CardData;
@@ -115,8 +115,7 @@ const RenderSection = function({ title, codes, images, renderPreview } : { title
                     decoding="async" 
                     loading="lazy" 
                     alt={code.code} 
-                    id={"image-" + index}
-                    onMouseEnter={(e) => renderPreview(GetImagePreviewData("image-"+index, e.pageX))}
+                    onMouseEnter={(e) => renderPreview(GetImagePreviewDataByImageUri(img, e.pageX))}
                     onMouseLeave={() => renderPreview(null) }
                     className='view-image'
                 />
