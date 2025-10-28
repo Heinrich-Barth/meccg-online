@@ -289,6 +289,14 @@ class TaskBarCards
 
         const view = ViewCardListContainer.GetViewContainer();
         view.querySelector(".container-title-bar-shuffle").onclick = TaskBarCards.#OnClickContainerClose;
+        view.onclick = (e) => {
+            e.stopPropagation();
+
+            if (e.target.getAttribute("id") === ViewCardListContainer.CONTAINER_ID)
+                TaskBarCards.HideList();
+
+            return false;
+        }
 
         for (const elem of view.querySelectorAll(".container-title-bar-reveal a"))
         {
