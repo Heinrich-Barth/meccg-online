@@ -7,7 +7,6 @@ class DiscardPileAtTable
         this.imgPrefix = "discardimage_";
     }
 
-
     insertContainer()
     {
         const list = document.getElementsByClassName("staging-area-opponent");

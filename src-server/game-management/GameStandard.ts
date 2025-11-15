@@ -1327,7 +1327,7 @@ export default class GameStandard extends GamePlayers
             for (let _company of this.getPlayboardManager().GetCompanyIds(userid))
                 this.getPlayboardManager().ReadyCompanyCards(_company);
 
-            this.publishToPlayers("/game/player/set-current", this.getCurrentPlayerId(), {name: this.getCurrentPlayerId(), displayname: this.getCurrentPlayerName()});
+            this.publishToPlayers("/game/player/set-current", this.getCurrentPlayerId(), {id: this.getCurrentPlayerId(), displayname: this.getCurrentPlayerName()});
         }
 
         this.setPhase(sPhase);

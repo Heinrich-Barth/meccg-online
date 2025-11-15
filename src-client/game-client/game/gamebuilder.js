@@ -121,7 +121,7 @@ const GameBuilder = {
         div_card_count.setAttribute("class", "card-hand-count")
         document.getElementById("draw_card").append(div_card_count);
         
-        if (GameBuilder._isVisitor === true || g_sRoom === undefined || g_sRoom === "")
+        if (GameBuilder.isVisitor() || g_sRoom === undefined || g_sRoom === "")
             return;
 
         if (document.getElementById("game_spectators") !== null)
@@ -570,6 +570,8 @@ const GameBuilder = {
                 return;
             }
             
+            GameBuilder.reorderOpponents(jData.id);
+
             let sName = jData.displayname;
             if (typeof sName === "undefined" || sName.indexOf(">") !== -1 || sName.indexOf("<") !== -1)
                 return;
@@ -1043,7 +1045,17 @@ const GameBuilder = {
     onChangeAvatarApp : function(codes)
     {
         ChangeAvatarApp.init(codes);
+    },
+
+    reorderOpponents: function(firstId)
+    {
+        if (!GameBuilder.isVisitor() || !firstId)
+            return;
+
+        
+
     }
+
 };
 
 const ChangeAvatarApp = {

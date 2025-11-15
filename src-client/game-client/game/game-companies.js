@@ -23,6 +23,16 @@ const createCompanyHtml = function(companyId, id)
     return div;
 }
 
+const countOpponentContainers = function()
+{
+    const pContainer = document.getElementById("opponent-companies");
+    if (pContainer === null)
+        return 0;
+
+    const list = pContainer.getElementsByClassName("companies");
+    return list === null ? 0 : list.length;
+}
+
 const createOpponentContainer = function(sHexPlayerCode, playerId)
 {
     const pContainer = document.getElementById("opponent-companies");
@@ -42,14 +52,26 @@ const createOpponentContainer = function(sHexPlayerCode, playerId)
 
     pContainer.appendChild(div);
 
-    createOpponentContainerVisitorHand(pContainer, playerId);
+    const hand = createOpponentContainerVisitorHand(pContainer, playerId);
+
+    const size = countOpponentContainers();
+    if (size === 1)
+    {
+        div.classList.add("rot180");
+        if (hand !== null)
+        {
+            hand.classList.add("rot180");
+            hand.parentElement.prepend(hand)
+        }
+    }
+
     return div;
 };
 
 const createOpponentContainerVisitorHand = function(pContainer, playerId)
 {
     if (document.body.getAttribute("data-is-watcher") !== "true" || document.getElementById("playercard_hand_container_" + playerId) !== null)
-        return;
+        return null;
 
     const div = document.createElement("div");
     div.setAttribute("id", "playercard_hand_container_" + playerId);
@@ -59,6 +81,8 @@ const createOpponentContainerVisitorHand = function(pContainer, playerId)
     const eHand = document.getElementById("watch_togglehand");
     if (eHand !== null)
         eHand.click();
+
+    return div;
 }
 
 const getCardStateCss = function(nState)
