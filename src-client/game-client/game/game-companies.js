@@ -55,7 +55,7 @@ const createOpponentContainer = function(sHexPlayerCode, playerId)
     const hand = createOpponentContainerVisitorHand(pContainer, playerId);
 
     const size = countOpponentContainers();
-    if (size === 1)
+    if (size === 1 && GameBuilder.isVisitor())
     {
         div.classList.add("rot180");
         if (hand !== null)
