@@ -202,7 +202,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
              return [];
 
         for (let uuid of listCharacters)
-            this.joinCompanyFromBoard(uuid, companyUuid);
+            this.#joinCompanyFromBoard(uuid, companyUuid);
 
         return [];
     }
@@ -291,7 +291,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       * @param {String} playerId Player id
       * @returns success state
       */
-    joinCompanyFromHand(uuid:string, companyId:string, playerId:string)
+    #joinCompanyFromHand(uuid:string, companyId:string, playerId:string)
     {
         const pDeck = super.getPlayerDeck(playerId);
         if (pDeck === null)
@@ -317,7 +317,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {String} companyId Company Id to join
      * @returns success state
      */
-    joinCompanyFromBoard(uuid:string, companyId:string)
+    #joinCompanyFromBoard(uuid:string, companyId:string)
     {
         const card = this.popCompanyCharacter(uuid);
         if (!this.addCompanyCharacterToCompany(companyId, "", card))
@@ -341,9 +341,9 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
     JoinCompany(uuid:string, source:string, companyId:string, playerId:string)
     {
         if (source === "hand")
-            return this.joinCompanyFromHand(uuid, companyId, playerId);
+            return this.#joinCompanyFromHand(uuid, companyId, playerId);
         else 
-            return this.joinCompanyFromBoard(uuid, companyId);
+            return this.#joinCompanyFromBoard(uuid, companyId);
     }
   
       /**
