@@ -109,6 +109,53 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         }
     }
 
+    transferEmptyCompanyOnGuards()
+    {
+        const keys = this.#getEmptyCompanies();
+        if (keys.length === 0)
+            return [];
+
+        const changedCompanies:string[] = [];
+        let nBefore = 0;
+        for (const key of keys)
+        {
+            if (this.#companies[key].characters.length > 0)
+                continue;
+
+            const company = this.#companies[key];
+            if (company.sites.attached.length === 0)
+                continue;
+
+            const alternativeCompany = this.#getSameTargetSiteCompany(key);
+            if (alternativeCompany === null)
+                continue;
+
+            nBefore = alternativeCompany.sites.attached.length;
+            for (const uuid of company.sites.attached)
+            {
+                if (!alternativeCompany.sites.attached.includes(uuid))
+                    alternativeCompany.sites.attached.push(uuid);
+            }
+            
+            if (nBefore !== alternativeCompany.sites.attached.length)
+                changedCompanies.push(company.id);
+        }
+
+        return changedCompanies;
+    }
+
+    #getEmptyCompanies()
+    {
+        const keys = [];
+
+        for (const key in this.#companies)
+        {
+            if (this.#companies[key].characters.length === 0)
+                keys.push(key);
+        }
+
+        return keys;
+    }
 
     /**
       * Remove empty companies 
@@ -116,20 +163,57 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       */
     removeEmptyCompanies()
     {
-        let keys = [];
-        for (let key in this.#companies)
+        const keys = this.#getEmptyCompanies();
+
+        for (const key of keys)
         {
-            if (this.#companies[key].characters.length === 0)
+            this.#discardCompanyOnGuardCards(key);
+            delete this.#companies[key];
+        }
+
+        return keys;
+    }
+
+    #getSameTargetSiteCompany(id:string)
+    {
+        if (!this.#companies[id] || this.#companies[id].sites.target !== "")
+            return null;
+
+        const owner = this.#companies[id].playerId;
+        const targetSite = this.#companies[id].sites.current;
+        if (!targetSite)
+            return null;
+
+        let alternativeCompany = null;
+        let size = 0;
+        for (const key in this.#companies)
+        {
+            const company = this.#companies[key];
+            if (company.playerId !== owner // has to be same owner
+                || company.characters.length === 0 // cannot be empty company
+                || company.sites.current !== targetSite) // same current site
+                continue;
+
+            const cSize = this.#countTotalCharacters(company);
+            if (size < cSize) // find the largest company
             {
-                this.discardCompanyOnGuardCards(key);
-                keys.push(key);
+                size = cSize;
+                alternativeCompany = this.#companies[key];
             }
         }
 
-        for (let _key of keys)
-            delete this.#companies[_key];
+        return alternativeCompany;
+    }
 
-        return keys;
+    #countTotalCharacters(company:TCompany)
+    {
+        let count = 0;
+
+        const size = company.characters.length;
+        for (let i = 0; i < size; i++)
+            count += 1 + company.characters[i].influenced.length;
+
+        return count;
     }
 
     /**
@@ -137,21 +221,24 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
      * @param {String} companyUuid
      * @return {void}
      */
-    discardCompanyOnGuardCards(companyUuid:string)
+    #discardCompanyOnGuardCards(companyUuid:string)
     {
-        if (!this.companyExists(companyUuid))
+        if (!this.companyExists(companyUuid) || this.#companies[companyUuid].sites.attached.length === 0)
             return;
 
+        const sourceCompany = this.#companies[companyUuid];
+
         let jCard, pDeck;
-        for (let _uuid of this.#companies[companyUuid].sites.attached)
+        for (const _uuid of sourceCompany.sites.attached)
         {
             jCard = this.GetCardByUuid(_uuid);
-            pDeck = jCard === null ? null : super.getPlayerDeck(jCard.owner);
+            pDeck = jCard === null ? null : this.getPlayerDeck(jCard.owner);
             if (pDeck !== null)
                 pDeck.push().toDiscardpile(_uuid);
         }
 
-        this.#companies[companyUuid].sites.attached = [];
+
+        sourceCompany.sites.attached = [];
     }
  
     /**
@@ -293,7 +380,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
       */
     #joinCompanyFromHand(uuid:string, companyId:string, playerId:string)
     {
-        const pDeck = super.getPlayerDeck(playerId);
+        const pDeck = this.getPlayerDeck(playerId);
         if (pDeck === null)
         {
             Logger.warn("Cannot find player deck");
@@ -586,7 +673,7 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         if (uuid === "" || source === "" || playerId === "")
             return "";
 
-        const pDeck = super.getPlayerDeck(playerId);
+        const pDeck = this.getPlayerDeck(playerId);
         if (pDeck === null)
             return "";
 

@@ -192,14 +192,23 @@ export default class GameStandard extends GamePlayers
         });
     }
 
-    removeEmptyCompanies()
+    #removeEmptyCompanies(userid:string)
     {
+        const updatedCompanies = this.getPlayboardManager().transferEmptyCompanyOnGuards();
         const keys = this.getPlayboardManager().removeEmptyCompanies();
         if (keys.length === 0)
             return false;
 
         this.publishToPlayers("/game/remove-empty-companies", "", keys);
         this.updateHandCountersPlayerAll();
+
+        for (const id of updatedCompanies)
+        {
+            const pCompany = this.getPlayboardManager().GetFullCompanyByCompanyId(id);
+            if (pCompany !== null)
+                this.publishToPlayers("/game/player/draw/company", userid, pCompany);
+        }
+
         return true;
     }
 
@@ -902,7 +911,7 @@ export default class GameStandard extends GamePlayers
         if (pCompany !== null)
         {
             this.publishToPlayers("/game/player/draw/company", userid, pCompany);
-            this.removeEmptyCompanies();
+            this.#removeEmptyCompanies(userid);
         }
     }
 
@@ -975,7 +984,7 @@ export default class GameStandard extends GamePlayers
         }
         else
         {
-            this.removeEmptyCompanies();
+            this.#removeEmptyCompanies(userid);
             if (isFromHand)
             {
                 const _code = this.getCharacterCode(targetcharacter, "");
@@ -1012,7 +1021,7 @@ export default class GameStandard extends GamePlayers
                 this.publishToPlayers("/game/event/fromHand", userid, {code: _code, user: userid});
         }
 
-        this.removeEmptyCompanies();
+        this.#removeEmptyCompanies(userid);
 
         {
             let sWho = this.getCardCode(_uuid, "Character") + " joined";
@@ -1050,7 +1059,7 @@ export default class GameStandard extends GamePlayers
 
         // draw the company
         this.onRedrawCompany(userid, _id);
-        this.removeEmptyCompanies();
+        this.#removeEmptyCompanies(userid);
 
         const card = this.getPlayboardManager().GetCardByUuid(_uuid);
         if (card !== null && card.revealed !== false)
