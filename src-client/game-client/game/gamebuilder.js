@@ -92,12 +92,15 @@ const GameBuilder = {
         fetch("/data/spectators/" + g_sRoom)
         .then((response) =>
         {
-            if (response.status === 200)
-                return response.json();
-            else
-                return { count: 0 };
+            if (!response.ok)
+                throw new Error("Cannot update visitors");
+
+            return response.json();
         })
-        .then((data) => GameBuilder.setSpectatorCount(data.count))
+        .then((data) => {
+            if (Array.isArray(data))
+                MeccgApi.send("/game/spectatos", data);
+        })
         .catch(console.error);  
     },
 
@@ -121,7 +124,7 @@ const GameBuilder = {
         div_card_count.setAttribute("class", "card-hand-count")
         document.getElementById("draw_card").append(div_card_count);
         
-        if (GameBuilder.isVisitor() || g_sRoom === undefined || g_sRoom === "")
+        if (g_sLobbyToken === "" || GameBuilder.isVisitor() || g_sRoom === undefined || g_sRoom === "")
             return;
 
         if (document.getElementById("game_spectators") !== null)
@@ -282,6 +285,38 @@ const GameBuilder = {
         {
             container.appendChild(GameBuilder.createHtmlElement(_code, _img, uuid, type));
             GameBuilder.CardPreview.addHover("card_icon_nr_" + uuid, false, true);
+        }
+    },
+
+    onReoderCompany:function(bIsMe, jData)
+    {
+        const id = jData.company;
+        const div = document.getElementById(id);
+        if (div === null || !div.parentElement)
+            return;
+
+        if (jData.type === "l")
+        {
+            const prev = div === null ? null : div.previousElementSibling;
+            if (prev !== null)
+                div.parentElement.insertBefore(div, prev);
+        }
+        else if (jData.type === "r") 
+        {
+            const next = div.nextElementSibling;
+            if (next === null)
+                return;
+
+            const next2 = next.nextElementSibling;
+            if (next2)
+                div.parentElement.insertBefore(div, next2);
+            else
+                div.parentElement.append(div);
+        }
+        else if (jData.type === "re")
+        {
+            if (div.nextElementSibling)
+                div.parentElement.append(div);
         }
     },
 
@@ -764,7 +799,8 @@ const GameBuilder = {
         MeccgApi.addListener("/game/set-turn", (_bIsMe, jData) => document.getElementById("game_turns").innerHTML = jData.turn);
 
         MeccgApi.addListener("/game/set-phase", GameBuilder.onSetPhase.doSet);
-        MeccgApi.addListener("/game/start", GameBuilder.onSetPhase.doSetGameStart);        
+        MeccgApi.addListener("/game/start", GameBuilder.onSetPhase.doSetGameStart);    
+        MeccgApi.addListener("/game/company/position-board", GameBuilder.onReoderCompany)    
 
         MeccgApi.addListener("/game/company/arrive", function(_bIsMe, jData)
         {
@@ -920,6 +956,10 @@ const GameBuilder = {
             });
         
             new Question("fa-sign-out", false).show(Dictionary.get("conf_switch_t", "Switch Browser"), content, Dictionary.get("close", "Close"));
+        });
+
+        MeccgApi.addListener("/game/spectatos", (isMe, data) => {
+            SpectatorContainer?.get().update(data)
         });
     },
 

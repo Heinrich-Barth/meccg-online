@@ -105,6 +105,13 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/avatar/set", this.onAvatarSet.bind(this));
         this.getMeccgApi().addListener("/game/players/reorder", this.onChangePlayerOrder.bind(this));
         this.getMeccgApi().addListener("/game/changebrowser", this.onChangePlayerBrowser.bind(this));
+        this.getMeccgApi().addListener("/game/company/position-board", this.#onCompanyPositionBoard.bind(this))
+        this.getMeccgApi().addListener("/game/spectatos", this.#onSendSpectators.bind(this));
+    }
+
+    #onSendSpectators(userid: string, _socket:any, obj:any)
+    {
+        this.getMeccgApi().publish("/game/spectatos", userid, obj);
     }
 
     onChangePlayerBrowser(userid: string, socket:any, _obj:any)
@@ -128,7 +135,14 @@ export default class GameStandard extends GamePlayers
      */
     drawCard(playerid:string, uuid:string, code:string, type:string, count:number)
     {
-        this.getMeccgApi().publish("/game/card/draw", playerid, {code: code, uuid: uuid, count: count, type: type, owner: "", playerid: playerid});
+        this.getMeccgApi().publish("/game/card/draw", playerid, {
+            code: code, 
+            uuid: uuid, 
+            count: count, 
+            type: type, 
+            owner: "", 
+            playerid: playerid
+        });
     }
 
     updateHandCountersPlayerAll()
@@ -1551,6 +1565,15 @@ export default class GameStandard extends GamePlayers
         this.publishToPlayers("/game/view-cards/list", userid, {type: type, list: list, sorted: sorted });
         this.publishChat(userid, " views cards in " + type, false);
     }
+
+    #onCompanyPositionBoard(userid:string, _socket:any, data:any)
+    {
+        this.publishToPlayers("/game/view-cards/list/close", userid, {
+            company: data.company, 
+            type: data.type
+        });
+    }
+
     viewCloseList(userid:string, _socket:any, obj:any)
     {
         if (typeof obj.offered === "undefined")

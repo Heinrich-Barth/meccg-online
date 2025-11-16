@@ -1,4 +1,120 @@
 
+
+class SpectatorContainer {
+
+    static #instance = new SpectatorContainer();
+
+    static get() 
+    {
+        return SpectatorContainer.#instance;
+    }
+
+    #requireContainer()
+    {
+        const div = this.#getContainer();
+        if (div)
+            return div;
+
+        const elem = document.createElement("ul");
+        elem.setAttribute("id", "spectator-contianer");
+        elem.setAttribute("class", "spectator-contianer");
+        elem.setAttribute("title", "Spectators");
+        document.body.append(elem);
+        return elem;
+    }
+
+    #getContainer()
+    {
+        return document.getElementById("spectator-contianer");
+    }
+
+    #removeSpectatorContainer()
+    {
+        const div = this.#getContainer();
+        if (div)
+            div.parentElement.removeChild(div)
+    }
+
+    update(list)
+    {
+        if (!Array.isArray(list) || list.length === 0)
+        {
+            this.#removeSpectatorContainer();
+            return;
+        }
+
+        const ul = this.#requireContainer();
+        this.#removeObsolete(list, this.#getContainerMap(ul));
+        this.#addSpectators(list, ul, this.#getContainerElementIds(ul));
+    }
+
+    #addSpectators(spectators, ul, elems)
+    {
+        spectators
+            .filter(e => !elems.includes(e.id))
+            .forEach(spectator => this.#insertSpectator(ul, spectator.id, spectator.avatar));
+    }
+
+    #insertSpectator(ul, id, avatar)
+    {
+        const img = document.createElement("img");
+        img.setAttribute("src", g_Game.CardList.getImage(avatar));
+
+        const li = document.createElement("li");
+        li.setAttribute("data-id", id)
+        li.append(img);
+
+        ul.append(li);
+    }
+
+    #removeObsolete(spectators, lis)
+    {
+        const ids = spectators.map(e => e.id);
+        for (const id in lis)
+        {
+            const elem = lis[id];
+            if (!ids.includes(id))
+                elem.parentElement.removeChild(elem);
+        };
+    }
+
+    #getContainerMap(ul)
+    {
+        const map = { }
+
+        const lis = ul.querySelectorAll("li");
+        if (lis === null || lis.length === 0)
+            return map;
+
+        for (const e of lis)
+        {
+            const id = e.getAttribute("data-id");
+            if (id)
+                map[id] = e;
+        }
+
+        return map;
+    }
+
+    #getContainerElementIds(ul)
+    {
+        const ids = []
+
+        const lis = ul.querySelectorAll("li");
+        if (lis === null || lis.length === 0)
+            return ids;
+
+        for (const e of lis)
+        {
+            const id = e.getAttribute("data-id");
+            if (id)
+                ids.push(id);
+        }
+
+        return ids;
+    }
+}
+
 const Lobby = {
 
     _room : "",
@@ -89,12 +205,14 @@ const Lobby = {
         }
     },
 
-    triggerLockRoom()
+    triggerLockRoom: function()
     {
         const elem = document.getElementById("lobby-wrapper");
         if (elem !== null && elem.hasAttribute("data-allow") && elem.getAttribute("data-allow") === "true")
             Lobby.onClickToggleUsers();
-    }
+    },
+
 };
+
 
 setTimeout(() => Lobby.init(g_sRoom, g_sLobbyToken), 200);

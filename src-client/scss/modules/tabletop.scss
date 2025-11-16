@@ -1386,3 +1386,30 @@ div.card[data-token="10"]:after { content: "10"; }
     rotate: var(--jumble-rotate);
 }
 
+
+.spectator-contianer {
+    position: fixed;
+    right: 1px;
+    top: 10%;
+    opacity: 0.4;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    li {
+        display: block;
+        max-width: 40px;
+        overflow: hidden;
+        border-radius: 50%;
+        max-height: 40px;
+        margin-top: -10px;
+    }
+
+    img {
+        width: 44px;
+        scale: 2;
+        object-position: -2px 8px;
+    }
+}
+

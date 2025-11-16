@@ -882,33 +882,23 @@ const ContextMenu = {
 
         companyMoveLeft: function(pMenu)
         {
-            const div = this._getCompanyElement(pMenu);
-            const prev = div === null ? null : div.previousElementSibling;
-
-            if (prev !== null)
-                div.parentElement.insertBefore(div, prev);
+            const id = ContextMenu.getAttribute(pMenu, "data-company");
+            if (id)
+                MeccgApi.send("/game/company/position-board", {company : id, type: "l" });
         },
 
         companyMoveRight : function(pMenu)
         {
-            const div = this._getCompanyElement(pMenu);
-            const next = div === null ? null : div.nextElementSibling;
-            
-            if (next === null)
-                return;
-
-            const next2 = next.nextElementSibling;
-            if (next2)
-                div.parentElement.insertBefore(div, next2);
-            else
-                div.parentElement.append(div);
+            const id = ContextMenu.getAttribute(pMenu, "data-company");
+            if (id)
+                MeccgApi.send("/game/company/position-board", {company : id, type: "r" });
         },
         
         companyMoveRightEnd : function(pMenu)
         {
-            const div = this._getCompanyElement(pMenu);
-            if (div?.nextElementSibling)
-                div.parentElement.append(div);
+            const id = ContextMenu.getAttribute(pMenu, "data-company");
+            if (id)
+                MeccgApi.send("/game/company/position-board", {company : id, type: "re" });
         },
         
         hide : function()

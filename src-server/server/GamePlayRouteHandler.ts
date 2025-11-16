@@ -233,7 +233,9 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
             const displayname = "v" + userId;
 
             /** add player to lobby */
-            const lNow = this.getRoomManager().addSpectator(room, userId, displayname);
+            const avatar = req.body?.code ?? "";
+            const code = avatar ? CardDataProvider.getCardByCode(avatar.toLowerCase()) : null;
+            const lNow = this.getRoomManager().addSpectator(room, userId, displayname, code ? avatar.toLowerCase() : "");
 
             /** proceed to lobby */
             this.#updateCookieUser(res, userId, displayname);

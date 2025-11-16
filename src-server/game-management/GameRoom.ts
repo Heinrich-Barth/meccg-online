@@ -214,12 +214,19 @@ export class GameRoom
         return Object.keys(this.#visitors).length;
     }
 
-    getVisitorNames():string[]
+    getVisitorNames()
     {
         const list = [];
 
-        for (let id of Object.keys(this.#visitors))
-            list.push(this.#visitors[id].getName());
+        for (const id of Object.keys(this.#visitors))
+        {
+            const spectator = this.#visitors[id];
+            list.push({
+                name: spectator.getName(),
+                avatar: spectator.getAvatar(),
+                id: id
+            })
+        }
 
         return list;
     }
@@ -349,9 +356,13 @@ export class GameRoom
         this.#chat.addPlayer(userid, displayname);
     }
 
-    addSpectator(userid:string, displayname:string, timeAdded:number)
+    addSpectator(userid:string, displayname:string, timeAdded:number, code:string)
     {
-        this.#visitors[userid] = new Visitor(displayname, timeAdded);
+        const vis = new Visitor(displayname, timeAdded);
+        if (code)
+            vis.setAvatar(code);
+        
+        this.#visitors[userid] = vis;
     }
 
     static disconnectPlayer(socket:any)

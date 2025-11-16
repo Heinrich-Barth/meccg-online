@@ -265,14 +265,10 @@ export default class RoomManager {
 
     getSpectators(room:string)
     {
-        if (room === undefined || room === null || room === "" || this.#rooms[room] === undefined)
-            return { count: 0, names: [] };
+        if (!room || this.#rooms[room] === undefined)
+            return []
 
-        const list = this.#rooms[room].getVisitorNames();
-        return {
-            count: list.length,
-            names:  list
-        };
+        return this.#rooms[room].getVisitorNames();
     }
 
     getActiveGames()
@@ -895,14 +891,14 @@ export default class RoomManager {
         return pRoom !== null && pRoom.grantAccess(isPlayer);
     }
 
-    addSpectator (room:string, userId:string, displayname:string) 
+    addSpectator (room:string, userId:string, displayname:string, code:string) 
     {
         const pRoom = this.#rooms[room];
         if (pRoom === undefined)
             return 0;
             
         const lNow = Date.now();
-        pRoom.addSpectator(userId, displayname, lNow);
+        pRoom.addSpectator(userId, displayname, lNow, code);
         return lNow;
     }
 

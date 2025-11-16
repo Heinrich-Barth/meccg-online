@@ -16,7 +16,7 @@ import HomeSelectDeck from './application/HomeSelectDeck';
 import Tournaments, { TournamentDetail } from './application/Tournaments';
 import Whatsnew from './application/Whatsnew';
 import ViewCards from './application/ViewCards';
-import { GetCurrentAvatar, GetCurrentAvatarImage } from './components/LoadAvatar';
+import { GetCurrentAvatar, GetCurrentAvatarImage, SetCurrentAvatar } from './components/LoadAvatar';
 import MPCalculator from './application/MPCalculator';
 import ExploreDecks from './application/ExploreDecks';
 import { IRandomAvatarData } from './operations/FetchRandomAvatar';
@@ -59,9 +59,9 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path='/tournaments' element={<Tournaments />} />
                     <Route path='/tournaments/:id' element={<TournamentDetail />} />
                     <Route path="/caching" element={<CacheData onReady={(data:IRandomAvatarData) => {
-                        console.info("Updata avatar");
                         setAvatarCode(data.code);
                         setAvatarImage(data.image);
+                        SetCurrentAvatar(data.code, data.image);
                     }} />} />
                     <Route path="/points" element={<MPCalculator />} />
                     <Route path="/decks" element={<ExploreDecks />} />

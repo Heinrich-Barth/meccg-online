@@ -8,6 +8,7 @@ import { validatRoomName } from './Home';
 import { PlayerIsAlreadyWatching } from '../operations/IsPresentInGame';
 import PROXY_URL from '../operations/Proxy';
 import { GetUserName } from '../components/Preferences';
+import { GetCurrentAvatar } from '../components/LoadAvatar';
 
 export default function WatchGame() {
     const { room } = useParams();
@@ -38,7 +39,8 @@ export default function WatchGame() {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        name: GetUserName()
+                        name: GetUserName(),
+                        code: GetCurrentAvatar()
                     })
                 })
                     .then(res => {
