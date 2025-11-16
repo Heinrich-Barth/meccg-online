@@ -1568,7 +1568,7 @@ export default class GameStandard extends GamePlayers
 
     #onCompanyPositionBoard(userid:string, _socket:any, data:any)
     {
-        this.publishToPlayers("/game/view-cards/list/close", userid, {
+        this.publishToPlayers("/game/company/position-board", userid, {
             company: data.company, 
             type: data.type
         });

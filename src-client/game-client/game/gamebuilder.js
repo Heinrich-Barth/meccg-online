@@ -292,6 +292,7 @@ const GameBuilder = {
     {
         const id = jData.company;
         const div = document.getElementById(id);
+
         if (div === null || !div.parentElement)
             return;
 
