@@ -35,8 +35,16 @@ class SpectatorContainer {
             div.parentElement.removeChild(div)
     }
 
+    #isArda()
+    {
+        return document.body.getAttribute("data-game-arda") === "true";
+    }
+
     update(list)
     {
+        if (this.#isArda())
+            return;
+
         if (!Array.isArray(list) || list.length === 0)
         {
             this.#removeSpectatorContainer();
