@@ -178,7 +178,8 @@ class TradeCards extends PlayerSelectorAction {
 
     labelChooseCards()
     {
-        return Dictionary.get("trade_choosecards", "Choose cards to trade");
+        const val = Dictionary.get("trade_choosecards", "Choose cards to trade");
+        return val + " (" + MeccgPlayers.getPlayerDisplayName(this._partnerId) + ")";
     }
 
     labelCardsBeingOffered()
