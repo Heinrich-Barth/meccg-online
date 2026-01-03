@@ -45,7 +45,7 @@ export default class DeckArda extends DeckDefault {
      */
     getMaxDeckSize()
     {
-        return 1000;
+        return 1700;
     }
 
     GetDeckListPile(sType:string):string[]|null
