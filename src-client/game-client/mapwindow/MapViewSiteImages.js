@@ -92,13 +92,25 @@
 
     createInstance(showPreferredSites = true)
     {
-        document.body.addEventListener("meccg-map-show-images", this.onShowImages.bind(this), false);
+        document.body.addEventListener("meccg-map-show-images", this.#onShowImages.bind(this), false);
+        document.body.addEventListener("meccg-map-regioncontextclick", this.#onRegioncontextClick.bind(this), false);
+        document.body.addEventListener("meccg-map-hide-images", this.#clearImageContainer.bind(this), false);
         document.body.addEventListener("meccg-map-search", this.onSearch.bind(this), false);
 
         document.body.classList.add("mapwindow");
 
         if (showPreferredSites && this._preferredSites !== null)
             setTimeout(this.injectPreferredSites.bind(this), 500);
+    }
+
+    #clearImageContainer()
+    {
+        const cont = document.getElementById("found_sites");
+        if (cont === null)
+            return;
+
+        while (cont.firstChild) 
+            cont.removeChild(cont.firstChild);
     }
 
     onSearch(e)
@@ -275,12 +287,32 @@
         document.body.dispatchEvent(new CustomEvent("meccg-map-show-images-done", { "detail":  "found_sites" }));
     }
 
-    onShowImages(e)
+    #onShowImages(e)
     {
         const region = e.detail.region === undefined ? "" : e.detail.region;
         const site = e.detail.site === undefined ? "" : e.detail.site;
 
         this.showImages(region, site);
+    }
+
+    #onRegioncontextClick(e)
+    {
+        if (!e.detail.region)
+            return;
+
+        const region = e.detail.region;
+        const jRegion = this.jMap[region];
+        if (!jRegion?.code)
+            return;
+
+        const image = this.CardList.getImageRegion(jRegion.code);;
+        document.body.dispatchEvent(new CustomEvent("meccg-map-siteclick", { "detail":  {
+            region: region,
+            code: jRegion.code,
+            imgage: image,
+            isSite : false,
+            title : region
+        } }));
     }
 
     createImage(code, isSite, region, siteTitle, isTapped)
