@@ -48,7 +48,7 @@ class MapViewRegions extends MapView {
         return this.jMap;
     }
 
-    fireRegionClick(sRegionTitle)
+    #fireRegionClick(sRegionTitle)
     {
         if (sRegionTitle !== "" && typeof this.jMarkerRegions[sRegionTitle] !== "undefined")
             this.jMarkerRegions[sRegionTitle].fire('click');
@@ -145,7 +145,7 @@ class MapViewRegions extends MapView {
     {
         const region = e.detail.region;
         if (region !== "")
-            this.fireRegionClick(region);
+            this.#fireRegionClick(region);
     }
 
     destroyMarker(jMarkers)
@@ -305,7 +305,7 @@ class MapViewRegions extends MapView {
         this.vsVisibleUnderdeeps = [];
     }
 
-    _createMarker(markerText, lat, lon, _marker, sSiteTitle)
+    #createMarker(markerText, lat, lon, _marker, sSiteTitle)
     {
         let elem;
         if (_marker !== null)
@@ -325,14 +325,19 @@ class MapViewRegions extends MapView {
             if (MapViewRegions.#showSiteMarker())
                 this.closePopup();
         });
+
+        elem.on("contextmenu", function() 
+        {
+            
+        })
         
         if (sSiteTitle !== "")
-            elem.on('click', this.onSiteMarkerClick.bind(this));
+            elem.on('click', this.#onSiteMarkerClick.bind(this));
         
         return elem;
     }
 
-    onSiteMarkerClick(e)
+    #onSiteMarkerClick(e)
     {
         this.flyTo(e);
         
@@ -416,7 +421,7 @@ class MapViewRegions extends MapView {
         }
 
         const markerText = MapViewRegions.getPlayableText(region, site, isSiteCard);
-        let elem = this._createMarker(markerText, lat, lon, _marker, site, region)
+        let elem = this.#createMarker(markerText, lat, lon, _marker, site, region)
         
         elem.region = region;
         if (site !== "")
@@ -439,7 +444,7 @@ class MapViewRegions extends MapView {
         const jRegion = this.getRegionBySiteCode(sStartSiteCode);
         const sRegionTitle = jRegion !== null ? jRegion.title : "";
         
-        this.fireRegionClick(sRegionTitle);
+        this.#fireRegionClick(sRegionTitle);
     }
 
     getSiteHoldMarkerByHold(jSite)
@@ -491,7 +496,7 @@ class MapViewRegions extends MapView {
     {
         const _region = this.getRegionBySiteCode(sSite);
         if (_region !== null)
-            this.fireRegionClick(_region.title);
+            this.#fireRegionClick(_region.title);
     }
 
     /**

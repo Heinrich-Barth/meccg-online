@@ -1,24 +1,23 @@
 
 class MapViewPositioning extends MapViewRegions {
 
+    #currentSelection = {
+        region: "",
+        code: "",
+        title: "",
+        isSite: false
+    };
+    
+    #mapCoordinates = {};
+    #newPositions = {};
+    #mapPositions = {};
+    
     constructor(jMap)
     {
         super(jMap);
-
-        this.mapPositions = {};
-        this.mapCoordinates = {};
-
-        this.currentSelection = {
-            region: "",
-            code: "",
-            title: "",
-            isSite: false
-        };
-
-        this.newPositions = {};
     }
 
-    insertSearchTemplate()
+    #insertSearchTemplate()
     {
         let div = document.createElement("div");
         div.setAttribute("class", "blue-box mapchooser");
@@ -31,26 +30,26 @@ class MapViewPositioning extends MapViewRegions {
 
         const span = document.createElement("span");
         span.setAttribute("class", "fa fa-floppy-o");
-        span.onclick = this.copyPositions.bind(this);
+        span.onclick = this.#copyPositions.bind(this);
         div.appendChild(span);
         document.body.appendChild(div);
     }
 
-    copyPositions()
+    #copyPositions()
     {
-        navigator.clipboard.writeText(JSON.stringify(this.newPositions));
+        navigator.clipboard.writeText(JSON.stringify(this.#newPositions));
         document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Copied to clipboard"}));
 
     }
 
-    updateSelectBox()
+    #updateSelectBox()
     {
         let listCompleted = [];
         let listIncomplete = [];
 
-        for (let key in this.mapCoordinates)
+        for (let key in this.#mapCoordinates)
         {
-            let _region = this.mapCoordinates[key];
+            let _region = this.#mapCoordinates[key];
             if (_region.area.length !== 2)
             {
                 listIncomplete.push(key);
@@ -73,10 +72,10 @@ class MapViewPositioning extends MapViewRegions {
                 listIncomplete.push(key);
         }
 
-        this.updateSelectContent(listCompleted, listIncomplete)
+        this.#updateSelectContent(listCompleted, listIncomplete)
     }
 
-    updateSelectContent(listCompleted, listIncomplete)
+    #updateSelectContent(listCompleted, listIncomplete)
     {
         const sel = document.getElementById('region');
         if (sel === null)
@@ -134,18 +133,18 @@ class MapViewPositioning extends MapViewRegions {
         document.body.classList.add("map-editor");
 
         this.getMapInstance().addEventListener('mouseup', this.onMapClick.bind(this));
-        this.initPositionData(this.getMapData());
+        this.#initPositionData(this.getMapData());
 
         /** respond to click on site card */
-        document.body.addEventListener("meccg-map-siteclick", this.onSelectLocationPosition.bind(this), false);
-        document.body.addEventListener("meccg-map-show-images-done", this.onMarkSitesHasLocation.bind(this), false);
+        document.body.addEventListener("meccg-map-siteclick", this.#onSelectLocationPosition.bind(this), false);
+        document.body.addEventListener("meccg-map-show-images-done", this.#onMarkSitesHasLocation.bind(this), false);
 
-        this.insertSearchTemplate();
-        this.updateSelectBox();
+        this.#insertSearchTemplate();
+        this.#updateSelectBox();
         return true;
     }
 
-    onMarkSitesHasLocation(e)
+    #onMarkSitesHasLocation(e)
     {
         const code = e == undefined || e.detail === undefined ? "found_sites" : e.detail;
         const container = document.getElementById(code);
@@ -167,43 +166,43 @@ class MapViewPositioning extends MapViewRegions {
 
     isAvailable(code)
     {
-        return code === null || code === "" ? false : this.mapPositions[code].length == 2;
+        return code === null || code === "" ? false : this.#mapPositions[code].length == 2;
     }
 
-    setCurrentSelection(region, code, isSite, title)
+    #setCurrentSelection(region, code, isSite, title)
     {
-        this.currentSelection.region = region;
-        this.currentSelection.code = code;
-        this.currentSelection.isSite = isSite;
-        this.currentSelection.title = title;
+        this.#currentSelection.region = region;
+        this.#currentSelection.code = code;
+        this.#currentSelection.isSite = isSite;
+        this.#currentSelection.title = title;
     }
 
-    isValidClick()
+    #isValidClick()
     {
         /** there always has to be a region */
-        return this.currentSelection.title !== "";
+        return this.#currentSelection.title !== "";
     }
 
-    onSelectLocationPosition(e)
+    #onSelectLocationPosition(e)
     {
-        this.setCurrentSelection(e.detail.region, e.detail.code, e.detail.isSite, e.detail.title);
-        this.changeGlow(e.detail.code); 
+        this.#setCurrentSelection(e.detail.region, e.detail.code, e.detail.isSite, e.detail.title);
+        this.#changeGlow(e.detail.code); 
     }
 
-    removeSelection()
+    #removeSelection()
     {
-        this.removeGlow(document.getElementById("found_sites"));
-        this.currentSelection.title = "";
+        this.#removeGlow(document.getElementById("found_sites"));
+        this.#currentSelection.title = "";
     }
 
-    changeGlow(code)
+    #changeGlow(code)
     {
         const elem = document.getElementById("found_sites");
-        this.removeGlow(elem);
-        this.setGlow(elem, code);        
+        this.#removeGlow(elem);
+        this.#setGlow(elem, code);        
     }
 
-    setGlow(elem, code)
+    #setGlow(elem, code)
     {
         const list = elem === null ? null : elem.getElementsByTagName("img");
         if (list === null || list.length === 0)
@@ -221,7 +220,7 @@ class MapViewPositioning extends MapViewRegions {
         }
     }
 
-    removeGlow(elem)
+    #removeGlow(elem)
     {
         const list = elem === null ? null : elem.getElementsByClassName("glow");
         if (list === null || list.length === 0)
@@ -232,26 +231,26 @@ class MapViewPositioning extends MapViewRegions {
             list[i].classList.remove("glow");
     }
 
-    updatePosition(lat, lng)
+    #updatePosition(lat, lng)
     {
-        if (this.mapPositions[this.currentSelection.title] === undefined)
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not find " +  this.currentSelection.title }));
+        if (this.#mapPositions[this.#currentSelection.title] === undefined)
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-error", { "detail": "Could not find " +  this.#currentSelection.title }));
         else
         {
-            this.mapPositions[this.currentSelection.title] = [lat, lng];
-            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Position updated<br>" + this.currentSelection.title}));
+            this.#mapPositions[this.#currentSelection.title] = [lat, lng];
+            document.body.dispatchEvent(new CustomEvent("meccg-notify-success", { "detail": "Position updated<br>" + this.#currentSelection.title}));
         }
 
-        this.newPositions[this.currentSelection.title] = [lat, lng];
+        this.#newPositions[this.#currentSelection.title] = [lat, lng];
     }
 
-    updateMakerPositionOnBoard(lat, lng)
+    #updateMakerPositionOnBoard(lat, lng)
     {
         document.body.dispatchEvent(new CustomEvent("meccg-map-updatemarker", { 
             "detail": {
-                region: this.currentSelection.region,
-                title: this.currentSelection.title,
-                isSite: this.currentSelection.isSite,
+                region: this.#currentSelection.region,
+                title: this.#currentSelection.title,
+                isSite: this.#currentSelection.isSite,
                 lat : lat,
                 lng : lng
             }
@@ -260,25 +259,25 @@ class MapViewPositioning extends MapViewRegions {
 
     onMapClick(ev)
     {
-        if (this.isValidClick())
+        if (this.#isValidClick())
         {
             const lat = ev.latlng.lat;
             const lng = ev.latlng.lng;
             
-            this.updatePosition(lat, lng);
-            this.updateMakerPositionOnBoard(lat, lng);
-            this.removeSelection();
-            this.onMarkSitesHasLocation();
+            this.#updatePosition(lat, lng);
+            this.#updateMakerPositionOnBoard(lat, lng);
+            this.#removeSelection();
+            this.#onMarkSitesHasLocation();
         }
 
-        this.setCurrentSelection("", "", false, "");
+        this.#setCurrentSelection("", "", false, "");
     }
 
-    initPositionData(jMap)
+    #initPositionData(jMap)
     {
         for (let key in jMap)
         {
-            this.mapCoordinates[key] = {
+            this.#mapCoordinates[key] = {
                 area : [],
                 sites : {}
             }
@@ -286,35 +285,26 @@ class MapViewPositioning extends MapViewRegions {
             const _region = jMap[key];
             if (_region.area !== undefined && _region.area.length === 2)
             {
-                this.mapCoordinates[key].area = [..._region.area];
-                this.mapPositions[key] = [..._region.area];
+                this.#mapCoordinates[key].area = [..._region.area];
+                this.#mapPositions[key] = [..._region.area];
             }
             else
-                this.mapPositions[key] = [];
+                this.#mapPositions[key] = [];
                 
             for (let _site in _region.sites)
             {
                 const _location = _region.sites[_site];
                 if (_location.area.length === undefined || _location.area.length !== 2)
                 {
-                    this.mapCoordinates[key].sites[_site] = [];
-                    this.mapPositions[_site] = [];
+                    this.#mapCoordinates[key].sites[_site] = [];
+                    this.#mapPositions[_site] = [];
                 }
                 else
                 {
-                    this.mapCoordinates[key].sites[_site] = [..._location.area];
-                    this.mapPositions[_site] = [..._location.area];
+                    this.#mapCoordinates[key].sites[_site] = [..._location.area];
+                    this.#mapPositions[_site] = [..._location.area];
                 }
             }
         }
     }
-
 }
-
-/*
-"Andrast": [
-		"71.58725638163845",
-		"-121.44287109375001"
-	],
-
-*/

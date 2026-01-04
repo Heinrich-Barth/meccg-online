@@ -40,13 +40,13 @@ class MapViewMovement extends MapViewMovementSelection {
         setTimeout(() => this.lazyloadImageClasses("img.site-is-tapped"), 50);
     }
 
-    static _MovementContainer() { return document.getElementById("site_movement"); }
-    static _MovementContainerStartSite() { return document.getElementById("site_movement_start_site"); } 
-    static _MovementContainerStartRegion() { return document.getElementById("site_movement_start_region"); }
+    static #MovementContainer() { return document.getElementById("site_movement"); }
+    static #MovementContainerStartSite() { return document.getElementById("site_movement_start_site"); } 
+    static #MovementContainerStartRegion() { return document.getElementById("site_movement_start_region"); }
 
-    static _MovementContainerTargetRegion() { return document.getElementById("site_movement_target_region"); }
-    static _MovementContainerTargetSite() { return document.getElementById("site_movement_target_site"); }
-    static _MovementContainerOtherRegions() { return document.getElementById("site_movement_other_region"); }
+    static #MovementContainerTargetRegion() { return document.getElementById("site_movement_target_region"); }
+    static #MovementContainerTargetSite() { return document.getElementById("site_movement_target_site"); }
+    static #MovementContainerOtherRegions() { return document.getElementById("site_movement_other_region"); }
 
     ignoreMarkerClickOnce()
     {
@@ -177,27 +177,27 @@ class MapViewMovement extends MapViewMovementSelection {
     getMovementSites()
     {
         let jRes = {
-            start: MapViewMovement._MovementContainerStartSite().querySelector("img").getAttribute("data-code"),
+            start: MapViewMovement.#MovementContainerStartSite().querySelector("img").getAttribute("data-code"),
             regions: [],
             target: ""
         };
         
-        const jEnd = MapViewMovement._MovementContainerTargetSite().querySelector("img");
+        const jEnd = MapViewMovement.#MovementContainerTargetSite().querySelector("img");
         if (jEnd !== null)
             jRes.target = jEnd.getAttribute("data-code");
         
-        const jRegStart = MapViewMovement._MovementContainerStartRegion().querySelector("img");
+        const jRegStart = MapViewMovement.#MovementContainerStartRegion().querySelector("img");
         if (jRegStart !== null)
             jRes.regions.push(jRegStart.getAttribute("data-code"));
         
-        ArrayList(MapViewMovement._MovementContainerOtherRegions()).find("img").each((_elem) =>
+        ArrayList(MapViewMovement.#MovementContainerOtherRegions()).find("img").each((_elem) =>
         {
             const sCode = _elem.getAttribute("data-code");
             if (!jRes.regions.includes(sCode))
                 jRes.regions.push(sCode);
         });
         
-        const jRegEnd = MapViewMovement._MovementContainerTargetRegion().querySelector("img");
+        const jRegEnd = MapViewMovement.#MovementContainerTargetRegion().querySelector("img");
         if (jRegEnd !== null)
         {
             const sCode = jRegEnd.getAttribute("data-code");
@@ -246,14 +246,14 @@ class MapViewMovement extends MapViewMovementSelection {
     {
         const jRegion = this.getRegionBySiteCode(sSiteCode);
         
-        DomUtils.empty(MapViewMovement._MovementContainerTargetSite());
-        DomUtils.empty(MapViewMovement._MovementContainerTargetRegion());
+        DomUtils.empty(MapViewMovement.#MovementContainerTargetSite());
+        DomUtils.empty(MapViewMovement.#MovementContainerTargetRegion());
 
-        MapViewMovement._MovementContainerTargetSite().appendChild(this.createImage(sSiteCode, true));
-        MapViewMovement._MovementContainerTargetRegion().appendChild(this.createImage(jRegion["code"], false));
+        MapViewMovement.#MovementContainerTargetSite().appendChild(this.createImage(sSiteCode, true));
+        MapViewMovement.#MovementContainerTargetRegion().appendChild(this.createImage(jRegion["code"], false));
         
-        ArrayList(MapViewMovement._MovementContainerTargetSite()).find("img").each((_e) => this.CardPreview.initMapViewCard(_e));
-        ArrayList(MapViewMovement._MovementContainerTargetRegion()).find("img").each((_e) => this.CardPreview.initMapViewCard(_e));
+        ArrayList(MapViewMovement.#MovementContainerTargetSite()).find("img").each((_e) => this.CardPreview.initMapViewCard(_e));
+        ArrayList(MapViewMovement.#MovementContainerTargetRegion()).find("img").each((_e) => this.CardPreview.initMapViewCard(_e));
 
         /** lazy load images */
         this.lazyloadImages();
@@ -309,15 +309,15 @@ class MapViewMovement extends MapViewMovementSelection {
             return;
         }
         
-        let jElem = MapViewMovement._MovementContainerOtherRegions().querySelector("[data-code='" + sRegionCode + "']"); 
+        let jElem = MapViewMovement.#MovementContainerOtherRegions().querySelector("[data-code='" + sRegionCode + "']"); 
         if (jElem !== null)
         {
             console.warn("Allready there " + sRegionCode);
             return;
         }
         
-        MapViewMovement._MovementContainerOtherRegions().appendChild(this.createImage(sRegionCode, false));
-        jElem = MapViewMovement._MovementContainerOtherRegions().querySelector("[data-code='" + sRegionCode + "']"); 
+        MapViewMovement.#MovementContainerOtherRegions().appendChild(this.createImage(sRegionCode, false));
+        jElem = MapViewMovement.#MovementContainerOtherRegions().querySelector("[data-code='" + sRegionCode + "']"); 
         jElem.setAttribute("title", "Click to remove " + sRegionCode);
         
         this.CardPreview.initMapViewCard(jElem);
@@ -371,22 +371,22 @@ class MapViewMovement extends MapViewMovementSelection {
             return false;
         }
         
-        this.setupMovementList(jRegion, jSite);
+        this.#setupMovementList(jRegion, jSite);
         return true;
     }
 
-    setupMovementList(jRegionStart, jSiteStart)
+    #setupMovementList(jRegionStart, jSiteStart)
     {
-        DomUtils.empty(MapViewMovement._MovementContainer().querySelector(".site-list"));
+        DomUtils.empty(MapViewMovement.#MovementContainer().querySelector(".site-list"));
 
-        MapViewMovement._MovementContainerStartSite().appendChild(this.createImage(jSiteStart["code"], true));
-        MapViewMovement._MovementContainerStartRegion().appendChild(this.createImage(jRegionStart["code"], false));
+        MapViewMovement.#MovementContainerStartSite().appendChild(this.createImage(jSiteStart["code"], true));
+        MapViewMovement.#MovementContainerStartRegion().appendChild(this.createImage(jRegionStart["code"], false));
 
         const pThis = this;
-        ArrayList(MapViewMovement._MovementContainerStartSite()).find("img").each((_e) => pThis.CardPreview.initMapViewCard(_e));
-        ArrayList(MapViewMovement._MovementContainerStartRegion()).find("img").each((_e) => pThis.CardPreview.initMapViewCard(_e));
+        ArrayList(MapViewMovement.#MovementContainerStartSite()).find("img").each((_e) => pThis.CardPreview.initMapViewCard(_e));
+        ArrayList(MapViewMovement.#MovementContainerStartRegion()).find("img").each((_e) => pThis.CardPreview.initMapViewCard(_e));
         
-        MapViewMovement._MovementContainer().classList.remove("hide");
+        MapViewMovement.#MovementContainer().classList.remove("hide");
 
         /** lazy load images */
         this.lazyloadImages();
