@@ -244,19 +244,6 @@ class MapViewPositioning extends MapViewRegions {
         this.#newPositions[this.#currentSelection.title] = [lat, lng];
     }
 
-    #updateMakerPositionOnBoard(lat, lng)
-    {
-        document.body.dispatchEvent(new CustomEvent("meccg-map-updatemarker", { 
-            "detail": {
-                region: this.#currentSelection.region,
-                title: this.#currentSelection.title,
-                isSite: this.#currentSelection.isSite,
-                lat : lat,
-                lng : lng
-            }
-        }));
-    }
-
     onMapClick(ev)
     {
         if (this.#isValidClick())
@@ -265,7 +252,6 @@ class MapViewPositioning extends MapViewRegions {
             const lng = ev.latlng.lng;
             
             this.#updatePosition(lat, lng);
-            this.#updateMakerPositionOnBoard(lat, lng);
             this.#removeSelection();
             this.#onMarkSitesHasLocation();
         }
