@@ -66,7 +66,7 @@ class MapViewRegions extends MapView {
 
     createInstance()
     {
-        let LeafIconPosition = L.Icon.extend(
+        const LeafIconPosition = L.Icon.extend(
         {
             options: 
             {
@@ -132,12 +132,10 @@ class MapViewRegions extends MapView {
         if (!super.createInstance())
             return false;
     
-        this.loadExistingMarker(this.jMap);
-        this.showRegionMarker();
+        this.#loadExistingMarker(this.jMap);
+        this.#showRegionMarker();
 
         document.body.addEventListener("meccg-map-search", this.onSearch.bind(this), false);
-        document.body.addEventListener("meccg-map-updatemarker", this.onUpdateMarker.bind(this), false);
-
         return true;
     }
 
@@ -148,7 +146,7 @@ class MapViewRegions extends MapView {
             this.#fireRegionClick(region);
     }
 
-    destroyMarker(jMarkers)
+    #destroyMarker(jMarkers)
     {
         const pMap = this.getMapInstance();
         if (pMap === null || jMarkers === undefined)
@@ -165,9 +163,9 @@ class MapViewRegions extends MapView {
 
     destroy()
     {
-        this.destroyMarker(this.jMarkerRegions);
-        this.destroyMarker(this.jMarkerSites);
-        this.destroyMarker(this.jMarkerUnderdeeps);
+        this.#destroyMarker(this.jMarkerRegions);
+        this.#destroyMarker(this.jMarkerSites);
+        this.#destroyMarker(this.jMarkerUnderdeeps);
 
         this.jMarkerRegions = {};
         this.jMarkerSites = {};
@@ -176,43 +174,24 @@ class MapViewRegions extends MapView {
         super.destroy();
     }
 
-    showRegionMarker()
+    #showRegionMarker()
     {
-        for (let key in this.jMarkerRegions)
-            this.showRegionMarkerElement(this.jMarkerRegions[key]);
+        for (const key in this.jMarkerRegions)
+            this.#showRegionMarkerElement(this.jMarkerRegions[key]);
     }
 
-    showRegionMarkerElement(_marker)
+    #showRegionMarkerElement(pMarker)
     {
-        _marker.on('click', this.onClickRegionMarker.bind(this));
-        _marker.addTo(this.getMapInstance());
+        pMarker.on("popupopen", this.#onClickRegionMarker.bind(this));
+        pMarker.on("popupclose", this.#onClickRegionMarkerClose.bind(this));
+        pMarker.addTo(this.getMapInstance());
     }
 
-    onUpdateMarker(e)
+    #onClickRegionMarkerClose()
     {
-        const data = e.detail;
-        if (this.jMap[data.region] === undefined)
-            return;
-
-        let _marker = null;
-        if (!data.isSite)
-        {
-            this.jMap[data.region].area = [data.lat, data.lng];
-            _marker = this.createMarker(data.region, "", data.lat, data.lng, null, false);
-        }
-        else if (this.jMap[data.region].sites[data.title] !== undefined)
-        {
-            this.jMap[data.region].sites[data.title].area = [data.lat, data.lng];
-            _marker = this.createMarker(data.region, data.title, data.lat, data.lng, this.jMap[data.region].sites[data.title], true);
-        }
-
-        if (!data.isSite)
-            this.showRegionMarkerElement(_marker);
-        else
-        {
-            this.activeRegion = "";
-            this.onRegionClick(data.region);
-        }
+        this.#hideVisibleSites();
+        this.#showSitesInRegion("");
+        document.body.dispatchEvent(new CustomEvent("meccg-map-hide-images", { "detail":  "" }));
     }
 
     /**
@@ -221,7 +200,7 @@ class MapViewRegions extends MapView {
      * 
      * @param jMap Map
      */
-    loadExistingMarker(jMap)
+    #loadExistingMarker(jMap)
     {
         let _region;
         for (let key in jMap)
@@ -231,13 +210,13 @@ class MapViewRegions extends MapView {
                 continue;
                 
             if (_region.area.length === 2)
-                this.createMarker(key, "", _region.area[0], _region.area[1], _region, false);
+                this.#createMarker(key, "", _region.area[0], _region.area[1], _region, false);
                 
             for (let _site in jMap[key].sites)
             {
                 _region = jMap[key].sites[_site];
                 if (_region.area.length === 2)
-                    this.createMarker(key, _site, _region.area[0], _region.area[1], _region, true);
+                    this.#createMarker(key, _site, _region.area[0], _region.area[1], _region, true);
             }
         }
     }
@@ -247,7 +226,7 @@ class MapViewRegions extends MapView {
         return sessionStorage.getItem("show_sitemarker") === "true";
     }
 
-    showSitesInRegion(regionCode)
+    #showSitesInRegion(regionCode)
     {
         this.activeRegion = regionCode;
 
@@ -273,16 +252,16 @@ class MapViewRegions extends MapView {
         return vsList;
     }
 
-    onRegionClick(regionCode)
+    #onRegionClick(regionCode)
     {
         if (regionCode === undefined || regionCode === "" || this.activeRegion === regionCode)
             return;
         
-        this.hideVisibleSites();
-        this.showSitesInRegion(regionCode);
+        this.#hideVisibleSites();
+        this.#showSitesInRegion(regionCode);
     }
 
-    hideVisibleSites()
+    #hideVisibleSites()
     {
         if ((this.vsVisibleUnderdeeps.length === 0 && this.vsVisibleSites.length === 0) || this.activeRegion === "")
             return;
@@ -293,19 +272,19 @@ class MapViewRegions extends MapView {
 
         let list = this.vsVisibleSites;
         let jRegion = this.jMarkerSites[regionCode];
-        for (let _elem of  list)
+        for (const _elem of  list)
             jRegion[_elem].remove();
         
         list = this.vsVisibleUnderdeeps;
         jRegion = this.jMarkerUnderdeeps[regionCode];
-        for (let _elem of list)
+        for (const _elem of list)
             jRegion[_elem].remove();
 
         this.vsVisibleSites = [];
         this.vsVisibleUnderdeeps = [];
     }
 
-    #createMarker(markerText, lat, lon, _marker, sSiteTitle)
+    #createMarkerElement(markerText, lat, lon, _marker, sSiteTitle)
     {
         let elem;
         if (_marker !== null)
@@ -314,27 +293,25 @@ class MapViewRegions extends MapView {
             elem = L.marker([lat,lon]);
         
         elem.bindPopup(markerText);
-        elem.on('mouseover', function () 
-        {
-            if (MapViewRegions.#showSiteMarker())
-                this.openPopup();
-        });
-        
-        elem.on('mouseout', function () 
-        {
-            if (MapViewRegions.#showSiteMarker())
-                this.closePopup();
-        });
 
-        elem.on("contextmenu", function() 
-        {
-            
-        })
-        
         if (sSiteTitle !== "")
-            elem.on('click', this.#onSiteMarkerClick.bind(this));
-        
+            elem.on("click", this.#onSiteMarkerClick.bind(this));
+        else
+            elem.on("contextmenu", this.#onRegionContextClick.bind(this));
+
         return elem;
+    }
+
+    #onRegionContextClick(e)
+    {
+        this.#onRegionContextClickRegion(e.target.region);
+    }
+
+    #onRegionContextClickRegion(e)
+    {
+        document.body.dispatchEvent(new CustomEvent("meccg-map-regioncontextclick", { "detail":  {
+            region: e
+        } }));
     }
 
     #onSiteMarkerClick(e)
@@ -345,10 +322,10 @@ class MapViewRegions extends MapView {
         if (!MapViewRegions.#showSiteMarker())
             e.openPopup();
 
-        this.dispatchClickEvent(e.target.region, e.target.site, false);
+        this.#dispatchClickEvent(e.target.region, e.target.site, false);
     }
 
-    dispatchClickEvent(region, site, isRegion)
+    #dispatchClickEvent(region, site, isRegion)
     {
         document.body.dispatchEvent(new CustomEvent("meccg-map-show-images", { "detail":  {
             region: region,
@@ -357,7 +334,7 @@ class MapViewRegions extends MapView {
         } }));
     }
 
-    getTargetMakerJson(region, site, jSiteCard)
+    #getTargetMakerJson(region, site, jSiteCard)
     {
         if (site === "" || jSiteCard === null)
             return this.jMarkerRegions;
@@ -379,14 +356,14 @@ class MapViewRegions extends MapView {
         }
     }
     
-    onClickRegionMarker(e)
-    {
-        this.onRegionClick(e.target.region);
+    #onClickRegionMarker(e)
+    {        
+        this.#onRegionClick(e.target.region);
         this.flyTo(e);
-        this.dispatchClickEvent(e.target.region, e.target.site, true);
+        this.#dispatchClickEvent(e.target.region, e.target.site, true);
     }
 
-    obtainRegionMarker(type)
+    #obtainRegionMarker(type)
     {
         if (type !== undefined && type !== "" && this.MARKER.regions[type] !== undefined)
             return this.MARKER.regions[type];
@@ -394,9 +371,9 @@ class MapViewRegions extends MapView {
             return this.MARKER.region;
     }
 
-    createMarker(region, site, lat, lon, jSiteCard, isSiteCard)
+    #createMarker(region, site, lat, lon, jSiteCard, isSiteCard)
     {              
-        let jMarkers = this.getTargetMakerJson(region, site, jSiteCard);
+        const jMarkers = this.#getTargetMakerJson(region, site, jSiteCard);
 
         const id = site === "" ? region : site;
         if (typeof jMarkers[id] !== "undefined")
@@ -411,17 +388,17 @@ class MapViewRegions extends MapView {
         let _marker = null;
         if (site === "")
         {
-            _marker = this.obtainRegionMarker(this.jMap[region].region_type);
+            _marker = this.#obtainRegionMarker(this.jMap[region].region_type);
             this.jMap[region].area = [lat,lon];
         }
         else
         {
             this.jMap[region].sites[site].area = [lat,lon];
-            _marker = this.getSiteHoldMarker(this.jMap[region].sites[site]);
+            _marker = this.#getSiteHoldMarker(this.jMap[region].sites[site]);
         }
 
-        const markerText = MapViewRegions.getPlayableText(region, site, isSiteCard);
-        let elem = this.#createMarker(markerText, lat, lon, _marker, site, region)
+        const markerText = this.#getPlayableText(region, site, isSiteCard);
+        const elem = this.#createMarkerElement(markerText, lat, lon, _marker, site, region)
         
         elem.region = region;
         if (site !== "")
@@ -431,12 +408,33 @@ class MapViewRegions extends MapView {
         return jMarkers[id];
     }
 
-    static getPlayableText(regionTitle, siteTitle, isSiteCard)
+    #getPlayableText(regionTitle, siteTitle, isSiteCard)
     {
+        const html = document.createElement("div");
+
         if (isSiteCard)
-            return `<b>${siteTitle}</b>`;
+        {
+            const title = document.createElement("b");
+            title.innerText = siteTitle;
+            html.appendChild(title);
+        }
         else
-            return `<b>${regionTitle}</b>`;
+        {
+            const title = document.createElement("b");
+            title.innerText = regionTitle;
+
+            const span = document.createElement("span");
+            span.classList.add("map-view-regionmarker-contextaction");
+            span.innerText = "Add to site path [right click]";
+
+            html.append(
+                title,
+                document.createElement("br"),
+                span
+            );
+        }
+
+        return html.innerHTML;
     }
 
     setStartingSite(sStartSiteCode)
@@ -447,7 +445,7 @@ class MapViewRegions extends MapView {
         this.#fireRegionClick(sRegionTitle);
     }
 
-    getSiteHoldMarkerByHold(jSite)
+    #getSiteHoldMarkerByHold(jSite)
     {
         let sCode = null;
         if (typeof jSite.hero !== "undefined")
@@ -460,9 +458,9 @@ class MapViewRegions extends MapView {
         return sCode === null || typeof sCode === "undefined" ? null : sCode;
     }
 
-    getSiteHoldMarker(jSite)
+    #getSiteHoldMarker(jSite)
     {
-        const sCode = this.getSiteHoldMarkerByHold(jSite);
+        const sCode = this.#getSiteHoldMarkerByHold(jSite);
         switch(sCode)
         {
             case "Border-hold":
