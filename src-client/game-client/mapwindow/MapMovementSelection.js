@@ -3,10 +3,10 @@ class MapViewMovementSelection {
 
     createInstance()
     {
-        document.body.addEventListener("meccg-map-siteclick", this.onReceived.bind(this), false);
+        document.body.addEventListener("meccg-map-siteclick", this.#onReceived.bind(this), false);
     }
 
-    onReceived(e)
+    #onReceived(e)
     {
         const region = e.detail.regionName;
         const code = e.detail.code;
