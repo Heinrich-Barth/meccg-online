@@ -17,7 +17,6 @@ import setupEvents from "./plugins/events";
 import InitDecklistRoutes from "./plugins/Decklist"
 import InitReleaseNotes from "./releasenotes";
 import { InitPersonalisation } from "./Personalisation";
-import InitGameLogs from "./game-logs";
 import InitRouting from "./server/module";
 import { getRootFolder } from "./Configuration";
 import CreateRobotsTxt from "./robotstxt";
@@ -135,6 +134,7 @@ InitDecklistRoutes();
 InitFaviconRoutes();
 InitFeedbackEndpoint();
 
+
 ServerInstance.getServerInstance().get("/data/samplerooms", Caching.cache.jsonCallback, (_req: Request, res: Response) => res.json(ServerInstance.getSampleRooms()).status(200));
 ServerInstance.getServerInstance().get("/data/samplenames", Caching.cache.jsonCallback6hrs, (_req: Request, res: Response) => res.send(ServerInstance.getSampleNames()).status(200));
 ServerInstance.getServerInstance().post("/data/hash", (req: Request, res: Response) =>
@@ -154,8 +154,6 @@ ServerInstance.getServerInstance().post("/data/hash", (req: Request, res: Respon
             value: val
         });
 });
-
-InitGameLogs();
 
 ServerInstance.getServerInstance().get("/", (_req: Request, res: Response) => {
     res.header("Cache-Control", "no-store");
