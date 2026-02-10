@@ -13,8 +13,6 @@ import Help from './application/Help';
 import CacheData from './application/CacheData';
 import WatchGame from './application/WatchGame';
 import HomeSelectDeck from './application/HomeSelectDeck';
-import Tournaments, { TournamentDetail } from './application/Tournaments';
-import Whatsnew from './application/Whatsnew';
 import ViewCards from './application/ViewCards';
 import { GetCurrentAvatar, GetCurrentAvatarImage, SetCurrentAvatar } from './components/LoadAvatar';
 import MPCalculator from './application/MPCalculator';
@@ -56,8 +54,6 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     <Route path="/deckbuilder" element={<Deckbuilder />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/learn" element={<Help />} />
-                    <Route path='/tournaments' element={<Tournaments />} />
-                    <Route path='/tournaments/:id' element={<TournamentDetail />} />
                     <Route path="/caching" element={<CacheData onReady={(data:IRandomAvatarData) => {
                         setAvatarCode(data.code);
                         setAvatarImage(data.image);
@@ -65,8 +61,6 @@ function App({ requireLogin }: { requireLogin: boolean }) {
                     }} />} />
                     <Route path="/points" element={<MPCalculator />} />
                     <Route path="/decks" element={<ExploreDecks />} />
-                    <Route path="/blog" element={<Whatsnew />} />
-                    <Route path="/blog/:id" element={<Whatsnew />} />
                     <Route path="/login" element={<LogIn onLogin={() => setAllowNavigation(true)} requireLogin={requireLogin} />} />
                     <Route
                         path="*"

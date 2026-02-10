@@ -22,10 +22,8 @@ import InitRouting from "./server/module";
 import { getRootFolder } from "./Configuration";
 import CreateRobotsTxt from "./robotstxt";
 import InitFaviconRoutes from "./plugins/Favicons";
-import InitTournamentsEndpoints from "./plugins/TournamentList";
 import InitFeedbackEndpoint from "./plugins/FeedbackForm";
 import InitRouteDictionary from "./Languags";
-import InitBlogEndpoints from "./plugins/Blog";
 
 ServerInstance.setup();
 setupEvents();
@@ -135,8 +133,6 @@ ServerInstance.getServerInstance().get("/data/spectators/:room", Caching.expires
  */
 InitDecklistRoutes();
 InitFaviconRoutes();
-InitTournamentsEndpoints();
-InitBlogEndpoints();
 InitFeedbackEndpoint();
 
 ServerInstance.getServerInstance().get("/data/samplerooms", Caching.cache.jsonCallback, (_req: Request, res: Response) => res.json(ServerInstance.getSampleRooms()).status(200));

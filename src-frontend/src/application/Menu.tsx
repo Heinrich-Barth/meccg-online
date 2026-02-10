@@ -25,8 +25,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { Link } from "react-router-dom";
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import FetchTournaments from "../operations/FetchTournaments";
 import { CalculateOutlined } from "@mui/icons-material";
 import LaunchIcon from '@mui/icons-material/Launch';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
@@ -169,17 +167,6 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 </ListItem>
                 
                 <ListItem disablePadding className="menu-item" dense={true}>
-                    <Link to="/blog" onClick={collapseMenu}>
-                        <ListItemButton >
-                            <ListItemIcon>
-                                <NewspaperIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={Dictionary("frontend.menu.whatsnew", "What's new")} />
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-
-                <ListItem disablePadding className="menu-item" dense={true}>
                     <Link to="/learn" onClick={collapseMenu}>
                         <ListItemButton >
                             <ListItemIcon>
@@ -258,18 +245,6 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
         </Box>
     );
 
-    const [tournamentCount, setTournamentCount] = React.useState(0);
-
-    const initialized = React.useRef(false)
-    React.useEffect(() => {
-
-        if (initialized.current) return;
-        initialized.current = true
-
-        FetchTournaments().then((list) => setTournamentCount(list.length));
-
-    }, [setTournamentCount]);
-
     return (
         <>
             <Stack direction="row" spacing={2} justifyContent="flex-end" className="paddingRight1em paddingTop1em">
@@ -279,21 +254,6 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                         {props.username === "" ? <>Set your player name</> : <>Welcome, <b>{props.username}</b></>}
                     </Badge>
                 </Button>
-                {tournamentCount > 0 && (<Link to="/tournaments" onClick={collapseMenu}>
-                    <Button title={Dictionary("score_tournament", "Tournament")}>
-                        <Badge badgeContent={tournamentCount}>
-                            <EmojiEventsIcon />
-                        </Badge>
-                    </Button>
-                </Link>
-                )}
-                {tournamentCount === 0 && (
-                    <Button disabled title={Dictionary("score_tournament", "Tournament")}>
-                        <Badge badgeContent="0">
-                            <EmojiEventsIcon />
-                        </Badge>
-                    </Button>
-                )}
                 
                 <Button onClick={toggleDrawer(true)}>
                     <MenuOutlinedIcon />
