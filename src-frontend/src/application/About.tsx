@@ -1,5 +1,25 @@
+"use client"
+
+import React from "react";
 
 export default function About() {
+
+    const [generalInfo, setGeneralInfo] = React.useState("");
+
+    React.useEffect(() => { 
+        fetch("/data/about")
+        .then(res => {
+            if (!res.ok)
+                throw new Error("Could not fetch data");
+
+            return res.json();
+        })
+        .then(json => json.text ?? "")
+        .then(txt => setGeneralInfo(txt))
+        .catch(console.error);
+
+    }, [setGeneralInfo]);
+
     return <>
     <div className={"application-home"}>
         <h1>About</h1>
@@ -9,7 +29,8 @@ export default function About() {
         <h2>Importantly</h2>
         <p>Middle-earth CCG and LotR are trademarks of Middle-earth Enterprises and/or Iron Crown Enterprises. This website will be taken down willingly if requested by the rights holders. However, please consider that this is a 100% non-commercial and non-profit project made by fans so that MECCG community can continue to enjoy this very special game.</p>
         <p>The website maintainer very strongly believes that no financial harm is done to any trademark, since this game has been out of print for over two decades and actively published Lord of the Rings card games are successfully being produced and sold. What is more, many (if not even the vast majority) of the MECCG players also play such contemporary card games.</p>
-
+        {generalInfo && <p>{generalInfo}</p>}
+        
         <h2>General Data Protection Regulation Notice (GDPN)</h2>
         <p>This website (i.e. the server this website is hosted on), saves your IP address in the server logfiles. This is a technical requirement. However, the IP address will not be processed in any other way by the website maintainer.</p>
         <p>This website runs on heroku.com (or their app platform herokuapp.com) and said platform may store personal data. Please consult their GDPN for specific information.</p>
