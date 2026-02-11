@@ -155,6 +155,11 @@ ServerInstance.getServerInstance().post("/data/hash", (req: Request, res: Respon
         });
 });
 
+ServerInstance.getServerInstance().get("/data/about", (_req: Request, res: Response) => {
+    res.header("Content-type", "application/json");
+    res.sendFile(getRootFolder() + "/pages/about.json")
+});
+
 ServerInstance.getServerInstance().get("/", (_req: Request, res: Response) => {
     res.header("Cache-Control", "no-store");
     res.sendFile(getRootFolder() + "/pages/home.html")
