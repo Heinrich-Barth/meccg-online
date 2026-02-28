@@ -2,7 +2,7 @@ class DraggableStreamEvent {
 
     static #instance = new DraggableStreamEvent();
     static #timer = null;
-    static #timerEventDelay = 750;
+    static #timerEventDelay = 500;
 
     #uuidDragging = "";
     #currentDivId = "";
@@ -214,7 +214,7 @@ class DraggableStreamEvent {
         if (!elem || typeof data.left !== "number" || typeof data.top !== "number")
             return;
 
-        const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.ox, data.oy, data.location);
+        const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.location);
         elem.style.left = pos.left + "px";
         elem.style.top = pos.top + "px";
     }
@@ -262,7 +262,7 @@ class DraggableStreamEvent {
         return elem;
     }
 
-    #calculateCardPosition(left, top, offX, offY, location)
+    #calculateCardPosition(left, top, location)
     {
         const res = {
             left: left,
@@ -270,14 +270,18 @@ class DraggableStreamEvent {
         }
 
         if (location === "stagingarea")
+        {
+            res.top *= -1;
             res.left *= -1;
+        }
 
         return res;
     }
 
     static #isActive()
     {
-        return document.body.hasAttribute("data-dragcards");
+        const count = MeccgPlayers.count();
+        return document.body.hasAttribute("data-dragcards") && count > 1;
     }
 }
 
