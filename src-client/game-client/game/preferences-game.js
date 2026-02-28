@@ -146,6 +146,14 @@ class GamePreferences extends Preferences {
             ChangeSeating.change();
     }
 
+    #updateCardPosition(isActive)
+    {
+        if (isActive)
+            document.body.setAttribute("data-dragcards", "true");
+        else if (document.body.hasAttribute("data-dragcards"))
+            document.body.removeAttribute("data-dragcards");
+    }
+
     #autosave(isActive)
     {
         if (isActive)
@@ -349,6 +357,7 @@ class GamePreferences extends Preferences {
         this.createSection(Dictionary.get("conf_h_lookfeel", "Look & Feel"));
         if (!bWatcher)
         {
+            this.createEntry0("cardposition");
             this.createEntry0("slider_scramble");
             this.createEntry0("toggle_company_break");
 
@@ -447,6 +456,8 @@ class GamePreferences extends Preferences {
         this.addConfigAction("toggle_englishcards", "Use English cards", false, "fa-globe", this.#toggleEnglishCards.bind(this));
 
         this.addConfigAction("game_addcards", "Add new cards to sideboard", false, "fa-plus-square", this.#addCardsToDeck);
+
+        this.addConfigToggle("cardposition", "Update card position when dragging", true, this.#updateCardPosition.bind(this), "fa-align-left", "fa-align-justify");
 
         if(this.isAdmin())
         {
@@ -586,6 +597,7 @@ class GamePreferences extends Preferences {
             this.setBackgroundImage(this.data.background);
 
         this.#autosave(true);
+        this.#updateCardPosition(true);
         this.#addFullscreentoTaskbar();
     }
 

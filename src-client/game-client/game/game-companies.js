@@ -123,6 +123,8 @@ const createCharacterHtml = function(jsonCard, id)
     
     const pCharDiv = document.createElement("div");
     pCharDiv.setAttribute("class", "company-character-host company-character-reosurces");
+    pCharDiv.setAttribute("id", "companycontainer-" + id);
+    pCharDiv.setAttribute("data-uuid", jsonCard.uuid);
 
     const characterDiv = createNewCard(jsonCard);
     

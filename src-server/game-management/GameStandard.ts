@@ -107,6 +107,19 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/changebrowser", this.onChangePlayerBrowser.bind(this));
         this.getMeccgApi().addListener("/game/company/position-board", this.#onCompanyPositionBoard.bind(this))
         this.getMeccgApi().addListener("/game/spectatos", this.#onSendSpectators.bind(this));
+
+        this.getMeccgApi().addListener("/game/card/position/update", this.#onCardPositionUpdate.bind(this));
+        this.getMeccgApi().addListener("/game/card/position/clear", this.#onCardPositionClear.bind(this));
+    }
+    
+    #onCardPositionClear(userid: string, _socket:any, obj:any)
+    {
+        this.getMeccgApi().publish("/game/card/position/clear", userid, obj);
+    }
+    
+    #onCardPositionUpdate(userid: string, _socket:any, obj:any)
+    {
+        this.getMeccgApi().publish("/game/card/position/update", userid, obj);
     }
 
     #onSendSpectators(userid: string, _socket:any, obj:any)

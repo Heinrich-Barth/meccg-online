@@ -1,3 +1,286 @@
+class DraggableStreamEvent {
+
+    static #instance = new DraggableStreamEvent();
+    static #timer = null;
+    static #timerEventDelay = 750;
+
+    #uuidDragging = "";
+    #currentDivId = "";
+    #currentLocation = "";
+    #uuidLastDragged = "";
+
+    #position = {
+        left: 0,
+        top: 0
+    }
+
+    #updateCoordinates(div)
+    {
+        const left = div.style.left;
+        const top = div.style.top;
+
+        if (!left || !top || left.length < 3 || top.length < 3 )
+            return false;
+
+        const nLeft = parseInt(left.substring(0, left.length-2));
+        const nTop = parseInt(top.substring(0, top.length-2));
+
+        if (isNaN(nLeft) || isNaN(nTop))
+            return false;
+     
+        if (DraggableStreamEvent.#instance.#position.left === nLeft && DraggableStreamEvent.#instance.#position.top === nTop)
+            return false;
+
+        DraggableStreamEvent.#instance.#position.left = nLeft;
+        DraggableStreamEvent.#instance.#position.top = nTop;
+        return true;
+    }
+
+    #getBottomOfColumn(id, childClass)
+    {
+        const list = document.getElementById(id)?.querySelectorAll("."+childClass);
+        if (!list)
+            return -1;
+
+        let bottom = -1;
+        for (const e of list)
+        {
+            const rect = e.getBoundingClientRect();
+            const pos = (rect.height ?? 0) + (rect.y ?? 0)
+            if (pos > bottom)
+                bottom = pos
+        }
+        
+        return bottom;
+    }
+
+    #getDeadAreaDistance()
+    {
+        const hand = document.getElementById("playercard_hand")?.getBoundingClientRect();
+        if (!hand || typeof hand.x > 0)
+            return null;
+
+        const stagingBottom = this.#getBottomOfColumn("staging-area-player", "staging-area-area");
+        const companyBottom = this.#getBottomOfColumn("player_companies", "company");
+        const bottomMax = Math.max(stagingBottom, companyBottom)
+
+        if (bottomMax < 0)
+            return null;
+
+        const handY = hand.y ?? 0;
+        return handY - bottomMax;
+    }
+
+    #onUpdatePosition()
+    {
+        if (!this.#uuidDragging || !this.#currentDivId)
+            return;
+
+        /** element not available the table anymore */
+        const elem = document.getElementById(this.#currentDivId);
+        if (elem === null)
+        {
+            this.#onStop(this.#currentDivId, uuid, "");
+            return;
+        }
+
+        if (!this.#updateCoordinates(elem))
+            return;
+
+        const data = {
+            uuid: this.#uuidDragging, 
+            id: this.#currentDivId,
+            left: this.#position.left,
+            top: this.#position.top,
+            location: this.#currentLocation,
+        };
+
+        if (this.#currentLocation === "hand")
+        {
+            const offset = this.#getDeadAreaDistance()
+            if (offset === null)
+                return null;
+
+            const y = data.top + offset;
+            if (y < 0)
+                data.top = y;
+            else
+                data.top = 0;
+        }
+
+        MeccgApi.send("/game/card/position/update", data);
+    }
+
+    #onInit(id, uuid, location)
+    {
+        this.#stopTimer();
+
+        if (!id || !location || !uuid)
+            return;
+
+        this.#uuidDragging = uuid;
+        this.#currentDivId = id;
+        this.#currentLocation = location;
+        
+        DraggableStreamEvent.#timer = setInterval(
+            DraggableStreamEvent.#instance.#onUpdatePosition.bind(DraggableStreamEvent.#instance), 
+            DraggableStreamEvent.#timerEventDelay
+        );
+    }
+
+    #stopTimer()
+    {
+        if (DraggableStreamEvent.#timer)
+        {
+            clearInterval(DraggableStreamEvent.#timer);
+            DraggableStreamEvent.#timer = null;
+        }
+    }
+
+    #onStop(id, uuid, location)
+    {
+        this.#stopTimer();
+        MeccgApi.send("/game/card/position/clear", {uuid: uuid, id:id, location:location});
+        DraggableStreamEvent.#instance.#uuidLastDragged = uuid;
+        DraggableStreamEvent.#instance.#uuidDragging = ""
+        DraggableStreamEvent.#instance.#currentDivId = "";
+        DraggableStreamEvent.#instance.#currentLocation = ""
+        DraggableStreamEvent.#instance.#position.left = 0;
+        DraggableStreamEvent.#instance.#position.top = 0;
+    }
+
+    static wasDragged(uuid)
+    {
+        const last = DraggableStreamEvent.#instance.#uuidDragging;
+        return last && last === uuid;
+    }
+
+    static unregister(div)
+    {
+        if (!div || !DraggableStreamEvent.#isActive())
+            return;
+
+        const location = div.getAttribute("data-location");
+        const uuid = div.getAttribute("data-uuid");
+        const id = div.getAttribute("id");
+        DraggableStreamEvent.#instance.#onStop(id, uuid, location);
+    }
+
+    static register(div)
+    {
+        if (!div || !DraggableStreamEvent.#isActive())
+            return;
+
+        const location = div.getAttribute("data-location"); // inplay
+        const uuid = div.getAttribute("data-uuid");
+        const id = div.getAttribute("id");
+        DraggableStreamEvent.#instance.#onInit(id, uuid, location);
+    }
+
+    static registerHandcard(div)
+    {
+        DraggableStreamEvent.register(div);
+    }
+
+    static unregisterHandcard(div)
+    {
+        DraggableStreamEvent.unregister(div);
+    }
+
+    static onClearMessage(data)
+    {
+        const id = data.id;
+        const uuid = data.uuid;
+
+        const elem = DraggableStreamEvent.#instance.#getTargetContainer(id, uuid, data.location);
+        if (!elem)
+            return;
+
+        if (data.location === "hand")
+            elem.parentNode.removeChild(elem);
+        else if (elem.hasAttribute("style"))
+                elem.removeAttribute("style");
+    }
+
+    static onUpdateMessage(data)
+    {
+        if (!DraggableStreamEvent.#isActive())
+            return;
+
+        const id = data.id;
+        const uuid = data.uuid;
+
+        const elem = DraggableStreamEvent.#instance.#getTargetContainer(id, uuid, data.location);
+        if (!elem || typeof data.left !== "number" || typeof data.top !== "number")
+            return;
+
+        const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.ox, data.oy, data.location);
+        elem.style.left = pos.left + "px";
+        elem.style.top = pos.top + "px";
+    }
+
+    #getTargetContainer(id, uuid, location)
+    {
+        if (!id || !uuid)
+            return null;
+
+        if (location === "hand")
+            return this.#getTargetContainerHand();
+        else
+            return this.#getTargetContainerGeneric(id, uuid);
+    }
+
+    #getTargetContainerGeneric(id, uuid)
+    {
+        const elem = document.getElementById(id);
+        if (elem?.getAttribute("data-uuid") !== uuid)
+            return null;
+
+        return elem;
+    }
+
+    #getTargetContainerHand()
+    {
+        let elem = document.getElementById("cardmove");
+        if (elem !== null)
+            return elem;
+
+        elem = document.createElement("div");
+        elem.setAttribute("class", "card state_wounded")
+        elem.setAttribute("id", "cardmove")
+        elem.style.left = "0px";
+        elem.style.top = "0px";
+        elem.style.position = "absolute";
+
+        const img = document.createElement("img");
+        img.setAttribute("class", "card-icon");
+        img.setAttribute("src", "/data/backside");
+        img.setAttribute("decoding", "async");
+
+        elem.append(img);
+        document.body.append(elem);
+        return elem;
+    }
+
+    #calculateCardPosition(left, top, offX, offY, location)
+    {
+        const res = {
+            left: left,
+            top: -top
+        }
+
+        if (location === "stagingarea")
+            res.left *= -1;
+
+        return res;
+    }
+
+    static #isActive()
+    {
+        return document.body.hasAttribute("data-dragcards");
+    }
+}
+
 
 class CreateHandCardsDraggableUtils {
 
@@ -845,6 +1128,7 @@ const HandCardsDraggable = {
             
             start: function() 
             {
+                DraggableStreamEvent.register(this);
                 CreateHandCardsDraggableUtils.initTargets(this.getAttribute("data-card-type"));
             },
             
@@ -858,6 +1142,8 @@ const HandCardsDraggable = {
                 const elem = ui.helper.length > 0 ? ui.helper[0] : null;
                 if (elem !== null && elem.classList.contains("ui-draggable-on-droppable"))
                     elem.classList.remove("ui-draggable-on-droppable");
+
+                DraggableStreamEvent.unregister(this);
             }
         }
 
@@ -1354,7 +1640,12 @@ function createHandCardsDraggable(pCardPreview, pMeccgApi)
                 jQuery(pHandDiv).draggable(
                 { 
                     start: function (event, ui) { 
-                        jQuery(this).css("bottom", "auto"); 
+                        jQuery(this).css("bottom", "auto");
+                        DraggableStreamEvent.registerHandcard(this);
+                    },
+                    stop: function(_event, ui) 
+                    {
+                        DraggableStreamEvent.unregisterHandcard(this);
                     },
                     snap: true, 
                     snapMode: "outer", 

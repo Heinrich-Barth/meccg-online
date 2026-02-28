@@ -962,6 +962,18 @@ const GameBuilder = {
         MeccgApi.addListener("/game/spectatos", (isMe, data) => {
             SpectatorContainer?.get().update(data)
         });
+
+        if (!GameBuilder._isVisitor)
+        {
+            MeccgApi.addListener("/game/card/position/update", (isMe, data) => {
+                if (!isMe && data)
+                    DraggableStreamEvent?.onUpdateMessage(data);
+            });
+            MeccgApi.addListener("/game/card/position/clear", (isMe, data) => {
+                if (!isMe && data)
+                    DraggableStreamEvent?.onClearMessage(data);
+            });
+        }
     },
 
 
