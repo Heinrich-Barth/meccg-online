@@ -15,6 +15,15 @@ const MeccgPlayers = {
         return MeccgPlayers.usermap;
     },
 
+    count()
+    {
+        const pPlayersCurrent = MeccgPlayers.getPlayers();
+        if (!pPlayersCurrent)
+            return 0;
+
+        return Object.keys(pPlayersCurrent).length;
+    },
+
 
     findPrevPlayer:function(currentId, listIds)
     {
