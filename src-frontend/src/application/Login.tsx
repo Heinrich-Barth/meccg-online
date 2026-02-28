@@ -7,7 +7,7 @@ import SubmitAnswer from "../operations/SubmitAnswer";
 import { Navigate } from "react-router-dom";
 
 
-const question = "Who did Bilbo win the ring from?";
+const question = "Password";
 
 export default function LogIn({ requireLogin, onLogin }: { requireLogin:boolean, onLogin:Function }) {
 
