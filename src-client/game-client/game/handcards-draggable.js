@@ -2,12 +2,11 @@ class DraggableStreamEvent {
 
     static #instance = new DraggableStreamEvent();
     static #timer = null;
-    static #timerEventDelay = 400;
+    static #timerEventDelay = 350;
 
     #uuidDragging = "";
     #currentDivId = "";
     #currentLocation = "";
-    #uuidLastDragged = "";
 
     #position = {
         left: 0,
@@ -126,6 +125,9 @@ class DraggableStreamEvent {
             DraggableStreamEvent.#instance.#onUpdatePosition.bind(DraggableStreamEvent.#instance), 
             DraggableStreamEvent.#timerEventDelay
         );
+
+        if (location !== "hand")
+            setTimeout(() => DraggableStreamEvent.#instance.#onUpdatePosition(), 100)
     }
 
     #stopTimer()
@@ -141,7 +143,6 @@ class DraggableStreamEvent {
     {
         this.#stopTimer();
         MeccgApi.send("/game/card/position/clear", {uuid: uuid, id:id, location:location});
-        DraggableStreamEvent.#instance.#uuidLastDragged = uuid;
         DraggableStreamEvent.#instance.#uuidDragging = ""
         DraggableStreamEvent.#instance.#currentDivId = "";
         DraggableStreamEvent.#instance.#currentLocation = ""
@@ -217,7 +218,7 @@ class DraggableStreamEvent {
         const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.location);
         elem.style.transform = "translate(" + pos.left + "px, " + pos.top + "px)";
         if (!elem.style.transition)
-            elem.style.transition = "transform 0.3s";
+            elem.style.transition = "transform 0.25s";
     }
 
     #getTargetContainer(id, uuid, location)
