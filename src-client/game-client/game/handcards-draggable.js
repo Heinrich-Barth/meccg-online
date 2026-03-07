@@ -2,7 +2,7 @@ class DraggableStreamEvent {
 
     static #instance = new DraggableStreamEvent();
     static #timer = null;
-    static #timerEventDelay = 500;
+    static #timerEventDelay = 400;
 
     #uuidDragging = "";
     #currentDivId = "";
@@ -215,8 +215,9 @@ class DraggableStreamEvent {
             return;
 
         const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.location);
-        elem.style.left = pos.left + "px";
-        elem.style.top = pos.top + "px";
+        elem.style.transform = "translate(" + pos.left + "px, " + pos.top + "px)";
+        if (!elem.style.transition)
+            elem.style.transition = "transform 0.3s";
     }
 
     #getTargetContainer(id, uuid, location)
