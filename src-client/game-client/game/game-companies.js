@@ -1018,14 +1018,14 @@ const GameCompanies = {
         if (pElem === null)
             return;
 
-        if (pElem.classList.contains("glowing"))
+        if (pElem.classList.contains("glowing-scaled"))
         {
-            pElem.classList.remove("glowing");
+            pElem.classList.remove("glowing-scaled");
             return;
         }
 
-        pElem.classList.add("glowing");
-        setTimeout(() => pElem.classList.remove("glowing"), 6000);
+        pElem.classList.add("glowing-scaled");
+        setTimeout(() => pElem.classList.remove("glowing-scaled"), 6000);
     },
 
     onMenuActionHighlight:  function (uuid)
