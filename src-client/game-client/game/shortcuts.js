@@ -105,6 +105,11 @@ const ShotcutManager =
                     MeccgApi.send("/game/card/state/reveal", {uuid : CardPreview.currentCardId, code: "" }); 
                 break;
 
+            case "h":
+                if (CardPreview.currentCardId)
+                    MeccgApi.send("/game/card/state/glow", {uuid : CardPreview.currentCardId, code: "" }); 
+                break;
+
             case "+":
                 if (CardPreview.currentCardId !== "" && CardPreview.currentCardCode !== "")
                     MeccgApi.send("/game/card/token", {uuid : CardPreview.currentCardId, code: CardPreview.currentCardCode, add: true, type: "token" });

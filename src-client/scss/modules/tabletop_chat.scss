@@ -304,6 +304,10 @@ body.on-drag-event-generic .chatbox { display: none !important;}
     animation-name: glowGreen;
     animation-duration: 4s;
 }
+.glowing-scaled {
+    animation-name: scaleHighlight;
+    animation-duration: 4s;
+}
 
 @keyframes glowRed {
     0% {
@@ -338,6 +342,28 @@ body.on-drag-event-generic .chatbox { display: none !important;}
 
     100% {
         box-shadow: none;
+    }
+}
+
+@keyframes scaleHighlight {
+    0% {
+        scale: 1;
+    }
+
+    25% {
+        scale: 1.2;
+    }
+
+    50% {
+        scale: 0.9;
+    }
+
+    80% {
+        scale: 1.2;
+    }
+
+    100% {
+        scale: 1;
     }
 }
 
