@@ -19,7 +19,7 @@ const InfoBoxCard = {
 
     showImage: function(code)
     {
-        if (typeof code !== "string" || code === "")
+        if (typeof code !== "string" || code === "" || !this.isActive())
             return;
 
         const image = this.getImage(code);
@@ -30,6 +30,11 @@ const InfoBoxCard = {
             this.initTimer();
         }
 
+    },
+
+    isActive()
+    {
+        return !document.body.hasAttribute("data-dragcards")
     },
 
     onEvent : function(e)
