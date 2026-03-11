@@ -2,7 +2,6 @@ class DraggableStreamEvent {
 
     static #instance = new DraggableStreamEvent();
     static #timer = null;
-    static #timerEventDelay = 350;
 
     #uuidDragging = "";
     #currentDivId = "";
@@ -10,7 +9,8 @@ class DraggableStreamEvent {
 
     #position = {
         left: 0,
-        top: 0
+        top: 0,
+        offsetX : 0
     }
 
     #updateCoordinates(div)
@@ -89,7 +89,7 @@ class DraggableStreamEvent {
         const data = {
             uuid: this.#uuidDragging, 
             id: this.#currentDivId,
-            left: this.#position.left,
+            left: this.#position.left + this.#position.offsetX,
             top: this.#position.top,
             location: this.#currentLocation,
         };
@@ -110,6 +110,16 @@ class DraggableStreamEvent {
         MeccgApi.send("/game/card/position/update", data);
     }
 
+    #calculateHandOffsetX(id)
+    {
+        const elem = document.getElementById(id);
+        if (elem === null)
+            return 0;
+
+        const rect = elem.getBoundingClientRect();
+        return rect.left > 0 ? rect.left : 0;
+    }
+
     #onInit(id, uuid, location)
     {
         this.#stopTimer();
@@ -120,14 +130,14 @@ class DraggableStreamEvent {
         this.#uuidDragging = uuid;
         this.#currentDivId = id;
         this.#currentLocation = location;
+
+        if (location === "hand")
+            this.#position.offsetX = this.#calculateHandOffsetX(id);
         
         DraggableStreamEvent.#timer = setInterval(
             DraggableStreamEvent.#instance.#onUpdatePosition.bind(DraggableStreamEvent.#instance), 
-            DraggableStreamEvent.#timerEventDelay
+            70
         );
-
-        if (location !== "hand")
-            setTimeout(() => DraggableStreamEvent.#instance.#onUpdatePosition(), 100)
     }
 
     #stopTimer()
@@ -148,6 +158,7 @@ class DraggableStreamEvent {
         DraggableStreamEvent.#instance.#currentLocation = ""
         DraggableStreamEvent.#instance.#position.left = 0;
         DraggableStreamEvent.#instance.#position.top = 0;
+        DraggableStreamEvent.#instance.#position.offsetX = 0;
     }
 
     static wasDragged(uuid)
@@ -218,7 +229,7 @@ class DraggableStreamEvent {
         const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.location);
         elem.style.transform = "translate(" + pos.left + "px, " + pos.top + "px)";
         if (!elem.style.transition)
-            elem.style.transition = "transform 0.25s";
+            elem.style.transition = "transform 0.40s";
     }
 
     #getTargetContainer(id, uuid, location)
