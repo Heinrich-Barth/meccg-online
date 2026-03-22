@@ -18,6 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Navigate } from "react-router-dom";
 import FetchServerInfo, { ServerInfo } from "../operations/FetchServerInfo";
 import Autosave from "../components/Autosave";
+import JourneyToLure from "../components/JourneyToLure";
 
 const calcDuration = function (time: number) {
     if (time < 1)
@@ -348,7 +349,7 @@ export default function Home() {
     }
    
     return <React.Fragment>
-        <div className={"application-home "}>
+        <div className="application-home">
             <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
                     {MeccgLogo()}
@@ -386,6 +387,7 @@ export default function Home() {
                 {listActiveGames(activeGames, sampleRooms, onJoin, onWatch)}
             </Grid>
         </div>
+        {!selectDeckOpen && !chooseRoom &&<JourneyToLure />}
         {selectDeckOpen && (<Navigate to={"/play/" + roomName} />)}
         {chooseRoom && (<ChooseGameRoom rooms={sampleRooms} onChosen={onChangeRoomName} />)}
         {watchGame !== "" && (<Navigate to={"/watch/" + watchGame} />)}
