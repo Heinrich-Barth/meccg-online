@@ -6,7 +6,7 @@ import { LinearProgress } from "@mui/material";
 import { FetchCardImages } from "../operations/FetchCards";
 
 const YEAR = "2027";
-const g_nLureTargetTimestamp = Date.parse("2027-02-20T00:00:00Z");
+const g_nLureTargetTimestamp = Date.parse(YEAR + "-02-20T00:00:00Z");
 const g_nStartTimestamp = Date.parse("2026-03-22T00:00:00Z");
 
 const alreadyPassed = function()
@@ -79,19 +79,32 @@ export default function JourneyToLure()
         const code = getRandomImage(_e);
 
         FetchCardImages().then(map => {
-            setEntry(_e);
-            if (map.images[code])
-                setImage(map.images[code].image);
+            let image = "";
+            if (map.images[code]?.image)
+                image = map.images[code].image;
             else {
-                let codeR = code.replace(" [h]", "").replace(" [m]", "")
-                if (map.images[codeR])
-                setImage(map.images[codeR].image);
+                const codeR = code.replace(" [h]", "").replace(" [m]", "")
+                if (map.images[codeR]?.image)
+                    image = map.images[codeR].image;
+                
+                if (!image)
+                    throw new Error("Cannot find image " + code + " or " + codeR);
             }
-        })
+
+            setEntry(_e);
+            setImage(image);
+        }).
+        catch(console.error);
 
     }, [setEntry, setImage])
 
-    if (alreadyPassed() || !entry || !image)
+    if (alreadyPassed())
+    {
+        console.info("Event has already passed");
+        return <React.Fragment />
+    }
+
+    if (!entry || !image)
         return <></>
 
     const css:any = { }
