@@ -1,6 +1,6 @@
 function getCSV() { 
     return `
-1;Departure from Bag End: Frodo and Sam leave the Shire;bag end (tw)
+1;Departure from Bag End: Frodo and Sam leave the Shire;bag end [h] (tw)
 4;Crickhollow;the shire (tw);farmer maggot (as);gildor inglorion (tw)
 5;The hobbits meet Tom Bombadil;Tom Bombadil (TW);old forest [h] (tw);goldberry (tw)
 7;Bree: Meeting Strider (Aragorn) at the Prancing Pony;bree [h] (tw);strider (ba)
