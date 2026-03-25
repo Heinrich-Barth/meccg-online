@@ -120,7 +120,7 @@ export default function JourneyToLure()
             </div>
         </div>
         <div className="text">
-            <span className="lure">Yourney to Lure {YEAR}</span>
+            <span className="lure">Journey to Lure {YEAR}</span>
             {entry.entry.text}
         </div>
         <LinearProgress variant="determinate" value={entry.completed}  />
