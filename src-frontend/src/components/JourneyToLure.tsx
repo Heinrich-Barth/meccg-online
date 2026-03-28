@@ -16,11 +16,9 @@ const alreadyPassed = function()
 
 const toDays = function(millis:number)
 {
-    const seconds = millis / 1000
-    const mins = seconds / 60;
-    const hrs = mins / 60;
-    const days = hrs / 60;
-    return Math.floor(days);
+    /* muiltiplication and a final division is much faster than multiple divisions */
+    const dayInMillisconds = 1000 * 60 * 60 * 24;
+    return Math.floor(millis / dayInMillisconds);
 }
 
 const getTotalDuration = function()
@@ -36,26 +34,33 @@ const getAlreadyElapsed = function()
 interface Entry {
     currentDay: number;
     completed: number;
+    duration: number;
     entry: JourneyStation;
 }
 
 const getCurrentEntry = function()
 {
-    const duration = getTotalDuration();
     const journey = GetJourney();
-    const lastDay = journey[journey.length-1].day;
-    const onDayOfFourneyToRealLife = lastDay / duration;
-    const currentDayOnJourney = getAlreadyElapsed() * onDayOfFourneyToRealLife;
+    const durationReafLife = getTotalDuration();
+    const lastDayOfJourney = journey[journey.length-1].day;
+    const ourTimeInJourneyTime = durationReafLife / lastDayOfJourney;
+    const currentDayOnJourney = Math.floor(getAlreadyElapsed() / ourTimeInJourneyTime);
 
     const res:Entry = {
         currentDay: currentDayOnJourney,
-        completed: Math.round((currentDayOnJourney / lastDay) * 100),
-        entry: journey[0]
+        completed: currentDayOnJourney / lastDayOfJourney * 100,
+        entry: journey[0],
+        duration: 0,
     }
 
-    for (let i = 0; i < journey.length && res.entry.day <= currentDayOnJourney; i++)
+    for (let i = 0; i < journey.length && journey[i].day <= currentDayOnJourney; i++)
+    {
         res.entry = journey[i];
+        if (i + 1 < journey.length)
+            res.duration = journey[i+1].day ;
+    }
 
+    res.duration = res.duration / lastDayOfJourney * 100; 
     return res;
 }
 
@@ -71,12 +76,12 @@ function getRandomImage(entry:Entry): string
 
 export default function JourneyToLure()
 {
-    const [entry, setEntry] = React.useState<Entry|null>();
+    const [entry, setEntry] = React.useState<Entry|null>(null);
     const [image, setImage] = React.useState("");
 
     React.useEffect(() => {
         const _e = getCurrentEntry();
-        const code = getRandomImage(_e);
+        const code = getRandomImage(_e).toLocaleLowerCase();
 
         FetchCardImages().then(map => {
             let image = "";
@@ -123,7 +128,7 @@ export default function JourneyToLure()
             <span className="lure">Journey to Lure {YEAR}</span>
             {entry.entry.text}
         </div>
-        <LinearProgress variant="determinate" value={entry.completed}  />
+        <LinearProgress variant="buffer" value={entry.completed} valueBuffer={entry.duration}  />
     </div>
 }
 
