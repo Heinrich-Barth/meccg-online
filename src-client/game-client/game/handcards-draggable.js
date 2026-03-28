@@ -313,7 +313,7 @@ class DraggableStreamEvent {
     static #isActive()
     {
         const count = MeccgPlayers.count();
-        return document.body.hasAttribute("data-dragcards") && count === 2;
+        return document.body.hasAttribute("data-dragcards") && count > 1;
     }
 }
 
