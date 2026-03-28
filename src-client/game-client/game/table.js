@@ -44,7 +44,7 @@
         div.setAttribute("class", "area area-player table-padding-bottom");
         div.setAttribute("data-turn-phase", "");
         div.innerHTML = `
-            <div class="area area-player table-padding-bottom" data-turn-phase="">
+            <div class="area area-player table-padding-bottom" data-turn-phase="" id="player-area-container">
                 <div class="row">
                     <!-- card piles -->
                     <div class="card-bar card-bar-play">
@@ -104,6 +104,7 @@
     {
         const div = document.createElement("div");
         div.setAttribute("class", "table table-dark");
+        div.setAttribute("id", "the-table");
         div.append(
             createTable__row_oppopnent(),
             createTable__row_player()
