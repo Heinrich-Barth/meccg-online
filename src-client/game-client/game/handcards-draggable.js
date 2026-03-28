@@ -9,65 +9,61 @@ class DraggableStreamEvent {
 
     #position = {
         left: 0,
-        top: 0,
-        offsetX : 0
+        top: 0
     }
 
-    #updateCoordinates(div)
+    #getCoordinates(div)
     {
+        if (div === null)
+            return null;
+
         const left = div.style.left;
         const top = div.style.top;
 
         if (!left || !top || left.length < 3 || top.length < 3 )
-            return false;
+            return null;
 
         const nLeft = parseInt(left.substring(0, left.length-2));
         const nTop = parseInt(top.substring(0, top.length-2));
 
         if (isNaN(nLeft) || isNaN(nTop))
-            return false;
+            return null;
      
-        if (DraggableStreamEvent.#instance.#position.left === nLeft && DraggableStreamEvent.#instance.#position.top === nTop)
-            return false;
-
-        DraggableStreamEvent.#instance.#position.left = nLeft;
-        DraggableStreamEvent.#instance.#position.top = nTop;
-        return true;
-    }
-
-    #getBottomOfColumn(id, childClass)
-    {
-        const list = document.getElementById(id)?.querySelectorAll("."+childClass);
-        if (!list)
-            return -1;
-
-        let bottom = -1;
-        for (const e of list)
-        {
-            const rect = e.getBoundingClientRect();
-            const pos = (rect.height ?? 0) + (rect.y ?? 0)
-            if (pos > bottom)
-                bottom = pos
+        return {
+            x: nLeft,
+            y: nTop
         }
-        
-        return bottom;
     }
 
-    #getDeadAreaDistance()
+    #getContainerPosition(id)
     {
-        const hand = document.getElementById("playercard_hand")?.getBoundingClientRect();
-        if (!hand || typeof hand.x > 0)
-            return null;
+        const elem = document.getElementById(id);
+        if (elem === null)
+            null;
 
-        const stagingBottom = this.#getBottomOfColumn("staging-area-player", "staging-area-area");
-        const companyBottom = this.#getBottomOfColumn("player_companies", "company");
-        const bottomMax = Math.max(stagingBottom, companyBottom)
+        return elem.getBoundingClientRect();
+    }
 
-        if (bottomMax < 0)
-            return null;
+    #getPositionOfPlayerContainer(id)
+    {
+        const rect = this.#getContainerPosition(id);
+        if (rect === null)
+        {
+            return {
+                x: 0,
+                y: 0
+            }
+        }
 
-        const handY = hand.y ?? 0;
-        return handY - bottomMax;
+        return {
+            x: rect.x,
+            y: rect.y
+        }
+    }
+
+    #hasChanged(x, y)
+    {
+        return this.#position.left !== x || this.#position.top !== y;
     }
 
     #onUpdatePosition()
@@ -77,47 +73,62 @@ class DraggableStreamEvent {
 
         /** element not available the table anymore */
         const elem = document.getElementById(this.#currentDivId);
-        if (elem === null)
+        const pos = this.#getCoordinates(elem);
+        if (pos === null)
         {
-            this.#onStop(this.#currentDivId, uuid, "");
+            this.#onStop(this.#currentDivId, this.#uuidDragging, "");
             return;
         }
 
-        if (!this.#updateCoordinates(elem))
+        if (this.#currentLocation === "hand")
+        {
+            /** defines Pos(0,0) of table */
+            const tablePosition = this.#getPositionOfPlayerContainer("the-table");
+            const absPosition = elem.getBoundingClientRect();
+
+            /** calculate absolute position of hand card. Substract scrolling offset */
+            const abs = {
+                x: absPosition.x - tablePosition.x,
+                y: absPosition.y - tablePosition.y
+            }
+
+            /** calculate distance from top of my play area for reference point */
+            const offset = this.#getPositionOfMiddleLine();
+            const distance = {
+                x: abs.x - (offset.x - tablePosition.x),
+                y: abs.y - (offset.y - tablePosition.y)
+            }
+
+            pos.x = distance.x;
+            pos.y = distance.y;
+        }
+
+        if (!this.#hasChanged(pos.x, pos.y))
             return;
+
+        this.#position.left = pos.x;
+        this.#position.top = pos.y;
 
         const data = {
             uuid: this.#uuidDragging, 
             id: this.#currentDivId,
-            left: this.#position.left + this.#position.offsetX,
-            top: this.#position.top,
+            left: pos.x,
+            top: pos.y,
             location: this.#currentLocation,
         };
-
-        if (this.#currentLocation === "hand")
-        {
-            const offset = this.#getDeadAreaDistance()
-            if (offset === null)
-                return null;
-
-            const y = data.top + offset;
-            if (y < 0)
-                data.top = y;
-            else
-                data.top = 0;
-        }
 
         MeccgApi.send("/game/card/position/update", data);
     }
 
-    #calculateHandOffsetX(id)
+    #getPositionOfMiddleLine()
     {
-        const elem = document.getElementById(id);
-        if (elem === null)
-            return 0;
-
-        const rect = elem.getBoundingClientRect();
-        return rect.left > 0 ? rect.left : 0;
+        const scroll = this.#getPositionOfPlayerContainer("player-area-container");
+        const offset = {
+            x: scroll.x,
+            y: scroll.y
+        };
+        
+        return offset;
     }
 
     #onInit(id, uuid, location)
@@ -131,9 +142,6 @@ class DraggableStreamEvent {
         this.#currentDivId = id;
         this.#currentLocation = location;
 
-        if (location === "hand")
-            this.#position.offsetX = this.#calculateHandOffsetX(id);
-        
         DraggableStreamEvent.#timer = setInterval(
             DraggableStreamEvent.#instance.#onUpdatePosition.bind(DraggableStreamEvent.#instance), 
             70
@@ -158,7 +166,6 @@ class DraggableStreamEvent {
         DraggableStreamEvent.#instance.#currentLocation = ""
         DraggableStreamEvent.#instance.#position.left = 0;
         DraggableStreamEvent.#instance.#position.top = 0;
-        DraggableStreamEvent.#instance.#position.offsetX = 0;
     }
 
     static wasDragged(uuid)
@@ -227,6 +234,15 @@ class DraggableStreamEvent {
             return;
 
         const pos = DraggableStreamEvent.#instance.#calculateCardPosition(data.left, data.top, data.location);
+
+        if (data.location === "hand")
+        {
+            const size = elem.getBoundingClientRect()
+            const distanceY = pos.top;
+            const offset = DraggableStreamEvent.#instance.#getPositionOfMiddleLine();
+            pos.top = offset.y - distanceY - size.height; 
+        }
+
         elem.style.transform = "translate(" + pos.left + "px, " + pos.top + "px)";
         if (!elem.style.transition)
             elem.style.transition = "transform 0.40s";
@@ -264,6 +280,7 @@ class DraggableStreamEvent {
         elem.style.left = "0px";
         elem.style.top = "0px";
         elem.style.position = "absolute";
+        elem.style["z-index"] = 4000;
 
         const img = document.createElement("img");
         img.setAttribute("class", "card-icon");
@@ -287,6 +304,8 @@ class DraggableStreamEvent {
             res.top *= -1;
             res.left *= -1;
         }
+        else if (location === "hand")
+            res.top *= -1;
 
         return res;
     }
@@ -294,7 +313,7 @@ class DraggableStreamEvent {
     static #isActive()
     {
         const count = MeccgPlayers.count();
-        return document.body.hasAttribute("data-dragcards") && count > 1;
+        return document.body.hasAttribute("data-dragcards") && count === 2;
     }
 }
 
