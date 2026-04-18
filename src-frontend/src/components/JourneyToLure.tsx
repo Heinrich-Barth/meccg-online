@@ -38,9 +38,9 @@ interface Entry {
     entry: JourneyStation;
 }
 
-const getCurrentEntry = function()
+const getCurrentEntry = async function()
 {
-    const journey = GetJourney();
+    const journey = await GetJourney();
     const durationReafLife = getTotalDuration();
     const lastDayOfJourney = journey[journey.length-1].day;
     const ourTimeInJourneyTime = durationReafLife / lastDayOfJourney;
@@ -80,10 +80,16 @@ export default function JourneyToLure()
     const [image, setImage] = React.useState("");
 
     React.useEffect(() => {
-        const _e = getCurrentEntry();
-        const code = getRandomImage(_e).toLocaleLowerCase();
+        let code = "";
+        let pEntry:Entry|null = null;
 
-        FetchCardImages().then(map => {
+        getCurrentEntry()
+        .then(_e => {
+            pEntry = _e;
+            code = getRandomImage(_e).toLocaleLowerCase();
+            return FetchCardImages();
+        })
+        .then(map => {
             let image = "";
             if (map.images[code]?.image)
                 image = map.images[code].image;
@@ -96,10 +102,10 @@ export default function JourneyToLure()
                     throw new Error("Cannot find image " + code + " or " + codeR);
             }
 
-            setEntry(_e);
+            setEntry(pEntry);
             setImage(image);
         }).
-        catch(console.error);
+        catch(console.warn);
 
     }, [setEntry, setImage])
 
