@@ -11,6 +11,26 @@ const onGetTappedSites = function(req:Request, res:Response)
     res.send(getTappedSites(req.cookies)).status(200);
 }
 
+const onGetTappedSitesCount = function(req:Request, res:Response)
+{
+    console.info("Hallo Welt")
+    res.send(getTappedSitesCount(req.cookies)).status(200);
+}
+
+const getTappedSitesCount = function(cookies:any)
+{
+    try
+    {
+        if (typeof cookies?.room === "string" && typeof cookies?.userId === "string")
+            return ServerInstance.getRoomManager().getTappedSitesCount(cookies.room, cookies.userId);
+    }
+    catch(e)
+    {
+        Logger.error(e);
+    }
+
+    return { };
+};
 const getTappedSites = function(cookies:any)
 {
     try
@@ -94,5 +114,5 @@ export default function InitRoutingMap()
      * the endpoint returns an empty map object.
      */
     ServerInstance.getServerInstance().get("/data/list/sites-tapped", Caching.expires.jsonCallback, onGetTappedSites);
-   
+    ServerInstance.getServerInstance().get("/data/list/sites-tapped/count", Caching.expires.jsonCallback, onGetTappedSitesCount);
 };

@@ -167,6 +167,24 @@ export default class RoomManager {
         return pRoom.getGame().getTappedSites(userid);
     }
 
+    getTappedSitesCount(room:string, userid:string)
+    {
+        if (userid === undefined || userid === "")
+        {
+            Logger.warn("invalid input.");
+            return { };
+        }
+
+        const pRoom = this.getRoom(room);
+        if (pRoom === null)
+        {
+            Logger.warn("Cannot get tapped sites. room does not exist: " + room);
+            return { };
+        }
+
+        return pRoom.getGame().getTappedSitesCount(userid);
+    }
+
     #getPlayerOrVisitor(room:string, userid:string):Player|Visitor|null
     {
         const pRoom = this.getRoom(room);

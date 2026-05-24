@@ -3,7 +3,7 @@
  */
  class MapViewSiteImages  {
 
-    constructor(jMap, tapped, listPreferredCodes)
+    constructor(jMap, tapped, listPreferredCodes, tappedCounts)
     {
         this.CardPreview = CardPreview;
         this.CardList = CardList.createInstance(jMap.images, []);
@@ -11,6 +11,7 @@
         this._temp = null;
         this._preferredSites = MapViewSiteImages.verifySiteList(listPreferredCodes);
         this.tapped = tapped === undefined ? {} : tapped;
+        this.tappedCounts = tappedCounts === undefined ? {} : tappedCounts;
         this.jMap = jMap.map === undefined ? {} : jMap.map;
     }
 
@@ -49,19 +50,26 @@
 
     isSiteTapped(code)
     {
-        return code !== undefined && code !== "" && this.tapped[code] !== undefined;
+        return code && this.tapped && this.tapped[code] !== undefined;
+    }
+
+    getTappedCount(code)
+    {
+        return code && this.tappedCounts && this.tappedCounts[code] ? this.tappedCounts[code] : 0;
     }
 
     createEntry(jEntry, isSite, region, siteSitle = "", alignment = "")
     {
+        const code = jEntry["code"];
         this._temp.push({ 
-            code: jEntry["code"], 
+            code: code, 
             site: isSite === true, 
             isHero: alignment !== "minion",
             region: region,
             set_code: jEntry.set_code === undefined ? "" : jEntry.set_code,
             siteSitle : siteSitle === undefined ? "" : siteSitle,
-            tapped : this.isSiteTapped(jEntry["code"])
+            tapped : this.isSiteTapped(code),
+            count: this.getTappedCount(code)
         });
     }
 
@@ -248,7 +256,8 @@
         {
             for (let code of elem.codes)
             {
-                const img = this.createImage(code, true, elem.region, elem.key, this.isSiteTapped(code));
+                const div = this.createImage(code, true, elem.region, elem.key, this.isSiteTapped(code));
+                const img = div.querySelector("img");
                 img.setAttribute("src", img.getAttribute("data-src"));
                 img.classList.add("card-icon");
                 img.setAttribute("title", "Click to choose this card " + code);
@@ -315,7 +324,7 @@
         } }));
     }
 
-    createImage(code, isSite, region, siteTitle, isTapped)
+    createImage(code, isSite, region, siteTitle, isTapped, count)
     {
         const sType = isSite ? "site" : "location";
         const sTitle = siteTitle === "" ? region : siteTitle;
@@ -337,9 +346,21 @@
         img.setAttribute("data-location-type", sType);
         img.setAttribute("title", sTitle);
         img.setAttribute("data-site", sTitle)
-        img.setAttribute("data-region", region)
+        img.setAttribute("data-region", region);
         img.onclick = this.onClickCard.bind(this);
-        return img;
+
+        const div = document.createElement("div");
+        div.setAttribute("class", "map-card-image");
+        div.append(img);
+        
+        if (count > 0)
+        {
+            const span = document.createElement("span");
+            span.innerText = "+" + count;
+            div.append(span);
+        }
+
+        return div;
     }
 
     onClickCard(e)
@@ -506,7 +527,7 @@
         {
             if (g_pRegionMapPreferences.showSiteSet(_card.set_code) && !codes.includes(_card.code))
             {
-                jTarget.appendChild(this.createImage(_card.code, _card.site, _card.region, _card.siteSitle, _card.tapped));
+                jTarget.appendChild(this.createImage(_card.code, _card.site, _card.region, _card.siteSitle, _card.tapped, _card.count));
                 codes.push(_card.code);
             }
         }

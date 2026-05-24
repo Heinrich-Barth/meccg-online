@@ -148,6 +148,11 @@ export default class GameBase {
         return this.getPlayboardManager().GetTappedSites(userid);
     }
 
+    getTappedSitesCount(userid:string)
+    {
+        return this.getPlayboardManager().GetTappedSitesCount(userid);
+    }
+
     getGameOnline()
     {
         if (this.#started < 0)

@@ -45,7 +45,7 @@ const MapInstanceRendererUd = {
             return "";
     },
 
-    onInitDefault: function (data, tapped) {
+    onInitDefault: function (data, tapped, tappedSiteCount) {
         const sCode = MapInstanceRendererUd.getStartCode();
         MapInstanceRendererUd._isMovementSelection = sCode !== "";
 
@@ -54,7 +54,7 @@ const MapInstanceRendererUd = {
             document.body.classList.add("maps-app-mode");
 
 
-        const pMap = new MapViewUnderdeeps(data, tapped);
+        const pMap = new MapViewUnderdeeps(data, tapped, tappedSiteCount);
         pMap.createInstance(sCode);
         pMap.populateSites(sCode);
 
@@ -65,9 +65,9 @@ const MapInstanceRendererUd = {
         g_isInit = true;
     },
 
-    onInit: function (data, tapped) {
+    onInit: function (data, tapped, tappedCounts) {
 
-        MapInstanceRendererUd.onInitDefault(data, tapped);
+        MapInstanceRendererUd.onInitDefault(data, tapped, tappedCounts);
         g_isInit = true;
     }
 };
@@ -114,18 +114,18 @@ const fetchFromLocalStorage = function()
     return null;
 }
 
-const fetchMap = function (tappedSites) 
+const fetchMap = function (tappedSites, tappedSiteCount) 
 {
     const localData = fetchFromLocalStorage();
     if (localData !== null)
     {
-        MapInstanceRendererUd.onInit(localData, tappedSites);
+        MapInstanceRendererUd.onInit(localData, tappedSites, tappedSiteCount);
         return;
     }
 
     fetch("/data/list/underdeeps?t=" + getCurrentDate()).then((response) => {
         if (response.status === 200)
-            response.json().then((map) => MapInstanceRendererUd.onInit(map, tappedSites));
+            response.json().then((map) => MapInstanceRendererUd.onInit(map, tappedSites, tappedSiteCount));
         else
             throw new Error("Could not load map");
     }).catch((err) => showErrorLoading(err));
@@ -136,16 +136,21 @@ const fetchTappedSites = function ()
     if (g_isInit)
         return;
 
+    let sites = { };
+
     fetch("/data/list/sites-tapped", {
         cache: "no-store"
     })
-    .then((response) => {
-        if (response.status === 200)
-            return response.json();
-        else
-            return Promise.resolve({});
+    .then((response) => response.ok ? response.json() : Promise.resolve({}))
+    .then(tapped => {
+        sites = tapped;
+
+        return fetch("/data/list/sites-tapped/count", {
+            cache: "no-store"
+        });
     })
-    .then(fetchMap)
+    .then((r) => r.ok ? r.json() : Promise.resolve({}))
+    .then((counts) => fetchMap(sites, counts))
     .catch((err) => showErrorLoading(err));
 };
 

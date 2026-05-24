@@ -4,7 +4,7 @@
  */
 class MapViewUnderdeeps extends MapView {
 
-    constructor(data)
+    constructor(data, tapped, tappedSiteCount)
     {
         super("underdeeps");
 
@@ -14,6 +14,18 @@ class MapViewUnderdeeps extends MapView {
         this.codeStart = "";
         this.pCurrentObserver = null;
         this.targetSite = "";
+        this.tapped = tapped;
+        this.tappedSiteCount = tappedSiteCount;
+    }
+
+    isSiteTapped(code)
+    {
+        return code && this.tapped && this.tapped[code] !== undefined;
+    }
+
+    getTappedCount(code)
+    {
+        return code && this.tappedSiteCount && this.tappedSiteCount[code] ? this.tappedSiteCount[code] : 0;
     }
 
     getStartupLat()
@@ -70,7 +82,7 @@ class MapViewUnderdeeps extends MapView {
         document.body.dispatchEvent(new CustomEvent("meccg-map-selected-movement", { "detail":  data }));
     }
 
-    createImage(code, isTapped, isHidden)
+    createImage(code, isTapped, isHidden, count)
     {
         let sUrl = this.getImage(code);
         if (sUrl === "")
@@ -146,7 +158,7 @@ class MapViewUnderdeeps extends MapView {
         if (elem !== null && code !== null)
         {
             DomUtils.removeAllChildNodes(elem);
-            elem.appendChild(this.createImage(code, false, false));
+            elem.appendChild(this.createImage(code, this.isSiteTapped(code), false, this.getTappedCount(code)));
             this.targetSite = code;
         }
     }

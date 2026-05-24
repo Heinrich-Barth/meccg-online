@@ -805,6 +805,7 @@ const ContextMenu = {
                 else
                     return Promise.resolve({});
             })
+            .then((all) => all.sites)
             .then((json) =>  { 
                 const keys = Object.keys(json);
                 if (keys.length === 0)

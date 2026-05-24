@@ -151,7 +151,7 @@ let Arda = {
         this.createContainer("arda_stage", "stage", "Common Stage Cards", 5, false, "");
 
         this.createContainer("arda_minors", "minor", "Minor Item Offerings", 4, bAllowRecyling);
-        this.createContainer("arda_characters", "charackters", "Roving Characters", 4, bAllowRecyling);
+        this.createContainer("arda_characters", "charackters", "Roving Characters", 5, bAllowRecyling);
 
         this.insertArdaContainer();
         this.getOpeningHands();

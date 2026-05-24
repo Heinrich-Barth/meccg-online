@@ -170,6 +170,11 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
     {
         return this.getDecks().getTappedSites(playerId);
     }
+
+    GetTappedSitesCount(playerId:string)
+    {
+        return this.getDecks().getTappedSitesCount(playerId);
+    }
     
     SetCardState(uuid:string, nState:number)
     {

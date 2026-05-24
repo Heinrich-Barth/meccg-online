@@ -328,6 +328,38 @@ export default class DeckManager {
             return typeof this.#siteMap[playerId] !== "undefined" && typeof this.#siteMap[playerId][code] !== "undefined";
     }
 
+    #getTappedSitesCount(playerId:string)
+    {
+        if (typeof playerId === "undefined" || playerId === "" || typeof this.#siteMap[playerId] === "undefined")
+        {
+            Logger.warn("Cannot find player #" + playerId);
+            return { };
+        }
+
+        const counts:any = { };
+
+        for (const id of Object.keys(this.#siteMap))
+        {
+            if (id === playerId)
+                continue;
+
+            const sites = this.#siteMap[id];
+            for (const code in sites)
+            {
+                if (sites[code] !== true)
+                    continue;
+
+                if (typeof counts[code] === "undefined")
+                    counts[code] = 1;
+                else
+                    counts[code] += 1;
+
+            }
+        }
+
+        return counts;
+    }
+
     #getTappedSites(playerId:string)
     {
         if (typeof playerId === "undefined" || playerId === "" || typeof this.#siteMap[playerId] === "undefined")
@@ -412,6 +444,11 @@ export default class DeckManager {
     getTappedSites(playerId:string)
     {
         return this.#getTappedSites(playerId);
+    }
+
+    getTappedSitesCount(playerId:string)
+    {
+        return this.#getTappedSitesCount(playerId);
     }
     
     readyCard(uuid:string)

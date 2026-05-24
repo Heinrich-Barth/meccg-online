@@ -63,7 +63,8 @@ const URIS_IMAGE_LOCAL = [
 
 
 const URIS_IMAGE_LOCAL_NEVER = [
-    "/data/list/sites-tapped"
+    "/data/list/sites-tapped",
+    "/data/list/sites-tapped/count"
 ];
 
 const neverCache = function(uri)

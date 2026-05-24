@@ -104,7 +104,7 @@ const MapInstanceRenderer = {
         document.body.classList.add("remove-site-autoclose");
     },
 
-    onInitDefault: function (data, tapped, listPreferredCodes) {
+    onInitDefault: function (data, tapped, listPreferredCodes, tappedCounts) {
         
         const isAppOnly = MapInstanceRenderer.getIsAppOnly();
         const ignoreSelection = isAppOnly || MapInstanceRenderer.getIsShownOnly();
@@ -121,7 +121,7 @@ const MapInstanceRenderer = {
         MapInstanceRenderer._isMovementSelection = sCode !== "";
 
         new MapViewRegionsFilterable().createInstance(data.map);
-        new MapViewSiteImages(data, tapped, listPreferredCodes).createInstance(!ignoreSelection);
+        new MapViewSiteImages(data, tapped, listPreferredCodes, tappedCounts).createInstance(!ignoreSelection);
 
         const pMap = new MapViewRegions(data);
         pMap.createInstance(sCode);
@@ -151,10 +151,10 @@ const MapInstanceRenderer = {
         return typeof MapViewPositioning !== "undefined";
     },
 
-    onInit: function (data, tapped) {
+    onInit: function (data, tapped, tappedCounts) {
 
         if (!MapInstanceRenderer.isEditor())
-            MapInstanceRenderer.onInitDefault(data, tapped, fetchPreferredSitesFromLocalStorage());
+            MapInstanceRenderer.onInitDefault(data, tapped, fetchPreferredSitesFromLocalStorage(), tappedCounts);
         else
             MapInstanceRenderer.onInitEditor(data);
         
@@ -242,12 +242,12 @@ const fetchPreferredSitesFromLocalStorage = function()
     return [];
 }
 
-const fetchMap = async function (tappedSites) {
+const fetchMap = async function (tappedSites, tappedSiteCount) {
 
     const localData = fetchFromLocalStorage();
     if (localData !== null)
     {
-        MapInstanceRenderer.onInit(localData, tappedSites);
+        MapInstanceRenderer.onInit(localData, tappedSites, tappedSiteCount);
         return;
     }
 
@@ -262,7 +262,7 @@ const fetchMap = async function (tappedSites) {
             else
                 return Promise.resolve({});
         })
-        .then((map) => MapInstanceRenderer.onInit(map, tappedSites))
+        .then((map) => MapInstanceRenderer.onInit(map, tappedSites, tappedSiteCount))
         .catch(showErrorLoading);
     }, 10);
 
@@ -274,17 +274,22 @@ const fetchTappedSites = function () {
 
     updateLoadingInfo("already tapped sites");
 
+    let sites = { };
+
     fetch("/data/list/sites-tapped", {
         cache: "no-store"
     })
-    .then((response) => 
-    {
-        if (response.status === 200)
-            return response.json()
-        else
-            return Promise.resolve({});
+    .then((response) => response.ok ? response.json() : Promise.resolve({}))
+    .then(tapped => {
+        sites = tapped;
+
+
+        return fetch("/data/list/sites-tapped/count?t=" + Date.now(), {
+            cache: "no-store"
+        });
     })
-    .then(fetchMap)
+    .then((r) => r.ok ? r.json() : Promise.resolve({}))
+    .then((counts) => fetchMap(sites, counts))
     .catch(showErrorLoading);
 };
 
