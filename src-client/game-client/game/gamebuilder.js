@@ -235,24 +235,40 @@ const GameBuilder = {
     
     onGameTime : function(jData)
     {
-        let _online = typeof jData === "undefined" || jData.time < 0 ? 0 : jData.time;
-        let nOffset = new Date(_online).getTimezoneOffset() * GameBuilder._minuteInMillis;
-
-        GameBuilder._gameStarted = new Date(_online + nOffset).getTime();
-        GameBuilder._timeStarted = new Date().getTime();
+        const _online = typeof jData === "undefined" || jData.time < 0 ? 0 : jData.time;
+        GameBuilder._gameStarted = _online;
+        GameBuilder._timeStarted = Date.now();
         GameBuilder.onCalcTime();
         setInterval(GameBuilder.onCalcTime, GameBuilder._minuteInMillis); /* every minute */
+    },
+
+    CalcDuration : function(timeMillis)
+    {
+        const pDate = new Date(timeMillis);
+        
+        const time = {
+            h: pDate.getUTCHours(),
+            m: pDate.getUTCMinutes(),
+            s: pDate.getUTCSeconds()
+        }
+
+        return time;
     },
     
     onCalcTime : function()
     {
         /* total milliseconds since the game has started */
-        let lDiff = (new Date().getTime() - GameBuilder._timeStarted) + GameBuilder._gameStarted;
-        let pDate = new Date(lDiff);
+        let lDiff = (Date.now() - GameBuilder._timeStarted) + GameBuilder._gameStarted;
+        let pDate = GameBuilder.CalcDuration(lDiff);
         
-        const lMins = pDate.getHours() * 60 + pDate.getMinutes();
-        if (lMins === 1)
-            document.getElementById("game_time").innerText = "1min";
+        const lMins = pDate.h * 60 + pDate.m;
+        if (pDate.h === 0 && pDate.m === 0)
+        {
+            if (pDate.s < 30)
+                document.getElementById("game_time").innerText = "now";
+            else
+                document.getElementById("game_time").innerText = pDate.s + "s";
+        }
         else
             document.getElementById("game_time").innerText = lMins + "mins";
     },

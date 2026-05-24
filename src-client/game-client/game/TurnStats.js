@@ -82,14 +82,14 @@ class TurnStats {
             this.#count = thisLen;
     }
 
-    #parseTime(time)
+    #parseTime(timeMilli)
     {
-        const date = new Date(time);
-        const hrs = date.getHours() - 1; /* hours start at 1 */
-        const hh = hrs < 1 ? "" : (this.#assertLeadingZero(hrs) + ":");
-        const min = this.#assertLeadingZero(date.getMinutes());
-        const sec = this.#assertLeadingZero(date.getSeconds());
-        return hh + min + ":" + sec;
+        const date = GameBuilder.CalcDuration(timeMilli);
+        const hrs = date.h;
+        const hh = hrs === 0 ? "00" : this.#assertLeadingZero(hrs);
+        const min = this.#assertLeadingZero(date.m);
+        const sec = this.#assertLeadingZero(date.s);
+        return hh + ":" + min + ":" + sec;
     }
 
     #printStats()
