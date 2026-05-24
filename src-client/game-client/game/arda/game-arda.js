@@ -7,6 +7,7 @@ let Arda = {
     _hasReceivedCharacters : false,
     _idCount : 1,
     _exchangeBox : new ArdaExchangeBox(),
+    _marks : { },
 
     createHtmlElement: function(_code, _img, _uuid, type)
     {
@@ -44,7 +45,7 @@ let Arda = {
         divHover.setAttribute("class", "arda-actions");
 
         let aHand;
-        
+
         aHand = document.createElement("img");
         aHand.setAttribute("src", "/media/assets/images/icons/icon-discardpile.png");
         aHand.setAttribute("data-to", "discardpile");
@@ -57,14 +58,10 @@ let Arda = {
         divHover.appendChild(aHand);
 
         aHand = document.createElement("img");
-        aHand.setAttribute("src", "/media/assets/images/icons/icon-hand.png");
-        aHand.setAttribute("data-to", "hand");
-        aHand.setAttribute("data-from", type);
+        aHand.setAttribute("src", "/media/assets/images/icon_add_pool.png");
         aHand.setAttribute("data-uuid", _uuid);
-        aHand.setAttribute("data-code", _code);
-        aHand.setAttribute("data-translate-title", "arda_tohand")
-        aHand.setAttribute("title", Dictionary.get("arda_tohand", "Move to your hand"));
-        aHand.onclick = Arda.onCardAction; 
+        aHand.setAttribute("title", Dictionary.get("arda_tohand", "Mark"));
+        aHand.onclick = Arda.onCardActionMark; 
         divHover.appendChild(aHand);
         
         div.appendChild(divHover);
@@ -107,6 +104,16 @@ let Arda = {
         };
 
         MeccgApi.send("/game/arda/from-hand", data);
+    },
+
+    onCardActionMark : function(e)
+    {
+        const elem = e.target;
+        const data = {
+            uuid : elem.getAttribute("data-uuid"),
+        };
+
+        MeccgApi.send("/game/arda/from-hand-mark", data);
     },
 
     addCss : function()
@@ -673,6 +680,53 @@ let Arda = {
             Arda.onReceiveOpeningHandGeneric("arda_hand_container_charackters", "charackters", jData);
     },
 
+    setMarked : function(uuid)
+    {
+        const isMarked = Arda._marks[uuid] === true;
+        const containers = document.querySelectorAll(".arda-card-hands");
+        if (containers === null || containers.length === 0)
+            return;
+
+        let found = false;
+        for (const container of containers)
+        {
+            if (found)
+                break;
+
+            const divs = container.querySelectorAll(".card-hand");
+            if (divs === null || divs.length === 0)
+                continue;
+
+            for (const div of divs)
+            {
+                if (div.getAttribute("data-uuid") !== uuid)
+                    continue;
+
+                if (isMarked)
+                    div.classList.add("state_wounded");
+                else 
+                    div.classList.remove("state_wounded")
+
+                found = true;
+                break;
+            }
+        }
+    },
+
+    onMarkHandCard : function(jData)
+    {
+        const uuid = jData.uuid;
+        if (!uuid)
+            return;
+
+        if (Arda._marks[uuid])
+            Arda._marks[uuid] = false;
+        else
+            Arda._marks[uuid] = true;
+
+        Arda.setMarked(uuid);
+    },
+
     onReceiveOpeningHandStage : function(jData)
     {
         /* you can only receive your opening hand once, but it will be triggered for every player at the table */
@@ -735,6 +789,7 @@ if ("true" === document.body.getAttribute("data-game-arda"))
     MeccgApi.addListener("/game/arda/hand/card/remove", (_bIsMe, jData) => Arda.onRemoveHandCard(jData.uuid));  
     MeccgApi.addListener("/game/arda/draw", (bIsMe, jData) => Arda.onDrawCard(bIsMe, jData));
     MeccgApi.addListener("/game/arda/checkdraft", (_bIsMe, jData) => Arda.onCheckDraft(jData.ready, jData.characters, jData.minoritems));
+    MeccgApi.addListener("/game/arda/from-hand-mark", (bIsMe, jData) => Arda.onMarkHandCard(jData));
     MeccgApi.addListener("/game/arda/view", (bIsMe, jData) => g_Game.TaskBarCards.onShow(bIsMe, jData));
 
     Arda._exchangeBox.addRoutes();

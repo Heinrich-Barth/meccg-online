@@ -551,6 +551,10 @@ export default class GameArda extends GameStandard {
         }
     }
 
+    onMarkArdaHandCard(userid: string, _socket: any, obj: any) {
+        this.publishToPlayers("/game/arda/from-hand-mark", userid, { uuid: obj.uuid });
+    }
+
     onMoveArdaHandCard(userid: string, socket: any, obj: any) {
         if (obj.to !== "hand" && obj.to !== "discardpile")
             return;
@@ -601,6 +605,7 @@ export default class GameArda extends GameStandard {
         this.getMeccgApi().addListener("/game/arda/hands", this.onGetHandMinorItems.bind(this));
         this.getMeccgApi().addListener("/game/arda/checkdraft", this.onCheckDraft.bind(this));
         this.getMeccgApi().addListener("/game/arda/from-hand", this.onMoveArdaHandCard.bind(this));
+        this.getMeccgApi().addListener("/game/arda/from-hand-mark", this.onMarkArdaHandCard.bind(this));
         this.getMeccgApi().addListener("/game/arda/draw", this.onDrawCard.bind(this));
         this.getMeccgApi().addListener("/game/arda/recycle", this.onRecycle.bind(this));
         this.getMeccgApi().addListener("/game/arda/assign-characters", this.onAssignCharacters.bind(this));
