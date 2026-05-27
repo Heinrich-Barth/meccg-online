@@ -369,7 +369,9 @@ const ContextMenu = {
             else
             {
                 const src = ContextMenu.getAttribute(e.target, "src");
-                if (src !== null && src.indexOf("/backside") !== -1)
+                const isFaceDown = src !== null && src.indexOf("/backside") !== -1;
+                const agent = ContextMenu.contextActions.isAgent(uuid);
+                if (!agent && isFaceDown)
                 {
                     ContextMenu.callbacks._doFlip(uuid, code);
                     ContextMenu.hightlightCard(uuid, code);
@@ -377,6 +379,27 @@ const ContextMenu = {
                 else
                     ContextMenu.callbacks.doRotate(uuid, code, ContextMenu.cardGetTapClass(e.target, true));
             }
+        },
+
+        _getCompanyCharacters:function(elem)
+        {
+            if (!elem)
+                return null;
+
+            if (elem.classList?.contains("company"))
+                return elem;
+
+            return ContextMenu.contextActions._getCompanyCharacters(elem.parentElement);
+        },
+
+        isAgent : function(uuid)
+        {
+            if (!uuid)
+                return false;
+
+            const div = document.getElementById("ingamecard_"+uuid);
+            const company = ContextMenu.contextActions._getCompanyCharacters(div);
+            return company !== null && GameCompanies.detectIsAgentCompany(company);
         },
 
         onDoubleClick : function(e)
