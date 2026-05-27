@@ -924,7 +924,10 @@ const GameCompanies = {
             ArrayList(elem).find("div.card").each((e) =>
             {
                 if (e.classList.contains("card-highlight-mark"))
+                {
                     e.classList.remove("card-highlight-mark");
+                    e.classList.remove("glowing");
+                }
             });
         }
     },
@@ -1032,7 +1035,10 @@ const GameCompanies = {
     {
         const pElem = document.querySelector('div.card[data-uuid="' + uuid + '"] img.card-icon');
         if (!pElem.classList.contains("card-highlight"))
+        {
             plem.classList.add("card-highlight");
+            plem.classList.add("glowing");
+        }
     },
 
     onMenuActionMark : function(uuid, bMark)
@@ -1042,9 +1048,15 @@ const GameCompanies = {
             return;
 
         if (bMark && !pElem.classList.contains("card-highlight-mark"))
+        {
             pElem.classList.add("card-highlight-mark");
+            pElem.classList.add("glowing");
+        }
         else if (!bMark && pElem.classList.contains("card-highlight-mark"))
+        {
             pElem.classList.remove("card-highlight-mark");
+            pElem.classList.remove("glowing");            
+        }
     },
 
     onMenuActionRevealCard: function (uuid = "", reveal = true)
