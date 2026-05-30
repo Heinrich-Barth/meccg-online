@@ -339,7 +339,7 @@ export default class RoomManager {
         if (this.#countRooms() === 0)
             return false;
 
-        for (let room in this.#rooms) 
+        for (const room in this.#rooms) 
             this.#rooms[room].sendSaveOnShutdown();
 
         return true;
