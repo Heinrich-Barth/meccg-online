@@ -379,7 +379,6 @@ const MeccgApi =
         this._socket.on("connect_error", MeccgApi.onSocketError.bind(MeccgApi));
 
         this._socket.on('/authenticate/success', MeccgApi.onAuthenticationSuccess.bind(MeccgApi));
-        this._socket.on('/disconnect/shutdown', MeccgApi.expectShutdown);
         this._socket.on('disconnect', (reason) => 
         {
             MeccgApi.onDisconnected();

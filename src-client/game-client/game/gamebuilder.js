@@ -895,11 +895,15 @@ const GameBuilder = {
 
         MeccgApi.addListener("/game/score/onering", (_bIsMe, jData) => GameBuilder.Scoring.setOneRingWinnder(jData.userid));
 
-        MeccgApi.addListener("/game/score/final-only", function(_bIsMe, jData)
+        MeccgApi.addListener("/game/score/final-only", function(_bIsMe, payload)
         {
-            GameBuilder.Scoring.showFinalScore(jData.stats, true);
+            MeccgApi.expectShutdown();
+            GameBuilder.Scoring.showFinalScore(payload.score.stats, true);
             document.body.dispatchEvent(new CustomEvent("meccg-sfx", { "detail": "endgame" }));
             JumbleCards.update(2);
+
+            if (payload.save)
+                SavedGameManager.onSaveGame(payload.save);
         });
         
         MeccgApi.addListener("/game/rejoin/immediately", (_bIsMe, jData) => GameBuilder.restoreBoard(jData));

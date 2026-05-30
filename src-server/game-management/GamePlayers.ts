@@ -12,6 +12,17 @@ import Chat from "./Chat";
 import Player from "./Player";
 import * as crypto from "crypto";
 
+type TScore = {
+    score: any;
+    stats: any;
+    duration: number;
+    turns: number;
+    checksums: string[],
+    players: KeyValuesString,
+    date: number;
+    token?: string;
+}
+
 type TPlayers = {
     this_player_name: string,
     this_player: string,
@@ -365,7 +376,7 @@ export default class GamePlayers extends GameBase
 
     getFinalScore()
     {
-        const data:any = {
+        const data:TScore = {
             score: this.#scoring.getScoreSheets(),
             stats: this.#playerDices.getStats(),
             duration: this.getGameDuration(),
@@ -373,7 +384,7 @@ export default class GamePlayers extends GameBase
             checksums: this.#players.checksums,
             players: this.#players.names,
             date: Date.now(),
-        }
+        };
 
         const token = ResultToken.create(data);
         data.token = token;
@@ -393,3 +404,5 @@ export default class GamePlayers extends GameBase
         this.publishToPlayers("/game/time", userid, { time : this.getGameOnline() });
     }
 }
+
+

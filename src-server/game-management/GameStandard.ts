@@ -42,8 +42,8 @@ export default class GameStandard extends GamePlayers
         
         this.getMeccgApi().addListener("/game/stagingarea/add/card", this.onStagingAreaAddCard.bind(this));
 
-        this.getMeccgApi().addListener("/game/save", this.globalSaveGame.bind(this));
-        this.getMeccgApi().addListener("/game/save/auto", this.globalSaveGameAuto.bind(this));
+        this.getMeccgApi().addListener("/game/save", this.#globalSaveGame.bind(this));
+        this.getMeccgApi().addListener("/game/save/auto", this.#globalSaveGameAuto.bind(this));
         this.getMeccgApi().addListener("/game/restore", this.globalRestoreGame.bind(this));
         
         this.getMeccgApi().addListener("/game/dices/roll", this.rollDices.bind(this));
@@ -1236,7 +1236,7 @@ export default class GameStandard extends GamePlayers
         this.publishChat(userid, " revealed locations.", true);
     }
 
-    globalSaveGameAuto(_userid:string, socket:any)
+    #globalSaveGameAuto(_userid:string, socket:any)
     {
         /** allow autosave in 2 player game */
         const data = this.getCount() !== 2 ? null : this.save();
@@ -1244,7 +1244,7 @@ export default class GameStandard extends GamePlayers
             this.replyToPlayer("/game/save/auto", socket, data);
     }
 
-    globalSaveGame(_userid:string, socket:any)
+    #globalSaveGame(_userid:string, socket:any)
     {
         const data = this.save();
         if (data !== null)

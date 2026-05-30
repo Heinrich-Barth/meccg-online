@@ -448,17 +448,23 @@ export class GameRoom
 
     sendSaveOnShutdown()
     {
-        let _player;
-        for (let userid in this.#players)
+        const score = this.#gameInstance.getFinalScore();
+        const save = this.#gameInstance.save();
+
+        const payload = {
+            score: score,
+            save: null
+        }
+
+        for (const userid in this.#players)
         {
-            _player = this.#players[userid];
-            if (_player.isAdmin())
-            {
-                this.#gameInstance.publishToPlayers("/game/score/final-only", userid, this.#gameInstance.getFinalScore());
-                this.#gameInstance.publishToPlayers("/disconnect/shutdown", userid, {});
-                this.#gameInstance.globalSaveGame(userid, _player.getSocket());
-                break;
-            }
+            /** only game host needs save game data on forceful shutdown */
+            if (this.#players[userid].isAdmin())
+                payload.save = save;
+            else 
+                payload.save = null;
+
+            this.#gameInstance.publishToPlayers("/game/score/final-only", userid, payload);
         }
     }
 
