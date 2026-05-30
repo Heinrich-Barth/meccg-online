@@ -354,7 +354,8 @@ export function shutdown(): void {
             return new Promise((resolve) => setTimeout(resolve, time));
         }
 
-        sleep(2000).then(ServerInstance.doShutdown).catch((err) => Logger.error(err));
+        /** wait 20sec before enforcing a shotdown */
+        sleep(20000).then(ServerInstance.doShutdown).catch((err) => Logger.error(err));
     }
     else
         ServerInstance.doShutdown();
