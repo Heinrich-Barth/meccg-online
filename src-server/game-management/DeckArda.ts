@@ -187,7 +187,7 @@ export default class DeckArda extends DeckDefault {
         this.add(jsonDeck["chars_special"], this.#listSpecialCharacters, _cardMap);
 
         this.add(jsonDeck["stage"], this.#playdeckStage, _cardMap);
-        this.#copyIds(this.#playdeckStage, this.#playdeckStage);
+        this.#copyIds(this.#playdeckStage, this.#typeStage);
         this.#shuffleAnyTimes(this.#playdeckStage, 3);
         Logger.info("Added " + this.#typeStage.length + " stage resources");
     }
