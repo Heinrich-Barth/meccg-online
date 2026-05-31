@@ -713,6 +713,7 @@ export default class GameStandard extends GamePlayers
         const result = this.#onCardMoveDoMove(userid, obj, card);
         if (!result.isEmpty)
         {
+            this.resetCardTempStats(card);
             this.updateHandCountersPlayer(userid);
             this.publishToPlayers("/game/event/cardmoved", userid, {list: result.codes, target: obj.target, source: obj.source});
         }
@@ -810,9 +811,22 @@ export default class GameStandard extends GamePlayers
             return false;
 
         this.updateHandCountersPlayer(card.owner);
+        this.resetCardTempStats(card);
         this.publishChat(userid, "Discarded 1 card.", true);
         this.onRedrawCompany(userid, affectedCompanyUuid);
         return true;
+    }
+
+    resetCardTempStats(card: TDeckCard) {
+
+        if (card.tmpSecondary && card.tmpType)
+        {
+            card.secondary = card.tmpSecondary;
+            card.type = card.tmpType;
+
+            delete card.tmpSecondary;
+            delete card.tmpType;
+        }
     }
 
     scoreShow(userid:string, socket:any, _data:any)
@@ -1048,6 +1062,9 @@ export default class GameStandard extends GamePlayers
         }
     }
 
+    
+    
+    
     onGameCompanyCreate(userid:string, _socket:any, data:any)
     {
         const _uuid = data.uuid;
