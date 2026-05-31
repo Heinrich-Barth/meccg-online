@@ -444,8 +444,12 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
     const [textDeck, setTextDeck] = React.useState("");
     const [textSideboard, setTextSideboard] = React.useState("");
     const [textSites, setTextSites] = React.useState("");
-    const [textNotes, setTextNotes] = React.useState(deck.notes);
+    const [textNotes, setTextNotes] = React.useState("");
     const [message, setMessage] = React.useState("");
+
+    React.useEffect(() => {
+        setTextNotes(deck.notes);
+    }, [setTextNotes])
 
     const defaultRowCount = 15;
 
@@ -457,7 +461,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
 
     const onApplyNotesChange = function()
     {
-        updateDeck({ ... deck });
+        updateDeck({ ... deck, notes: textNotes });
     }
 
     const sortCodesInTextarea = function()
@@ -638,7 +642,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                     <Button variant="contained" onClick={onApplyNotesChange}>Save changes to notes</Button>
                 </Grid>
                 <Grid item xs={12} className="deck-notes">
-                    <TextField rows={10} value={deck.notes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
+                    <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
                 </Grid>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
