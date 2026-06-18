@@ -261,6 +261,17 @@ export default class DeckCommons {
     }
 
     /**
+     * The uuid count will not be set after game restoration.
+     * If a new card will be added, it will overwrite an existing one.
+     * Hance, just update the counter to now. That will leave sufficient 
+     * room for later
+     */
+    restore(_deck:TSaveGameComons)
+    {
+        this.#deck_uuid_count = Date.now();
+    }
+
+    /**
      * Create unique id
      * @returns ID
      */

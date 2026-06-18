@@ -136,6 +136,8 @@ export default class DeckDefault extends DeckCommons {
      */
     restore(deck:TSaveGameComons)
     {        
+        super.restore(deck);
+        
         this.restoreList(this.#handCards, deck.handCards);
         this.restoreList(this.#discardPile, deck.discardPile);
         this.restoreList(this.#sideboard, deck.sideboard);
