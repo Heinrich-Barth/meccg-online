@@ -183,27 +183,6 @@ const MapWindow = {
             jFrame.setAttribute("data-revealved", "false");
 
         jWrapper.appendChild(jFrame);
-
-        /** 
-         * this is weired Chrome behaviour. It seems the click event of the overlay is
-         * being triggered immediately after the iframe is supposed to be shown.
-         * This is only an issue in Chrome.
-         * 
-         * The solution is not very elegant, but should do the trick:
-         * We simply add the click event to the map-overlay a bit later. This should give the window enough time
-         * to load.
-         */
-         setTimeout(MapWindow.addWindowOverlayClickEvent, 3000);
-    },
-
-    /**
-     * Add the overlay click event once, but only if the element exists.
-     */
-    addWindowOverlayClickEvent : function()
-    {
-        const elem = document.getElementById("map-window-overlay");
-        if (elem !== null)
-            elem.onclick = MapWindow.onClose.bind(MapWindow);
     },
 
     /**
