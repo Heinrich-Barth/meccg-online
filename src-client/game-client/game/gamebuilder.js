@@ -826,7 +826,7 @@ const GameBuilder = {
         });
 
         
-        MeccgApi.addListener("/game/set-turn", (_bIsMe, jData) => document.getElementById("game_turns").innerHTML = jData.turn);
+        MeccgApi.addListener("/game/set-turn", (_bIsMe, jData) => document.getElementById("game_turns").innerText = jData.turn);
 
         MeccgApi.addListener("/game/set-phase", GameBuilder.onSetPhase.doSet);
         MeccgApi.addListener("/game/start", GameBuilder.onSetPhase.doSetGameStart);    
