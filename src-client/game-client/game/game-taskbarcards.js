@@ -43,16 +43,28 @@ class ViewCardListContainer {
         elem.setAttribute("draggable", "false");
         elem.setAttribute("data-code", sCode);
         elem.setAttribute("data-type", type);
-        const crossOrig = g_bSetImgAnonymous ? 'crossorigin="anonymous"' : ""
-        elem.innerHTML = `<img src="${_img}" data-id="${uuid}" class="card-icon" ${crossOrig} decoding="async" data-image-backside="/data/backside">
-            <div class="view-card-list-actions icons">
+
+        const image = document.createElement("img");
+        image.setAttribute("src", _img);
+        image.setAttribute("data-id", uuid);
+        image.setAttribute("class", "card-icon");
+        image.setAttribute("decoding", "async");
+        image.setAttribute("data-image-backside", "/data/backside");
+        if (g_bSetImgAnonymous)
+            image.setAttribute("crossorigin", "anonymous");
+
+        const viewActions = document.createElement("div");
+        viewActions.setAttribute("class", "view-card-list-actions icons");
+        viewActions.innerHTML = `
                 <a href="#" class="icon hand" data-move-to="hand" data-shuffle="false" title="Move to hand">&nbsp;</a>
                 <a href="#" class="icon playdeck playdeck-shuffle" data-move-to="playdeck" data-shuffle="true" title="Shuffle into playdeck">&nbsp;</a>
                 <a href="#" class="icon discardpile" data-move-to="discardpile" data-shuffle="false" title="Move to top of discard pile">&nbsp;</a>
                 <a href="#" class="icon sideboard" data-move-to="sideboard" data-shuffle="false" title="Move to sideboard">&nbsp;</a>
                 <a href="#" class="icon playdeck" data-move-to="playdeck" data-shuffle="false" title="Move to top of playdeck">&nbsp;</a>
                 <a href="#" class="icon onoffer" data-move-to="offer" data-shuffle="false" title="Reveal to opponent">&nbsp;</a>
-            </div>`;
+        `.trim();
+
+        elem.append(image, viewActions);
 
         if (cardNumber !== undefined && cardNumber > 0)
         {
