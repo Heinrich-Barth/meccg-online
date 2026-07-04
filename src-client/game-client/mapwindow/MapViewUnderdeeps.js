@@ -123,7 +123,11 @@ class MapViewUnderdeeps extends MapView {
 
         const div = document.createElement("div");
         div.setAttribute("id", "help_observer");
-        div.innerHTML = "<p>&nbsp;</p>";
+
+        const p = document.createElement("p");
+        p.innerHTML = "&nbsp;";
+
+        div.append(p);
         pElement.appendChild(div);
 
         return div;

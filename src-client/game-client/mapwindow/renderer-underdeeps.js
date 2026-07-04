@@ -83,7 +83,15 @@ const showErrorLoading = function (err)
             error = err.message;
     }
 
-    document.getElementById("map_view_layer_loading").innerHTML = `<p>${error}</p>`;
+    const p = document.createElement("p");
+    p.innerText = error;
+
+    const elem = document.getElementById("map_view_layer_loading");
+    if (elem)
+    {
+        elem.innerHTML = "";
+        elem.append(p);
+    }
 };
 
 const getCurrentDate = function()
