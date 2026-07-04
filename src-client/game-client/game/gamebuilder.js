@@ -417,8 +417,15 @@ const GameBuilder = {
         GameBuilder.CompanyManager.onAttachCardToCompanySites(companyId, card, true);
     },
 
+    _isRestoring : false,
+
     restoreBoard : function(jData)
     {
+        if (GameBuilder._isRestoring)
+            return;
+
+        GameBuilder._isRestoring = true;
+
         if (jData.player)
         {
             for (let company of jData.player.companies)
@@ -455,7 +462,10 @@ const GameBuilder = {
         }
         setTimeout(() => {
 
-            document.getElementById("lidles-eye").setAttribute("class", "fade-out")
+            const eye = document.getElementById("lidles-eye");
+            if (eye !== null)
+                eye.setAttribute("class", "fade-out");
+
             document.body.dispatchEvent(new CustomEvent("meccg-api-connected", { "detail": true }));
             document.body.dispatchEvent(new CustomEvent("meccg-sfx-ready", { "detail": true }));
             
@@ -464,7 +474,10 @@ const GameBuilder = {
 
         }, 100);
 
-        setTimeout(() => DomUtils.removeNode(document.getElementById("lidles-eye")), 1000);
+        setTimeout(() => {
+            DomUtils.removeNode(document.getElementById("lidles-eye"))
+            GameBuilder._isRestoring = false;
+        }, 1000);
     },
     
     onAddCardToStagingArea : function(bIsMe, cardCode, uuid, type = "", state = "", revealed = true, turn = 0, token = 0, secondary = "", stage = false)
