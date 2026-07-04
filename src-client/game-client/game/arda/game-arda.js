@@ -365,7 +365,12 @@ let Arda = {
             _a.setAttribute("data-type", dataType);
             _a.setAttribute("data-view", "discard");
             _a.setAttribute("title", Dictionary.get("arda_viewdiscard", "View discard pile"));
-            _a.innerHTML = `<img src="/media/assets/images/icons/icon-discardpile.png" data-view="discard" data-type="${dataType}">`;
+
+            const _img = document.createElement("img");
+            _img.setAttribute("src", "/media/assets/images/icons/icon-discardpile.png");
+            _img.setAttribute("data-view", "discard");
+            _img.setAttribute("data-type", dataType);
+            _a.append(_img);
             _a.onclick = Arda.onViewPile;
             divHandTop.prepend(_a);
 
