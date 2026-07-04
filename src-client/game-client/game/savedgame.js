@@ -132,11 +132,11 @@ const SavedGameManager =
             const _tr = document.createElement("tr");
             
             _td = document.createElement("td");
-            _td.innerHTML = pPlayersCurrent[key];
+            _td.innerText = pPlayersCurrent[key];
             _tr.appendChild(_td);
             
             _td = document.createElement("td");
-            _td.innerHTML = " = ";
+            _td.innerText = " = ";
             _td.setAttribute("class", "center");
             _tr.appendChild(_td);
 

@@ -79,11 +79,11 @@ class PlayerSelector
         {
             let elem = pContainer.querySelector(".player-handcard-count");
             if (elem !== null)
-                elem.innerHTML = nCount;
+                elem.innerText = nCount;
 
             elem = pContainer.querySelector(".player-playdeck-count");
             if (elem !== null)
-                elem.innerHTML = nCountPlaydeck;
+                elem.innerText = nCountPlaydeck;
         }
     }
 

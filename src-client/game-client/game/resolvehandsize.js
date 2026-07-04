@@ -150,7 +150,7 @@ class ResolveHandSizeContainer
         _i = document.createElement("span");
         _i.setAttribute("id", idSizerValue);
         _i.setAttribute("class", "card-hands-sizer-size");
-        _i.innerHTML = nCount;
+        _i.innerText = nCount;
         div.appendChild(_i);
 
         _i = document.createElement("i");
