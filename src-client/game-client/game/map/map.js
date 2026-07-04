@@ -33,6 +33,7 @@ const MapWindow = {
         {
             if (sCompany !== "_temp")
             {
+                console.debug("Map message received: set location", jData.start, jData.regions, jData.target);
                 MeccgApi.send("/game/company/location/set-location", {
                     companyUuid: sCompany,
                     start: jData.start, 
@@ -57,6 +58,7 @@ const MapWindow = {
      */
     close : function()
     {
+        console.log("Clear the map window container, hide it and get the affected company id");
         document.body.classList.remove("on-show-map-window");
 
         const pMap = document.getElementById("map-window");
@@ -97,6 +99,7 @@ const MapWindow = {
      */
     onClose : function(e)
     {
+        console.log("Closing map window (title click)");
         this.close();
 
         e.preventDefault();
@@ -172,7 +175,7 @@ const MapWindow = {
         jWrapper.append(titleDiv);
 
         /** create iframe and add it to the container. */
-        let jFrame = document.createElement("iframe");
+        const jFrame = document.createElement("iframe");
         jFrame.setAttribute("src", sUrl);
         jFrame.setAttribute("class", "map-view");
         jFrame.setAttribute("id", "map-iframe");

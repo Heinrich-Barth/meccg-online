@@ -72,6 +72,7 @@ const ShotcutManager =
         {
             /* ESC */
             case "Escape":
+                console.debug("[ESC] Close map window")
                 MapWindow.close();
                 break;
 

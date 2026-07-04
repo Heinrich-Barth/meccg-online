@@ -29,6 +29,7 @@ const MapInstanceRenderer = {
             MapInstanceRenderer.cancel();
         }
         else {
+            console.info("Submitting movement selection [sendResultMovement]");
             parent.postMessage({
                 type: "set",
                 start: sCodeStart,
@@ -39,6 +40,7 @@ const MapInstanceRenderer = {
     },
 
     cancel: function () {
+        console.debug("Closing map window (cancel)")
         parent.postMessage("cancel", {});
     },
 
@@ -303,6 +305,7 @@ function onKeyUp(ev) {
     switch (code) {
         /* ESC */
         case "Escape":
+            console.debug("Closing map window ESC")
             parent.postMessage({ type: "cancel" }, "*")
             break;
 
