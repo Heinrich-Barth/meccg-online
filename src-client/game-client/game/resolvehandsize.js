@@ -106,8 +106,8 @@ class ResolveHandSizeContainer
         try
         {
             let pElem = document.getElementById(id);
-            const nAllowed = parseInt(pElem.innerHTML.trim()) + nAdd;
-            pElem.innerHTML = nAllowed;
+            const nAllowed = parseInt(pElem.innerText.trim()) + nAdd;
+            pElem.innerText = nAllowed;
         }
         catch (err)
         {
