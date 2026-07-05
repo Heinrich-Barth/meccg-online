@@ -34,6 +34,7 @@ CreateRobotsTxt();
 InitRouteDictionary();
 InitAuthencation();
 
+ServerInstance.getServerInstance().get("/data/ping", (_req: Request, res: Response) => res.status(204).send());
 ServerInstance.getServerInstance().use(express.static(getRootFolder() + "/public"));
 ServerInstance.getServerInstance().use("/dist-client", express.static("dist-client"));
 

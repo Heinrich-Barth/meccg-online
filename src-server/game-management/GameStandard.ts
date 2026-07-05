@@ -1674,9 +1674,11 @@ export default class GameStandard extends GamePlayers
 
     saveGameCheckPlayers(assignments:any)
     {
-        if (this.getPlayers().ids.length !== Object.keys(assignments).length)
+        const inroom = this.getPlayers().ids.length;
+        const expect = Object.keys(assignments).length;
+        if (inroom !== expect)
         {
-            Logger.warn("Player count missmatch");
+            Logger.warn("Player count missmatch: expected " + expect + " but found " + inroom);
             return false;
         }
         
@@ -1838,11 +1840,14 @@ export default class GameStandard extends GamePlayers
     globalRestoreGame(userid:string, _socket:any, data:any)
     {
         if (!this.restoreEncodedSavegame(data, userid) || !this.evaluateSavedGame(data, userid))
-            return;
+            return false;
 
         let assignments = data.assignments; 
         if (!this.saveGameCheckPlayers(assignments))
-            return;
+        {
+            console.warn("Savegame check players failed");
+            return false;
+        }
 
         try
         {
@@ -1862,6 +1867,7 @@ export default class GameStandard extends GamePlayers
                                     data.game.meta.players.turn, 
                                     data.game.meta.players.current);
             this.publishToPlayers("/game/restore", userid, { success : true });
+            return true;
         }
         catch (err)
         {
@@ -1871,6 +1877,8 @@ export default class GameStandard extends GamePlayers
             if (this.#fnEndGame !== null)
                 this.#fnEndGame();
         }
+        
+        return false;
     }
 
 }

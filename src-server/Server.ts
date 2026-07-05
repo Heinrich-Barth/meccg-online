@@ -196,7 +196,7 @@ export class ServerInstance {
     {
         ServerInstance.#instance.disable('x-powered-by');
         ServerInstance.#instance.use(cookieParser());
-        ServerInstance.#instance.use(express.json()); // for parsing application/json
+        ServerInstance.#instance.use(express.json({ limit: "2mb" }));
         ServerInstance.#instance.use(function (req: Request, res: Response, next: NextFunction) {
             res.header('X-Robots-Tag', 'noindex, nofollow');
             res.header("X-Frame-Options", 'sameorigin');
@@ -355,7 +355,10 @@ export function shutdown(): void {
         }
 
         /** wait 20sec before enforcing a shotdown */
-        sleep(20000).then(ServerInstance.doShutdown).catch((err) => Logger.error(err));
+        if (process.env.FAST_SHUTDOWN)
+            sleep(100).then(ServerInstance.doShutdown).catch((err) => Logger.error(err));
+        else
+            sleep(20000).then(ServerInstance.doShutdown).catch((err) => Logger.error(err));
     }
     else
         ServerInstance.doShutdown();

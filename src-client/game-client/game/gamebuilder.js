@@ -908,7 +908,7 @@ const GameBuilder = {
 
         MeccgApi.addListener("/game/score/onering", (_bIsMe, jData) => GameBuilder.Scoring.setOneRingWinnder(jData.userid));
 
-        MeccgApi.addListener("/game/score/final-only", function(_bIsMe, payload)
+        MeccgApi.addListener("/game/score/final-only", function(bIsMe, payload)
         {
             MeccgApi.expectShutdown();
             GameBuilder.Scoring.showFinalScore(payload.score.stats, true);
@@ -917,6 +917,21 @@ const GameBuilder = {
 
             if (payload.save)
                 SavedGameManager.onSaveGame(payload.save);
+
+            if (!payload.jwt)
+                return;
+
+            /** only admins restore the game */
+            if (g_sLobbyToken && bIsMe)
+            {
+                const action = new RestoreGameAfterShuwdownAdmin(payload.room, payload.arda === true, payload.jwt);
+                action.restore(payload.save);
+            }
+            else 
+            {
+                const action = new RestoreGameAfterOpponent(payload.room, payload.arda === true, payload.jwt);
+                action.restore();
+            }
         });
         
         MeccgApi.addListener("/game/rejoin/immediately", (_bIsMe, jData) => GameBuilder.restoreBoard(jData));
@@ -1137,12 +1152,189 @@ const GameBuilder = {
     {
         if (!GameBuilder.isVisitor() || !firstId)
             return;
-
-        
-
     }
 
 };
+
+class RestoreGameAfterShuwdown
+{
+    #room;
+    #jwt;
+    #arda;
+    #interval = null;
+
+    constructor(room, isArda, jwt)
+    {
+        this.#room = room;
+        this.#jwt = jwt;
+        this.#arda = isArda;
+    }
+
+    isArda()
+    {
+        return this.#arda;
+    }
+
+    async roomIsAvailable()
+    {
+        try 
+        {
+            const uri = (this.isArda() ? "/arda/" : "/play/") + this.getRoom() + "/status";
+            const res = await fetch(uri, {
+                headers: {
+                    "x-token": this.getJwt(),
+                }
+            }) ;
+            return res.ok;
+        }
+        catch (err)
+        {
+            console.warn(err.message);
+        }
+
+        return false;
+    }
+
+    async #checkOnline()
+    {
+        try 
+        {
+            const uri = (this.isArda() ? "/arda/" : "/play/") + this.getRoom() + "/status";
+            const res = await fetch("/data/ping");
+            if (res.ok)
+            {
+                clearInterval(this.#interval);
+                this.#interval = null;
+                this.onBackOnline();
+            }
+        }
+        catch (err)
+        {
+            console.warn(err.message);
+        }
+
+        return false;
+    }
+
+    async onBackOnline()
+    {
+        /** action */
+    }
+    
+
+    checkServerOnline()
+    {
+        /** check that server is back online */
+        this.#interval = setInterval(this.#checkOnline.bind(this), 2000);
+    }
+
+    reload()
+    {
+        window.location.reload();
+    }
+
+    getRoom()
+    {
+        return this.#room;
+    }
+
+    getJwt()
+    {
+        return this.#jwt
+    }
+}
+
+class RestoreGameAfterOpponent extends RestoreGameAfterShuwdown
+{
+    #interval = null;
+
+    constructor(room, isArda, jwt)
+    {
+        super(room, isArda, jwt);
+    }
+
+    async onBackOnline()
+    {
+        /** check that server is back online */
+        console.info("Server is online. Check for room availability");
+        this.#interval = setInterval(this.#checkRoom.bind(this), 2000);
+    }
+
+    async #checkRoom()
+    {
+        const isonline = await this.roomIsAvailable();
+        if (!isonline)
+            return;
+
+        clearInterval(this.#interval);
+        this.#interval = null;
+        this.reload();
+    }
+
+    async restore()
+    {
+        console.info("Waiting until game is restored");
+        super.checkServerOnline();
+    }
+}
+
+class RestoreGameAfterShuwdownAdmin extends RestoreGameAfterShuwdown
+{
+    #data = null;
+
+    constructor(room, isArda, jwt)
+    {
+        super(room, isArda, jwt);
+    }
+
+    async restore(saveData)
+    {
+        console.info("Restoring game");
+        if (!saveData)
+        {
+            console.warn("Restore token missing. Cannot restore game.");
+            return;
+        }
+
+        this.#data = saveData;
+        super.checkServerOnline();
+    }
+
+    async onBackOnline()
+    {
+        console.info("Restore game from saved game state");
+
+        try 
+        {
+            const uri = (this.isArda() ? "/ara/" : "/play/") + this.getRoom() + "/restore";
+            const res = await fetch(uri, {
+                method: "POST",
+                headers: {
+                    "x-token": this.getJwt(),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(this.#data)
+            });
+
+            if (!res.ok)
+                throw new Error("Cannot restore game");
+
+            const avail = this.roomIsAvailable();
+            if (!avail)
+                throw new Error("Room is not available");
+
+            this.reload();
+        }
+        catch (err)
+        {
+            console.error(err);
+        }
+
+        return false;
+    }
+
+}
+
 
 const ChangeAvatarApp = {
 

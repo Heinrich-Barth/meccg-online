@@ -8,6 +8,11 @@ import { NextFunction, Request, Response } from "express";
 import { join } from "path";
 import { DeckValidate } from "../plugins/Types";
 import { getRootFolder } from "../Configuration";
+import { parseToken } from "../game-management/ResultToken";
+import { TRoomOptions } from "../game-management/RoomManager";
+import { GameRoom } from "../game-management/GameRoom";
+
+const jSecure = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true };
 
 export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
     #pAuthentication = Authentication;
@@ -51,6 +56,144 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
         this.createExpireResponse(res, "text/html").status(200).send(this.#pageHome);
     }
 
+    #isActive(req: Request, res: Response)
+    {
+        const userid = req.cookies.userId;
+        if (!userid)
+            return res.status(400).json({ message: "invalid user" });
+
+        const token = req.get("x-token");
+        if (!token)
+            return res.status(401).json({ message: "invalid token" });
+
+        const players = this.#getRestoreTokenData(token);
+        if (!players)
+            return res.status(401).json({ message: "invalid token data" });
+
+        const room = this.getRoomManager().getRoom(req.params.room);
+        if (!room)
+            return res.status(404).json({ message: "room is not available" });
+
+        const player = room.getPlayer(userid);
+        if (!player)
+            return res.status(401).json({ message: "user not available" });
+
+        const joind = player.getTimestamp();
+        res.cookie('joined', joind, jSecure);
+        res.status(204).send();
+    }
+
+    #getRestoreTokenData(token:string)
+    {
+        const val = parseToken(token);
+        if (val && val.exp && Date.now() <= val.exp && val.players)
+            return val.players;
+
+        return null;
+    }
+
+    #performRestoreAfterShutdown(room:string, players:any)
+    {
+        const roomOptions:TRoomOptions = {
+            arda: this.isArda(),
+            singleplayer: this.isSinglePlayer(),
+            dce: true,
+            jitsi: false,
+            avatar: ""
+        };
+
+        const deck:DeckValidate = {
+            pool: { 
+                "annalena (TW)": 1
+            },
+            playdeck: { },
+            sideboard: { },
+            sites: { }
+        }
+
+        /** add player to lobby */
+        let pRoom:GameRoom|null = null;
+        for (const userId in players)
+        {
+            const displayname = players[userId];
+            const lNow = this.getRoomManager().addToLobby(room, userId, displayname, deck, roomOptions);
+            if (lNow === -1)
+                return false;
+
+            if (!pRoom)
+            {
+                pRoom = this.getRoomManager().getRoom(room);
+                if (!pRoom)
+                    return false;
+            }
+
+            const player = pRoom.getPlayer(userId);
+            if (!player)
+                return false;
+
+            if (!this.getRoomManager().allowJoin(room, pRoom.getSecret(), userId, lNow, player.getAccessToken()))
+                return false;
+        }
+
+        return true;
+    }
+    
+    #restoreAfterShutdown(req: Request, res: Response)
+    {
+        const userid = req.cookies.userId;
+        if (!userid)
+            return res.status(400).json({ message: "invalid user" });
+
+        const token = req.get("x-token");
+        if (!token)
+            return res.status(401).json({ message: "invalid token" });
+
+        const players = this.#getRestoreTokenData(token);
+        if (!players)
+            return res.status(401).json({ message: "invalid token data" });
+
+        if (!req.params.room || this.getRoomManager().getRoom(req.params.room))
+            return res.status(404).json({ message: "room already available" });
+
+        try {
+            const data = req.body;
+            if (!data)
+                throw new Error("Invalid savegame");
+            
+            if (!this.#performRestoreAfterShutdown(req.params.room, players))
+                throw new Error("Could not restore game");
+
+            const room = this.getRoomManager().getRoom(req.params.room);
+            if (!room)
+                throw new Error("Room not available");
+
+            const game:any = {
+                assignments: { },
+                game: data
+            }
+
+            for (const id in players)
+                game.assignments[id] = id;
+
+            if (!room.getGame().globalRestoreGame(userid, null, game))
+                throw new Error("Cannot restore saved game");
+
+            const player = room.getPlayer(userid);
+            if (!player)
+                throw new Error("Player not in the game");
+
+            const joind = player.getTimestamp();
+            res.cookie('joined', joind, jSecure);
+            res.status(204).send();
+            console.info("Game restored successfully");
+        }
+        catch (err:any)
+        {
+            console.error(err);
+            res.status(500).json({ message: "Could not restore game" });
+        }
+    }
+
     setupRoutes() {
         Logger.info("Setting up routes for " + this.#contextRoot + " and " + this.#contextPlay);
 
@@ -61,6 +204,12 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
          */
         this.getServerRouteInstance().get(this.#contextRoot, this.#onHome.bind(this));
 
+        this.getServerRouteInstance().get(this.#contextPlay + ":room/status", this.#isActive.bind(this));
+
+        this.getServerRouteInstance().post(this.#contextPlay + ":room/restore", 
+            this.#restoreAfterShutdown.bind(this),
+        );
+        
         /**
          * Verify game room and add to request object
          */
@@ -133,7 +282,6 @@ export default class GamePlayRouteHandler extends GamePlayRouteHandlerUtil {
     #onTransferAction(req: any, res: Response)
     {
         this.#updateCookieUser(res, req.userid, req.displayname);
-        const jSecure = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true };
         
         res.cookie('joined', req.joined, jSecure);
         res.cookie('room', req.room, jSecure);

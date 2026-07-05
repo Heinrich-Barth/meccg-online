@@ -18,13 +18,16 @@ export default class SaveGameEvaluation
 
     evaluateCardMap(playboard:any)
     {
-        let _map = playboard.decks.cardMap;
+        const _map = playboard.decks.cardMap;
         const cardIds = Object.keys(_map);
         for (let _cardId of cardIds)
         {
             const _formerOwner = _map[_cardId].owner;
             if (this.#assignments[_formerOwner] === undefined)
+            {
+                console.warn("Cannot find former owner in assignments")
                 delete _map[_cardId];
+            }
         }
 
         return Object.keys(_map).length > 0;
@@ -84,26 +87,31 @@ export default class SaveGameEvaluation
         if (isArda !== game.meta.arda)
         {
             this.#addError("Arda missmatch");
+            console.warn("Arda missmatch");
             return null;
         }
         else if (!this.evaluateCardMap(game.playboard))
         {
             this.#addError("Could not restore card map.");
+            console.warn("Could not restore card map.");
             return null;
         }
         else if (!this.#evaluateOwnerMap(game.playboard.decks.deck, "deck"))
         {
             this.#addError("No more decks available.");
+            console.warn("No more decks available.");
             return null;
         }
         else if (!this.#evaluateOwnerMap(game.playboard.stagingarea, "staging area"))
         {
             this.#addError("No more staging areas available. Illegal state.");
+            console.warn("No more staging areas available. Illegal state.");
             return null;
         }
         else if (!this.#evaluateOwnerMap(game.scoring, "scoring"))
         {
             this.#addError("No more scoring available. Illegal state.");
+            console.warn("No more scoring available. Illegal state.");
             return null;
         }
 

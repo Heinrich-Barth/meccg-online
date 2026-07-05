@@ -14,6 +14,7 @@ import GameArda from "./GameArda";
 import Logger from "../Logger";
 
 import { DeckValidate, DeckValidateArda} from '../plugins/Types';
+import { create } from './ResultToken';
 
 export class GameRoom 
 {
@@ -449,23 +450,31 @@ export class GameRoom
     sendSaveOnShutdown()
     {
         const score = this.#gameInstance.getFinalScore();
-        const save = this.#gameInstance.save();
+        const players = this.#gameInstance.getPlayers();
+        const data:any = {
+            players: players.names,
+            exp: Date.now() + 1000 * 60 * 1.5 //1.5min
+        }
 
         const payload = {
             score: score,
-            save: null
+            save: this.#gameInstance.isSinglePlayer() ? null : this.#gameInstance.save(),
+            jwt : create(data),
+            room: this.#name,
+            arda: this.#gameInstance.isArda()
         }
 
+        let admin = "";
         for (const userid in this.#players)
         {
-            /** only game host needs save game data on forceful shutdown */
             if (this.#players[userid].isAdmin())
-                payload.save = save;
-            else 
-                payload.save = null;
-
-            this.#gameInstance.publishToPlayers("/game/score/final-only", userid, payload);
+            {
+                admin = userid;
+                break;
+            }
         }
+
+        this.#gameInstance.publishToPlayers("/game/score/final-only", admin, payload);
     }
 
     getGame()

@@ -67,3 +67,21 @@ export function validate(token:string)
     const parts = token.split(".");
     return parts.length === 3 && parts[2] !== "" && parts[2] === createHash(parts[0] + "." + parts[1]);
 }
+
+export function parseToken(token:string)
+{
+    if (!validate(token))
+        return null;
+
+    try {
+        const parts = token.split(".");
+        const plain = Buffer.from(parts[1], "base64url").toString("utf-8")
+        return  JSON.parse(plain);
+    }
+    catch (err:any)
+    {
+        console.warn(err);
+    }
+
+    return null;
+}
