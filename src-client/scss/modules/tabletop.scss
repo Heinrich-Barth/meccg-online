@@ -984,6 +984,34 @@ body[data-is-watcher='false']
         opacity: 0;
     }
 }
+.lidless-eye {
+    z-index: 1601;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0);
+
+    .status-container {
+        position: fixed;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        width: 300px;
+        left: 50%;
+    }
+    h2 {
+        text-align: center;
+        padding-top: 1em;
+    }
+    p {
+        color: #fff;
+        line-height: 2em;
+    }
+    img {
+        display: block;
+    }
+}
 
 @keyframes eyepulse {
     0% {

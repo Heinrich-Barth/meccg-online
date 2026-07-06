@@ -925,11 +925,13 @@ const GameBuilder = {
             if (g_sLobbyToken && bIsMe)
             {
                 const action = new RestoreGameAfterShuwdownAdmin(payload.room, payload.arda === true, payload.jwt);
+                action.show();
                 action.restore(payload.save);
             }
             else 
             {
                 const action = new RestoreGameAfterOpponent(payload.room, payload.arda === true, payload.jwt);
+                action.show();
                 action.restore();
             }
         });
@@ -1170,6 +1172,43 @@ class RestoreGameAfterShuwdown
         this.#arda = isArda;
     }
 
+    updateText(text = "")
+    {
+        const p = document.getElementById("status-text-restore");
+        if (p)
+            p.innerText = text;
+    }
+
+    appendLoading()
+    {
+        const p = document.getElementById("status-text-restore");
+        if (p)
+            p.innerText += ".";
+    }
+
+    show()
+    {
+        const img = document.createElement("img");
+        img.setAttribute("src", "/media/assets/images/splash-eye.png");
+
+        const h2 = document.createElement("h2");
+        h2.innerText = "Restoring game";
+
+        const p = document.createElement("p");
+        p.setAttribute("id", "status-text-restore");
+        p.innerText = "Waiting for server restart to complete. This may take up to 1min";
+
+        const cont = document.createElement("div");
+        cont.setAttribute("class", "status-container")
+        cont.append(img, h2, p);
+
+        const div = document.createElement("div");
+        div.setAttribute("class", "lidless-eye");
+        div.append(cont);
+
+        document.body.append(div);
+    }
+
     isArda()
     {
         return this.#arda;
@@ -1179,6 +1218,7 @@ class RestoreGameAfterShuwdown
     {
         try 
         {
+            this.appendLoading();
             const uri = (this.isArda() ? "/arda/" : "/play/") + this.getRoom() + "/status";
             const res = await fetch(uri, {
                 headers: {
@@ -1199,6 +1239,7 @@ class RestoreGameAfterShuwdown
     {
         try 
         {
+            this.appendLoading();
             const uri = (this.isArda() ? "/arda/" : "/play/") + this.getRoom() + "/status";
             const res = await fetch("/data/ping");
             if (res.ok)
@@ -1292,7 +1333,7 @@ class RestoreGameAfterShuwdownAdmin extends RestoreGameAfterShuwdown
         console.info("Restoring game");
         if (!saveData)
         {
-            console.warn("Restore token missing. Cannot restore game.");
+            this.updateText("Cannot restore game. You need to reload manually.");
             return;
         }
 
@@ -1306,6 +1347,8 @@ class RestoreGameAfterShuwdownAdmin extends RestoreGameAfterShuwdown
 
         try 
         {
+            this.updateText("Restoring room...");
+
             const uri = (this.isArda() ? "/ara/" : "/play/") + this.getRoom() + "/restore";
             const res = await fetch(uri, {
                 method: "POST",
@@ -1316,6 +1359,7 @@ class RestoreGameAfterShuwdownAdmin extends RestoreGameAfterShuwdown
                 body: JSON.stringify(this.#data)
             });
 
+            this.updateText("Room restored succssfully. Reloading automatically...");
             if (!res.ok)
                 throw new Error("Cannot restore game");
 
