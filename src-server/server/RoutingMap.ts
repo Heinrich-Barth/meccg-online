@@ -13,7 +13,6 @@ const onGetTappedSites = function(req:Request, res:Response)
 
 const onGetTappedSitesCount = function(req:Request, res:Response)
 {
-    console.info("Hallo Welt")
     res.send(getTappedSitesCount(req.cookies)).status(200);
 }
 
