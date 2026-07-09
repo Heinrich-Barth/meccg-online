@@ -181,6 +181,10 @@ div.panel-buttons { width: 70px; margin-top: 22px; }
     }
 }
 
+body.maps-app-mode #found_sites .map-card-image img
+{
+    display: inline-block;
+}
 .movement-icon {
     margin-top: 46px;
     margin-right: 5px;
