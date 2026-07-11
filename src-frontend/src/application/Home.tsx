@@ -200,11 +200,6 @@ const getInitDeckSelection = function () {
         return "";
 }
 
-type ServerInformation = {
-    message: string;
-    urgent: boolean;
-}
-
 export default function Home() {
 
     const [activeGames, setActiveGames] = React.useState<ActiveGame[]>([]);
@@ -215,7 +210,6 @@ export default function Home() {
     const [deckList, setDeckList] = React.useState<DeckEntry[]>([]);
     const [chooseRoom, setChooseRoom] = React.useState(false);
     const [watchGame, setWatchGame] = React.useState("");
-    const [serverinfo, setServerinfo] = React.useState<ServerInformation>({ message: "", urgent: false });
    
     const onWatch = (room: string) => setWatchGame(room);
 
@@ -304,32 +298,6 @@ export default function Home() {
                 onUpdateRoomName(chooseRandomRoomName(activeGames))
         }));
 
-        FetchServerInfo()
-        .then((data:ServerInfo|null) => {
-            if (data === null || data.uptimeHrs > 24 || data.uptimeHrs < 22)
-                return;
-
-            let message = "";
-            let urgent = false;
-            const hrs = data.uptimeHrs;
-            if (hrs >= 22 && hrs < 23)
-            {
-                message = "Server restarts approx. every 24hrs and has been up for " + hrs + "h already. You may start a game at any time, but be aware that a restart will end your game.";
-            }
-            else if (hrs >= 23 && hrs < 23.5)
-            {
-                message = "Server restarts approx. every 24hrs and has been up for " +  hrs + "h already. Unless you want to play a short game, you may want to wait some time.";
-            }
-            else
-            {
-                message = "Server restarts approx. every 24hrs and a reboot is imminent. Please wait a few moments.";
-                urgent = true;
-            }
-
-            setServerinfo({ message: message, urgent: urgent });
-
-        }).catch(console.error);
-
         setInterval(() => FetchActiveGames().then((res) => setActiveGames(res)), 1000 * 10);
         
     }, [activeGames, roomName, setWatchGame, setSelectDeckOpen]);
@@ -377,11 +345,6 @@ export default function Home() {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        {serverinfo.message !== "" && (
-                            <Grid item xs={12} className="paddingTop1em">
-                                <Alert severity={serverinfo.urgent ? "warning" : "info"}>{serverinfo.message}</Alert>
-                            </Grid>
-                        )}
                     </Grid>
                 </Grid>
                 {listActiveGames(activeGames, sampleRooms, onJoin, onWatch)}
