@@ -514,7 +514,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         CachedDecks["custom"] = deck;
         setCurrentDeckId("custom")
         setCurrentDeckLoaded(deck);
-        setSnachMessage("Deck loaded");
+        setSnachMessage("Deck loaded from disk.");
         viewDeckById("custom");
         setAllowStart(true);
     }

@@ -436,6 +436,20 @@ function removeAgentsFromList(part:Deckentry[], agentsAsHazards = false)
     return result;
 }
 
+function EditNotes({ notes, onApply }: { notes:string, onApply:(val:string) => void })
+{
+    const [textNotes, setTextNotes] = React.useState(notes);
+
+    return <React.Fragment>
+        <Grid item xs={12}>
+            <Button variant="contained" onClick={() => onApply(textNotes)}>Save changes to notes</Button>
+        </Grid>
+        <Grid item xs={12} className="deck-notes">
+            <TextField rows={20} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
+        </Grid>
+    </React.Fragment>
+}
+
 function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage, setPreviewImage, onMoveCardDeckSection, agentsAsHazards }: { deck: Deck, updateDeck: Function, onIncrease: Function, onDecrease: Function, onPreviewImage: Function, setPreviewImage: Function, onMoveCardDeckSection: Function, agentsAsHazards:boolean }) {
 
     const [value, setValue] = React.useState(0);
@@ -447,10 +461,6 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
     const [textNotes, setTextNotes] = React.useState("");
     const [message, setMessage] = React.useState("");
 
-    React.useEffect(() => {
-        setTextNotes(deck.notes);
-    }, [setTextNotes])
-
     const defaultRowCount = 15;
 
     const applyDeckChanges = function () {
@@ -459,9 +469,9 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
         setMessage("Applied");
     }
 
-    const onApplyNotesChange = function()
+    const onApplyNotesChange = function(notes:string)
     {
-        updateDeck({ ... deck, notes: textNotes });
+        updateDeck({ ... deck, notes: notes });
     }
 
     const sortCodesInTextarea = function()
@@ -493,7 +503,8 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
                         <Tab label="Deck List" {...a11yProps(0)} />
-                        <Tab label="Export/Import" {...a11yProps(1)} />
+                        <Tab label="Notes" {...a11yProps(1)} />
+                        <Tab label="Export/Import" {...a11yProps(2)} />
                     </Tabs>
                 </AppBar>
             </Box>
@@ -638,14 +649,11 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" onClick={onApplyNotesChange}>Save changes to notes</Button>
-                </Grid>
-                <Grid item xs={12} className="deck-notes">
-                    <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
-                </Grid>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
+                <EditNotes notes={deck.notes} onApply={onApplyNotesChange} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
                 <Grid item xs={12} container rowGap={2}>
                     <Grid item xs={6} className="custom-deck">
                         <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
