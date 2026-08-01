@@ -44,10 +44,12 @@ a {
         padding: 0 10px;
         z-index: 401;
 
-        &.taskbar-icons-reduced
-        {
+        &.taskbar-icons-reduced {
             width: 120px;
-            a.icon:not(.eot):not(.act) { display: none; }
+
+            a.icon:not(.eot):not(.act) {
+                display: none;
+            }
         }
     }
 
@@ -65,7 +67,9 @@ a {
         }
     }
 
-    &:hover .taskbar-icons { opacity: 1;}
+    &:hover .taskbar-icons {
+        opacity: 1;
+    }
 
     a {
         margin: 5px;
@@ -123,7 +127,9 @@ a {
     font-size: 0.8em !important;
     visibility: hidden;
 
-    i { padding-right: 2px;}
+    i {
+        padding-right: 2px;
+    }
 
     &:hover {
         opacity: 1;
@@ -136,9 +142,15 @@ a {
     top: 60px;
 }
 
-body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; overflow: hidden; font-size: 1em;}
+body.ignore-hints .location-icon-image {
+    max-width: 16px;
+    max-height: 16px;
+    overflow: hidden;
+    font-size: 1em;
+}
 
 .company:hover {
+
     .site-action-return,
     .location-icon-image {
         visibility: visible;
@@ -211,8 +223,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
     .area {
         display: block;
 
-        &.area-player 
-        {
+        &.area-player {
             .row {
                 grid-template-columns: 100px 330px auto;
                 grid-template-rows: repeat(1, minmax(300px, auto));
@@ -224,6 +235,7 @@ body.ignore-hints .location-icon-image { max-width: 16px; max-height: 16px; over
                     grid-template-columns: 100px 330px auto;
                 }
             }
+
             @media only screen and (min-width: 2000px) {
 
                 .row {
@@ -321,8 +333,7 @@ body.table-companies-breakline .companies {
     transition: all .2s ease-in;
 }
 
-.state_tapped_fixed::before 
-{
+.state_tapped_fixed::before {
     position: absolute;
     font: normal normal normal 14px / 1 FontAwesome;
     font-size: inherit;
@@ -357,7 +368,9 @@ body.table-companies-breakline .companies {
     transition: all .2s ease-in;
 }
 
-#card_counter a#icon_hand { display: none; }
+#card_counter a#icon_hand {
+    display: none;
+}
 
 .card-hands {
     position: fixed;
@@ -369,8 +382,7 @@ body.table-companies-breakline .companies {
     min-width: 290px;
     min-height: 84px;
 
-    .playercard_hand_droppable
-    { 
+    .playercard_hand_droppable {
         width: 70px;
         height: 80px;
         background: url("/media/assets/images/icons/icon-hand.png") 15px 24px no-repeat;
@@ -384,8 +396,7 @@ body.table-companies-breakline .companies {
 
         &.act,
         &:hover,
-        &.on-drag-over
-        { 
+        &.on-drag-over {
             background: url("/media/assets/images/icons/icon-hand-hover.png") 15px 24px no-repeat;
             background-color: rgba(101, 152, 81, 0.2) !important;
         }
@@ -398,6 +409,7 @@ body.table-companies-breakline .companies {
     }
 
     &.card-hands-hidden {
+
         #playercard_hand_container,
         .ingame-icon-openclose-hand {
             display: none;
@@ -406,40 +418,41 @@ body.table-companies-breakline .companies {
 
     .hand-card-actions .card-dice {
         display: block;
-        text-align: center;    
+        text-align: center;
+
         img {
             width: 25px;
         }
     }
+
     .card-generic,
     .card-hand {
         display: inline-block;
         position: relative;
     }
 
-    .card-draw
-    {
+    .card-draw {
         font-size: 0.8em;
         position: absolute;
-        top: -  16px;
+        top: - 16px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         padding: 0 10px;
         background: var(--color-black);
 
-        .hand-card-sizer { 
-            display: none ; 
+        .hand-card-sizer {
+            display: none;
         }
 
         .move-hand-icon {
 
             display: inline-block;
-            
+
             color: #fff;
             text-align: center;
             margin-right: 5px;
             cursor: grabbing;
-    
+
             &:hover {
                 color: var(--color-orange-light);
             }
@@ -454,11 +467,12 @@ body.table-companies-breakline .companies {
         .card-hand-eye,
         a {
             color: var(--color-light-grey);
+
             &:hover {
                 color: var(--color-yellow);
             }
         }
-    
+
         a.card-icon {
             position: relative;
             padding-left: 40px;
@@ -486,15 +500,17 @@ body.table-companies-breakline .companies {
                     background: url(/media/assets/images/icons/icon-draw-hover.png) 0 10px no-repeat;
                     background-size: contain;
                     display: inline-block;
-                    }
+                }
             }
         }
     }
 
-    .playercard-hand-content-small .playercard-hand-container .card-hand 
-    {
+    .playercard-hand-content-small .playercard-hand-container .card-hand {
         margin-left: -45px;
-        &:first-of-type { margin-left: 0; }
+
+        &:first-of-type {
+            margin-left: 0;
+        }
     }
 
     .card-facedown img {
@@ -504,8 +520,13 @@ body.table-companies-breakline .companies {
     .card-hand-count {
         margin-left: 10px;
 
-        &::before { content: "(" }
-        &::after { content: ")" }
+        &::before {
+            content: "("
+        }
+
+        &::after {
+            content: ")"
+        }
     }
 
     .hand-card-sizer {
@@ -516,8 +537,7 @@ body.table-companies-breakline .companies {
         visibility: hidden;
     }
 
-    .hand-card-actions
-    {
+    .hand-card-actions {
         opacity: 0.16;
         transition: opacity 0.4s ease-in-out;
     }
@@ -537,7 +557,7 @@ body.table-companies-breakline .companies {
 
     .card-hand {
         cursor: move;
-        
+
         .draw {
             position: absolute;
             left: 9px;
@@ -560,14 +580,15 @@ body.table-companies-breakline .companies {
         }
     }
 }
-.card-dice
-{
+
+.card-dice {
     transition: scale 0.2s ease-in-out;
 
     &:hover {
         scale: 1.1;
     }
 }
+
 .transition-grow-shrink {
     transition: width 0.1s, margin 0.4s;
 }
@@ -585,7 +606,7 @@ body.table-companies-breakline .companies {
 #playercard_hand_container {
     display: inline-block;
     min-height: 83px;
-    
+
     a.discardpile,
     a.discardpile:hover {
         background-size: contain !important;
@@ -603,8 +624,7 @@ body.table-companies-breakline .companies {
         visibility: hidden
     }
 
-    .card-hand:hover 
-    {
+    .card-hand:hover {
         a.discardpile {
             visibility: visible;
         }
@@ -634,7 +654,9 @@ body.table-companies-breakline .companies {
             margin-left: -30px;
         }
 
-        .card { position: relative ;}
+        .card {
+            position: relative;
+        }
     }
 
     .company {
@@ -649,6 +671,7 @@ body.table-companies-breakline .companies {
         }
 
         .company-character .card:not([data-revealed='false']):hover {
+
             .character-mark-toggle,
             .character-card-dice {
                 visibility: visible;
@@ -736,17 +759,14 @@ body.table-companies-breakline .companies {
 
         @media only screen and (min-width: 1500px) {
             .company-characters {
-                .character-is-company-host:not(:last-child)
-                {
+                .character-is-company-host:not(:last-child) {
                     margin-right: 20px;
                 }
             }
         }
 
-        .company-character-influenced 
-        {
-            .company-character:not(:last-child)
-            {
+        .company-character-influenced {
+            .company-character:not(:last-child) {
                 margin-right: 20px;
             }
         }
@@ -758,7 +778,7 @@ body.table-companies-breakline .companies {
     .company:hover {
         background: rgba(255, 255, 255, 0.15);
     }
-        
+
     .company-character:hover {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
@@ -799,25 +819,22 @@ body.table-companies-breakline .companies {
     margin-left: 0px;
 }
 
-.area-opponent .companies .sites 
-{
+.area-opponent .companies .sites {
+
     .site-onguard,
-    .site-regions
-    {
-        &:not(:empty)
-        {
+    .site-regions {
+        &:not(:empty) {
             margin-right: -30px;
             margin-left: 0;
         }
-    } 
+    }
 }
-.area-player .site-regions
-{
-    &:not(:empty)
-    {
+
+.area-player .site-regions {
+    &:not(:empty) {
         margin-left: -30px;
     }
-} 
+}
 
 
 .card-highlight-mark img {
@@ -834,6 +851,7 @@ body.table-companies-breakline .companies {
 
 .card-dice {
     display: inline-block;
+
     img {
         width: 15px;
         margin-right: 5px;
@@ -841,7 +859,7 @@ body.table-companies-breakline .companies {
 }
 
 .card-dice-hand {
-    
+
     display: inline-block;
     position: relative;
     width: 40px;
@@ -854,7 +872,7 @@ body.table-companies-breakline .companies {
         bottom: -3px;
         opacity: 1 !important;
         transition: scale 0.2s ease-in-out;
-        
+
         &:first-of-type {
             left: 5px;
         }
@@ -864,7 +882,9 @@ body.table-companies-breakline .companies {
         }
     }
 
-    &:hover img { scale: 1.5; }
+    &:hover img {
+        scale: 1.5;
+    }
 }
 
 .staging-opponent-dice {
@@ -875,8 +895,8 @@ body.table-companies-breakline .companies {
     img {
         width: 30px;
     }
-    &:hover:before 
-    {
+
+    &:hover:before {
         content: "Last dice roll";
         color: var(--color-yellow);
         background-color: #000;
@@ -898,11 +918,12 @@ body.table-companies-breakline .companies {
     height: 80px;
     overflow: hidden;
 }
-body[data-is-watcher='false']
-{
+
+body[data-is-watcher='false'] {
     &.table-companies-breakline .area-opponent .company {
         height: auto;
     }
+
     .area-opponent .company {
         flex-direction: column-reverse;
         height: 100%;
@@ -921,6 +942,7 @@ body[data-is-watcher='false']
         .company-character-influenced {
             display: inline-flex;
         }
+
         .sites {
             display: flex;
             flex-direction: row-reverse;
@@ -932,6 +954,7 @@ body[data-is-watcher='false']
         }
 
         .card {
+
             &.state_ready img,
             img {
                 transform: rotate(180deg);
@@ -941,7 +964,7 @@ body[data-is-watcher='false']
                 cursor: default !important;
             }
 
-            &.state_tapped_fixed img, 
+            &.state_tapped_fixed img,
             &.state_tapped img {
                 transform: rotate(90deg);
             }
@@ -949,15 +972,16 @@ body[data-is-watcher='false']
             &.state_rot270 img {
                 transform: rotate(-90deg);
             }
-            &.rot180 img, 
-            &.state_wounded img, 
-            &.wounded img { 
+
+            &.rot180 img,
+            &.state_wounded img,
+            &.wounded img {
                 transform: rotate(0deg);
             }
 
-            
+
         }
-        
+
     }
 }
 
@@ -984,6 +1008,7 @@ body[data-is-watcher='false']
         opacity: 0;
     }
 }
+
 .lidless-eye {
     z-index: 1601;
     position: fixed;
@@ -1000,14 +1025,17 @@ body[data-is-watcher='false']
         width: 300px;
         left: 50%;
     }
+
     h2 {
         text-align: center;
         padding-top: 1em;
     }
+
     p {
         color: #fff;
         line-height: 2em;
     }
+
     img {
         display: block;
     }
@@ -1104,34 +1132,18 @@ div#table-dark {
     right: 0;
     bottom: 0;
     z-index: 0;
-    background: linear-gradient(rgba(30, 23, 0, 0.4), rgba(30, 23, 0, 0.2));
+    background: rgba(30, 23, 0, 0.4);
 
     &::after {
-        content: " ";
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        background-image: url("/media/assets/shader.svg");
-        opacity: 0.1;
-    }
-}
-
-#table-dark {
-        
-    
-
-    &::before {
-        background-color: rgba(30, 23, 0, 0.5);
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.65) 100%);
+        pointer-events: none;
         content: "";
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
         top: 0;
-        z-index: 1;
+        z-index: 0;
     }
 }
 
@@ -1143,9 +1155,18 @@ div#table-dark {
 
 .playercard-hand-container .card-hand,
 .card {
-    transition: rotate 0.2s ease-in-out;
+    transition: rotate 0.2s ease-in-out, filter 0.2s ease;
+
     &:hover {
         rotate: -3deg;
+    }
+
+    img.card-icon {
+        filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.55));
+
+        &:hover {
+            filter: drop-shadow(0px 14px 20px rgba(0, 0, 0, 0.7));
+        }
     }
 }
 
@@ -1160,59 +1181,81 @@ div.card[data-token-mp]:before {
     content: "10+";
     z-index: 2;
 }
-div.card[data-token]:after
-{
+
+div.card[data-token]:after {
     border-radius: 5px;
 }
-div.card[data-token-mp]:before
-{
+
+div.card[data-token-mp]:before {
     border-radius: 50%;
 }
+
 div.card[data-token-mp]:before {
     background: var(--color-light-grey);
     left: 10%;
 }
+
 div.card[data-token]:after {
     background: var(--color-orange-light);
     right: 10%;
 }
 
 div.card[data-token-mp="1"]:before,
-div.card[data-token="1"]:after { content: "1"; }
+div.card[data-token="1"]:after {
+    content: "1";
+}
 
 div.card[data-token-mp="2"]:before,
-div.card[data-token="2"]:after { content: "2"; }
+div.card[data-token="2"]:after {
+    content: "2";
+}
 
 div.card[data-token-mp="3"]:before,
-div.card[data-token="3"]:after { content: "3"; }
+div.card[data-token="3"]:after {
+    content: "3";
+}
 
 div.card[data-token-mp="4"]:before,
-div.card[data-token="4"]:after { content: "4"; }
+div.card[data-token="4"]:after {
+    content: "4";
+}
 
 div.card[data-token-mp="5"]:before,
-div.card[data-token="5"]:after { content: "5"; }
+div.card[data-token="5"]:after {
+    content: "5";
+}
 
 div.card[data-token-mp="6"]:before,
-div.card[data-token="6"]:after { content: "6"; }
+div.card[data-token="6"]:after {
+    content: "6";
+}
 
 div.card[data-token-mp="7"]:before,
-div.card[data-token="7"]:after { content: "7"; }
+div.card[data-token="7"]:after {
+    content: "7";
+}
 
 div.card[data-token-mp="8"]:before,
-div.card[data-token="8"]:after { content: "8"; }
+div.card[data-token="8"]:after {
+    content: "8";
+}
 
 div.card[data-token-mp="9"]:before,
-div.card[data-token="9"]:after { content: "9"; }
+div.card[data-token="9"]:after {
+    content: "9";
+}
 
 div.card[data-token-mp="10"]:before,
-div.card[data-token="10"]:after { content: "10"; }
+div.card[data-token="10"]:after {
+    content: "10";
+}
 
 @import "./tabletop_changeavatar.scss";
 
 .dialog-notes,
 .change-seating {
     background-color: #000;
-    color:var(--color-light-grey);
+    color: var(--color-light-grey);
     max-width: 90%;
     max-height: 90%;
 
@@ -1317,19 +1360,22 @@ div.card[data-token="10"]:after { content: "10"; }
     line-height: 1.3em;
     max-width: 80%;
     max-height: 80%;
-    h2, h3 { margin-top: 2em;}
+
+    h2,
+    h3 {
+        margin-top: 2em;
+    }
 }
 
 /* opensource spinner from https://github.com/loadingio/css-spinner/ */
-.lds-ellipsis 
-{
+.lds-ellipsis {
     display: inline-block;
     position: absolute;
     width: 70px;
     height: 20px;
     bottom: 55px;
     right: 30%;
-    
+
     div {
         position: absolute;
         width: 13px;
@@ -1339,29 +1385,28 @@ div.card[data-token="10"]:after { content: "10"; }
         background: var(--color-orange-light);
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
-        &:nth-child(1) 
-        {
+        &:nth-child(1) {
             left: 8px;
             animation: lds-ellipsis1 0.6s infinite;
         }
-        
+
         &:nth-child(2) {
             left: 8px;
             animation: lds-ellipsis2 0.6s infinite;
         }
-        
+
         &:nth-child(3) {
             left: 32px;
             animation: lds-ellipsis2 0.6s infinite;
         }
-        
+
         &:nth-child(4) {
             left: 56px;
             animation: lds-ellipsis3 0.6s infinite;
         }
     }
-    
-    
+
+
 }
 
 @keyframes lds-ellipsis1 {
@@ -1441,3 +1486,40 @@ div.card[data-token="10"]:after { content: "10"; }
     }
 }
 
+body:not(.on-drag-event-generic) .playercard-hand-container .card-hand {
+    transform-origin: center 350%;
+}
+
+.preview-left.preview-top,
+.preview-right.preview-top {
+    opacity: 1;
+    transform: translateX(0) perspective(1000px) rotateY(-4deg) rotateX(2deg);
+    transition:
+        opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+        filter 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+
+    pointer-events: none;
+    filter: drop-shadow(-15px 20px 25px rgba(0, 0, 0, 0.75)) drop-shadow(0px 0px 30px rgba(212, 143, 56, 0.5));
+}
+
+.preview-left.preview-top {
+    transform: translateX(0) perspective(1000px) rotateY(4deg) rotateX(-2deg);
+    filter: drop-shadow(15px 20px 25px rgba(0, 0, 0, 0.75)) drop-shadow(15px 0px 30px rgba(212, 143, 56, 0.5));
+}
+
+.preview-left.preview-top.hidden,
+.preview-right.preview-top.hidden {
+    opacity: 0;
+    display: block !important;
+    pointer-events: none;
+    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+}
+
+.preview-left.preview-top.hidden {
+    transform: translateX(-110%);
+}
+
+.preview-right.preview-top.hidden {
+    transform: translateX(110%);
+}
