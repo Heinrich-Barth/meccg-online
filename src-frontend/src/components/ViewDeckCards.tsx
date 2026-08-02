@@ -34,7 +34,7 @@ const renderNotes = function(text:string)
             res.push(<p>{line}</p>)
     }
 
-    return (<Grid item xs={12}>{res}</Grid>);
+    return (<Grid size={{xs:12}}>{res}</Grid>);
 }
 
 const RenderDeckListSectionPart = function(props: { list:DeckCardEntry[], title:string, basekey:string })
@@ -60,7 +60,7 @@ const RenderDeckListSection = function(props: { list:DeckCardEntry[], title:stri
     const res:DeckCardEntry[] = !props.group ? [] : props.list.filter(a => a.type === "Resource");
     const haz:DeckCardEntry[] = !props.group ? [] : props.list.filter(a => a.type === "Hazard");
 
-    return <Grid item xs={12} sm={6} md={4} lg={3}>
+    return <Grid size={{xs:12, sm:6, md:4, lg:3}}>
         <h2>{props.title}</h2>
         <RenderDeckListSectionPart basekey={props.title+"c"} title="Characters" list={chars} />
         <RenderDeckListSectionPart basekey={props.title+"r"} title="Resources" list={res} />
@@ -104,12 +104,12 @@ const RenderSection = function({ title, codes, images, renderPreview } : { title
         return <React.Fragment />;
 
     return (<>
-        <Grid item xs={12}>
+        <Grid size={{xs:12}}>
             <h3>{title} ({codes.length})</h3>
         </Grid>
         {codes.map((code, index) => {
             const img = code.image;
-            return <Grid item xs={12} sm={6} md={2} key={title + index} className='view-image-container'>
+            return <Grid size={{xs:12, sm:6, md:2}} key={title + index} className='view-image-container'>
                 <img 
                     src={img} 
                     decoding="async" 

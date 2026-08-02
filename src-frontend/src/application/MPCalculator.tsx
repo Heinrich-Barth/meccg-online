@@ -6,8 +6,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { AddCircleOutline, DeleteOutline } from "@mui/icons-material";
-
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 type Categories = {
     name: string;
     sage: number;
@@ -151,16 +151,16 @@ export default function MPCalculator() {
     return <React.Fragment>
 
         <div className={"application-home "}>
-            <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                     {MeccgLogo()}
                 </Grid>
-                <Grid item xs={12} textAlign={"center"}>
+                <Grid size={{xs:12}} className={"center"}>
                     <h1>{Dictionary("frontend.menu.calculator2", "Track Marshalling Points")}</h1>
                 </Grid>
 
-                <Grid container item xs={12} style={{ background: "rgba(0,0,0,0.8)", borderRadius: "5px", padding: "1em" }}>
-                    <Grid item xs={12} textAlign={"center"}>
+                <Grid size={{xs:12}} style={{ background: "rgba(0,0,0,0.8)", borderRadius: "5px", padding: "1em" }}>
+                    <Grid size={{xs:12}} className={"center"}>
                         <FormControlLabel
                             label="Arda"
                             control={
@@ -181,14 +181,14 @@ export default function MPCalculator() {
                             }
                         />
                     </Grid>  
-                    <Grid item xs={6} textAlign={"center"}>
-                        <Button variant="contained" onClick={onResetSheet} startIcon={<DeleteOutline />}>Reset sheet</Button>
+                    <Grid size={{xs:6}} className={"center"}>
+                        <Button variant="contained" onClick={onResetSheet} startIcon={<RemoveCircleIcon />}>Reset sheet</Button>
                     </Grid>                  
-                    <Grid item xs={6} textAlign={"center"}>
-                        <Button variant="contained" onClick={onAddPlayer} startIcon={<AddCircleOutline />}>Add another player</Button>
+                    <Grid size={{xs:6}} className={"center"}>
+                        <Button variant="contained" onClick={onAddPlayer} startIcon={<AddCircleIcon />}>Add another player</Button>
                     </Grid>                  
                     {categories.map((category, i) =>
-                        <Grid item key={"cat" + i} xs={12}  style={{ paddingTop: "1em"}}>
+                        <Grid key={"cat" + i} size={{xs:12}} style={{ paddingTop: "1em"}}>
                             <h2>{category.name}</h2>
                             <Typography component={"p"} variant="body1">Score: {getHeadlinePoints(category)}</Typography>
                             <br />

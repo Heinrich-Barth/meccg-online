@@ -104,24 +104,24 @@ export default function ExploreDecks() {
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
 
         return (
-            <Grid item xs={12} lg={6} xl={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
+            <Grid size={{xs:12,lg:6,xl:4}} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
-                    <Grid item xs={4} md={3}>
+                    <Grid size={{xs:4, md:3}}>
                         <div className="room-image room-image-game">
                             <img src={imgAvatar} alt={"avatar"} className={imgAvatarClass} decoding="async" />
                         </div>
                     </Grid>
-                    <Grid item xs={8} md={9} className='paddingBottom1em paddingLeft1em'>
+                    <Grid size={{xs:8, md:9}} className='paddingBottom1em paddingLeft1em'>
                         <h3>{key}</h3>
                         <Grid container>
-                            <Grid item xs={12} md={8}>
+                            <Grid size={{xs:12,md:8}}>
                                 <p>
                                     Deck: {meta?.resources} / {meta?.hazards}
                                     <br />Characters: {meta?.character}
                                     <br />Sideboard: {meta?.sideboard}
                                 </p>
                             </Grid>
-                            <Grid item xs={12} md={4} alignContent={"center"}>
+                            <Grid size={{xs:12,md:4}} sx={{alignContent:"center"}}>
                                 <Button 
                                     onClick={() => { viewDeckId === _deckid ? viewDeckById("") : viewDeckById(_deckid) }} title={Dictionary("home.lookatdeck", "Look at deck")}
                                     className='buttonLeft'
@@ -134,7 +134,7 @@ export default function ExploreDecks() {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={12} className='paddingBottom1em paddingLeft1em'>
+                    <Grid size={{xs:12}} className='paddingBottom1em paddingLeft1em'>
                         <div className='deck-label'>
                             <span className={'deck-label-' + labelColor}>{deck.name}</span>
                         </div>
@@ -169,34 +169,34 @@ export default function ExploreDecks() {
     return (
         <React.Fragment>
             <div className={"application-deckbuilder"}>
-                <Grid container spacing={2} justifyContent="center">
-                    <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+                <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                    <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                         <MeccgLogo />
                     </Grid>
-                    <Grid item xs={12} textAlign={"center"}>
+                    <Grid size={{xs:12}} className={"center"}>
                         <h1 data-translation="home.startgame">{Dictionary("frontend.menu.deck", "Deckbuilder")}</h1>
                     </Grid>
                 </Grid>
             </div>
-            <Grid container className='padding2em1m' rowGap={1}>
+            <Grid container className='padding2em1m' rowSpacing={1}>
                 {deckList.length === 0 ? <>
-                    <Grid item xs={12} textAlign="center" className='padding2em1m'>
+                    <Grid size={{xs:12}} className='center padding2em1m'>
                         <h3>No decks available</h3>
                         <p>Please load or import your own decks.</p>
                     </Grid>
                 </> : <>
 
-                    <Grid item xs={12} textAlign="center" className='padding2em1m'>
+                    <Grid size={{xs:12}} className='center padding2em1m'>
                         <h3>Deck Selection</h3>
                         <p>Choose a deck or click here to load/import a deck</p>
                     </Grid>
-                    <Grid container item xs={12} className='padding2em1m'>
-                        <Grid item xs={12} sm={3} textAlign="left" style={{ paddingRight: "0.5em"}}>
-                            {deckList.map((entry, index) => <Grid item xs={12} key={"sel_lab" + index}>
+                    <Grid container size={{xs:12}} className='padding2em1m'>
+                        <Grid size={{xs:12,sm:3}} style={{ textAlign:"left", paddingRight: "0.5em"}}>
+                            {deckList.map((entry, index) => <Grid size={{xs:12}} key={"sel_lab" + index}>
                                     <CreateLabelDiv elem={entry} idx={index} />
                                 </Grid>)}
                         </Grid>
-                        <Grid container item xs={12} sm={9} justifyContent="center" rowGap={2}>
+                        <Grid container size={{xs:12,sm:9}} sx={{justifyContent:"center"}} rowSpacing={2}>
                             {deckList.map((deckGroup, index) => {
                                 const res: any = [];
                                 const color = getLabelColor(index);

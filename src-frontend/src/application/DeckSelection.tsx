@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { TransitionProps } from '@mui/material/transitions';
 import { FetchDeckById } from '../operations/FetchDeckLists';
 import { Alert, AppBar, Button, Checkbox, Dialog, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Radio, RadioGroup, Slide, Snackbar, Toolbar, Typography } from '@mui/material';
 import { BACKSIDE_IMAGE, DeckCards, DeckCardsEntry, DeckData, DeckEntry, DeckEntryMeta } from './Types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop';
@@ -31,15 +29,6 @@ const TYPE_ARDA = "arda";
 const TYPE_STANDARD = "standard";
 const TYPE_SOLO = "solo";
 const TYPE_SOLO_HAZ = "solo_haz";
-
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const getLabelColor = function (index: number) {
     const labelColors = ["red", "green", "blue", "yellow", "pink"];
@@ -427,38 +416,38 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
         const imgAvatarClass = meta.avatar !== "" ? "" : "avatar-backside";
 
         return (
-            <Grid item xs={12} lg={6} xl={4} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
+            <Grid size={{xs:12, lg:6, xl:4}} className="room-game-list paddingRight1em" key={indexKey} data-deck-id={_deckid} data-deck-name={key} data-deck-group={deck.name.toLowerCase()} id={_deckid}>
                 <Grid container className='blue-box'>
-                    <Grid item xs={4} md={3}>
+                    <Grid size={{xs:4, md:3}}>
                         <div className="room-image room-image-game">
                             <img src={imgAvatar} alt={"avatar"} className={imgAvatarClass} decoding="async" />
                         </div>
                     </Grid>
-                    <Grid item xs={8} md={9} className='paddingBottom1em paddingLeft1em'>
+                    <Grid size={{xs:8, md:9}} className='paddingBottom1em paddingLeft1em'>
                         <h3>{key}</h3>
                         <Grid container>
-                            <Grid item xs={12} md={7}>
+                            <Grid size={{xs:12, md:7}}>
                                 <p>
                                     Deck: {meta?.resources} / {meta?.hazards}
                                     <br />Characters: {meta?.character}
                                     <br />Sideboard: {meta?.sideboard}
                                 </p>
                             </Grid>
-                            <Grid item xs={12} md={5} style={{ paddingRight: "0.5em"}}>
-                                <Grid container rowGap={1}>
-                                    <Grid item xs={12}>
+                            <Grid size={{xs:12, md:5}} style={{ paddingRight: "0.5em"}}>
+                                <Grid container rowSpacing={1}>
+                                    <Grid size={{xs:12}}>
                                         <Button
                                             fullWidth
                                             className='buttonLeft'
                                             title={Dictionary("home.choosethisdeck", "Choose this deck to play")}
                                             variant={currentDeckId === _deckid ? "contained" : "outlined"}
                                             onClick={() => { currentDeckId === _deckid ? loadDeckById("") : loadDeckById(_deckid, deck.name) }}
-                                            startIcon={currentDeckId === _deckid ? <CheckCircle /> : <CheckCircleOutlineIcon />}
+                                            startIcon={currentDeckId === _deckid ? <CheckCircle /> : <></>}
                                         >
                                             {currentDeckId === _deckid ? "Selected" : "Select"}
                                         </Button>
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid size={{xs:12}}>
                                         <Button onClick={() => { viewDeckId === _deckid ? viewDeckById("") : viewDeckById(_deckid) }} title={Dictionary("home.lookatdeck", "Look at deck")}
                                             fullWidth
                                             className='buttonLeft'
@@ -468,7 +457,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                                             {Dictionary("frontend.decklist.view", "View")}
                                         </Button>
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid size={{xs:12}}>
                                         <Button onClick={() => { viewDeckId === _deckid ? editDeckById("") : editDeckById(_deckid) }} title={Dictionary("home.lookatdeck", "Look at deck")}
                                             fullWidth
                                             className='buttonLeft'
@@ -483,7 +472,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={12} className='paddingBottom1em paddingLeft1em'>
+                    <Grid size={{xs:12}} className='paddingBottom1em paddingLeft1em'>
                         <div className='deck-label'>
                             <span className={'deck-label-' + labelColor}>{deck.name}</span>
                         </div>
@@ -593,7 +582,6 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                 fullScreen
                 open={selectDeckOpen}
                 onClose={handleClose}
-                TransitionComponent={Transition}
             >
                 {snachMessage && (<Snackbar
                     open={snachMessage !== ""}
@@ -615,13 +603,13 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <Grid container className='padding2em1m' rowGap={1}>
-                    {roomImage !== "" && (<Grid item xs={4} sm={2} className="paddingRight1em">
+                <Grid container className='padding2em1m' rowSpacing={1}>
+                    {roomImage !== "" && (<Grid size={{xs:4, sm:2}} className="paddingRight1em">
                         <div className="room-image room-image-choose">
                             <img src={roomImageUri} alt="Ambience room" decoding="async" />
                         </div>
                     </Grid>)}
-                    <Grid item xs={8} sm={5} md={2} lg={3}>
+                    <Grid size={{xs:8, sm:5, md:2, lg:3}}>
                         <FormControl disabled={!allowGameChoice}>
                             <FormLabel id="demo-radio-buttons-group-label">{Dictionary("home.gametype", "Choose a game type")}</FormLabel>
                             <RadioGroup
@@ -637,7 +625,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={8} sm={4} md={3} lg={2}>
+                    <Grid size={{xs:8, sm:4, md:3, lg:2}}>
                         <FormGroup>
                             <FormLabel>{Dictionary("home.maptype", "Sites used")}</FormLabel>
                             <FormControlLabel
@@ -693,7 +681,7 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             }
                         />
                     </Grid>
-                    <Grid item xs={8} sm={6} md={3} lg={2}>
+                    <Grid size={{xs:8,sm:6,md:3,lg:2}}>
                         <FormControl>
                             <FormLabel>{Dictionary("home.maptype", "Site Order")}</FormLabel>
                             <RadioGroup
@@ -707,18 +695,18 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={2} lg={3}>
-                        <Grid container rowGap={2} >
-                            <Grid item xs={12}>
+                    <Grid size={{xs:12, sm:4, md:2, lg:3}}>
+                        <Grid container rowSpacing={2} >
+                            <Grid size={{xs:12}}>
                                 {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
                                 <Button disabled={!allowStart} onClick={onStartGame} className='buttonLeft' fullWidth variant='contained' startIcon={<PlayCircleFilledIcon />} >{Dictionary("frontend.menu.play", "Play")} {gameTypeLabel}</Button>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={{xs:12}}>
                                 {errorMessageFile !== "" && (<Alert severity="error">{errorMessageFile}</Alert>)}
                                 <input className='displayNone' id="meccg-open-dialog" type="file" onChange={onLoadLocalDeck} />
                                 <LoadDeckButton fullwidth={true} />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={{xs:12}}>
                                 <ImportEditButton fullwidth={true} />
                             </Grid>
                         </Grid>
@@ -737,29 +725,29 @@ export default function DeckSelection({ selectDeckOpen, setSelectDeckOpen, room,
                             />
                         )}
                         {deckList.length === 0 ? <>
-                            <Grid item xs={12} textAlign="center" className='padding2em1m'>
+                            <Grid size={{xs:12}} className='center padding2em1m'>
                                 <h3>No decks available</h3>
                                 <p>Please load or import your own decks.</p>
                             </Grid>
                         </> : <>
 
-                            <Grid item xs={12} textAlign="center" className='padding2em1m'>
+                            <Grid size={{xs:12}} className='center padding2em1m'>
                                 <h3>Deck Selection</h3>
                                 <p>Choose a deck or click here to load/import a deck</p>
                             </Grid>
-                            <Grid container item xs={12} className='padding2em1m'>
-                                <Grid item xs={12} sm={3} textAlign="left" style={{ paddingRight: "0.5em" }}>
-                                    {deckList.map((entry, index) => <Grid container item xs={12} key={"sel_lab" + index}>
+                            <Grid container size={{xs:12}} className='padding2em1m'>
+                                <Grid size={{xs:12, sm:3}}  className="left" style={{ paddingRight: "0.5em" }}>
+                                    {deckList.map((entry, index) => <Grid container size={{xs:12}} key={"sel_lab" + index}>
                                         <CreateLabelDiv elem={entry} idx={index} />
                                     </Grid>)}
-                                    <Grid item xs={12} style={{ padding: "1em"}}>
+                                    <Grid size={{xs:12}} style={{ padding: "1em"}}>
                                         <LoadDeckButton fullwidth={false} />
                                     </Grid>
-                                    <Grid item xs={12} style={{ padding: "1em"}}>
+                                    <Grid size={{xs:12}} style={{ padding: "1em"}}>
                                         <ImportEditButton fullwidth={false} />
                                     </Grid>
                                 </Grid>
-                                <Grid container item xs={12} sm={9} rowGap={2}>
+                                <Grid container size={{xs:12, sm:9}} rowSpacing={2}>
                                     {deckList.map((deckGroup, index) => {
                                         const res: any = [];
                                         const color = getLabelColor(index);

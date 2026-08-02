@@ -94,16 +94,16 @@ export default function CacheData(props: { onReady:Function }) {
 
     return <>
         <div className="application-home paddingTop10em">
-            <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={10} md={6} lg={3} textAlign={"center"} className="paddingBottom3em">
-                    <Grid container spacing={2} justifyContent="center">
-                        <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                <Grid size={{xs:10, md:6, lg:3}} textAlign={"center"} className="paddingBottom3em">
+                    <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                        <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                             {MeccgLogo()}
                         </Grid>
-                        <Grid item xs={10} textAlign={"center"}>
+                        <Grid size={{xs:10}} className="center">
                             <Typography variant="body1" component="p" className="paddingBottom1em">Loading {loadingLabel}</Typography>
                         </Grid>
-                        <Grid item xs={10} textAlign={"center"}>
+                        <Grid size={{xs:10}} className="center">
                             <LinearProgress color="inherit" />
                         </Grid>
                         {doRedirect && (<Navigate to="/play" />)}

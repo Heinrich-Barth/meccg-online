@@ -114,13 +114,13 @@ export default function Preferences(props: { onClose: Function, onCallbackUpdate
             </DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
-                    <Grid item xs={4} textAlign={"center"}>
+                    <Grid size={{xs:4}} className="center">
                         <LoadAvatar onValidAvatar={(code:string, image:string) => {
                             g_sCurrentAvatar = code;
                             g_sAvatarImage = image;
                         }} />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid size={{xs:8}}>
                         <DialogContentText className='paddingBottom1em'>{Dictionary("frontend.setuser", "You can set your display name so other players may recognise you")}</DialogContentText>
                         <TextField id="enter_room" value={username} variant="standard" margin="dense" autoFocus onChange={(e) => setUsername(e.target.value.trim())} fullWidth label="Your display name" placeholder="Your name may only contain a-zA-Z0-9" />
                         {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
@@ -139,7 +139,7 @@ export default function Preferences(props: { onClose: Function, onCallbackUpdate
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} textAlign={"center"}>
+                    <Grid size={{xs:12}} className="center">
                         {!cacheCleared && (<>
                             This app uses caching. Click <Button variant='text' startIcon={<DeleteForeverOutlined />} onClick={deleteCache}>here</Button> to clear caches and reload.
                         </>)}

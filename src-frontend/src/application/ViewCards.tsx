@@ -32,7 +32,7 @@ export default function ViewCards() {
         const imgSrc = GetImageUri(image); 
         const isDCErrata = preferErrata && img.imageErrata;
 
-        return <Grid item xs={12} sm={6} md={4} lg={3} xl={2} textAlign={"center"} key={img.code} className="cardbrowser-result">
+        return <Grid size={{xs:12,sm:6,md:4,lg:3,xl:2}} key={img.code} className="cardbrowser-result center">
                 <img src={imgSrc} 
                     data-flip={GetImageUri(img.flip)} 
                     alt={img.code} 
@@ -53,11 +53,11 @@ export default function ViewCards() {
         
         <RenderCardPreview image={previewImage?.image??""} left={previewImage?.left??true} />
         <div className={"application-home "}>
-            <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                <Grid size={{xs:10,md:8}} className="center paddingBottom3em">
                     {MeccgLogo()}
                 </Grid>
-                <Grid item xs={12} textAlign={"center"}>
+                <Grid size={{xs:12}} className={"center"}>
                     <h1 data-translation="home.startgame">{Dictionary("frontend.menu.cardbrowser", "View Cards")}</h1>
                 </Grid>
                 <ViewCardBrowser renderCardEntry={renderSearchResult} subline="" />

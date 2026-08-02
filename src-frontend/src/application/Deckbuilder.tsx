@@ -59,7 +59,7 @@ function CustomTabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             {...other}
         >
-            {value === index && <Paper elevation={1}><Grid item xs={12} container className="padding2em1m">{children}</Grid></Paper>}
+            {value === index && <Paper elevation={1}><Grid size={{xs:12}} container className="padding2em1m">{children}</Grid></Paper>}
         </div>
     );
 }
@@ -441,10 +441,10 @@ function EditNotes({ notes, onApply }: { notes:string, onApply:(val:string) => v
     const [textNotes, setTextNotes] = React.useState(notes);
 
     return <React.Fragment>
-        <Grid item xs={12}>
+        <Grid size={{xs:12}}>
             <Button variant="contained" onClick={() => onApply(textNotes)}>Save changes to notes</Button>
         </Grid>
-        <Grid item xs={12} className="deck-notes">
+        <Grid size={{xs:12}} className="deck-notes">
             <TextField rows={20} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
         </Grid>
     </React.Fragment>
@@ -498,7 +498,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
     const hazards = [...characters.agents, ...deck.playdeck.hazards];
 
     return <React.Fragment>
-        <Grid item xs={12} className="bgPaper">
+        <Grid size={{xs:12}} className="bgPaper">
             <Box className="bgPaperBox">
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
@@ -509,11 +509,11 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                 </AppBar>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <Grid item xs={12} sm={3} md={2} container rowGap={2} alignSelf={"flex-start"} >
-                    <Grid item xs={12}>
+                <Grid size={{xs:12, sm:3,md:2}} container rowSpacing={2} sx={{alignSelf:"flex-start"}}>
+                    <Grid size={{xs:12}}>
                         <Typography className="smallcaps section-title"><BackHandIcon /> Pool</Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         <CurrentDeckPart
                             caption="Characters" pref="poolc" list={deck.pool.characters} sectionClassname="character"
                             onDecrease={(code: string) => onDecrease(code, "pool")}
@@ -523,7 +523,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             type="pool"
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         <CurrentDeckPart caption="Resources" pref="poolr" list={deck.pool.resources} sectionClassname="resource"
                             onDecrease={(code: string) => onDecrease(code, "pool")}
                             onIncrease={(code: string) => onIncrease(code, "pool")}
@@ -540,12 +540,12 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={9} md={10} lg={5} container rowGap={2} alignSelf={"flex-start"} className="deck-edit-section-deck">
-                    <Grid item xs={12}>
+                <Grid size={{xs:12,sm:9,md:10,lg:5}} container rowSpacing={2} sx={{alignSelf:"flex-start"}} className="deck-edit-section-deck">
+                    <Grid size={{xs:12}}>
                         <Typography className="smallcaps section-title"><StyleIcon /> Play Deck</Typography>
                     </Grid>
-                    <Grid item xs={12} container rowGap={2}>
-                        <Grid item xs={12} md={4} rowGap={2}>
+                    <Grid size={{xs:12}} container rowSpacing={2}>
+                        <Grid size={{xs:12, md:4}} rowSpacing={2}>
                             <CurrentDeckPart
                                 caption="Characters"
                                 pref="deckchar"
@@ -558,7 +558,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 type="deck"
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} rowGap={2}>
+                        <Grid size={{xs:12, md:4}}  rowSpacing={2}>
                             <CurrentDeckPart
                                 caption="Resources"
                                 pref="deckres"
@@ -572,7 +572,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 sortType={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} rowGap={2}>
+                        <Grid size={{xs:12, md:4}}  rowSpacing={2}>
                             <CurrentDeckPart
                                 caption="Hazards"
                                 pref="deckh"
@@ -588,14 +588,14 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={9} md={10} lg={4} container rowGap={2} alignSelf={"flex-start"}>
-                    <Grid item xs={12}>
+                <Grid size={{xs:12, sm:9, md:10, lg:4}} container rowSpacing={2} sx={{alignSelf:"flex-start"}}>
+                    <Grid size={{xs:12}}>
                         <Typography className="smallcaps section-title">
                             <SpaceDashboardIcon /> Sideboard
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} container rowGap={2}>
-                        <Grid item xs={12}>
+                    <Grid size={{xs:12,md:6}} container rowSpacing={2}>
+                        <Grid size={{xs:12}}>
                             <CurrentDeckPart
                                 caption="Resources" pref="sbr" list={deck.sideboard.resources} sectionClassname="resource"
                                 onDecrease={(code: string) => onDecrease(code, "sb")}
@@ -606,7 +606,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                                 sortType={true}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={{xs:12}}>
                             <CurrentDeckPart
                                 caption="Characters"
                                 pref="sbc"
@@ -620,7 +620,7 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                             />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{xs:12,md:6}} >
                         <CurrentDeckPart
                             caption="Hazards" pref="sbr" list={deck.sideboard.hazards} sectionClassname="hazard"
                             onDecrease={(code: string) => onDecrease(code, "sb")}
@@ -632,13 +632,13 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={3} md={2} lg={1} container rowGap={2} alignSelf={"flex-start"}>
-                    <Grid item xs={12}>
+                <Grid size={{xs:12, sm:3, md:2, lg:1}} container rowSpacing={2} sx={{alignSelf:"flex-start"}}>
+                    <Grid size={{xs:12}}>
                         <Typography className="smallcaps section-title">
                             <MapIcon /> Sites
                         </Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         <CurrentDeckPart
                             caption="Resources" pref="sites" list={deck.sites.resources} sectionClassname="site"
                             onDecrease={(code: string) => onDecrease(code, "deck")}
@@ -654,26 +654,26 @@ function CurrentDeck({ deck, updateDeck, onIncrease, onDecrease, onPreviewImage,
                 <EditNotes notes={deck.notes} onApply={onApplyNotesChange} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                <Grid item xs={12} container rowGap={2}>
-                    <Grid item xs={6} className="custom-deck">
+                <Grid size={{xs:12}}  container rowSpacing={2}>
+                    <Grid size={{xs:6}} className="custom-deck">
                         <Button variant="contained" onClick={applyDeckChanges}>Apply changes</Button>
                     </Grid>
-                    <Grid item xs={6} className="custom-deck" style={{ textAlign: "right"}}>
+                    <Grid size={{xs:6}} className="custom-deck" style={{ textAlign: "right"}}>
                         <Button variant="outlined" onClick={sortCodesInTextarea}>Sort codes</Button>
                     </Grid>
-                    <Grid item xs={6} lg={3} className="custom-deck">
+                    <Grid size={{xs:12,lg:3}} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textPool} multiline onChange={(e) => setTextPool(e.target.value)} fullWidth label={"Pool"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
                     </Grid>
-                    <Grid item xs={6} lg={3} className="custom-deck">
+                    <Grid size={{xs:12,lg:3}} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textDeck} multiline onChange={(e) => setTextDeck(e.target.value)} fullWidth label={"Deck"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
                     </Grid>
-                    <Grid item xs={6} lg={3} className="custom-deck">
+                    <Grid size={{xs:12,lg:3}} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textSideboard} multiline onChange={(e) => setTextSideboard(e.target.value)} fullWidth label={"Sideboard"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
                     </Grid>
-                    <Grid item xs={6} lg={3} className="custom-deck">
+                    <Grid size={{xs:12,lg:3}} className="custom-deck">
                         <TextField rows={defaultRowCount} value={textSites} multiline onChange={(e) => setTextSites(e.target.value)} fullWidth label={"Sites"} placeholder={"1 Rivendell [H] (TW)"} variant="filled" />
                     </Grid>
-                    <Grid item xs={12} className="custom-deck">
+                    <Grid size={{xs:12}} className="custom-deck">
                         <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
                     </Grid>
                 </Grid>
@@ -795,7 +795,7 @@ function DeckDetailsSection({ deck, updateDeck, onIncrease, onDecrease, onMoveCa
     return (
         <>
             <RenderCardPreview image={previewImage.image} left={previewImage.left} />
-            <Grid item xs={12} container className="paddingTop4em deck-details">
+            <Grid size={{xs:12}} container className="paddingTop4em deck-details">
                 <CurrentDeck
                     deck={deck}
                     updateDeck={updateDeck}
@@ -1110,10 +1110,9 @@ export default function Deckbuilder() {
         const isDCErrata = preferErrata && img.imageErrata;
 
         return <Grid
-                item xs={12} sm={6} md={4} lg={3} xl={2}
-                textAlign={"center"}
+                size={{xs:12,sm:6,md:4,lg:3,xl:2}}
                 key={img.code}
-                className="application-deckbuilder-result"
+                className="center application-deckbuilder-result"
             >
                 <img src={imgSrc} data-flip={GetImageUri(img.flip)} alt={img.code}
                     title={img.code + card.Secondary} loading="lazy" decoding="async" id={"image-" + key}
@@ -1158,7 +1157,7 @@ export default function Deckbuilder() {
         const rulesAvatar = dcLegalInfo.avatars.maximum >= dcLegalInfo.avatars.count;
         const isDCLegal = ruleTotal && ruleHaz && ruleRes;
 
-        return <Grid item xs={12} className="deck-legality">
+        return <Grid size={{xs:12}} className="deck-legality">
             <Alert severity={isDCLegal ? "success" : "warning"}>
                 {isDCLegal ? "This is a legal dream-cards deck." : "This is not a legal dream-cards deck"}
             </Alert>
@@ -1177,56 +1176,56 @@ export default function Deckbuilder() {
         const characters = removeAgentsFromList(deck.playdeck.characters, agentsAsHazards);
         const hazards = [...characters.agents, ...deck.playdeck.hazards];
  
-        return <Grid container item xs={12} spacing={0} className="deck-summary">
-            <Grid item xs={1} container>
-                <Grid item xs={3}><BackHandIcon /></Grid>
-                <Grid item xs={9}>
+        return <Grid container size={{xs:12}} spacing={0} className="deck-summary">
+            <Grid size={{xs:1}} container>
+                <Grid size={{xs:3}}><BackHandIcon /></Grid>
+                <Grid size={{xs:9}}>
                     Pool<br />
                     {countDeckEntryCardsTotal(deck.pool)}
                 </Grid>
             </Grid>
-            <Grid item xs={3}>
+            <Grid size={{xs:3}}>
                 {countDeckEntryCardsTotalDeckentryS(deck.pool.characters)} Characters
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.pool.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.pool.hazards)} Hazards
                 <br />
             </Grid>
-            <Grid item xs={1} container>
-                <Grid item xs={3}><StyleIcon /></Grid>
-                <Grid item xs={9}>
+            <Grid size={{xs:1}} container>
+                <Grid size={{xs:3}}><StyleIcon /></Grid>
+                <Grid size={{xs:9}}>
                     Deck<br />
                     {countDeckEntryCardsTotal(deck.playdeck)}
                 </Grid>
             </Grid>
-            <Grid item xs={3}>
+            <Grid size={{xs:3}}>
                 {countDeckEntryCardsTotalDeckentryS(characters.characters)} Characters
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.playdeck.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(hazards)} Hazards
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.sites.resources)} Sites
             </Grid>
-            <Grid item xs={1} container>
-                <Grid item xs={3}><SpaceDashboardIcon /></Grid>
-                <Grid item xs={9}>
+            <Grid size={{xs:1}} container>
+                <Grid size={{xs:3}}><SpaceDashboardIcon /></Grid>
+                <Grid size={{xs:9}}>
                     Sideboard<br />
                     {countDeckEntryCardsTotal(deck.sideboard)}
                 </Grid>
             </Grid>
-            <Grid item xs={3}>
+            <Grid size={{xs:3}}>
                 {countDeckEntryCardsTotalDeckentryS(deck.sideboard.characters)} Characters
                 <br />{countDeckEntryCardsTotalDeckentryS(deck.sideboard.resources)} Resources / {countDeckEntryCardsTotalDeckentryS(deck.sideboard.hazards)} Hazards
                 <br />
             </Grid>
-            <Grid container item xs={12} textAlign={"center"} className="deck-summary-pt1">
-                <Grid item xs={2}>
+            <Grid container size={{xs:12}} className="deck-summary-pt1 center">
+                <Grid size={{xs:2}}>
                     <Button variant="contained" onClick={() => { setDeck(createEmptyDeck()); sessionStorage.setItem("currentdeck", ""); }} title="News Deck" startIcon={<NoteAddIcon />}>New Deck</Button>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{xs:6}}>
                     <input className='displayNone' id="meccg-open-dialog" type="file" onChange={loadDeckFromFile} />
                     <Button variant="contained" onClick={() => document.getElementById("meccg-open-dialog")?.click()} title="News Deck" startIcon={<FolderOpenIcon />}>Load</Button>
                     &nbsp; <Button variant="contained" onClick={saveCurrentDeck} title="Save deck" startIcon={<SaveIcon />}>Save</Button>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid size={{xs:2}}>
                     <Button variant="contained" onClick={() => setShowLegalInfo(!showLegalInfo)} title="Legality" startIcon={<Help />}>Info</Button>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid size={{xs:2}}>
                     <FormGroup style={{alignContent: "center"}}>
                         <FormControlLabel control={<Checkbox  checked={agentsAsHazards} onChange={(e) => setAgentsAsHazards(e.target.checked)} />} label="Agents are Hazards" />
                     </FormGroup>
@@ -1245,21 +1244,21 @@ export default function Deckbuilder() {
         />
         <RenderCardPreview image={previewImage.image} left={previewImage.left} />
         <div className={"application-deckbuilder"}>
-            <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                     {MeccgLogo()}
                 </Grid>
-                <Grid item xs={12} textAlign={"center"}>
+                <Grid size={{xs:12}} className={"center"}>
                     <h1 data-translation="home.startgame">{Dictionary("frontend.menu.deck", "Deckbuilder")}</h1>
                 </Grid>
             </Grid>
         </div>
         <div className={"application-home application-deckbuilder-spacer"}>
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
                 <DeckSummary />
                 <ViewCardBrowser renderCardEntry={renderSearchResult} subline="Hover over the card for deck actions" />
             </Grid>
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
                 <DeckDetailsSection
                     deck={deck}
                     updateDeck={setDeck}

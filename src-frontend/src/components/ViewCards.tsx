@@ -156,9 +156,9 @@ function CheckboxList(list: string[], label: string, values:string[], onChange: 
     if (list.length === 0)
         return <></>
 
-    return <Grid container item xs={12}>
-        <Grid item xs={12} sm={1}><Typography variant="caption">{label}</Typography></Grid>
-        <Grid item xs={12} sm={11}>
+    return <Grid container size={{xs:12}}>
+        <Grid size={{xs:12, sm:1}}><Typography variant="caption">{label}</Typography></Grid>
+        <Grid size={{xs:12, sm:1}}>
             {list.map((value, i) => <Chip 
                 variant={values.includes(value) ? "filled" : "outlined"}
                 key={label+i} 
@@ -187,9 +187,9 @@ function CheckboxListSet(list: ISetInformation[], label: string, value:string[],
     if (list.length === 0)
         return <></>
 
-    return <Grid container item xs={12}>
-        <Grid item xs={12} sm={1}><Typography variant="caption">{label}</Typography></Grid>
-        <Grid item xs={12} sm={11}>
+    return <Grid container size={{xs:12}}>
+        <Grid size={{xs:12, sm:1}}><Typography variant="caption">{label}</Typography></Grid>
+        <Grid size={{xs:12, sm:11}}>
             {list.map((item, n) => ( <Chip key={n+label} 
                 onClick={() => onChange(item.code)} 
                 className="filter-chip"
@@ -340,7 +340,7 @@ const ViewCardCountIndicator = function(props:{ max:number, current:number})
 
     const progress = (current / props.max) * 100
     return <>
-        <Typography component={"p"} textAlign={"center"} style={{paddingBottom: "5px"}}>{current} of {props.max}</Typography>
+        <Typography component={"p"} className={"center"} style={{paddingBottom: "5px"}}>{current} of {props.max}</Typography>
         <LinearProgress variant="buffer" value={progress} valueBuffer={100} />
         <br/>
     </>
@@ -385,7 +385,7 @@ const RenderFilterApplied = function(props:{
                     props.searchParams.set.length;
     const hasFilter = size > 0;
 
-    return <Grid item xs={12}>
+    return <Grid size={{xs:12}}>
             {hasFilter && <Chip 
                 onClick={() => props.onResetFilter()} 
                 variant={"filled"}
@@ -434,13 +434,13 @@ const RenderDrawer = function(props:{
         onClose={() => props.closeDrawer()}
       >
         <Grid container rowSpacing={1} style={{ padding: "1em"}}>
-            <Grid item xs={4}>
+            <Grid size={{xs:4}}>
                 <Button startIcon={<ChevronLeftIcon />} onClick={() => props.closeDrawer()} variant="text">Close filter</Button>
             </Grid>
-            <Grid item xs={8}>
+            <Grid size={{xs:8}}>
                 {props.resultSize} card(s) match your current filter settings.
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{xs:12}}>
                 <TextField value={props.searchValue} 
                     variant="filled" 
                     margin="dense" 
@@ -450,38 +450,38 @@ const RenderDrawer = function(props:{
                     placeholder="Seach by title" />
 
             </Grid>
-            <Grid item xs={7}>
+            <Grid size={{xs:7}}>
                 You can click on as many filters as you want to refinde your list
             </Grid>
-            <Grid item xs={5}>
+            <Grid size={{xs:5}}>
                 
             </Grid>
             {g_pSets.length > 0 && (
-                <Grid item xs={12}>
+                <Grid size={{xs:12}}>
                     {CheckboxListSet(g_pSets, "Set", props.searchParams.set, (e: string) => props.onSelectSet(e))}
                 </Grid>
             )}
             {g_pFilters && (<>
                 {g_pFilters.alignment && (
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         {CheckboxList(g_pFilters.alignment, "Alignment", props.searchParams.alignment, (e: string) => props.onSelectAlignment(e))}
                     </Grid>
                 )}
                 {g_pFilters.type && (
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         {CheckboxList([...g_pFilters.type, "Resource (Stage only)"], "Type", props.searchParams.type, (e: string) => props.onSelectType(e))}
                     </Grid>
                 )}
                 {g_pFilters.secondaries && (
-                    <Grid item xs={12}>
+                    <Grid size={{xs:12}}>
                         {CheckboxList(g_pFilters.secondaries, "Specific", props.searchParams.secondary, (e: string) => props.onSelectSpecific(e))}
                     </Grid>
                 )}
             </>)}
-            <Grid item xs={12}>
+            <Grid size={{xs:12}}>
                 {CheckboxList(g_sSkills, "Skills", props.searchParams.skill, (e: string) => props.onSelectSkill(e))}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{xs:12}}>
                 {CheckboxList(g_sKeywords, "Keywords", props.searchParams.keyword, (e: string) => props.onSelectKeywords(e))}
             </Grid>
         </Grid>
@@ -654,7 +654,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
     }
 
     return <React.Fragment>
-        <Grid container item xs={12}>
+        <Grid container size={{xs:12}}>
             <RenderDrawer 
                 open={openFilter}
                 searchValue={searchValue} 
@@ -670,10 +670,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 resultSize={searchResult.length}        
             />
         </Grid>
-        <Grid item xs={3} sm={2} md={1}>
+        <Grid size={{xs:3,sm:2,md:1}}>
             <Button style={{ marginTop: "15px"}} variant="outlined" onClick={() => setOpenFilter(true)} startIcon={<FilterAltIcon />}>Filter</Button>
         </Grid>
-        <Grid item xs={9} sm={10} md={11}>
+        <Grid size={{xs:9, sm:10,md:11}}>
             <TextField value={searchValue} variant="filled" margin="dense" autoFocus onChange={(e) => updateSearchValue(e.target.value.toLowerCase())} fullWidth label="Search text" placeholder="Seach by title" />
         </Grid>
         <RenderFilterApplied 
@@ -688,7 +688,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             onSelectKeywords={onSelectKeywords}
             onResetFilter={onResetFilter}
         />
-        {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
+        {hasDreamcards && (<Grid size={{xs:6}} className={"center"}>
             <FormControl>
                 <RadioGroup
                     name="radio-buttons-group"
@@ -701,7 +701,7 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 </RadioGroup>
             </FormControl>
         </Grid>)}
-        {hasDreamcards && (<Grid item xs={6} textAlign={"center"}>
+        {hasDreamcards && (<Grid size={{xs:6}} className={"center"}>
             <FormControl disabled={searchParams.dreamcards === "iceonly"}>
                 <RadioGroup
                     name="radio-buttons-group"
@@ -715,10 +715,10 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
             </FormControl>
         </Grid>)}
 
-        <Grid item xs={12}>
-            <Grid container spacing={2} className="cardbrowser" justifyContent="center">
+        <Grid size={{xs:12}}>
+            <Grid container spacing={2} className="cardbrowser" sx={{justifyContent:"center"}}>
                 {searchResult.length > 0 && (
-                    <Grid item xs={12} textAlign={"center"}>
+                    <Grid size={{xs:12}} className={"center"}>
                         <p>{searchResult.length} card(s) matching your filter settings. {subline}</p>
                         <FormGroup style={{alignContent: "center"}}>
                             <FormControlLabel control={<Checkbox  checked={preferDC} onChange={(e) => setPreferDC(e.target.checked)} />} label="DC Errata" />
@@ -727,8 +727,8 @@ export default function ViewCardBrowser({ renderCardEntry, subline = "" }: { ren
                 )}
                 {searchResult.filter((_item, idx) => idx < resultLimit).map((value, key) => renderCardEntry(value, preferDC, key))}
             </Grid>
-            <Grid container justifyContent="center">
-                <Grid item xs={6} sm={1} justifyContent="center" justifyItems={"center"} className="view-cards-eol">
+            <Grid container sx={{justifyContent:"center"}}>
+                <Grid size={{xs:6, sm:1}} sx={{justifyContent:"center", justifyItems:"center"}} className="view-cards-eol">
                     <ViewCardCountIndicator max={searchResult.length} current={resultLimit} />
                     {searchResult.length > 0 && resultLimit < searchResult.length && (
                         <Button variant="contained" fullWidth onClick={() => setResultLimit(resultLimit + CARDS_PER_VIEW)}>Load more</Button>

@@ -183,34 +183,34 @@ export default function CustomDeckInput(props: Props) {
     }
 
     return <>
-        <Grid item xs={12} textAlign="center" className='padding2em1m'>
+        <Grid size={{xs:12}} className='center padding2em1m'>
             <h3>View / Edit deck</h3>
             <p>If you want to use this deck, please click on the 'apply' button</p>
         </Grid>
-        <Grid item xs={12} container rowGap={2}>
-            <Grid item xs={6} lg={3} className="custom-deck">
+        <Grid size={{xs:12}} container rowSpacing={2}>
+            <Grid size={{xs:6, lg:3}} className="custom-deck">
                 <TextField rows={defaultRowCount} value={textPool} multiline onChange={(e) => setTextPool(e.target.value)} fullWidth label={"Pool"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid item xs={6} lg={3} className="custom-deck">
+            <Grid size={{xs:6, lg:3}} className="custom-deck">
                 <TextField rows={defaultRowCount} value={textDeck} multiline onChange={(e) => setTextDeck(e.target.value)} fullWidth label={"Deck"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid item xs={6} lg={3} className="custom-deck">
+            <Grid size={{xs:6, lg:3}} className="custom-deck">
                 <TextField rows={defaultRowCount} value={textSideboard} multiline onChange={(e) => setTextSideboard(e.target.value)} fullWidth label={"Sideboard"} placeholder={"1 Gandalf [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid item xs={6} lg={3} className="custom-deck">
+            <Grid size={{xs:6, lg:3}} className="custom-deck">
                 <TextField rows={defaultRowCount} value={textSites} multiline onChange={(e) => setTextSites(e.target.value)} fullWidth label={"Sites"} placeholder={"1 Rivendell [H] (TW)"} variant="filled" />
             </Grid>
-            <Grid item xs={12} className="custom-deck">
+            <Grid size={{xs:12}} className="custom-deck">
                 <TextField rows={10} value={textNotes} multiline onChange={(e) => setTextNotes(e.target.value)} fullWidth label={"Notes"} variant="filled" />
             </Grid>
-            {errors !== "" && (<Grid xs={12} textAlign={"center"}>
+            {errors !== "" && (<Grid size={{xs:12}} className={"center"}>
                 <Alert severity="error">Some cards in <b>{errors}</b> are incorrect.</Alert>
             </Grid>
             )}
-            <Grid xs={6} textAlign={"center"}>
+            <Grid size={{xs:6}} className={"center"}>
                 <Button onClick={() => props.onCancel()} variant="outlined">{Dictionary("candel", "Cancel")}</Button>
             </Grid>
-            <Grid xs={6} textAlign={"center"}>
+            <Grid size={{xs:6}} className={"center"}>
                 <Button onClick={onApply} variant="contained">Verify and apply</Button>
             </Grid>
         </Grid>

@@ -35,13 +35,13 @@ export default function LogIn({ requireLogin, onLogin }: { requireLogin:boolean,
     
     return <>
         <div className="application-home paddingTop10em">
-            <Grid container spacing={2} justifyContent="center">
-                <Grid item xs={10} md={6} lg={3} textAlign={"center"} className="paddingBottom3em">
-                    <Grid container spacing={2} justifyContent="center">
-                        <Grid item xs={10} md={8} textAlign={"center"} className="paddingBottom3em">
+            <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                <Grid size={{xs:10, md:6,lg:3}} className="center paddingBottom3em">
+                    <Grid container spacing={2} sx={{justifyContent:"center"}}>
+                        <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                             {MeccgLogo()}
                         </Grid>
-                            <Grid item xs={12} textAlign={"center"}>
+                            <Grid size={{xs:12}} className={"center"}>
                                 <TextField
                                     value={username}
                                     variant="filled"
@@ -55,7 +55,7 @@ export default function LogIn({ requireLogin, onLogin }: { requireLogin:boolean,
                                 />
                                 {errorMessage !== "" && (<Alert severity="error">{errorMessage}</Alert>)}
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={{xs:12}}>
                                 <Button 
                                     fullWidth 
                                     variant="contained" 
