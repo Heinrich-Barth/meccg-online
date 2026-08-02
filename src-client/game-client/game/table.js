@@ -175,7 +175,7 @@
                     <div class="container-title-bar-shuffle fr">${Dictionary.get("close", "Close")}</div>
                     <div class="clear"></div>
                 </div>
-                <div class="container-data"></div>
+                <div class="container-data center"></div>
             </div>
         `;
         return div;

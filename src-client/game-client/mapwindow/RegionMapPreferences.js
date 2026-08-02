@@ -13,7 +13,7 @@ class RegionMapPreferences extends Preferences {
     
     getGameCss()
     {
-        return "config-wrapper-map";
+        return "config-wrapper-map blue-box";
     }
 
     getEntries()

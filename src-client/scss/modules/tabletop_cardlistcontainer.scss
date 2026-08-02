@@ -6,13 +6,10 @@
     top: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.3);
     z-index: 1000;
 
     visibility: visible;
     opacity: 1;
-
-    transition: all 0.3s ease-in-out;
 
     &:hover {
         &::after {
@@ -32,7 +29,6 @@
         display: block !important;
         visibility: hidden;
         opacity: 0;
-        transition: visibility 0s ease-out 0.3s, opacity 0.3s ease-out, scale 0.3s ease-in-out;
 
         .view-card-list-container {
             scale: 0;
@@ -50,7 +46,10 @@
     z-index: 1001;
     overflow-y: auto;
     border: 1px solid rgb(20,20,20);
-
+    
+    background: rgba(35, 35, 35, 0.5);
+    filter: drop-shadow(0px 14px 20px rgba(0, 0, 0, 0.7));
+    
     .container-data,
     .container-title-bar {
         padding: 15px;
@@ -85,7 +84,7 @@
     }
     
     .card-hand {
-        float: left;
+        display: inline-block;
         margin-right: 20px;
         margin-bottom: 20px;
         min-width: 107px;

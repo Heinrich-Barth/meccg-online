@@ -101,9 +101,11 @@ textarea {
 }
 
 .side_panel img { max-width: 120px; margin-right: 2px;  }
-.site-list img {     height: 130px;
+.site-list img {     
+    height: 130px;
     width: auto;
-    max-width: unset; }
+    max-width: unset; 
+}
 
 
 .clear { clear: both; }
@@ -119,6 +121,7 @@ textarea {
 .card-box {
     padding: 5px;
     margin-right: 5px;
+    
 }
 .map-action-image { 
     color: #fff; 
@@ -174,6 +177,11 @@ div.panel-buttons { width: 70px; margin-top: 22px; }
         background-size: contain; 
         border: 1px solid black;
 
+        transition: scale 0.3s ease-in-out;
+
+        &:hover {
+            scale: 1.2;
+        }
         &.site-is-tapped {
             opacity: 0.5;
             transform: rotate(180deg);
@@ -264,6 +272,11 @@ img.map-region-icon {
         height: 100px;
         margin: 5px;
         cursor: pointer;
+
+        transition: scale 0.3s ease-in-out;
+        &:hover {
+            scale: 1.2
+        }
 
         &.site-is-tapped {
             opacity: 0.6;

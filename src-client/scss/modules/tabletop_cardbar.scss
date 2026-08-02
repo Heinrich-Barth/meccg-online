@@ -1,3 +1,6 @@
+body.on-drag-event-generic .card-bar a.icon {
+    opacity: 1;
+}
 .card-bar {
     &.card-bar-shared {
         align-content: end;
@@ -51,12 +54,18 @@
     a.icon {
         display: block;
         position: relative;
+        opacity: 0.4;
+        transition: opacity 0.4s ease-in-out;
 
         i {
             left: 5px;
             bottom: 5px;
             position: absolute;
             color: var(--color-near-white);
+        }
+
+        &:hover {
+            opacity: 1;
         }
     }
 

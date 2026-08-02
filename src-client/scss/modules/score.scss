@@ -426,9 +426,16 @@
     color: var(--color-near-white);
     text-align: center;
     border: 1px solid rgb(20,20,20);
+    opacity: 0.4;
+    transition: opacity 0.4s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+    }
 
     &.scoring-sheet-ingame-collapsed 
     {
+        opacity: 1;
         .scoring-sheet-ingame-collapse { display: none;}
 
         .scoring-sheet-ingame-icon-openclose::before { content: '\00AB' }

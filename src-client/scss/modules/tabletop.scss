@@ -96,19 +96,19 @@ a {
 
     .player-handcard-count {
         background: url("/media/assets/images/icons/icon-hand-small.png") 0 0px no-repeat;
+        margin-right: 0;
     }
 
     .player-playdeck-count {
-        background: url("/media/assets/images/icons/icon-playdeck-small.png") 0 0px no-repeat;
+        padding-left: 0;
+        &::before {
+            content:"/"
+        }
     }
 
     .cur {
         .player-handcard-count {
             background: url("/media/assets/images/icons/icon-hand-small-hover.png") 0 0px no-repeat;
-        }
-
-        .player-playdeck-count {
-            background: url("/media/assets/images/icons/icon-playdeck-small-hover.png") 0 0px no-repeat;
         }
     }
 }
