@@ -41,7 +41,7 @@ const listActiveGames = function (list: ActiveGame[], sampleRooms: SampleRoom[],
     if (list.length === 0)
         return <></>;
 
-    return <Grid container columnSpacing={1} rowSpacing={0} className="paddingTop4em paddingLeft2em paddingRight2em">
+    return <Grid container size={{xs:12}} columnSpacing={1} rowSpacing={0} className="paddingTop4em paddingLeft2em paddingRight2em">
         <Grid size={{xs:12}} style={{textAlign:"center"}}>
             <h2><span data-translation="home.currentgames">Current Games</span></h2>
             <p className="center" data-translation="home.clickongame">Click on a game to join or watch</p>
