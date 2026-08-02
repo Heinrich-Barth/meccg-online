@@ -7,20 +7,10 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import PROXY_URL from '../operations/Proxy';
 import Dictionary from './Dictionary';
 import { Navigate } from 'react-router-dom';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 type Parameters = {
     url: string;
@@ -54,7 +44,6 @@ export default function IFrameDialog({ url, title }: Parameters) {
                 fullScreen
                 open={visible}
                 onClose={handleClose}
-                TransitionComponent={Transition}
             >
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>

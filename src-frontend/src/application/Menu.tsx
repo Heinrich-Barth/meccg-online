@@ -29,16 +29,6 @@ import { CalculateOutlined } from "@mui/icons-material";
 import LaunchIcon from '@mui/icons-material/Launch';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-
 export default function Menu(props: { onMenuChange: Function, username:string, hasUsername: boolean, avatarCode:string, avatarImage:string }) {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -74,7 +64,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 <ListItem>
                     <ListItemText
                         primary="Middle-Earth CCG"
-                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                        sx={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
@@ -133,7 +123,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
             <ListItem>
                     <ListItemText
                         primary="Tools"
-                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                        sx={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
                 <ListItem disablePadding className="menu-item" dense={true}>
@@ -162,7 +152,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 <ListItem>
                     <ListItemText
                         primary={Dictionary("frontend.menu.resources", "Resources")}
-                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                        sx={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
                 
@@ -223,7 +213,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
                 <ListItem>
                     <ListItemText
                         primary={Dictionary("conf_h_language", "Language")}
-                        primaryTypographyProps={{ fontSize: "0.9em", textTransform: "uppercase" }}
+                        sx={{ fontSize: "0.9em", textTransform: "uppercase" }}
                     />
                 </ListItem>
                 <ListItem disablePadding dense={true}>
@@ -247,7 +237,7 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
 
     return (
         <>
-            <Stack direction="row" spacing={2} justifyContent="flex-end" className="paddingRight1em paddingTop1em">
+            <Stack direction="row" spacing={2} sx={{justifyContent:"flex-end"}} className="paddingRight1em paddingTop1em">
                 <Button onClick={() => props.onMenuChange(MenuSelection.Preferences)} title={Dictionary("frontend.configuration", "Settings")}>
                     <Badge badgeContent={props.hasUsername ? "" : "?"}>
                         <Avatar alt={props.avatarCode} src={props.avatarImage ? props.avatarImage : BACKSIDE_IMAGE} className="avatar-container" />
@@ -268,7 +258,6 @@ export default function Menu(props: { onMenuChange: Function, username:string, h
             </Drawer>
             <Dialog
                 open={openLanguageChanged}
-                TransitionComponent={Transition}
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>{Dictionary("frontend.language.switched.title", "Language changed")}</DialogTitle>

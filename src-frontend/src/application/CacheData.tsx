@@ -95,7 +95,7 @@ export default function CacheData(props: { onReady:Function }) {
     return <>
         <div className="application-home paddingTop10em">
             <Grid container spacing={2} sx={{justifyContent:"center"}}>
-                <Grid size={{xs:10, md:6, lg:3}} textAlign={"center"} className="paddingBottom3em">
+                <Grid size={{xs:10, md:6, lg:3}} className="center paddingBottom3em">
                     <Grid container spacing={2} sx={{justifyContent:"center"}}>
                         <Grid size={{xs:10, md:8}} className="center paddingBottom3em">
                             {MeccgLogo()}
