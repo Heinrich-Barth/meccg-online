@@ -43,6 +43,48 @@ class DiceContainer {
             return "/media/personalisation/dice/" + folder + "/dice-" + nVal + ".png";
     }
 
+    static createResultElementCard(id, sName, first, second, total, asset)
+    {
+        const nFirst = parseInt(first);
+        const nSecond = parseInt(second);
+
+        const htmlP = document.createElement("p");
+        htmlP.classList.add("dice-absolute");
+
+        const spanWho = document.createElement("span");
+        spanWho.setAttribute("class", "who who-abs");
+        spanWho.innerText = sName;
+                
+        const spanTotal = document.createElement("span");
+        spanTotal.setAttribute("class", "total big");
+        spanTotal.innerText = nFirst + nSecond
+        
+        const htmlImage1 = document.createElement("img");
+        htmlImage1.setAttribute("class", "dice-image");
+        htmlImage1.setAttribute("src", DiceContainer.getImage(asset, nFirst));
+
+        const htmlImage2 = document.createElement("img");
+        htmlImage2.setAttribute("class", "dice-image");
+        htmlImage2.setAttribute("src", DiceContainer.getImage(asset, nSecond));
+        htmlP.append(
+            spanWho,
+            spanTotal,
+            htmlImage1,
+            document.createElement("br"),
+            htmlImage2);
+
+        const divLine = document.createElement("div");
+        divLine.setAttribute("class", "dice-line-countdown");
+
+        const div = document.createElement("div");
+        div.setAttribute("class","dice-content blue-box pos-rel");
+        div.setAttribute("id", id);
+        div.appendChild(htmlP);
+        div.appendChild(divLine);
+
+        return div;
+    }
+
     static createResultElement(id, sName, first, second, total, asset)
     {
         const nFirst = parseInt(first);
@@ -98,10 +140,22 @@ class DiceContainer {
             return dice;
     }
 
-    appendResult(id, name, first, second, total, dice)
+    appendResult(id, name, first, second, total, dice, card=false)
     {
         const asset = this.getDiceAsset(dice);
-        return DiceContainer.createResultElement(id, name, first, second, total, asset);
+    
+        let pr = name.lastIndexOf("(");
+        if (pr > 0)
+            name = name.substring(0, pr).trim();
+
+        pr = name.lastIndexOf("[");
+        if (pr > 0)
+            name = name.substring(0, pr).trim();
+        
+        if (card)
+            return DiceContainer.createResultElementCard(id, name, first, second, total, asset);
+        else
+            return DiceContainer.createResultElement(id, name, first, second, total, asset);
     }
 
     static removeResult(id)
@@ -130,7 +184,7 @@ class DiceContainer {
         const pos = this.#getPosition(uuid);
         const nId = ++DiceContainer._count;
 
-        const elem = this.appendResult(nId, name, first, second, total, dice);
+        const elem = this.appendResult(nId, name, first, second, total, dice, pos !== null);
         if (pos === null)
         {
             elem.onclick = () => DiceContainer.removeResult(nId);
