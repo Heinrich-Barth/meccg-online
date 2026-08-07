@@ -7,9 +7,15 @@
     z-index: 400;
     transform: translateX(-50%);
     border-radius: 0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 0 10px;
+    opacity: 0.4;
+
+    &:hover{
+        filter: drop-shadow(0px 14px 20px rgba(0, 0, 0, 0.7));
+        opacity: 1;
+    }
 
     .player_selector {
         padding: 5px;
