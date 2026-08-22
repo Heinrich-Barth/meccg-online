@@ -60,6 +60,8 @@ Here are some essential features of this project:
 
 Special information about *development* can be accessed in a dedicated [README_development.md](README_development.md).
 
+The platform has a complete [README_disasterrecovery.md](disaster recovery mechanism) in place.
+
 ## Disclaimer
 
 This is a non-profit project made by fans entirely. Middle-earth CCG and LotR are trademarks of Middle-earth Enterprises and/or Iron Crown Enterprises. The rights belong to their respective owners. *MECCG* assets are not included in this repository. 
