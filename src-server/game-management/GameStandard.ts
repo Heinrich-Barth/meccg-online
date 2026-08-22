@@ -72,6 +72,9 @@ export default class GameStandard extends GamePlayers
         this.getMeccgApi().addListener("/game/company/create", this.onGameCompanyCreate.bind(this));
         this.getMeccgApi().addListener("/game/company/arrive", this.onGameCompanyArrives.bind(this));
         this.getMeccgApi().addListener("/game/company/returntoorigin", this.onGameCompanyReturnsToOrigin.bind(this));
+
+        this.getMeccgApi().addListener("/game/company/discardonguards", this.#onGameCompanyDiscardOnguards.bind(this));
+        
         this.getMeccgApi().addListener("/game/company/highlight", this.onGameCompanyHighlight.bind(this));
         this.getMeccgApi().addListener("/game/company/markcurrently", this.onGameCompanyMarkAsCurrent.bind(this));
         this.getMeccgApi().addListener("/game/company/location/set-location", this.onGameCompanyLocationSetLocation.bind(this));
@@ -1108,7 +1111,7 @@ export default class GameStandard extends GamePlayers
 
     onRedrawCompany(userid:string, companyId:string)
     {
-        if (userid !== undefined && userid !== "" && companyId !== undefined && companyId !== "")
+        if (userid && companyId)
         {
             const _temp = this.getPlayboardManager().GetFullCompanyByCompanyId(companyId);
             if (_temp !== null)
@@ -1151,6 +1154,28 @@ export default class GameStandard extends GamePlayers
             this.publishChat(userid, "The company of " + sCompanyCharacter + " arrives", true);
         else
             this.publishChat(userid, "The company arrives", true);
+    }
+
+    #onGameCompanyDiscardOnguards(userid:string, _socket:any, jData:any)
+    {
+        if (!jData.company)
+            return;
+
+        const res = this.getPlayboardManager().PopCompanyAttachedLocationCards(jData.company);
+        if (res.length === 0)
+            return;
+
+        for (const entry of res)
+        {
+            /** usually, the card will be somewhere in another deck portion  */
+            this.getPlayboardManager().PopCardFromAnywhereInDeck(entry.uuid, entry.owner);
+
+            const pDeck = this.getPlayboardManager().getPlayerDeck(entry.owner);
+            if (pDeck)
+                this.getPlayboardManager().moveCardToDeckPile(entry.uuid, pDeck, "discardpile");
+        }
+
+        this.onRedrawCompany(userid, jData.company);
     }
 
     onGameCompanyReturnsToOrigin(userid:string, _socket:any, jData:any)

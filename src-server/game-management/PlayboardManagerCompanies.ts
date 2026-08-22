@@ -3,6 +3,11 @@ import Logger from "../Logger";
 import { TCharacterInGame } from "./PlayboardManagerCharacters";
 import { TDeckCard } from "./DeckCommons";
 
+export type TCompanyCard = {
+    uuid: string;
+    owner: string;
+};
+
 type TCompanyLocationCard = {
     
     current: string,
@@ -767,44 +772,71 @@ export default class PlayboardManagerCompanies extends PlayboardManagerStagingAr
         
         return res;
     }
- 
-     GetCompanyAttachedLocationCards(companyId:string) : TCompanyLocationCard
-     {
-         const res:TCompanyLocationCard = {
-             current: "",
-             current_tapped : false,
-             regions: [],
-             target: "",
-             target_tapped : false,
-             attached : [],
-             revealed : false
-         };
 
-         const pCompany = this.getCompanyById(companyId);
-         if (pCompany === null)
-             return res;
+    PopCompanyAttachedLocationCards(companyId:string): TCompanyCard[]
+    {
+        const pCompany = this.getCompanyById(companyId);
+        if (pCompany === null || pCompany.sites.attached.length === 0)
+            return [];
+
+        const res:TCompanyCard[] = [];
+
+        for (const uuid of pCompany.sites.attached)
+        {
+            const _card = this.GetCardByUuid(uuid);
+            res.push({
+                uuid: uuid,
+                owner: _card?.owner ?? ""
+            })
+        }
+
+        if (res.length === 0)
+            return [];
+
+
+        pCompany.sites.attached = []
+
+        Logger.info("Removed " + res.length + " attached cards from company " + companyId);
+        return res;
+    }
  
-         let sOwnerId = pCompany.playerId;
-         let jSites = pCompany.sites;
-         let _list = [];
-         
-         for (let siteUuid of jSites.attached)
-         {
+    GetCompanyAttachedLocationCards(companyId:string) : TCompanyLocationCard
+    {
+        const res:TCompanyLocationCard = {
+            current: "",
+            current_tapped : false,
+            regions: [],
+            target: "",
+            target_tapped : false,
+            attached : [],
+            revealed : false
+        };
+
+        const pCompany = this.getCompanyById(companyId);
+        if (pCompany === null)
+            return res;
+
+        let sOwnerId = pCompany.playerId;
+        let jSites = pCompany.sites;
+        let _list = [];
+        
+        for (let siteUuid of jSites.attached)
+        {
             const _card = this.GetCardByUuid(siteUuid);
             if (_card !== null)
                 _list.push(_card);
-         }
- 
-         res.current = jSites.current;
-         res.regions = jSites.regions;
-         res.target = jSites.target;
-         res.revealed = jSites.revealed;
-         res.attached = _list;
-         res.current_tapped = this.IsSiteTapped(sOwnerId, jSites.current);
-         res.target_tapped = this.IsSiteTapped(sOwnerId, jSites.target);
-                 
-         return res;
-     }
+        }
+
+        res.current = jSites.current;
+        res.regions = jSites.regions;
+        res.target = jSites.target;
+        res.revealed = jSites.revealed;
+        res.attached = _list;
+        res.current_tapped = this.IsSiteTapped(sOwnerId, jSites.current);
+        res.target_tapped = this.IsSiteTapped(sOwnerId, jSites.target);
+                
+        return res;
+    }
      
     /**
      * Get the first company character card by company id

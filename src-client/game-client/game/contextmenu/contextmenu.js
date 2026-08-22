@@ -977,6 +977,13 @@ const ContextMenu = {
                 MeccgApi.send("/game/company/returntoorigin", {company : companyId });
         },
 
+        forceDiscardOnguard: function(pMenu)
+        {
+            const companyId = ContextMenu.getAttribute(pMenu, "data-company");
+            if (companyId !== "")
+                MeccgApi.send("/game/company/discardonguards", {company : companyId });
+        },
+
         reveal5CardsToOpponent : function()
         {
             ContextMenu.callbacks.queryCardNumer(
@@ -1112,7 +1119,8 @@ const ContextMenu = {
         this.addItem("arrive", "Company arrives at destination", "fa-street-view", "context-menu-item-arrive", ContextMenu.callbacks.arrive);
         this.addItem("add_ressource", "Add this site as a ressource", "fa-clipboard", "context-menu-item-arrive", ContextMenu.callbacks.addRessource, "", "Adds this site as RESSOURCE to your hand and will be played facedown.");
         this.addItem("add_character", "Add this site as a character", "fa-user", "context-menu-item-arrive", ContextMenu.callbacks.addCharacter, "", "Adds this site as CHARACTER to your hand.");
-        this.addItem("movement_return", "Return to site of origin", "fa-ban", "context-menu-item-arrive", ContextMenu.callbacks.returnToSiteOfOrigin, "", "Remove target site.");
+        this.addItem("movement_return", "Return to site of origin", "fa-reply", "context-menu-item-arrive", ContextMenu.callbacks.returnToSiteOfOrigin, "", "Remove target site.");
+        this.addItem("removeonguard", "Discard all onguard cards", "fa-ban", "context-menu-item-arrive", ContextMenu.callbacks.forceDiscardOnguard, "", "Discard all on-guard cards.");
 
         this.addItem("view_deck_cards", "Look at my playdeck as it is", "fa-stack-exchange", "context-menu-item-generic", () => TaskBarCards.Show("playdeck", false), "");
         this.addItem("view_deck_cards_ordered", "Look at my playdeck and group cards", "fa-eye", "context-menu-item-generic", () => TaskBarCards.Show("playdeck", true), "");
@@ -1152,8 +1160,8 @@ const ContextMenu = {
         this.addItem("hand_action_shuffletoplaydeck", "Shuffle hand into playdeck", "fa-random", "context-menu-item-generic", ContextMenu.callbacks.shuffleHandIntoPlaydeck.bind(ContextMenu.callbacks))
 
         this.data.types["card"] = ["ready", "tap", "tap_91", "wound", "rot270", "_divider", "flipcard", "glow_action", "_divider","token_add", "token_remove", "_divider","tokenmp_add", "tokenmp_remove"];
-        this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "arrive", "movement_return"];
-        this.data.types["arrive"] = ["arrive", "movement_return"];
+        this.data.types["location"] = ["ready", "tap", "_divider", "add_ressource", "add_character", "_divider", "removeonguard", "_divider", "arrive", "movement_return"];
+        this.data.types["arrive"] = ["arrive", "movement_return", "_divider", "removeonguard"];
         this.data.types["playdeck_actions"] = ["view_deck_cards_ordered", "view_deck_cards", "reval_cards_number_self", "_divider", "view_deck_cards_reveal", "reval_cards_number", "_divider", "playdeck_choose_site", "view_deck_notes", "_divider", "playdeck_shuffle_x_cards",  "playdeck_shuffle"];
         this.data.types["discardpile_actions"] = ["view_discardpile_ordered", "view_discardpile_cards", "view_discardpile_sites", "_divider", "discardpile_shuffle", "view_discardpile_cards_reveal", "_divider", "discardpile_shuffle_into_playdeck"];
         this.data.types["company_position"] = ["move_company_left", "move_company_right", "move_company_end"];

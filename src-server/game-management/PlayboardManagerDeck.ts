@@ -610,10 +610,10 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
     }
 
     /**
-      * Remove a card form owners hand
+      * Remove a card form hand
       * 
       * @param {String} _uuid
-      * @return {card}
+      * @return {TDeckCard|null}
       */
     PopCardFromHand(_uuid:string)
     {
@@ -629,6 +629,23 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
             return card;
         else
             return null;
+    }
+
+
+    /**
+      * Remove a card form anywhere
+      * 
+      * @param {String} uuid
+      * @param {String} owner
+      * @return {boolean}
+      */
+    PopCardFromAnywhereInDeck(uuid:string, owner:string)
+    {
+        if (!uuid || !owner)
+            return false;
+
+        const pDeck = this.getPlayerDeck(owner);
+        return pDeck !== null && pDeck.pop().fromAnywhere(uuid);
     }
 }
 
