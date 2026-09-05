@@ -275,46 +275,54 @@ export default class PlayboardManagerDeck extends PlayboardManagerBase
         return this.getCardList(this.getDecks().getCards().handMarshallingPoints(playerId));
     }
 
-    ReorderCardsInDeck(playerId:string, deckType:string, cards:string[])
+    ReorderCardsInDeck(playerId:string, deckType:string, cards:any)
     {
-        if (deckType !== "playdeck" || cards.length === 0)
-            return false;
-
-        const deck = this.getPlayerDeck(playerId);
-        if (deck === null)
+        if (deckType !== "playdeck" || !cards)
             return false;
 
         let moved = 0;
-        cards.reverse();
-        for (let _cardUuid of cards)
+        for (const pid in cards)
         {
-            if (deck.pop().fromPlaydeck(_cardUuid))
+            const list = cards[pid];
+            const deck = this.getPlayerDeck(pid);
+            if (deck === null)
+                continue;
+
+            list.reverse();
+            for (const _cardUuid of list)
             {
-                deck.push().toPlaydeck(_cardUuid)
-                moved++;
+                if (deck.pop().fromPlaydeck(_cardUuid))
+                {
+                    deck.push().toPlaydeck(_cardUuid)
+                    moved++;
+                }
             }
         }
 
         return moved > 0;
     }
 
-    SendToBottomOfDeck(playerId:string, deckType:string, cards:string[])
+    SendToBottomOfDeck(playerId:string, deckType:string, cards:any)
     {
-        if (deckType !== "playdeck" || cards.length === 0)
-            return false;
-
-        const deck = this.getPlayerDeck(playerId);
-        if (deck === null)
+        if (deckType !== "playdeck" || !cards)
             return false;
 
         let moved = 0;
-        cards.reverse();
-        for (let _cardUuid of cards)
+        for (const pid in cards)
         {
-            if (deck.pop().fromPlaydeck(_cardUuid))
+            const list = cards[pid];
+            const deck = this.getPlayerDeck(pid);
+            if (deck === null)
+                continue;
+
+            list.reverse();
+            for (const _cardUuid of list)
             {
-                deck.push().toPlaydeck(_cardUuid, true)
-                moved++;
+                if (deck.pop().fromPlaydeck(_cardUuid))
+                {
+                    deck.push().toPlaydeck(_cardUuid, true)
+                    moved++;
+                }
             }
         }
 

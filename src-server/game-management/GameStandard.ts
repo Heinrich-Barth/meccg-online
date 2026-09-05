@@ -1607,7 +1607,7 @@ export default class GameStandard extends GamePlayers
             this.#onDeckRevealSelfPerformShuffle(userid, obj);
     }
 
-    onDeckRevealMoveToDeck(userid:string, deck:string, cards:string[], cardsBottom:string[])
+    onDeckRevealMoveToDeck(userid:string, deck:string, cards:any, cardsBottom:any)
     {
         let moved = false;
 
