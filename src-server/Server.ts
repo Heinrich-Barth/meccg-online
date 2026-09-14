@@ -196,7 +196,7 @@ export class ServerInstance {
     {
         ServerInstance.#instance.disable('x-powered-by');
         ServerInstance.#instance.use(cookieParser());
-        ServerInstance.#instance.use(express.json({ limit: "2mb" }));
+        ServerInstance.#instance.use(express.json({ limit: "5mb" }));
         ServerInstance.#instance.use(function (req: Request, res: Response, next: NextFunction) {
             res.header('X-Robots-Tag', 'noindex, nofollow');
             res.header("X-Frame-Options", 'sameorigin');
@@ -232,7 +232,9 @@ export class ServerInstance {
 
     static onListenSetupSocketIo()
     {
-        ServerInstance.#io = new Server(ServerInstance.#http);
+        ServerInstance.#io = new Server(ServerInstance.#http, {
+            maxHttpBufferSize: 2e6 // 2 MB
+        });
         ServerInstance.#io.on('connection', ServerInstance.onIoConnection);
         ServerInstance.#io.engine.on("connection_error", (err: any) => Logger.error("There is a connection error (" + err.code + "): " + err.message));
         ServerInstance.#io.use(ServerInstance.onIoHandshake);
