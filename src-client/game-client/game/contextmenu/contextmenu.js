@@ -98,7 +98,7 @@ const ContextMenu = {
         }
 
         const pMenu = document.querySelector("nav");
-        DomUtils.removeAllChildNodes(pMenu);      
+        DomUtils.removeAllChildNodes(pMenu, false);      
         pMenu.appendChild(pContainer);
 
         return hasElements;

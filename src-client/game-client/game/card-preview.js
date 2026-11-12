@@ -83,7 +83,7 @@ CardPreview.show = function(img, bLeft, bTop)
     if (elem === null)
         return;
 
-    DomUtils.removeAllChildNodes(elem);
+    DomUtils.removeAllChildNodes(elem, false);
 
     const pImage = document.createElement("img");
     pImage.setAttribute("src", img);
@@ -122,7 +122,7 @@ CardPreview.hide = function(bLeft, bTop)
     if (elem !== null)
     {
         elem.classList.add("hidden");
-        DomUtils.removeAllChildNodes(elem);
+        DomUtils.removeAllChildNodes(elem, false);
         CardPreview.updateActivity();
     }
 };
@@ -233,7 +233,7 @@ CardPreview._initView = function(sId)
 CardPreview._hidePreviewBox = function()
 {
     this.classList.add("hidden");
-    DomUtils.removeAllChildNodes(this);
+    DomUtils.removeAllChildNodes(this, false);
 };
 
 CardPreview._isReady = false;

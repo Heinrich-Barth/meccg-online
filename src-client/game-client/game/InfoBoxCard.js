@@ -89,7 +89,7 @@ const InfoBoxCard = {
         if (box !== null)
         {
             this.showBox(box, false);
-            DomUtils.removeAllChildNodes(box);
+            DomUtils.removeAllChildNodes(box, false);
         }
 
         return box;

@@ -247,7 +247,7 @@ class DiceContainer {
             return;
 
         const asset = this.getDiceAsset(dice);
-        DomUtils.removeAllChildNodes(container);
+        DomUtils.removeAllChildNodes(container, false);
 
         const imgDice1 = document.createElement("img");
         imgDice1.setAttribute("src", DiceContainer.getImage(asset, first))
